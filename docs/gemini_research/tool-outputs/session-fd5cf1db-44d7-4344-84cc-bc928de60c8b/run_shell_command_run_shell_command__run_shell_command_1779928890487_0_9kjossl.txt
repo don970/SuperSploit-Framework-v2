@@ -1,3 +1,0 @@
-{
-  "output": "Output: OpenSSL 3.5.6 7 Apr 2026 (Library: OpenSSL 3.5.6 7 Apr 2026)\nProcess Group PGID: 23240"
-}

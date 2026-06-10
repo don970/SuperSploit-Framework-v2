@@ -1,3 +1,0 @@
-{
-  "output": "Output: (empty)\nBackground PIDs: 24989\nProcess Group PGID: 24986"
-}

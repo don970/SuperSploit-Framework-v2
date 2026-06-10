@@ -1,3 +1,0 @@
-{
-  "output": "Output: ls: /data/user/0/org.supersploit.flappybirds/files/app: Permission denied\nExit Code: 1\nProcess Group PGID: 24472"
-}

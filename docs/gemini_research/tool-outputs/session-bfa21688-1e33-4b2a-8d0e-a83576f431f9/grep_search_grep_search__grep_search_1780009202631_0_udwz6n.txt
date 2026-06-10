@@ -1,3 +1,0 @@
-{
-  "output": "No matches found for pattern \"lateral\" in path \"/home/donald/.SuperSploit/source/core/\"."
-}

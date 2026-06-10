@@ -1,3 +1,0 @@
-{
-  "error": "Background process history lookup failed for PID 23971"
-}

@@ -1,3 +1,0 @@
-{
-  "output": "Output: Buildozer 1.6.0\nProcess Group PGID: 23661"
-}
