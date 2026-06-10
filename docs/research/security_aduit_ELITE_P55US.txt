@@ -1,0 +1,81 @@
+[36m[1m===============================================================
+   INTELLIGENT ANDROID SECURITY AUDIT SUITE - EXTREME EDITION
+===============================================================
+[0m[34m[1m
+[+] EXTREME SYSTEM ARCHITECTURE AUDIT
+[0m---------------------------------------------------------------
+  - Kernel: Linux 4.14.193 #3 SMP PREEMPT Thu Aug 12 11:22:32 CST 2021 armv7l
+  - ro.product.brand               : SkyDevices
+  - ro.product.model               : Elite P55
+  - ro.product.cpu.abi             : armeabi-v7a
+  - ro.build.version.release       : 11
+  - ro.build.version.sdk           : 30
+  - ro.build.version.security_patch : 2021-06-05
+  - ro.build.fingerprint           : SkyDevices/ELITE_P55US/ELITE_P55US:11/RP1A.201005.001/29311:user/release-keys
+  - ro.build.type                  : user
+  - ro.debuggable                  : 0
+  - ro.secure                      : 1
+  - ro.adb.secure                  : 1
+  - ro.treble.enabled              : true
+  - ro.vndk.version                : 30
+  - ro.apex.updatable              : false
+  - ro.boot.flash.locked           : 1
+  - ro.boot.verifiedbootstate      : green
+  - ro.boot.vbmeta.device_state    : locked
+  - persist.sys.usb.config         : adb
+  - ro.hardware                    : sp9832e_1h10_go
+  - ro.board.platform              : sp9832e
+[34m[1m
+[+] THIRD-PARTY APP AUDIT (LPE & ATTACK SURFACE)
+[0m---------------------------------------------------------------
+  [*] Querying installed packages for vulnerabilities...
+  - Package: =/com.vanced.manager-3w-WbEsUL1AAlpUBwbgLCw==/base.apk=com.vanced.manager 
+  - Package: =/org.supersploit.stub-Y6nSHL7sdzXFlsBzXCpWqg==/base.apk=org.supersploit.stub 
+  - Package: =/com.pdanet-afqtCebGpboQUO-tbPXZ-Q==/base.apk=com.pdanet 
+[34m[1m
+[+] SERVICE & PROCESS FINGERPRINTING
+[0m---------------------------------------------------------------
+  - [ACTIVE] adbd                 : shell           443      1   24200   3676 0                   0 S adbd
+  - [ACTIVE] surfaceflinger       : system          393      1   70524   9072 0                   0 S surfaceflinger
+  - [ACTIVE] vold                 : root            271      1   21728   2724 0                   0 S vold
+  - [ACTIVE] zygote               : root            361      1 1238768  15168 0                   0 S zygote
+  - [ACTIVE] netd                 : root            360      1   31600   5124 0                   0 S netd
+  - [ACTIVE] hwservicemanager     : system          260      1   11484   3072 0                   0 S hwservicemanager
+  - [ACTIVE] installd             : root            453      1   23752   2368 0                   0 S installd
+[34m[1m
+[+] DEEP AUDIT FOR MICRO-CRACKS (INFO LEAKS & LOGS)
+[0m---------------------------------------------------------------
+  [*] Checking dmesg for sensitive leaks (overflows, pointers)...
+  - [!] [31mINFO LEAK[0m: /proc/modules is readable!
+[34m[1m
+[+] DEVICE NODE PROBE (LPE SURFACE)
+[0m---------------------------------------------------------------
+  - [[31mRW[0m] /dev/binder
+  - [[31mRW[0m] /dev/hwbinder
+  - [[31mRW[0m] /dev/ashmem
+  - [[31mRW[0m] /dev/ion
+  - [[31mRW[0m] /dev/mali0
+[34m[1m
+[+] FILESYSTEM PERMISSIONS
+[0m---------------------------------------------------------------
+  - [[31mWRITABLE[0m] /data/local/tmp
+[34m[1m
+[+] INTELLIGENT MULTI-SOURCE ONLINE CORRELATION
+[0m---------------------------------------------------------------
+  [*] Target Fingerprint: Kernel 4.14.193 | Platform sp9832e
+  [*] [35mSuperSploit Fingerprint[0m: os=android kernel=4.14.193 arch=armv7l board=sp9832e
+  [*] Using fetcher: ./minish
+
+  [*] Querying CIRCL (CVE) for Kernel 4.14.193...
+    [33mNo immediate hits for version 4.14.193.
+[0m
+  [*] Querying Sploitus (Exploits) for Kernel 4.14.193...
+    [33mNo immediate hits for version 4.14.193.
+[0m
+  [*] Querying Vulners (Aggregate) for Kernel 4.14.193...
+    [33mNo immediate hits for version 4.14.193.
+[0m
+  [*] Performing Fuzzy SoC Audit for 'sp9832e' vulnerabilities...
+[36m[1m
+[+] Audit Complete. All micro-cracks reported.
+[0m

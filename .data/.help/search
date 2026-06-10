@@ -1,0 +1,36 @@
+# 🔎 COMMAND: search
+The search command is a high-performance indexing engine designed to locate exploits, payloads, and recon modules within the SuperSploit filesystem.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- ExploitCache Indexing: To avoid slow recursive directory walking on every query, the framework utilizes ExploitCache.metadata_index. This is an in-memory dictionary that caches pre-parsed YAML metadata for all available modules.
+- Metadata Splitting: The search engine uses the #!#!#! delimiter to isolate the YAML header of each module, extracting fields like name, cve, description, and os without loading the executable code into RAM.
+- Multidimensional Queries: Queries are tokenized and matched against multiple metadata fields simultaneously (e.g., searching for "windows" matches both the OS field and any mention in the description).
+- Target Context Linking: If R_HOST is set, the search engine automatically prioritizes modules whose os or keywords fields match the target's fingerprint in targets.json.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### search <query>
+General search across all module types.
+- search smb
+- search cve-2023
+
+### search <category> [query]
+Filter results by a specific module category.
+- search exploit linux
+- search recon adb
+- search payload arm64
+
+---
+
+## ⚙️ SPECIALIZED SEARCHES
+- search loadable: Returns a list of Stage 2 Python payloads that can be injected into an active session via the load command.
+- search suggest: (Implicitly used by the suggest command) Matches target services against the ExploitCache keywords.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- In-Memory Filtering: All keyword matching is performed in RAM. The framework does not execute or "dry run" modules during a search, ensuring your local environment remains clean.
+- Cache Refresh: If you add new modules to the exploits/ or recon/ folders, use the update-info command to rebuild the ExploitCache and update the search index.

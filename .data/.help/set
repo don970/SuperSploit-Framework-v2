@@ -1,0 +1,37 @@
+# ⚙️ COMMAND: set
+The set command is the primary mechanism for configuring the framework's global state and active module parameters.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- SQLiteDict Persistence: Variables are stored in a persistent SQLite database (data.db). This ensures that your configuration (LHOST, API keys, etc.) survives framework restarts.
+- Internal Key Mapping: The command uses a key_map to translate user-friendly aliases into internal framework keys. 
+  - target => R_HOST
+  - exploit => EXPLOIT
+  - host => L_HOST
+- Dynamic Type Casting: Values like "true" or "false" are automatically cast to Python boolean types, enabling logic-gate features like ADVANCED_OS_ID.
+- Global Context Sync: Whenever a variable is set, it is immediately available to all active engines (Recon, Exploit, Listener) via the DatabaseManagment.get() singleton.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### set <VARIABLE> <VALUE>
+Configures a specific key with a value.
+- set LHOST 192.168.1.50
+- set ADVANCED_OS_ID true
+- set XOR_KEY MySecretKey
+
+---
+
+## ⚙️ COMMON CONFIGURATION KEYS
+- LHOST / L_HOST: The local IP for reverse callbacks. If set to 0.0.0.0, the framework auto-resolves your primary interface IP.
+- R_HOST / TARGET: The remote target IP address.
+- VERBOSE_LOGGING: Enable detailed debug output for engine troubleshooting.
+- AUTO_SUGGEST: Enable post-recon exploit suggestion logic.
+- STAGE2URL: The HTTPS endpoint for fileless beacon callbacks.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Input Sanitization: Values are processed via shlex to prevent shell injection when variables are passed to subprocesses.
+- OPSEC Warning: Setting LHOST to a public IP without set ENCRYPT_C2 true (if supported by the module) may expose your C2 traffic to external monitoring.

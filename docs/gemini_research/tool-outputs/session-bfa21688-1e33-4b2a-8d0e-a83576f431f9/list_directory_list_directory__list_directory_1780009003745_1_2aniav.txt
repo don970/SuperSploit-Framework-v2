@@ -1,0 +1,3 @@
+{
+  "output": "Directory listing for /home/donald/.SuperSploit/recon/native-discovery:\n[DIR] __pycache__\nhost_discovery.py (16531 bytes)\nlateral_discovery.py (12073 bytes)\nmulti_layered_discovery.py (6464 bytes)"
+}

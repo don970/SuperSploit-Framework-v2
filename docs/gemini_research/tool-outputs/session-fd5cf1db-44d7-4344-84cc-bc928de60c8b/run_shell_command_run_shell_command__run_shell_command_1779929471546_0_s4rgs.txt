@@ -1,0 +1,3 @@
+{
+  "output": "Output: Error: java.lang.SecurityException: Shell does not have permission to access user 150\n com.android.server.am.ActivityManagerService.handleIncomingUser:16 android.app.ActivityManager.handleIncomingUser:5628 com.android.server.pm.PackageManagerShellCommand.translateUserId:24 \nExit Code: 1\nProcess Group PGID: 24255"
+}

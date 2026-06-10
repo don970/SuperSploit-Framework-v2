@@ -1,0 +1,3 @@
+{
+  "output": "Output: 13: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000\n    link/ether ba:9f:1e:d2:f9:78 brd ff:ff:ff:ff:ff:ff\n    inet 172.16.126.224/18 brd 172.16.127.255 scope global wlan0\n       valid_lft forever preferred_lft forever\n    inet6 fe80::b89f:1eff:fed2:f978/64 scope link \n       valid_lft forever preferred_lft forever\nProcess Group PGID: 23274"
+}

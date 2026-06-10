@@ -1,0 +1,7 @@
+{"sessionId":"0b9037bc-411b-41fc-b92a-2df2da34c6be","projectHash":"845f86015c00108b8c47a089c485638d923db5a668427318cf75e43221068eed","startTime":"2026-05-30T20:57:36.011Z","lastUpdated":"2026-05-30T20:57:36.011Z","kind":"main"}
+{"id":"2fe7684f-7a5f-4c1f-8643-f334b775dc80","timestamp":"2026-05-30T20:57:39.838Z","type":"error","content":"Automatic update failed. Please try updating manually:\n\nnpm install -g @google/gemini-cli@0.44.1"}
+{"$set":{"lastUpdated":"2026-05-30T20:57:39.838Z"}}
+{"id":"a2e0afe2-0db2-4a08-b879-21e329de7b63","timestamp":"2026-05-30T20:58:30.155Z","type":"user","content":[{"text":"clear"}]}
+{"$set":{"lastUpdated":"2026-05-30T20:58:30.156Z"}}
+{"id":"2ebfe0eb-8be0-45dd-8dc0-44a42148b99d","timestamp":"2026-05-30T20:58:31.302Z","type":"info","content":"Request cancelled."}
+{"$set":{"lastUpdated":"2026-05-30T20:58:31.302Z"}}

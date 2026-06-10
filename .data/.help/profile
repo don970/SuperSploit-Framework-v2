@@ -1,0 +1,41 @@
+# 👤 COMMAND: profile
+Profiles (also known as Personas) allow you to track and manage detailed information about targets, including technical research, social media links, and physical locations.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- **SQLite Persistence**: Profiles are stored in `profiles.db` using the `SQLiteDict` wrapper, ensuring they survive across framework sessions.
+- **Active Context**: One profile can be set as "ACTIVE" via the `use profile` command. This context is used to focus reconnaissance and reporting on a specific subject.
+- **Import/Export**: Profiles can be imported from JSON files or directly from identified targets in the `targets.json` database.
+
+---
+
+## 🛠️ USAGE WORKFLOW
+
+### 1. View Profiles
+- `show profiles`: Lists all profiles currently in the database.
+- `show profile`: Displays detailed information about the currently active profile. Markdown-imported profiles are rendered with terminal styling (Bold, Bullets, etc.) to preserve custom layouts.
+
+### 2. Manage Active Context
+- `use profile <index>`: Sets the profile at the specified index (from `show profiles` or `search profiles`) as active.
+- `set profile <name>`: Directly sets the active profile by its name.
+
+### 3. Edit Profiles
+- `edit profile "<Name>" <field> "<value>"`: Updates a single field (email, phone, etc.).
+- `edit profile "<Name>" research add "<Note>"`: Adds a research finding.
+- `edit profile "<Name>" social_medias add "<URL>"`: Adds a social media profile.
+
+### 4. Create/Import Profiles
+- `add profile --import <IP>`: Creates a profile from a target in the `targets.json` database.
+- `import profile <path.json>`: Imports profiles from an external JSON file.
+
+---
+
+## ⚙️ SUPPORTED FIELDS
+- **ip**: Target IP address.
+- **phone**: Contact number.
+- **email**: Email address.
+- **address**: Physical location.
+- **social_medias**: List of social media URLs.
+- **research**: List of technical notes, CVE analysis, and findings.
+- **os/arch**: Target system specifications.

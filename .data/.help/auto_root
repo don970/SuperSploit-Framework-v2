@@ -1,0 +1,35 @@
+# 🚀 COMMAND: auto_root
+The auto_root command is a specialized utility for the Android Rootkit payload. It attempts to gain silent, system-level root access by identifying and triggering appropriate Local Privilege Escalation (LPE) exploits based on the target's kernel version.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- SU Detection: The agent first checks for an existing 'su' binary (Magisk, SuperSU). If found, it attempts to obtain root via standard authorization, leveraging the 'SuperUser' manager lure to trick the user into granting access.
+- Kernel Auditing: If no SU binary is found or access is denied, the agent automatically queries the device's kernel version to determine LPE exploit compatibility.
+- Exploit Correlation:
+    - Dirty Pipe (CVE-2022-0847): Targeted at Kernels 5.8 through 5.16.
+    - Dirty COW (CVE-2016-5195): Targeted at Kernels < 4.8.
+- Silent Execution: Unlike standard 'su' requests, auto_root leverages kernel vulnerabilities to bypass the Magisk/Superuser authorization prompt, granting root privileges without alerting the user.
+
+---
+
+## 🛠️ USAGE
+Simply type 'auto_root' within an active Rootkit C2 session:
+Session 1> auto_root
+[*] Agent requested in-memory exploit: exploits/android/cve_2022_0847_dirtypipe.py
+[+] Payload 'cve_2022_0847_dirtypipe.py' silently staged in memory.
+[*] Automatically triggering dirtypipe()...
+[+] Exploitation cycle complete. Permissions should now be granted silently.
+
+---
+
+## 🛡️ POST-EXPLOITATION
+Once root is achieved:
+- Use 'dump_google_passwords' to extract GMS and System-synced credentials.
+- Use 'dump_wifi' to extract all stored WiFi credentials.
+- Use 'dump_chrome' to harvest browser cookies and saved logins.
+- Use 'find_passwords' to locate password databases for other apps.
+- Use 'find_cookies' to locate SQLite cookie databases for other apps.
+- Use 'dump_data' to exfiltrate protected application databases (e.g., WhatsApp).
+- Use 'persist' to install the rootkit into /data/adb/service.d/ for boot-time persistence.
+- Execute any shell command with system privileges.

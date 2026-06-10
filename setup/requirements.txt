@@ -1,0 +1,13 @@
+cryptography
+pyfiglet
+pure-python-adb
+scapy
+requests
+PyYAML
+phonenumbers
+fpdf
+sqlitedict
+prompt-toolkit
+buildozer
+kivy
+

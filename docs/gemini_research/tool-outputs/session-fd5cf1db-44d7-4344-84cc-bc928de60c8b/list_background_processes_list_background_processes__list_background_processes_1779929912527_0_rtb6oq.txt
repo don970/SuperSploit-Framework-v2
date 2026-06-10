@@ -1,0 +1,3 @@
+{
+  "output": "- [PID 23364] EXITED: `supersploit <<EOF\nset LISTENER true\nEOF` (Exit Code: 0)\n- [PID 23376] EXITED: `(echo \"set LISTENER true\"; while true; do sleep 1; done) | supersploit` (Exit Code: 0) (Signal: 15)\n- [PID 23420] EXITED: `kill 23376 && (echo \"set LISTENER true\"; while true; do sleep 1; done) | supersploit` (Exit Code: 0) (Signal: 15)\n- [PID 24222] EXITED: `(echo \"set LISTENER true\"; while true; do sleep 1; done) | supersploit` (Exit Code: 0) (Signal: 15)\n- [PID 24413] EXITED: `(echo \"set LISTENER true\"; while true; do sleep 1; done) | supersploit` (Exit Code: 0) (Signal: 15)\n- [PID 24583] RUNNING: `(echo \"set LISTENER true\"; while true; do sleep 1; done) | supersploit`\n- [PID 24807] RUNNING: `buildozer android debug`"
+}

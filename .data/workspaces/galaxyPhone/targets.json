@@ -1,0 +1,31 @@
+{
+    "TARGETS": {
+        "192.168.191.129": {
+            "status": "up"
+        },
+        "192.168.191.158": {
+            "status": "up"
+        },
+        "192.168.191.200": {
+            "discovery_method": "mDNS",
+            "hostname": "mDNS Responder",
+            "status": "up"
+        },
+        "192.168.191.225": {
+            "arp_record": "? (192.168.191.225) at 70:cf:49:91:ad:1b [ether] on wlp3s0",
+            "open_ports": [
+                {
+                    "banner": "",
+                    "port": 5555,
+                    "service": "Unknown"
+                },
+                {
+                    "banner": "Server: Werkzeug/3.1.8 Python/3.11.2",
+                    "port": 8080,
+                    "service": "HTTP"
+                }
+            ],
+            "status": "up"
+        }
+    }
+}

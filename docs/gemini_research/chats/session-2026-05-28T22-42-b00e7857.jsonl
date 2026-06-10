@@ -1,0 +1,9 @@
+{"sessionId":"b00e7857-d3e5-4e30-acb9-c1ec7e7bbeb0","projectHash":"26535cec5cc0ce21918d2b9cfef0fbb180c336873ad377e511ee5b4601662bec","startTime":"2026-05-28T22:42:52.083Z","lastUpdated":"2026-05-28T22:42:52.083Z","kind":"main"}
+{"id":"0e89f13a-3f4a-4ea4-98b5-33706727a315","timestamp":"2026-05-28T22:42:58.455Z","type":"error","content":"Automatic update failed. Please try updating manually:\n\nnpm install -g @google/gemini-cli@0.44.1"}
+{"$set":{"lastUpdated":"2026-05-28T22:42:58.456Z"}}
+{"id":"2847e7fe-9174-4b6a-9869-b0d1435ad80d","timestamp":"2026-05-28T22:43:54.710Z","type":"info","content":"Gemini CLI update available! 0.43.0 → 0.44.1\nInstalled with npm. Attempting to automatically update now..."}
+{"$set":{"lastUpdated":"2026-05-28T22:43:54.711Z"}}
+{"id":"8f885384-3ce8-4416-b91a-7f8d42607fa8","timestamp":"2026-05-28T22:44:01.998Z","type":"user","content":[{"text":"run supersploit"}]}
+{"$set":{"lastUpdated":"2026-05-28T22:44:01.999Z"}}
+{"id":"7741ae43-adcf-4a40-bcec-3ea7f3002bc8","timestamp":"2026-05-28T22:44:07.665Z","type":"gemini","content":"","thoughts":[{"subject":"Executing SuperSploit","description":"I'm initiating the SuperSploit execution using the global `supersploit` command. My next step involves verifying the environment's status to ensure readiness for potential interactive engagement. I'm also preparing to signal the completion of this initial phase with an `update_topic` call.","timestamp":"2026-05-28T22:44:07.244Z"}],"tokens":{"input":12631,"output":113,"cached":0,"thoughts":74,"tool":0,"total":12818},"model":"gemini-3-flash-preview"}
+{"$set":{"lastUpdated":"2026-05-28T22:44:07.665Z"}}

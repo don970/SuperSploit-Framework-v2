@@ -1,0 +1,3 @@
+{
+  "output": "No matches found for pattern \"keywords:\\[\" in path \"/home/donald/.SuperSploit/exploits/\"."
+}

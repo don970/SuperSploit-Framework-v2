@@ -1,0 +1,3 @@
+{
+  "output": "Output: Starting: Intent { cmp=org.supersploit.flappybirds/org.kivy.android.PythonActivity }\nProcess Group PGID: 23490"
+}

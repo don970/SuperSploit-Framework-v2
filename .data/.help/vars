@@ -1,0 +1,62 @@
+# 🔧 CONFIGURATION VARIABLES
+Reference for all globally and locally configurable framework variables. Use set [variable] [value] to modify.
+
+---
+
+### 🌐 NETWORKING & RECONNAISSANCE
+- LHOST / L_HOST            : Local IP address for reverse connections and C2 callbacks.
+- LPORT / L_PORT            : Local listening port for incoming reverse connections.
+- R_HOST                    : Remote target IP address, hostname, or CIDR (e.g. 192.168.1.0/24).
+- R_PORT                    : Remote target port.
+- PORT_RANGE                : Ports to scan (e.g. "80,443", "1-1024", or "top").
+- THREADS / CONCURRENCY     : Number of concurrent tasks for scanning/recon (default: 500).
+- TIMEOUT / SCAN_TIMEOUT    : Network timeout in seconds for probes/scans (default: 1.5).
+
+### 📁 MODULE STATE & PAYLOADS
+- EXPLOIT                   : Absolute path to the currently loaded exploit module.
+- PAYLOAD                   : Absolute path to the currently loaded payload module.
+- GENERATED_PAYLOAD         : The raw one-liner for the most recently generated stager.
+- RECON_PATH                : Absolute path to the currently loaded reconnaissance module.
+- RECON_NAME                : Internal name of the active recon module.
+- CVE                       : CVE identifier associated with the current exploit context.
+- COMPILER / CC             : Define a custom cross-compiler (e.g., aarch64-linux-gnu-gcc, arm-linux-gnueabihf-gcc).
+- COMP_ARCH                 : Target architecture for the 'compile' command (e.g., native, x64, arm64, android_arm64, android_arm, android_x86, android_x86_64).
+- COMP_STATIC               : Toggle static linking for the 'compile' command (true/false).
+- COMP_OUT                  : Custom output path for the 'compile' command (defaults to payloads/).
+
+### 🧮 KASLR & KERNEL EXPLOITATION
+- STATIC_BASE         : Default kernel base address for KASLR offset calculations (hex).
+- LEAKED_ADDR         : An address leaked from kernel space used for slide resolution.
+- KASLR_SLIDE         : A known slide value used to resolve randomized kernel symbols.
+- TARGET_KERNEL       : Targeted kernel version string for build-specific offset lookup.
+
+### 📡 C2 & OPERATIONAL SECURITY
+- XOR_KEY             : Key used for traffic encryption and payload obfuscation.
+- AUTO_ENUM           : Toggle automated post-exploitation enumeration (true/false, default: true).
+- STAGE2URL           : URL endpoint where the Stage 2 stager is hosted.
+- STAGE_TWO           : Local file path to the Stage 2 stager binary.
+- VERBOSE_LOGGING     : Toggle detailed execution output (true/false).
+- DEV_MODE            : Toggle developer-only diagnostic modes (true/false).
+- DEV_DICT            : Custom installation root used when DEV_MODE is active.
+- SESSION_ID          : Internal identifier for the active framework session.
+
+### 📱 ANDROID PAYLOAD GENERATION
+- ANDROID_PAYLOAD_TYPE: APK behavior template (drs, beacon, messages, rootkit).
+- APP_NAME            : Custom title for the installed Android application.
+- OUTPUT_NAME         : Custom filename for the generated APK (default: payload.apk).
+- SHOW_UI             : Toggle visible game/app UI on the target device (true/false).
+- HIDE_ICON           : Automatically hide the app icon after first launch (true/false).
+- WAKELOCK            : Request CPU/Power wakelock to prevent Doze termination (true/false).
+- ANDROID_API         : Target Android API level for the build (default: 33).
+- COMP_ARCH           : Target architecture for the 'compile' command (e.g., native, x64, arm64, android_arm64, android_arm, android_x86, android_x86_64).
+- COMP_STATIC         : Toggle static linking for the 'compile' command (true/false).
+- APK_ARCH            : Target architecture for native APKs (e.g., arm64, armv7, x86_64, x86, all). Defaults to 'all'.
+- RESULT_SINK         : Webhook URL for data exfiltration callbacks.
+- ADB_AUTO_SHELL      : Single command to execute immediately upon successful Master Key bypass (default: id).
+- ADB_PAYLOAD_DEPLOY  : Toggle automatic persistent DRS payload generation and installation after bypass (true/false).
+- EXTERNAL_TASK_URL   : URL for the beacon to poll for external taskings.
+- BEACON_MIN_SLEEP    : Minimum seconds for jittered reconnection/check-in.
+- BEACON_MAX_SLEEP    : Maximum seconds for jittered reconnection/check-in.
+
+---
+*Tip: Use show options to see which variables are required for the current module.*

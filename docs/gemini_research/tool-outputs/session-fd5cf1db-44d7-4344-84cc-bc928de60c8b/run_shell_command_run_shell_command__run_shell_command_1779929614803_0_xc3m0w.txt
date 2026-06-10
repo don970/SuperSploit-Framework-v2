@@ -1,0 +1,3 @@
+{
+  "output": "Output: P4A_IS_WINDOWED=False\nKIVY_ORIENTATION=LandscapeLeft\nP4A_NUMERIC_VERSION=None\nP4A_MINSDK=24\nProcess Group PGID: 24499"
+}

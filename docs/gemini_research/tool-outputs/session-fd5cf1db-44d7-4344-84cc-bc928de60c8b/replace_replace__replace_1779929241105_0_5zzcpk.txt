@@ -1,0 +1,3 @@
+{
+  "output": "Successfully modified file: /home/donald/.SuperSploit/exploits/android/cve_2019_2215_badbinder.py (1 replacements). Here is the updated code:\n...\ncve: \"CVE-2019-2215\"\ncatogory: \"android/local\"\ndescription: \"Use-after-free in Binder driver allows for local privilege escalation from the app sandbox to root. Affects several Android devices, including Pixel 1 and 2.\"\ntarget: \"Android (Kernel 3.18, 4.4, 4.9, 4.14)\"\nauthor: \"donald ford\"\nkeywords: [\"binder\", \"badbinder\", \"android\", \"lpe\", \"privesc\"]\n#!#!#!\n\nimport base64\nimport sys\n\n..."
+}

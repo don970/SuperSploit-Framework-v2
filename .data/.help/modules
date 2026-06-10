@@ -1,0 +1,49 @@
+# 🛠️ SUPERSPLOIT MODULE DEVELOPMENT GUIDE
+This guide outlines the technical requirements for developing custom exploits and reconnaissance modules compatible with the SuperSploit "Pro-Operator" suite.
+
+---
+
+## 🚀 CORE CONCEPT: THE METADATA DELIMITER
+All modules must utilize the #!#!#! delimiter to separate execution logic from framework-readable metadata.
+- Block 0: Optional pre-imports.
+- Block 1: YAML Metadata (Parsed by ExploitCache).
+- Block 2: Main Execution Logic.
+
+---
+
+## 🐍 PYTHON MODULE ARCHITECTURE
+Modules run in "Module Mode" are loaded as virtual namespaces. They MUST implement a standardized entry point.
+
+### Exploit Modules (.py)
+- Required Function: exploit(args=None, silent=False)
+- silent Flag: If True, the function must return a loader string (for C2 compatibility) instead of printing to stdout.
+
+### Recon Modules (.py)
+- Required Function: Start(args=None)
+- Return Values: Should update the global target list via DatabaseManagment.updateTargets().
+
+---
+
+## 🛡️ C-BASED EXPLOITS & FILELESS STUBS
+C exploits should be written for standard gcc compilation.
+- Fileless Requirements: Use memfd_create() (syscall 319 on x86_64) for Linux memory-only execution.
+- Template Integration: Utilize environment variables or argv to receive LHOST/LPORT from the framework's dynamic compiler hooks.
+
+---
+
+## 📡 STAGE 2 PAYLOAD REQUIREMENTS (C2)
+Payloads meant for the load command are subjected to AST Analysis.
+- Functionality: Must be self-contained. Avoid external dependencies not standard to the target's Python environment.
+- Thread Safety: Use the threading module for background tasks (e.g., beacons) to avoid blocking the primary C2 socket handler.
+
+---
+
+## 🛠️ YAML METADATA SCHEMA
+The following keys are supported in the metadata block:
+- name: Human-readable title.
+- cve: CVE identifier (e.g., CVE-2023-1234).
+- description: Detailed technical overview.
+- options: List of required/optional parameters.
+- os: Target operating system.
+- arch: Target architecture (x86_64, arm64).
+- root: true/false (Triggers sudo elevation).

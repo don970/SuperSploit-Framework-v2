@@ -1,0 +1,3 @@
+{
+  "output": "Output: curl 8.8.0-DEV (Android) libcurl/8.8.0-DEV BoringSSL zlib/1.3.0.1-motley\nRelease-Date: [unreleased]\nProtocols: file http https ipfs ipns mqtt\nFeatures: alt-svc AsynchDNS HSTS HTTPS-proxy IPv6 libz NTLM SSL threadsafe UnixSockets\nProcess Group PGID: 23670"
+}

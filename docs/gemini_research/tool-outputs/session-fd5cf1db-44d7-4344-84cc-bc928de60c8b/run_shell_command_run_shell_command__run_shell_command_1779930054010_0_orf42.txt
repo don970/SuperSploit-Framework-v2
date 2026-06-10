@@ -1,0 +1,3 @@
+{
+  "output": "Output: \nUsage:   \n  pip install [options] <requirement specifier> [package-index-options] ...\n  pip install [options] -r <requirements file> [package-index-options] ...\n  pip install [options] [-e] <vcs project url> ...\n  pip install [options] [-e] <local project path> ...\n  pip install [options] <archive url/path> ...\n\nno such option: --silent\nExit Code: 2\nProcess Group PGID: 25136"
+}

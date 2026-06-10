@@ -1,0 +1,3 @@
+{
+  "output": "Found 6 matches for pattern \"lateral\" in path \"/home/donald/.SuperSploit/recon/\":\n---\nFile: native-discovery/lateral_discovery.py\nL2: Lateral Network Host Discovery Engine\nL39: class LateralDiscoveryEngine:\nL48:         logger = logging.getLogger(f\"LateralDiscovery_{self.session_id}\")\nL228:     engine = LateralDiscoveryEngine(debug_mode=True)\nL229:     print(f\"[*] Starting Lateral Broadcast Discovery (Broadcast: {broadcast_addr})\")\nL300: name: \"Lateral Broadcast Discovery\"\n---"
+}

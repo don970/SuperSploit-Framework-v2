@@ -1,0 +1,24 @@
+# 🔍 COMMAND: suggest
+The suggest command is an automated vulnerability mapping engine that correlates recon data with available exploitation modules.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- ExploitCache Keyword Matching: The engine iterates through every module in the ExploitCache and matches its keywords and description fields against the target's discovered services (e.g., "SMB", "Apache", "ProFTPD").
+- OS Filtering: If ADVANCED_OS_ID has identified the target's operating system, the engine automatically filters out exploits that do not match the target's OS family or kernel version.
+- Post-Recon Hook: This command is automatically triggered by the PostReconHook whenever new targets or services are added to the database via a recon module.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### suggest
+Analyzes the currently active R_HOST and suggests matching modules.
+
+### suggest <target_ip>
+Performs a lookup for a specific IP address in the target database.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Passive Analysis: The suggest command is entirely passive; it only queries the internal database and does not generate any network traffic.
+- Accuracy: Suggestions are based on metadata keyword matching. Always verify the service version and target architecture before attempting an exploit suggested by the engine.

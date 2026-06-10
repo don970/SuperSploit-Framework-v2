@@ -1,0 +1,3 @@
+{
+  "output": "Directory listing for /home/donald/.SuperSploit/payloads/stager:\nstager_template.py (4026 bytes)\nstager.py (3867 bytes)\nwindows_shellcode_stager.py (3354 bytes)"
+}

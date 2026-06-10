@@ -1,0 +1,3 @@
+{
+  "output": "Current topic: \"Investigating Connection Error\"\nTopic summary: I am investigating a connection failure between an Android device and the SuperSploit listener. The previous output showed an 'SSL: TLSV1_ALERT_INTERNAL_ERROR'. I will start by checking the ADB connection and then examine the listener's SSL configuration and logs to identify the root cause.\n\nStrategic Intent: Investigating the SSL/TLS internal error during connection handling."
+}

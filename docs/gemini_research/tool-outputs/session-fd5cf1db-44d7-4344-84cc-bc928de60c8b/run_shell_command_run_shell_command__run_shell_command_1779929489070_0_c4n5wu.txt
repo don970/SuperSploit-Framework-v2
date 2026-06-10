@@ -1,0 +1,3 @@
+{
+  "output": "Output: Starting: Intent { cmp=org.supersploit.flappybirds/org.kivy.android.PythonActivity }\nError type 3\nError: Activity class {org.supersploit.flappybirds/org.kivy.android.PythonActivity} does not exist.\nExit Code: 1\nProcess Group PGID: 24298"
+}

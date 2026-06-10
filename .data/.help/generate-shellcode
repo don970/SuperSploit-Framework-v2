@@ -1,0 +1,39 @@
+# 🛠️ HELP: generate-shellcode
+Generates raw, weaponized machine code (shellcode) for direct injection into vulnerable processes.
+
+---
+
+### 📝 DESCRIPTION
+The `generate-shellcode` command utilizes the framework's internal math-based opcode compiler to build architecture-specific shellcode on-the-fly. Unlike simple static templates, this command mathematically constructs the instructions required to load your active `LHOST` and `LPORT` into memory registers.
+
+### 🚀 USAGE
+`generate-shellcode [architecture]`
+
+### 🏗️ SUPPORTED ARCHITECTURES
+- **arm64** (Default): Generates a fully weaponized ARM64 reverse TCP shellcode.
+- **x86_64** : Generates x86_64 reverse TCP shellcode (Currently in development/stub).
+
+### ⚙️ CONFIGURATION
+The generator automatically pulls the following variables from the active SuperSploit database:
+- **LHOST / L_HOST** : The callback IP address.
+- **LPORT / L_PORT** : The callback port.
+
+### 💡 EXAMPLES
+```bash
+# Generate default ARM64 shellcode for the current LHOST/LPORT
+SuperSploit > generate-shellcode arm64
+
+# Set new callback variables and regenerate
+SuperSploit > set host 192.168.1.50
+SuperSploit > set l_port 4444
+SuperSploit > generate-shellcode arm64
+```
+
+### 🛠️ TECHNICAL DETAILS
+The `arm64` generator constructs a standard reverse TCP stager that:
+1. Creates a socket (AF_INET, SOCK_STREAM).
+2. Connects back to the configured LHOST:LPORT.
+3. Duplicates file descriptors (0, 1, 2) to the socket for interaction.
+4. Executes `/bin/sh` via the `execve` system call.
+
+The output is provided in standard C-style hex formatting (`\x00\x00...`) for easy copy-pasting into exploit scripts.

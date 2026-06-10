@@ -1,0 +1,34 @@
+# 📦 COMMAND: generate-apk
+The generate-apk command utilizes a high-performance **Native C Architecture** to generate ultra-stealthy, lightweight Android payloads.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Native C/Java Hybrid: Unlike the legacy Python-based payloads, this generator cross-compiles a native C DRS stager and packages it within a minimal Java APK wrapper.
+- Ultra-Fast Generation: Payload compilation and signing takes ~2 seconds, compared to minutes with the legacy pipeline.
+- Tiny Footprint: The resulting APK is typically <1MB, making it significantly more stealthy and easier to transport.
+- Steath Execution: Operates via Native Java Services and spoofed system application names (e.g., "Google Play Services").
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### generate-apk [type] [output_name] [inject=<path>] [exploit=<path>]
+- type: drs, beacon, messages, rootkit. 
+  - (See 'help payload-types' for a detailed breakdown of each variant).
+- output_name: Optional custom filename (defaults to payload.apk in the payloads/ directory).
+- inject=<path>: **Trojanization Mode**. Injects the payload into a provided premade APK instead of using the stub template.
+- exploit=<path>: **Exploit Embedding Mode**. Statically links a C exploit source file (e.g. Binder/Mali LPE) into the native payload. The exploit executes automatically in a detached thread upon launch.
+
+---
+
+## ⚙️ CONFIGURABLE PARAMETERS (via set)
+- LHOST / LPORT: Mandatory callback address for the APK stager.
+- APP_NAME: Spoofs the installed application's title (Stub mode only).
+- APK_ARCH: Target CPU architecture (arm64, armv7, x86_64, x86, or all).
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Trojanization: Injecting into a legitimate APK (e.g., `inject=original_app.apk`) significantly increases stealth by inheriting the original app's icon, package name, and permissions.
+- Native Execution: Implemented via JNI for low-level shell operations, bypassing many high-level Android security filters.
+- No Dependencies: The resulting payload does not require Python or any other runtime on the target device.

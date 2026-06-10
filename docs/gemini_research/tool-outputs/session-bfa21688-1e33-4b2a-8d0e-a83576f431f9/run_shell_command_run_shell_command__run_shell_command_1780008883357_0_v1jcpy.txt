@@ -1,0 +1,4 @@
+{
+  "output": "Command was cancelled by user before it could complete. Below is the output before it was cancelled:\n ____                                  _       _ _   \n/ ___| _   _ _ __   ___ _ __ ___ _ __ | | ___ (_) |_ \n\\___ \\| | | | '_ \\ / _ \\ '__/ __| '_ \\| |/ _ \\| | __|\n ___) | |_| | |_) |  __/ |  \\__ \\ |_) | | (_) | | |_ \n|____/ \\__,_| .__/ \\___|_|  |___/ .__/|_|\\___/|_|\\__|\n            |_|                 |_|                  \n\nDNS records like 'TXT' or 'MX' can reveal which email security providers and cloud services a company uses.\nWARNING: your terminal doesn't support cursor position requests (CPR).\n[SuperSploit]:",
+  "error": "[Operation Cancelled] User cancelled tool execution."
+}

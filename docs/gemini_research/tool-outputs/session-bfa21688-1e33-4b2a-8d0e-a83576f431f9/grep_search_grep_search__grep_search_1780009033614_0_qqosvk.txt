@@ -1,0 +1,3 @@
+{
+  "output": "Found 6 matches for pattern \"\\bsr\\(\" in the workspace directory (filter: \"recon/native-discovery/*.py\"):\n---\nFile: recon/native-discovery/host_discovery.py\nL123:             ans, unans = sr(packets, timeout=3, inter=0.01, retry=0, verbose=0)\n---\nFile: recon/native-discovery/lateral_discovery.py\nL74:             ans, unans = sr(packet, timeout=2, retry=1, verbose=0)\nL109:             ans, unans = sr(packet, timeout=2, retry=1, verbose=0)\nL147:             ans, unans = sr(packet, timeout=2, retry=1, verbose=0)\nL186:             ans, unans = sr(packet, timeout=3, retry=1, verbose=0)\n---\nFile: recon/native-discovery/multi_layered_discovery.py\nL96:             ans, unans = sr(packets, timeout=2, inter=0.01, retry=0, verbose=0)\n---"
+}

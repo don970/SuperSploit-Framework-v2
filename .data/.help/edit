@@ -1,0 +1,40 @@
+# ✏️ COMMAND: edit
+The edit command allows for the granular modification of persistent data structures, specifically targeting the OSINT and target profile databases.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Profile DB Interaction: Directly interacts with profiles.db (an SQLiteDict store). Profiles are indexed by the "Name" field as the primary key.
+- Recursive Dict Updates: For complex fields like social_medias, the command performs list-based add/remove operations before committing the updated object back to the SQLite store.
+- Cross-Process Syncing: Updates are committed in real-time, ensuring that if multiple instances of SuperSploit are running, they all share the updated profile data.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### edit profile "<Name>" <field> "<value>"
+Update a single-value field (email, phone, address, geolocation).
+- edit profile "John Doe" phone "+1234567890"
+
+### edit profile "<Name>" social_medias <add|remove> "<URL>"
+Manage the social media list for a profile.
+- edit profile "Jane Doe" social_medias add "https://linkedin.com/in/jane"
+
+### edit profile "<Name>" research <add|remove> "<Note>"
+Log research findings, CVE analysis, or enumeration results.
+- edit profile "Galaxy S21" research add "Vuln: Dirty Pipe confirmed via lpe_enum"
+
+---
+
+## ⚙️ SUPPORTED FIELDS
+- phone: String-based contact number.
+- email: Primary email address.
+- address: Physical location or mailing address.
+- social_medias: A list of URLs/handles.
+- research: A list of technical findings and research notes.
+- geolocation: GPS coordinates or region strings.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Data Integrity: The "Name" field cannot be edited; to change a name, you must add a new profile and delete the old one.
+- Privacy: Profile data is stored unencrypted in profiles.db unless the entire framework directory is encrypted at the OS level.

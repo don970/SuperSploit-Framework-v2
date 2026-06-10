@@ -1,0 +1,79 @@
+[!] Program not found: cclear
+[!] Program not found: #
+[!] Program not found: #
+Failed to parse command: No closing quotation
+[!] Program not found: auto_root
+[!] Program not found: dump_sms
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+[!] Program not found: auto_root
+[!] Program not found: dump_sms
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+[!] Program not found: background
+[!] Program not found: auto_root
+[!] Program not found: dump_sms
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+[!] Program not found: background
+[!] Program not found: auto_root
+[!] Program not found: dump_sms
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+[!] Program not found: background
+[!] Program not found: auto_root
+[!] Program not found: dump_sms
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+[!] Program not found: background
+[!] Program not found: auto_root
+[!] Program not found: dump_sms
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+[!] Program not found: background
+[!] Program not found: auto_root
+[!] Program not found: dump_sms
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+[!] Program not found: background
+[!] Program not found: #
+[!] Program not found: auto_root
+[!] Program not found: dump_sms
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+[!] Program not found: get_location
+[!] Program not found: dump_wifi
+[!] Program not found: dump_google_passwords
+Failed to parse command: No escaped character
+Failed to parse command: No escaped character
+Failed to parse command: No closing quotation
+[!] Program not found: [SuperSploit]:
+Failed to parse command: No closing quotation
+Failed to parse command: No closing quotation
+[!] Program not found: deploy_lpe.sh
+[!] Program not found: 1
+[!] Program not found: 1
+[!] Program not found: 1
+[!] Program not found: cleara
+Failed to parse command: No closing quotation
+[!] Program not found: searc
+Failed to parse command: No closing quotation
+Traceback (most recent call last):
+  File "/home/donald/.SuperSploit/source/core/input_handling_engine.py", line 197, in check
+    general_cmds[cmd_name](data)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/donald/.SuperSploit/source/core/recon_engine.py", line 32, in __init__
+    self.buffer, self.metadata = self.createBuffer()
+                                 ~~~~~~~~~~~~~~~~~^^
+  File "/home/donald/.SuperSploit/source/core/recon_engine.py", line 176, in createBuffer
+    with open(self.db["RECON_PATH"], "r") as file:
+              ~~~~~~~^^^^^^^^^^^^^^
+  File "/home/donald/.SuperSploit/source/core/database.py", line 69, in __getitem__
+    raise KeyError(key)
+KeyError: 'RECON_PATH'
+[!] Program not found: clea
+[!] Program not found: upload
+[!] Program not found: clea
+[!] Program not found: shw
+[!] Program not found: clea
+Failed to parse command: No escaped character

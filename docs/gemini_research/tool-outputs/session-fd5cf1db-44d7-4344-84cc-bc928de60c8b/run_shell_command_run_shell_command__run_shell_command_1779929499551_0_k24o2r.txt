@@ -1,0 +1,3 @@
+{
+  "output": "Output: Performing Streamed Install\nSuccess\nProcess Group PGID: 24324"
+}

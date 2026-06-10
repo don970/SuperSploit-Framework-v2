@@ -1,0 +1,3 @@
+{
+  "output": "Output: files/app/.kivy:\nconfig.ini\nicon\nlogs\nmods\n\nfiles/app/.kivy/icon:\nkivy-icon-128.png\nkivy-icon-16.png\nkivy-icon-24.png\nkivy-icon-256.png\nkivy-icon-32.png\nkivy-icon-48.png\nkivy-icon-512.png\nkivy-icon-64.ico\nkivy-icon-64.png\n\nfiles/app/.kivy/logs:\nkivy_26-05-27_0.txt\nkivy_26-05-27_1.txt\nkivy_26-05-27_2.txt\nkivy_26-05-27_3.txt\nkivy_26-05-27_4.txt\n\nfiles/app/.kivy/mods:\nProcess Group PGID: 24774"
+}

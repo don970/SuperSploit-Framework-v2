@@ -1,0 +1,46 @@
+# 📡 SUPERSPLOIT SESSION MANAGER
+The Session Manager handles active C2 connections, providing a robust interface for interacting with remote agents via an encrypted, in-memory pipeline.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Secure TLS Stream: All session traffic is encapsulated in a 4096-bit RSA TLS stream. The framework auto-generates ephemeral self-signed certificates (c2_cert.pem) on startup.
+- Interactive QOL: Interaction sessions feature persistent command history (`c2_history`), auto-suggestions, command chaining (`&&`), local output redirection (`>`), and local command piping (`|`).
+- Crypto-Layer (XOR/B64): Data within the TLS stream is further obfuscated using a user-defined XOR_KEY and Base64 encoding.
+- Heartbeat & Jitter: The listener sends 0-length "Keepalive" frames with randomized jitter (45-75s) to maintain persistence.
+- Stage 2 Deployment: Initial connections trigger the in-memory deployment of a zlib-compressed, encrypted Stage 2 Python payload.
+- Automated Enrichment: If AUTO_ENUM is enabled (default: true), the listener automatically deploys the Version 5.0 "Ultra-Enum" suite on new Android sessions to map the LPE surface and enrich the target profile with "micro-crack" research.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### sessions
+Lists all active background sessions with their IDs, Peer addresses, and status.
+
+### sessions -i <ID>
+Interact with a specific session. Drops you into the C2 Interaction Menu.
+
+### sessions -k <ID> / sessions -K
+Kill a specific session or terminate all active sessions.
+
+---
+
+## 📡 C2 INTERACTION MENU COMMANDS
+- background / bg      : Return to main CLI while keeping the session active.
+- load <path>          : Silently inject a script or binary into target RAM.
+- auto_root            : Attempt automated privilege escalation to root.
+- dump_sms / calls     : Exfiltrate SMS inbox or call logs.
+- dump_wifi / chrome   : Extract WiFi PSKs, browser cookies, and logins.
+- dump_google_passwords: Targeted GMS and System credential extraction.
+- find_cookies / pass  : Recursive search for cookie and password stores.
+- get_location         : Extract last known GPS coordinates.
+- upload / download    : Securely transfer files via the encrypted tunnel.
+- clear                : Clear the terminal screen.
+- help / ?             : Display the detailed interaction help menu.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- SO_KEEPALIVE: The listener enables OS-level TCP Keepalives to handle silent network drops without losing session state.
+- No Process Spawning: Standard commands like ls, pwd, and whoami are implemented using native Python modules (os, socket) to avoid the noise of spawning a new shell process.
+- Zlib Compression: Stage 2 payloads are compressed to minimize the network signature during the sensitive initial handshake.

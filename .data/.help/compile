@@ -1,0 +1,36 @@
+# 🛠️ COMMAND: compile
+Cross-compiles C source files into binary executables directly from the framework.
+
+---
+
+## 📝 DESCRIPTION
+The `compile` command allows you to compile C-based exploits and payloads for different architectures (e.g., x86, x64, ARM, Android) without leaving the CLI. It uses the `COMP_ARCH` and `COMP_OUT` variables to determine the appropriate cross-compiler and output destination.
+
+## 🚀 USAGE
+### compile [file.c]
+If `[file.c]` is omitted, the command will attempt to compile the currently loaded `EXPLOIT` or `PAYLOAD` if it ends in `.c`.
+
+### Examples:
+- `compile exploits/linux/cve_2021_4034_pwnkit.c`
+- `compile` (Compiles the active C exploit)
+
+## ⚙️ CONFIGURATION
+Use the `set` command to adjust compilation behavior:
+
+- **set COMP_ARCH <arch>**: Sets the target architecture and compiler.
+  - `native` (default): Uses system `gcc`.
+  - `x86_64` / `x64`: Uses `x86_64-linux-gnu-gcc`.
+  - `x86` / `i686`: Uses `i686-linux-gnu-gcc`.
+  - `arm64` / `aarch64`: Uses `aarch64-linux-gnu-gcc`.
+  - `android_arm64`: Uses the Android NDK Clang compiler (aarch64) from `~/.buildozer`.
+  - `android_arm` / `android_v7`: Uses the Android NDK Clang compiler (armv7a) from `~/.buildozer`.
+  - `android_x86`: Uses the Android NDK Clang compiler (i686) from `~/.buildozer`.
+  - `android_x86_64`: Uses the Android NDK Clang compiler (x86_64) from `~/.buildozer`.
+
+- **set COMP_STATIC <true/false>**: Toggle static linking (`-static`) for maximum binary portability (default: false).
+
+- **set COMP_OUT <path>**: Sets a custom output path for the compiled binary.
+  - Defaults to `payloads/<filename>_<arch>`.
+
+---
+*Tip: Cross-compilers (like `aarch64-linux-gnu-gcc`) must be installed on your system unless using the Android NDK fallback.*

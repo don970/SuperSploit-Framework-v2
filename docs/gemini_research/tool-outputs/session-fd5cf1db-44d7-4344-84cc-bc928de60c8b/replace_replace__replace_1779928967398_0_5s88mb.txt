@@ -1,0 +1,3 @@
+{
+  "output": "Successfully modified file: /home/donald/.SuperSploit/source/core/listener.py (1 replacements). Here is the updated code:\n...\n                except socket.timeout:\n                    pass\n                client.settimeout(None)\n\n            except Exception as e:\n                import traceback\n                write(f\"\\n[-] Failed to handle client {addr}: {e}\")\n                if \"SSL\" in str(e) or \"handshake\" in str(e).lower():\n                    write(traceback.format_exc())\n\n        def listener_thread():\n            try:\n                # --- SSL/TLS Certificate Generation ---\n                cert_dir = os.path.join(DatabaseManagment.getInstall(), \".data\", \".config\")\n..."
+}

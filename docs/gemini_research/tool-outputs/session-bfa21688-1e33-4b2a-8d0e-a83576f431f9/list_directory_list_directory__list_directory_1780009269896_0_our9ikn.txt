@@ -1,0 +1,3 @@
+{
+  "output": "Directory listing for /home/donald/.SuperSploit/tests:\naudit_core.py (25867 bytes)\ndecode_banner.py (390 bytes)\nresults.txt (5819 bytes)\ntest_lateral_discovery.py (5856 bytes)"
+}

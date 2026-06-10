@@ -1,0 +1,3 @@
+{
+  "output": "Output:   bash arg: -p\n  bash arg: org.supersploit.flappybirds\n  bash arg: -c\n  bash arg: android.intent.category.LAUNCHER\n  bash arg: 1\nargs: [-p, org.supersploit.flappybirds, -c, android.intent.category.LAUNCHER, 1]\n arg: \"-p\"\n arg: \"org.supersploit.flappybirds\"\n arg: \"-c\"\n arg: \"android.intent.category.LAUNCHER\"\n arg: \"1\"\ndata=\"org.supersploit.flappybirds\"\ndata=\"android.intent.category.LAUNCHER\"\n** No activities found to run, monkey aborted.\nExit Code: 252\nProcess Group PGID: 24307"
+}

