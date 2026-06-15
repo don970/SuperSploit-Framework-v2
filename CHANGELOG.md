@@ -4,6 +4,10 @@
 - **Bug Fixes**:
     - Fixed: Added missing directory structure for `.data/.logs`, `.data/.history`, and `.data/.errors` to prevent framework crashes. Included `.gitkeep` files to ensure these directories are tracked in the repository.
     - Fixed: Added missing `urllib.request` and `datetime` imports in `license_manager.py` that were causing silent Discord notification failures.
+- **Target Profile System Enhancements**:
+    - Added: `sync profile` command to refresh persona dossiers with latest reconnaissance data.
+    - Improved: `import from targets` now pulls deep metadata including MAC, vendor, services, and uptime.
+    - Improved: `suggest` command now natively supports named profiles, pulling data directly from the persistent profile database.
 - **Licensing & Legal**:
     - Added: **Dual-License Open Core Model** - Transitioned the project to a dual-licensing structure to support both open-source and commercial tiers.
     - Added: **Root `LICENSE`** - Comprehensive licensing overview for the framework.
