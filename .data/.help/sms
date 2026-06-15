@@ -1,0 +1,39 @@
+# ✉️ SUPERSPLOIT SMS SUITE (GUI)
+The SuperSploit SMS Suite is a comprehensive standalone tool for sending spoofed SMS messages via commercial VoIP APIs or a local mock server. It supports single message delivery and mass blasting via CSV.
+
+---
+
+## 🚀 LAUNCHING THE SUITE
+Run the following command from the SuperSploit CLI:
+`sms`
+
+---
+
+## 🛠️ KEY FEATURES
+- **Sender ID Spoofing:** Customize the alphanumeric or numeric Sender ID (e.g., "BANK_ALERTS"). Note: Delivery depends on the gateway's policy.
+- **Hybrid Backend:** 
+    - **Commercial APIs:** Supports Twilio-compatible form-data endpoints.
+    - **Fake VoIP Server:** Includes a local mock gateway for safe testing and demonstrations.
+- **Mass Blast:** Load a CSV file containing a list of target numbers for automated batch delivery.
+- **Interactive Console:** View real-time API responses, HTTP status codes, and delivery SIDs.
+- **Rate Limiting:** Built-in 1-second delay between messages during mass blasts to prevent account suspension.
+
+---
+
+## 🛡️ GATEWAY CONFIGURATION
+- **API Endpoint:** The target URL for the SMS API (Default: Twilio).
+- **Credentials:** Enter your Account SID (Username) and Auth Token (Password).
+- **Local Testing:** Click the "Use Local Fake Server" button to route all messages to `127.0.0.1:8001`.
+
+---
+
+## 🧪 TESTING & VERIFICATION
+1. Start the fake VoIP server in a separate terminal:
+   `python3 source/tools/VoIP/fake_voip.py`
+2. Launch the SMS suite and click the **Local Fake Server** preset.
+3. Send a test message and monitor the `fake_voip.py` terminal for the spoofed payload.
+
+---
+
+## 📦 DEPENDENCIES
+- `pip install requests`

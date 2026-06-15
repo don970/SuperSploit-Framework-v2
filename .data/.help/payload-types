@@ -1,0 +1,51 @@
+# 🛠️ SUPERSPLOIT ANDROID PAYLOAD TYPES
+SuperSploit supports four specialized payload variants, available in both the **Native C** (`generate-apk`) and **Kivy/Buildozer** (`generate-apk-buildozer`) pipelines.
+
+---
+
+## 1. 🕹️ DRS (Dynamic Reverse Shell)
+**Lure Theme:** Messenger or Game (Flappy Bird).
+**Best For:** Real-time interactive control and rapid exploitation.
+- **Mechanism:** Establishes a persistent TCP/SSL reverse shell to the framework.
+- **Capability:** Supports full shell command execution, filesystem navigation, and interactive process management.
+- **Native Advantage:** Low latency, uses native POSIX threads to keep the UI responsive.
+
+## 2. 📡 BEACON (Stealth Persistence)
+**Lure Theme:** Game (Flappy Bird).
+**Best For:** Long-term surveillance and bypassing strict network monitoring.
+- **Mechanism:** Periodically polls the C2 server using XOR-encrypted HTTP/HTTPS beacons.
+- **Capability:** Fetches task queues, executes them in the background, and exfiltrates results during the next check-in.
+- **Stealth:** Configurable check-in intervals and "jitter" to mask traffic patterns from behavioral analysis.
+
+## 3. 📩 MESSAGES (Data Exfiltration Specialist)
+**Lure Theme:** System Sync / Android Messages.
+**Best For:** Rapid data harvesting in minimal-interaction scenarios.
+- **Mechanism:** Automated exfiltration agent focused on privacy-sensitive data.
+- **Capability:** Optimized for `dump_sms`, `dump_calls`, `dump_contacts`, and `get_accounts` commands.
+- **Stealth:** Minimal UI footprint and small APK size; often requested for "Trojanization" into social media or messaging apps.
+
+## 4. ⚡ ROOTKIT (High-Privilege Manager)
+**Lure Theme:** 'SuperUser' Manager or Headless System Service.
+**Best For:** Devices where root is expected or achieved via LPE.
+- **Mechanism**: Requests the "Omni-Permission" set (60+ privileges) during installation.
+- **Capability**: 
+    - **Persistence**: Integrates with Magisk `service.d` OR supports **Phantom Library Hijack** for invisible boot-time persistence.
+    - **Privilege**: Specifically designed to run `auto_root` and manage root-level tasks like `dump_wifi` or `dump_chrome`.
+
+- **Note:** Operates best when hidden (`set HIDE_ICON true`) or presented as a legitimate administrative tool.
+
+## 5. 👻 PHANTOM AGENT (Native C)
+**Best For:** Unrestricted root persistence and zero-disk forensic posture.
+- **Mechanism:** 100% native C binary executed via `memfd_create` or Magisk `service.d`.
+- **Capability:** Stealthy background daemon with process masking (`[kworker]`), anti-debug, and XOR+Base64 encrypted C2.
+- **Commands:** Native `pwd`, `id`, `whoami`, and binary-aware `upload` support.
+
+---
+
+## ⚙️ USAGE IN CLI
+To generate a specific type:
+`generate-apk <type> [output_name]`
+`generate-apk-buildozer <type> [output_name]`
+
+Example:
+`generate-apk rootkit system_mgr.apk`

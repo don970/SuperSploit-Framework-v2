@@ -1,0 +1,33 @@
+# 📧 SUPERSPLOIT MAILER (GUI)
+The SuperSploit Mailer is an advanced, stylish GUI tool designed for sending spoofed emails via the SMTP protocol. It supports live composition, .EML template loading, and file attachments.
+
+---
+
+## 🚀 LAUNCHING THE MAILER
+Run the following command from the SuperSploit CLI:
+`mailer`
+
+---
+
+## 🛠️ KEY FEATURES
+- **Live Compose:** Create multi-part emails with HTML support and attachments directly in the interface.
+- **Template Loading:** Load pre-crafted `.eml` files for high-fidelity phishing or automated reports.
+- **Address Spoofing:** Customize both the "From" Name and "From" Email address to bypass basic visual filters.
+- **Real-Time Console:** Intercepts raw SMTP traffic and displays server responses (`EHLO`, `MAIL FROM`, `RCPT TO`) in a dedicated terminal widget.
+- **Protocol Support:** Supports standard SMTP, STARTTLS, and SSL/TLS connections.
+
+---
+
+## 🛡️ SERVER CONFIGURATION
+- **Host/Port:** The address of your SMTP server (e.g., `smtp.gmail.com:587`).
+- **Authentication:** Provide the username and password required by the server.
+- **Encryption:** 
+    - **STARTTLS:** Upgrades an unencrypted connection to a secure one.
+    - **SSL/TLS:** Establishes a secure connection from the start.
+
+---
+
+## 🧪 TESTING & VERIFICATION
+To safely test your templates, launch the included fake SMTP server first:
+`python3 source/tools/SMTP/fake_smtp.py`
+Then connect the mailer to `127.0.0.1:2525`.

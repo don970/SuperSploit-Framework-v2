@@ -1,0 +1,38 @@
+# 🕵️ SUPERSPLOIT OSINT SUITE
+The OSINT Suite is a specialized collection of modules designed for passive intelligence gathering and target footprinting without direct interaction with the target's infrastructure.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- **Passive Discovery:** Leverages third-party APIs and public records (crt.sh, GitHub, Shodan, IP-API) to map an organization's or individual's external surface.
+- **Data Correlation:** Automatically links disparate data points (IPs, Emails, Aliases) to create a unified persona in the profiles database.
+- **Reporting Engine:** The Dossier Engine generates PI-grade PDF reports based on legal, residency, and corporate record aggregation.
+
+---
+
+## 🛠️ KEY MODULES
+### 1. Domain Enumerator (`domain_enum.py`)
+Passive subdomain discovery via Certificate Transparency logs. Synchronizes findings to the target database.
+
+### 2. Public Repo Scanner (`repo_scanner.py`)
+Searches GitHub for leaked API keys and sensitive files associated with a target.
+- *Requirement:* set GITHUB_TOKEN <your_token>
+
+### 3. Shodan Recon (`shodan_recon.py`)
+Enriches target profiles with open ports and known CVEs from the Shodan database.
+- *Requirement:* set SHODAN_API_KEY <your_key>
+
+### 4. Internet Footprint Analyzer (`footprint_analyzer.py`)
+Deep correlation tool linking IPs, Social Media presences, and Persona data. Supports multi-vector arguments (--ip, --email, --alias).
+
+### 5. Metadata Scraper (`metadata_scraper.py` / `scraper`)
+Extracts intelligence (Authors, OS paths, Software) from PDF, DOCX, XLSX, and Images. Use the `scraper` command for the advanced GUI version.
+
+### 6. Dossier Engine
+Automatically generates structured 'Confidential Investigative Dossier' PDF reports based on aggregated persona data in `profiles.db`.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- **Zero Traffic:** Most OSINT modules generate zero traffic to the target directly, as they query third-party search engines and aggregators.
+- **API Limits:** Be mindful of rate limits for GitHub and Shodan. Authenticated searches (using tokens) are recommended for extensive scanning.

@@ -1,0 +1,42 @@
+# 🌐 SUPERSPLOIT WEB STAGER (GUI)
+The Web Stager is a template-driven GUI tool for hosting phishing pages, payload delivery portals, and browser exploit triggers. It automatically injects framework variables into HTML templates.
+
+---
+
+## 🚀 LAUNCHING THE STAGER
+Run the following command from the SuperSploit CLI:
+`web-stager`
+
+---
+
+## 🛠️ KEY FEATURES
+- **Dynamic Template Injection:** Automatically detects `{{VAR}}` placeholders in HTML files and provides an interface to edit them.
+- **Pre-set Variables:** Automatically pulls `LHOST` and `LPORT` from the active SuperSploit database.
+- **Built-in Web Server:** Launch a lightweight local server to host the rendered page on any interface and port.
+- **Template Library:** Reads templates from `~/.SuperSploit/templates/web/`.
+- **Zero-Config Serving:** All requests to the server automatically receive the rendered template, simplifying redirection and delivery.
+- **AitM Proxy (Live Intercept):** A revolutionary live proxy mode that mirrors real sites (Microsoft, Google, etc.) to capture credentials and **MFA/Session Cookies** in real-time.
+
+---
+
+## 🎭 OPERATION MODES
+- **Static Template:** Standard phishing using clones stored in the library. Best for simple credential harvesting.
+- **AitM Proxy:** Transparently proxies a real target portal. Intercepts POST data and extracts `Set-Cookie` headers for session hijacking.
+
+---
+
+## 📁 TEMPLATES INCLUDED
+- **login_phish.html**: A generic secure portal sign-in page for credential harvesting.
+- **payload_download.html**: A document-sharing portal lure for APK/ELF delivery.
+- **exploit_stage.html**: A black-themed terminal loader for browser exploits.
+- **google_reset.html**: High-fidelity Google "Change password" lure.
+- **cashapp_reset.html**: Professional Cash App account security lure.
+
+---
+
+## 🧪 OPERATIONAL WORKFLOW
+1.  Launch the tool: `web-stager`.
+2.  Select **Operation Mode** (Static or AitM).
+3.  For AitM: Enter the **Target URL** (e.g., `https://login.microsoftonline.com`).
+4.  For Static: Select a template and fill in variables.
+5.  Click **START SERVER** and monitor the **Captured Loot** tab for live results.

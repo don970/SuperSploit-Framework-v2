@@ -1,0 +1,22 @@
+# 💎 Command: activate
+
+The `activate` command is used to unlock **SuperSploit Pro** features by validating a cryptographically signed license key against your unique Hardware ID (HWID).
+
+### 📖 Usage
+*   `activate <LICENSE_KEY>` : Attempt to activate the framework using the provided key.
+*   `activate status`      : Check the current activation status and display your HWID.
+
+### 🔍 Details
+Upon execution, the framework performs a multi-factor authentication check. This involves:
+1.  **HWID Matching**: Verifying the key is tied to your specific machine.
+2.  **Remote Validation**: Synchronizing with the Security Engine manifest to ensure the key is active and authorized.
+3.  **Regional Policy**: Checking local telemetry against authorized usage regions.
+
+### 🚀 What Unlocks?
+*   Advanced Stealth (Polymorphic JNI, SNI-masking).
+*   Professional OSINT & Dossier Engine.
+*   Latest Weaponized CVEs (2024-2026).
+*   Systemless Root Persistence (Phantom Agent).
+
+---
+*Note: Your HWID is displayed automatically when running 'activate' without arguments.*

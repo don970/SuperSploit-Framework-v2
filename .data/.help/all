@@ -1,0 +1,78 @@
+# 📖 SUPERSPLOIT QUICK-REFERENCE
+Main command index. For detailed guides, use help [command].
+
+---
+
+### 🔍 RECONNAISSANCE & DISCOVERY
+- search [key]    : Search for exploits, recon modules, or payloads.
+- use [mod]       : Load a module into the active context.
+- set [k] [v]      : Configure global or module-specific variables.
+- show [opt]       : Display info, options, targets, or exploits.
+- run              : Execute the currently loaded reconnaissance module.
+- suggest          : Auto-suggest exploits AND recon steps based on target.
+- edit profile     : Manually edit persona research and social media data.
+- import [type]    : Safely import exploits, payloads, targets, or profiles.
+- delete [type]    : Remove an individual profile or target by ID.
+- purge [type]     : Wipe entire categories of user data (profiles/targets).
+- add profile      : Create a persona from scan results or manual entry.
+- scraper          : Launch the user-friendly GUI metadata scraper.
+- free-relay       : Standalone Email-to-SMS delivery tool (Wi-Fi).
+- paid-relay       : Standalone SIP Proxy for commercial trunks.
+- up-nmap-db       : Migrate flat nmap-os-db.txt to signatures.db.
+- up-service-db    : Migrate flat nmap-service-probes.txt to signatures.db.
+
+### 💥 EXPLOITATION & PAYLOADS
+- exploit            : Run the currently loaded exploit module.
+- compile            : Cross-compile C source files into binary executables.
+- sessions           : List and manage active command-and-control sessions.
+- sessions -i [id]   : Interact with an active session by ID.
+- generate-apk           : Build a custom Android payload (Native C Injection).
+- generate-apk-buildozer : Build a custom Android payload (Kivy/Buildozer pipeline).
+- generate-shellcode     : Generate raw, weaponized shellcode for direct injection.
+- kaslr                  : Conceptual KASLR slide calculator and kernel base resolver.
+- encrypt / decrypt      : Encrypt or decrypt local files using framework keys.
+
+### 📡 C2 INTERACTION (Active Session)
+- upload / download : Securely transfer files between local and remote.
+- mailer            : Launch the advanced GUI SMTP delivery system.
+- sms               : Launch the advanced GUI SMS/VoIP delivery suite.
+- vishing           : Launch the Deepfake voice-spoofing vishing suite.
+- web-stager        : Launch the GUI web template staging engine.
+- load <path>       : Silently inject a Python/ELF payload into target RAM.
+- auto_root         : Attempt silent privilege escalation (Magisk/LPE).
+- dump_sms / calls  : Exfiltrate SMS messages or call history.
+- dump_wifi / chrome: Harvest WiFi passwords, Chrome cookies, and logins.
+- dump_google_passwords: Targeted extraction of Google Password Manager data.
+- get_location      : Extract last known GPS coordinates.
+- shell             : Drop into a native system shell on the target.
+- exit              : Terminate the current session.
+
+### ⚙️ SYSTEM & DOCUMENTATION
+- activate         : Unlock SuperSploit Pro features with a license key.
+- workspace        : List, create, or switch between isolated workspaces.
+- jobs             : View and terminate background tasks (e.g., listeners).
+- vars             : List all configurable framework variables.
+- clean            : Wipe temporary files, execution logs, and cache.
+- banner           : Display ASCII banner and current configuration status.
+- update-info      : Manually trigger a refresh of the exploit cache.
+- debugdb          : Display full framework database memory cache.
+- shells           : List available terminal shells for threaded handlers.
+- android          : Information about android payload configuration.
+- payload-types    : Detailed breakdown of Android payload variants.
+- help [topic]     : View configuration technical documentation.
+- exit             : Safely shut down the SuperSploit framework.
+
+---
+### 🆕 LATEST UPDATES (June 2026)
+- **Advanced Stealth Suite**: Implemented Polymorphic Signature Rotation, Environment Pinning, Network Domain Fronting, and OLLVM support.
+- **Smarter Suggestion Engine**: Automatically recommends next recon steps based on target format.
+- **Magisk 'Golden' Persistence**: Automated boot-script persistence via service.d (Golden Path).
+- **Smart Compiler**: 'compile' now auto-injects C2 variables and supports legacy Android linkers.
+- **OSINT Suite**: Passive subdomain discovery, repo scanning, and deep footprint analysis.
+- **Investigative Dossier**: Professional PI-grade PDF reporting for target personas.
+- **BLE Layer 5 Profiler**: Comprehensive multi-layer analysis of nearby Bluetooth devices.
+- Implemented **Workspace** isolation for multi-target engagements.
+- For a full history of changes, refer to: `CHANGELOG.md`.
+
+---
+*Workflow Example: search android -> use 0 -> set R_HOST 10.0.0.5 -> exploit*

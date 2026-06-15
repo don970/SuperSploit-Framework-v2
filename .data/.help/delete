@@ -1,0 +1,22 @@
+# 🗑️ COMMAND: delete
+The delete command allows for the removal of individual data entries from the framework's persistent databases.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- **Profile Removal**: Deletes the specified entry from `profiles.db`. If the deleted profile was active, the `ACTIVE_PROFILE` state is cleared.
+- **Target Removal**: Deletes the specified IP address from `targets.json` and syncs the change to disk immediately.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### delete <profile|target> "<ID>"
+
+- **profile**: Delete a persona profile by its name.
+- **target**: Delete a scanned target by its IP address.
+
+---
+
+## 💡 EXAMPLES
+- `delete profile "John Doe"`
+- `delete target 192.168.1.100`

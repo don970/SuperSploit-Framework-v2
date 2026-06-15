@@ -1,0 +1,58 @@
+# 📥 COMMAND: import
+The import command acts as a wrapper to safely import and parse external components into the SuperSploit framework.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- **Metadata Validation**: Automatically parses `#!#!#!` YAML blocks in exploits and payloads to extract categories and ensure compatibility.
+- **Database Integration**: Merges external JSON target/profile data directly into the active SQLite stores.
+- **Automated Categorization**: If a category isn't provided for a module, the engine attempts to derive it from the module's metadata.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### import <type> <path> [category]
+
+### Types:
+- **exploit**: Import a Python, C, or Shell exploit.
+- **payload**: Import a custom payload stager or agent.
+- **template**: Import a code template for generators.
+- **target**: Import a JSON or Markdown (.md) file containing target profiles.
+- **profile**: Import a JSON or Markdown (.md) file containing person profiles.
+
+---
+
+## 💡 EXAMPLES
+- `import exploit ./my_exploit.py android`
+- `import payload ~/custom_stager.sh`
+- `import target ./nmap_results.json`
+- `import target ./my_target_profile.md`
+- `import profile ./leaked_profiles.json`
+- `import profile ./samsung_tablet_profile.md`
+- `import template ./new_android_stub.c`
+
+---
+
+## 📝 MARKDOWN SYNTAX & RENDERING
+SuperSploit features a built-in terminal Markdown renderer. When importing `.md` files, the framework preserves your custom layout and applies terminal styling (Bold, Bullets, Underlines) when displaying the profile.
+
+### Formatting Rules:
+- **Headers**: Use `# Target: <IP/Name>` or `# Target Profile: <IP/Name>` to start a new entry. Headers are rendered as **BOLD UNDERLINED**.
+- **Lists**: Use `- **Key**: Value` or `* Key: Value`. Bullets are rendered as `•` and Bold markers as **BOLD TEXT**.
+
+### Core Key Aliases (Case-Insensitive):
+- **IP / IP Address**: Identifies the target IP.
+- **OS / OS Family / Platform**: Mapped to internal OS scoring filters.
+- **Arch / Architecture**: CPU architecture (e.g. aarch64, x64).
+- **Kernel / Kernel Version**: Specific Linux/Android kernel strings.
+- **Ports / Open Ports**: Comma-separated list (e.g. 80, 443, 5555).
+- **CVEs / Vulnerabilities**: Comma-separated list for direct scoring.
+- **Env / Environment**: Technical prerequisites (e.g. /dev/binder).
+
+*Note: Any other keys (e.g. Device, Notes, Location) will be preserved and displayed in the profile's raw layout.*
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- **Sanitization**: Destination paths and categories are sanitized to prevent directory traversal or injection.
+- **Persistence**: Imported modules are immediately indexed and made available to the `search` and `use` engines.

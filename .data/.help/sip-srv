@@ -1,0 +1,35 @@
+# 🛰️ SUPERSPLOIT SIP GATEWAY (SERVER)
+The SIP Gateway is a native Python VoIP server designed for standalone SMS spoofing operations. It listens for incoming SIP MESSAGE packets and logs the content for the operator.
+
+---
+
+## 🚀 LAUNCHING THE SERVER
+Run the following command from the SuperSploit CLI:
+`sip-srv`
+
+---
+
+## 🛠️ KEY FEATURES
+- **Native Implementation:** Written in pure Python; no external dependencies like Asterisk required.
+- **Protocol Compliance:** Supports the standard `SIP MESSAGE` method used by most VoIP clients and providers.
+- **Transaction Logging:** Captures and displays the Sender (From), Recipient (To), and Message Content in real-time.
+- **Response Dispatch:** Automatically sends `200 OK` success responses to the sender to maintain protocol synchronization.
+
+---
+
+## 🛡️ CONFIGURATION
+- **Default Port:** `5060` (UDP).
+- **Permissions:** Binding to port 5060 requires administrative privileges. If you are not running as root, modify the script to use port `8060`.
+- **Interface:** Listens on `0.0.0.0` (all interfaces) by default.
+
+---
+
+## 🧪 TESTING WORKFLOW
+1.  **Start Server:** Launch `sip-srv` in a separate terminal.
+2.  **Launch Suite:** Open the SMS Suite GUI (`sms`).
+3.  **Configure Client:**
+    - Go to the **Direct SIP** tab.
+    - Set **SIP Server** to `127.0.0.1`.
+    - Set **Port** to `5060`.
+4.  **Send:** Compose a message and click **SEND NOW**.
+5.  **Verify:** Check the `sip-srv` terminal for the "SIP SMS TRANSACTION" log.

@@ -1,0 +1,30 @@
+# 🚀 SUPERSPLOIT PAID RELAY (SIP PROXY)
+The Paid Relay is a high-performance SIP Proxy designed to bridge the SuperSploit GUI to professional, commercial SIP trunks.
+
+---
+
+## 🚀 LAUNCHING THE RELAY
+Run the following command from the SuperSploit CLI:
+`paid-relay`
+
+---
+
+## 🛠️ KEY FEATURES
+- **Trunk Forwarding:** Automatically receives SIP packets from the local SMS Suite and forwards them to a configured upstream provider.
+- **Header Masking:** Optionally modifies SIP headers (Via, Contact) to match the requirements of the upstream trunk.
+- **Reliability:** Ideal for high-volume mass-blasting operations where free gateways or trial APIs are too slow.
+
+---
+
+## 🛡️ CONFIGURATION
+- **Source File:** `/home/donald/.SuperSploit/source/tools/VoIP/paid_relay.py`
+- **Upstream Setup:** Open the script and edit the `REMOTE_SIP_SERVER` variable with your SIP Trunk address.
+- **Default Bind:** Listens on `0.0.0.0:5060` (UDP).
+
+---
+
+## 🧪 TESTING
+1.  Configure your upstream trunk in `paid_relay.py`.
+2.  Start the relay: `paid-relay`.
+3.  In the SMS Suite GUI (`sms`), click the **Setup Paid Relay** button.
+4.  Send a message; it will route through your local proxy to the real cell network.

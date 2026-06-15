@@ -1,0 +1,98 @@
+# 🔧 CONFIGURATION VARIABLES
+Reference for all globally and locally configurable framework variables. Use set [variable] [value] to modify.
+
+---
+
+### 🌐 NETWORKING & RECONNAISSANCE
+- LHOST / L_HOST            : Local IP address for reverse connections and C2 callbacks.
+- LPORT / L_PORT            : Local listening port for incoming reverse connections.
+- R_HOST                    : Remote target IP address, hostname, or CIDR (e.g. 192.168.1.0/24).
+- R_MAC                     : Remote target MAC address (Bluetooth or Ethernet).
+- R_PORT                    : Remote target port.
+- PORT_RANGE                : Ports to scan (e.g. "80,443", "1-1024", or "top").
+- THREADS / CONCURRENCY     : Number of concurrent tasks for scanning/recon (default: 500).
+- TIMEOUT / SCAN_TIMEOUT    : Network timeout in seconds for probes/scans (default: 1.5).
+- INTERFACE                 : Network interface to use for scanning/OTA attacks (e.g., wlan0mon).
+- TARGET_BSSID              : Target Wireless Access Point MAC address.
+- SOURCE_MAC                : Spoofed source MAC address for OTA frames.
+
+### 📁 MODULE STATE & PAYLOADS
+- EXPLOIT                   : Absolute path to the currently loaded exploit module.
+- PAYLOAD                   : Absolute path to the currently loaded payload module.
+- GENERATED_PAYLOAD         : The raw one-liner for the most recently generated stager.
+- RECON_PATH                : Absolute path to the currently loaded reconnaissance module.
+- RECON_NAME                : Internal name of the active recon module.
+- CVE                       : CVE identifier associated with the current exploit context.
+- COMPILER / CC             : Define a custom cross-compiler (e.g., aarch64-linux-android-clang).
+- COMP_ARCH                 : Target architecture for the 'compile' command (native, x64, arm64, android_arm64, android_v7).
+- COMP_STATIC               : Toggle static linking for the 'compile' command (true/false).
+- COMP_OUT                  : Custom output path for the 'compile' command (defaults to payloads/).
+
+### 🧮 KASLR & KERNEL EXPLOITATION
+- STATIC_BASE               : Default kernel base address for KASLR offset calculations (hex).
+- LEAKED_ADDR               : An address leaked from kernel space used for slide resolution.
+- KASLR_SLIDE               : A known slide value used to resolve randomized kernel symbols.
+- TARGET_KERNEL             : Targeted kernel version string for build-specific offset lookup.
+
+### 📡 C2 & OPERATIONAL SECURITY
+- XOR_KEY                   : Key used for traffic encryption and payload obfuscation.
+- OLLVM_ENABLED             : Toggle Obfuscator-LLVM Control Flow Flattening (true/false).
+- FRONT_DOMAIN              : Masking domain for SNI-masking / Domain Fronting.
+- AUTO_ENUM                 : Toggle automated post-exploitation enumeration (true/false, default: true).
+- STAGE2URL                 : URL endpoint where the Stage 2 stager is hosted.
+- STAGE_TWO                 : Local file path to the Stage 2 stager binary.
+- VERBOSE_LOGGING           : Toggle detailed execution output (true/false).
+- DEV_MODE                  : Toggle developer-only diagnostic modes (true/false).
+- LISTENER                  : Toggle the framework's background C2 listener (true/false).
+- SESSION_ID                : Internal identifier for the active framework session.
+- ACTIVE_PROFILE            : Name of the target profile currently loaded in the database.
+
+### 🔑 EXTERNAL APIS & AUTHENTICATION
+- SHODAN_API_KEY            : API key for Shodan infrastructure recon and vulnerability mapping.
+- GITHUB_TOKEN              : Personal Access Token (PAT) for GitHub API search to bypass rate limits.
+- LICENSE_WEBHOOK           : (Optional) Discord/Slack webhook URL for new activation alerts.
+- REMOTE_MANIFEST_URL       : (Optional) URL for the central licensing manifest (JSON).
+
+### 📱 ANDROID PAYLOAD GENERATION
+- ANDROID_PAYLOAD_TYPE      : APK behavior template (drs, beacon, messages, rootkit).
+- APP_NAME                  : Custom title for the installed Android application.
+- OUTPUT_NAME               : Custom filename for the generated APK (default: payload.apk).
+- SHOW_UI                   : Toggle visible game/app UI on the target device (true/false).
+- HIDE_ICON                 : Automatically hide the app icon after first launch (true/false).
+- WAKELOCK                  : Request CPU/Power wakelock to prevent Doze termination (true/false).
+- ANDROID_API               : Target Android API level for the build (default: 33).
+- APK_ARCH                  : Target architecture for native APKs (arm64, armv7, x86_64, all).
+- RESULT_SINK               : Webhook URL for data exfiltration callbacks.
+- DELAY_SECONDS             : Initial sleep duration for payloads before execution (Ghost architecture).
+- EXTERNAL_TASK_URL         : URL for the beacon to poll for external taskings.
+- BEACON_MIN_SLEEP          : Minimum seconds for jittered reconnection/check-in.
+- BEACON_MAX_SLEEP          : Maximum seconds for jittered reconnection/check-in.
+
+### 🎭 PERSISTENCE & POST-EXPLOITATION
+- AGENT_PATH                : Local path to the native agent binary for deployment.
+- REMOTE_PATH               : Destination path for the agent on the target device (e.g., /data/local/tmp/agent).
+- BOOT_DELAY                : Seconds to wait after boot before triggering the agent (Magisk).
+- REBOOT                    : Toggle automatic device reboot after persistence installation (true/false).
+- DEVICE_ID                 : Specific ADB serial number to target when multiple devices are connected.
+
+### ⚙️ EXPLOIT-SPECIFIC CONFIG
+- COMMAND / CMD             : Single shell command to execute via a remote exploit.
+- VID / PID                 : USB Vendor and Product IDs for hardware-level exploits.
+- WIPE_FRP                  : Toggle factory reset protection wiping after exploitation (true/false).
+- IMAGE_PATH                : Path to a target image for forensic recovery (Acropalypse).
+- OUTPUT_PATH / OUTPUT_FILE : Custom destination for exfiltrated data or exploit output.
+- PAYLOAD_URL               : Web URL hosting a 2nd-stage payload or exploit trigger.
+- ADB_AUTO_SHELL            : Command to run immediately upon ADB Master Key bypass.
+- ADB_PAYLOAD_DEPLOY        : Toggle persistent payload installation after ADB bypass.
+- PROXY_HOST / PROXY_PORT    : Upstream proxy settings for tunneling traffic through compromised hosts.
+- SRVPORT                   : Port for local staging servers (WebKit / Browser exploits).
+- RECIPIENT                 : Targeted phone number or handle for messaging exploits.
+- TARGET_URI                : Specific Android content provider URI to query.
+- HEIMDALL_PATH             : Path to the Heimdall binary for Samsung Odin protocol interaction.
+- URL                       : Target URL for browser-based redirection or trigger attacks.
+- PORT / BAUD               : Serial port and baud rate for AT command fuzzing (ttyACM0).
+- SMB_USER / SMB_PASS       : Credentials for authenticated SMB exploitation (EternalBlue/PrintNightmare).
+- SHARE_PATH                : Network share path for driver deployment.
+
+---
+*Tip: Use show options to see which variables are required for the current module.*
