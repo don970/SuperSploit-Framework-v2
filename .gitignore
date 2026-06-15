@@ -3,9 +3,14 @@
 .data/.config/registry.db
 .data/.config/targets.json
 .data/.config/manifest.json
-.data/.logs/
+.data/.config/data.db
+.data/.logs/*
+!.data/.logs/.gitkeep
 .data/.loot/
-.data/.history/
+.data/.history/*
+!.data/.history/.gitkeep
+.data/.errors/*
+!.data/.errors/.gitkeep
 .data/workspaces/
 .data/native_build/build/
 .data/native_build/dist/
