@@ -3,6 +3,8 @@ import uuid
 import os
 import json
 import sqlite3
+import urllib.request
+import datetime
 from .ToStdOut import ToStdout
 from .security_engine import SecurityEngine
 
@@ -178,7 +180,9 @@ class LicenseManager:
             req = urllib.request.Request(webhook_url, data=data, headers={'Content-Type': 'application/json', 'User-Agent': 'SuperSploit-Auth'})
             with urllib.request.urlopen(req, timeout=5) as response:
                 pass
-        except:
+        except Exception as e:
+            # Log failure to console in dev/debug mode if needed, but don't crash the framework
+            # ToStdout.write(f"[!] Warning: Failed to send activation notification ({e})\n")
             pass
 
     @staticmethod
