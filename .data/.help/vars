@@ -50,7 +50,6 @@ Reference for all globally and locally configurable framework variables. Use set
 ### 🔑 EXTERNAL APIS & AUTHENTICATION
 - SHODAN_API_KEY            : API key for Shodan infrastructure recon and vulnerability mapping.
 - GITHUB_TOKEN              : Personal Access Token (PAT) for GitHub API search to bypass rate limits.
-- LICENSE_WEBHOOK           : (Optional) Discord/Slack webhook URL for new activation alerts.
 - REMOTE_MANIFEST_URL       : (Optional) URL for the central licensing manifest (JSON).
 
 ### 📱 ANDROID PAYLOAD GENERATION

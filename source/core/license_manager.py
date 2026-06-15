@@ -147,13 +147,14 @@ class LicenseManager:
             ToStdout.write("[-] ERROR: Multi-factor validation failed.\n")
             return False
 
+    # Immutable Webhook URL for activation notifications
+    _ACTIVATION_WEBHOOK = "https://discord.com/api/webhooks/1515987699910185062/VERDAkOmCg7BnSwVFwiVHW7RpKiFC_DLk_3s1LJS17BsZZT8ph_OuUvYGwVxQjnx_V_1"
+
     @classmethod
     def _trigger_registration_webhook(cls, key, hwid):
         """Notifies the administrator of a new activation request for anchoring."""
-        from .database import DatabaseManagment
         import socket
-        db = DatabaseManagment.get()
-        webhook_url = db.get("LICENSE_WEBHOOK")
+        webhook_url = cls._ACTIVATION_WEBHOOK
         
         if not webhook_url:
             return
