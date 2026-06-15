@@ -1,0 +1,34 @@
+# EternalBlue (MS17-010) Development & Analysis Log
+
+The `Eternalblue.py` script is an implementation of the **MS17-010 (EternalBlue)** exploit. It targets a highly critical vulnerability in Microsoft's Server Message Block version 1.0 (SMBv1) implementation.
+
+From an educational and defensive perspective, examining this code provides an excellent case study in advanced kernel exploitation techniques, specifically focusing on **heap grooming** and **out-of-bounds (OOB) memory writes**.
+
+Here is a technical breakdown of exactly what is happening in the code, step-by-step:
+
+### 1. The Core Vulnerability (The "Bug")
+The vulnerability stems from how the Windows kernel driver `srv.sys` handles transaction requests.
+* In **Step 2** (`send_big_trans2`), the script initiates a large transaction using the `SMB_COM_NT_TRANSACT` command.
+* However, it intends to finish sending the data for this transaction using a different command type: `SMB_COM_TRANSACTION2_SECONDARY`.
+* Because the server receives a secondary command that mismatches the initial transaction type, a type-casting (integer conversion) error occurs within the kernel. The server incorrectly calculates the boundaries of the memory it allocated for the transaction data.
+
+### 2. Heap Grooming (Memory Manipulation)
+Before triggering the overflow, the attacker must ensure that the memory layout of the kernel's non-paged pool is predictable. If the overflow writes into random memory, it will likely cause a Blue Screen of Death (BSOD) rather than code execution.
+* **Steps 3, 4, and 5** use functions like `createSessionAllocNonPaged` and `createConnectionWithBigSMBFirst80`. These functions send specific, malformed SMB requests to force the server to allocate chunks of memory in the non-paged pool.
+* The goal is to create a specific pattern: allocate a chunk of memory (the "hole"), surround it with attacker-controlled structures (`SRVNET_BUFFER`), and then free the hole.
+* In **Step 6**, the "hole" is freed. The kernel now has an empty, specifically sized slot of memory immediately followed by an `SRVNET_BUFFER` structure belonging to one of the raw connections the script opened.
+
+### 3. Triggering the Out-Of-Bounds Write
+* In **Step 7**, the script sends the final fragment of the transaction (`send_trans2_second`).
+* The server places this final piece of data into the "hole" we just freed.
+* However, because of the size miscalculation bug triggered in Step 1, the server copies more data than the hole can hold. The data overflows past the end of the hole and overwrites the header of the adjacent `SRVNET_BUFFER` structure.
+
+### 4. Gaining Execution
+The `SRVNET_BUFFER` structure contains a Memory Descriptor List (MDL). The MDL tells the system where in memory to write incoming network data for that specific connection.
+* The overflow data specifically overwrites this MDL (using the values crafted in the `fakeSrvNetBuffer` variables).
+* In **Step 8**, the script sends the actual malicious payload (shellcode) across all the groomed connections. The connection with the corrupted MDL will write this shellcode into a designated, executable area of kernel memory, rather than its normal buffer.
+* The overflow also overwrites a function pointer within the structure.
+* In **Step 9**, the script disconnects the sockets. This forces the server to process and clean up the `SRVNET_BUFFER`s. When it attempts to call the cleanup or completion function for the corrupted buffer, it follows the overwritten function pointer, which now points directly to the attacker's shellcode, executing it with `SYSTEM` (kernel) privileges.
+
+### Defensive Takeaways
+Because this exploit operates entirely in memory at the kernel level before authentication is even required, it is exceptionally dangerous. The primary defense against this specific technique is **disabling the deprecated SMBv1 protocol entirely** across the network, as the bug relies on legacy features (like `FEALIST` parsing) specific to that version. Network segmentation and strict firewall rules blocking port `445` at the perimeter are also critical to preventing lateral movement via this protocol.

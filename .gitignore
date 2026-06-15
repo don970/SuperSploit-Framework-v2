@@ -1,0 +1,24 @@
+# Private Data & Config
+.data/.config/license.key
+.data/.config/registry.db
+.data/.config/targets.json
+.data/.config/manifest.json
+.data/.logs/
+.data/.loot/
+.data/.history/
+.data/workspaces/
+.data/native_build/build/
+.data/native_build/dist/
+.data/staged_web.html
+
+# Pro Modules (Moved to Private Repo)
+pro_modules/
+docs/gemini_research/
+
+# Python & IDEs
+.idea/
+.DS_Store
+__pycache__/
+*.pyc
+.buildozer/
+bin/

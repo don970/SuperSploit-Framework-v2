@@ -1,0 +1,85 @@
+===============================================================
+   INTELLIGENT ANDROID SECURITY AUDIT SUITE - EXTREME EDITION
+===============================================================
+
+[+] EXTREME SYSTEM ARCHITECTURE AUDIT
+---------------------------------------------------------------
+  - Kernel: Linux 4.14.193 #3 SMP PREEMPT Thu Aug 12 11:22:32 CST 2021 armv7l
+  - ro.product.brand               : SkyDevices
+  - ro.product.model               : Elite P55
+  - ro.product.cpu.abi             : armeabi-v7a
+  - ro.build.version.release       : 11
+  - ro.build.version.sdk           : 30
+  - ro.build.version.security_patch : 2021-06-05
+  - ro.build.fingerprint           : SkyDevices/ELITE_P55US/ELITE_P55US:11/RP1A.201005.001/29311:user/release-keys
+  - ro.build.type                  : user
+  - ro.debuggable                  : 0
+  - ro.secure                      : 1
+  - ro.adb.secure                  : 1
+  - ro.treble.enabled              : true
+  - ro.vndk.version                : 30
+  - ro.apex.updatable              : false
+  - ro.boot.flash.locked           : 1
+  - ro.boot.verifiedbootstate      : green
+  - ro.boot.vbmeta.device_state    : locked
+  - persist.sys.usb.config         : adb
+  - ro.hardware                    : sp9832e_1h10_go
+  - ro.board.platform              : sp9832e
+
+[+] THIRD-PARTY APP AUDIT (LPE & ATTACK SURFACE)
+---------------------------------------------------------------
+  [*] Querying installed packages for vulnerabilities...
+  - Package: =/com.vanced.manager-3w-WbEsUL1AAlpUBwbgLCw==/base.apk=com.vanced.manager 
+  - Package: =/org.supersploit.stub-Y6nSHL7sdzXFlsBzXCpWqg==/base.apk=org.supersploit.stub 
+  - Package: =/com.pdanet-afqtCebGpboQUO-tbPXZ-Q==/base.apk=com.pdanet 
+
+[+] SERVICE & PROCESS FINGERPRINTING
+---------------------------------------------------------------
+  - [ACTIVE] adbd                 : shell           443      1   24188   4336 0                   0 S adbd
+  - [ACTIVE] surfaceflinger       : system          393      1   70540   9996 0                   0 S surfaceflinger
+  - [ACTIVE] vold                 : root            271      1   21728   3036 0                   0 S vold
+  - [ACTIVE] zygote               : root            361      1 1238756  53496 0                   0 S zygote
+  - [ACTIVE] netd                 : root            360      1   30256   4004 0                   0 S netd
+  - [ACTIVE] hwservicemanager     : system          260      1   11484   3364 0                   0 S hwservicemanager
+  - [ACTIVE] installd             : root            453      1   15772   2844 0                   0 S installd
+
+[+] DEEP AUDIT FOR MICRO-CRACKS (INFO LEAKS & LOGS)
+---------------------------------------------------------------
+  [*] Checking dmesg for sensitive leaks (overflows, pointers)...
+dmesg: klogctl: Permission denied
+  - [!] INFO LEAK: /proc/modules is readable!
+
+[+] DEVICE NODE PROBE (LPE SURFACE)
+---------------------------------------------------------------
+  - [RW] /dev/binder
+  - [RW] /dev/hwbinder
+  - [RW] /dev/ashmem
+  - [RW] /dev/ion
+  - [RW] /dev/mali0
+
+[+] FILESYSTEM PERMISSIONS
+---------------------------------------------------------------
+  - [WRITABLE] /data/local/tmp
+
+[+] INTELLIGENT MULTI-SOURCE ONLINE CORRELATION
+---------------------------------------------------------------
+  [*] Target Fingerprint: Kernel 4.14.193 | Platform sp9832e
+
+  [*] Querying CIRCL (CVE) for Kernel 4.14.193...
+sh: curl: inaccessible or not found
+    No immediate hits for version 4.14.193.
+
+  [*] Querying Sploitus (Exploits) for Kernel 4.14.193...
+sh: curl: inaccessible or not found
+    No immediate hits for version 4.14.193.
+
+  [*] Querying Vulners (Aggregate) for Kernel 4.14.193...
+sh: curl: inaccessible or not found
+    No immediate hits for version 4.14.193.
+
+  [*] Performing Fuzzy SoC Audit for 'sp9832e' vulnerabilities...
+sh: curl: inaccessible or not found
+
+[+] Audit Complete. All micro-cracks reported.
+ELITE_P55US:/data/local/tmp $ 
+

