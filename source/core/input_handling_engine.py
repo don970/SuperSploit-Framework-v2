@@ -97,9 +97,17 @@ class Input:
         else:
             # Standard IP-based mode
             target_ip = args[1] if len(args) > 1 else db_data.get('R_HOST', db_data.get('TARGET', 'unknown'))
-            targets_db = DatabaseManagment.getTargets()
-            if target_ip in targets_db:
-                target_info = targets_db[target_ip]
+            
+            # Check Profiles database first
+            profiles_db = DatabaseManagment.getProfiles()
+            if target_ip in profiles_db:
+                target_info = profiles_db[target_ip]
+                target_ip = target_info.get("ip", target_ip)
+            else:
+                # Fallback to Targets database
+                targets_db = DatabaseManagment.getTargets()
+                if target_ip in targets_db:
+                    target_info = targets_db[target_ip]
         
         suggester = ASC(ExploitCache)
         suggester.execute(target_ip, target_info)
@@ -172,6 +180,7 @@ class Input:
                 "set": SetV.SetV,
                 "exploit": ExploitHandler,
                 "edit": cls._handle_edit_command, # New: Command to edit profiles
+                "sync": cls._handle_sync_command, # New: Command to sync profiles with targets
                 "use": use.execute,
                 "search": Search.search,
                 "banner": Banners,
@@ -304,6 +313,21 @@ class Input:
         else:
             ToStdout.write(f"[-] Unknown import type: {import_type}\n")
             Help.display("import")
+
+    @classmethod
+    def _handle_sync_command(cls, data):
+        """Handles the 'sync' command, dispatching to appropriate sub-commands."""
+        parts = shlex.split(data)
+        if len(parts) < 3:
+            ToStdout.write("[-] Usage: sync profile \"<Profile Name>\"\n")
+            return
+
+        sub_command = parts[1].lower()
+        if sub_command == "profile":
+            profile_name = parts[2]
+            DatabaseManagment.syncProfileWithTarget(profile_name)
+        else:
+            ToStdout.write(f"[-] Unknown 'sync' sub-command: {sub_command}\n")
 
     @classmethod
     def _handle_edit_command(cls, data):

@@ -11,6 +11,7 @@ Main command index. For detailed guides, use help [command].
 - run              : Execute the currently loaded reconnaissance module.
 - suggest          : Auto-suggest exploits AND recon steps based on target.
 - edit profile     : Manually edit persona research and social media data.
+- sync profile     : Refresh a persona dossier with latest scan data.
 - import [type]    : Safely import exploits, payloads, targets, or profiles.
 - delete [type]    : Remove an individual profile or target by ID.
 - purge [type]     : Wipe entire categories of user data (profiles/targets).

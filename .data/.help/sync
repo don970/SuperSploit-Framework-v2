@@ -1,0 +1,20 @@
+# 📡 SYNC COMMAND
+Synchronizes existing data structures with the latest reconnaissance findings.
+
+---
+
+### 🔍 USAGE:
+- sync profile "<Profile Name>" : Refresh a persona dossier with the latest data from the targets database.
+
+---
+
+### 📝 EXAMPLES:
+- sync profile "Target Device A"
+- sync profile "192.168.1.10"
+
+---
+
+### 💡 DESCRIPTION:
+The 'sync profile' command allows you to automatically update an existing persona profile (Persona Dossier) with any new information discovered during reconnaissance. This includes updated OS fingerprints, newly discovered ports/services, MAC addresses, and vendor information. 
+
+Existing 'research' notes and manual edits are preserved during synchronization.

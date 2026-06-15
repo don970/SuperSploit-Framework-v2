@@ -497,14 +497,60 @@ class DatabaseManagment:
         profile_data = {
             "name": target_info.get("hostname", ip),
             "ip": ip,
+            "mac": target_info.get("mac_address", target_info.get("mac", "N/A")),
+            "vendor": target_info.get("vendor", "N/A"),
             "os": target_info.get("os_family", "N/A"),
             "arch": target_info.get("architecture", "N/A"),
             "kernel": target_info.get("kernel_version", "N/A"),
             "ports": target_info.get("ports", []),
+            "services": target_info.get("services", {}),
+            "cves": target_info.get("cves", []),
+            "uptime": target_info.get("uptime", "N/A"),
             "research": []
         }
         cls.addProfile(profile_data)
         return profile_data
+
+    @classmethod
+    def syncProfileWithTarget(cls, profile_name):
+        """Synchronizes an existing profile with updated data from the targets database."""
+        profiles = cls.getProfiles()
+        if profile_name not in profiles:
+            write(f"[-] Error: Profile '{profile_name}' not found.")
+            return False
+        
+        profile_data = profiles[profile_name]
+        ip = profile_data.get("ip")
+        if not ip:
+            write(f"[-] Error: Profile '{profile_name}' has no associated IP.")
+            return False
+        
+        targets = cls.getTargets()
+        if ip not in targets:
+            write(f"[-] Error: IP {ip} not found in targets database. Cannot sync.")
+            return False
+            
+        target_info = targets[ip]
+        # Sync specific fields while preserving existing research
+        sync_fields = [
+            ("mac_address", "mac"), ("vendor", "vendor"), ("os_family", "os"),
+            ("architecture", "arch"), ("kernel_version", "kernel"), ("ports", "ports"),
+            ("services", "services"), ("cves", "cves"), ("uptime", "uptime")
+        ]
+        
+        updated = False
+        for target_key, profile_key in sync_fields:
+            new_val = target_info.get(target_key)
+            if new_val and new_val != profile_data.get(profile_key):
+                profile_data[profile_key] = new_val
+                updated = True
+        
+        if updated:
+            cls.addProfile(profile_data)
+            write(f"[+] Profile '{profile_name}' successfully synchronized with target {ip}.")
+        else:
+            write(f"[*] Profile '{profile_name}' is already up to date with target {ip}.")
+        return True
 
     @classmethod
     def editProfile(cls, data: str):
