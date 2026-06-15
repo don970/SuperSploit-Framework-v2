@@ -1,0 +1,19 @@
+# SuperSploit Framework Licensing
+
+SuperSploit utilizes a dual-licensing "Open Core" model to balance community collaboration with professional-grade security features.
+
+## 1. Core Framework (Open Source)
+The foundational components of SuperSploit, including the CLI engine, base reconnaissance modules, and core networking libraries, are open-source and licensed under the **MIT License**.
+*   **License File:** [LICENSE-CORE](./LICENSE-CORE)
+*   **Scope:** All files in `/source/core/`, `/recon/`, and base templates unless otherwise specified.
+
+## 2. Pro Tier (Proprietary)
+Advanced modules, 0-day exploits, sophisticated evasion suites, and professional reporting tools are part of **SuperSploit Pro**. These components are proprietary and require a valid license key for use.
+*   **License Agreement:** [PRO_LICENSE_AGREEMENT.md](./docs/Legal/PRO_LICENSE_AGREEMENT.md)
+*   **Scope:** All files in `/source/pro/`, premium exploit modules, and features explicitly identified as "Pro" in their metadata.
+
+## 3. Third-Party Components
+Certain dependencies and third-party tools included in or used by the framework are subject to their respective original licenses. See [THIRD-PARTY-NOTICES.md](./docs/Legal/THIRD-PARTY-NOTICES.md) for details.
+
+---
+**Disclaimer:** Unauthorized use of the Pro Tier features without a valid license is a violation of the Pro License Agreement.

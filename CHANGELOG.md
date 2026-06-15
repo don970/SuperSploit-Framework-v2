@@ -1,6 +1,11 @@
 # Changelog
 
 ### [Unreleased]
+- **Licensing & Legal**:
+    - Added: **Dual-License Open Core Model** - Transitioned the project to a dual-licensing structure to support both open-source and commercial tiers.
+    - Added: **Root `LICENSE`** - Comprehensive licensing overview for the framework.
+    - Added: **`LICENSE-CORE` (MIT)** - Explicit MIT license for the open-source core components.
+    - Updated: **README.md** - Refactored License Tiers documentation with direct links to core and pro licensing.
 - **Core Executable Update**:
     - Updated: **SuperSploit Auth Engine** (`/usr/local/bin/supersploit`) - Replaced the global executable with the latest `supersploit_auth` binary from the `supersploit_key_system` repository (Commit `26d9216`).
 - **SuperSploit Pro Ecosystem**:

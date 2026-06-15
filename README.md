@@ -30,11 +30,11 @@ SuperSploit Pro is a premium extension of the framework designed for professiona
 *   **Activation Telemetry:** Built-in support for Discord/Slack Webhooks provides developers with real-time alerts for every license activation, complete with machine fingerprints and network metadata.
 
 ### 🪙 License Tiers
-- **Individual Pro:** Unlock the full suite of 0-day modules and advanced stealth features.
-- **Red Team:** Collaborate with up to 5 operators, featuring polymorphic signature rotation and priority research access.
-- **Enterprise:** Full custom integration, dedicated support, and private C2 infrastructure.
+SuperSploit operates under an **Open Core** model.
+- **Core Framework:** Licensed under the [MIT License](./LICENSE-CORE).
+- **Pro Tier:** Licensed under the [Pro License Agreement](./docs/Legal/PRO_LICENSE_AGREEMENT.md). See [Pro Pricing](./docs/Legal/PRO_PRICING.md) for subscription details.
 
-For more information, see the [Pro License Agreement](./docs/Legal/PRO_LICENSE_AGREEMENT.md) and [Pro Pricing](./docs/Legal/PRO_PRICING.md).
+For a full breakdown of the licensing structure, see the root [LICENSE](./LICENSE) file.
 
 ---
 
