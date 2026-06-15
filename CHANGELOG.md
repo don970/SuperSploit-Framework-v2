@@ -1,6 +1,8 @@
 # Changelog
 
 ### [Unreleased]
+- **Bug Fixes**:
+    - Fixed: Added missing directory structure for `.data/.logs`, `.data/.history`, and `.data/.errors` to prevent framework crashes. Included `.gitkeep` files to ensure these directories are tracked in the repository.
 - **Licensing & Legal**:
     - Added: **Dual-License Open Core Model** - Transitioned the project to a dual-licensing structure to support both open-source and commercial tiers.
     - Added: **Root `LICENSE`** - Comprehensive licensing overview for the framework.
