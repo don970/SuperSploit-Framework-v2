@@ -1,6 +1,20 @@
 # Changelog
+ ### [Unreleased]
+ 
+ ### Added
+ - **Standalone SE GUI Tools**: Added a dedicated suite of visual applications in `source/tools/SE/` for managing mass-blasts and close-access operations:
+   - `smtp_gui.py`: Advanced phishing interface with template support and payload attachment.
+   - `evil_twin_gui.py`: Live telemetry console for rogue AP deployment (`hostapd`/`dnsmasq`).
+   - `imessage_gui.py`: Mass-dispatch interface for macOS native blue-bubble payloads.
+   - `qr_gui.py`: Rapid generator and previewer for physical QR code assets.
+ - **Pro Captive Portal (Evil Twin)**: Added `se_captive_portal.py`. Automates `hostapd` and `dnsmasq` for credential harvesting and rogue AP deployment.
+ - **Pro iMessage Injector**: Added `se_imessage_injector.py` to natively bridge and dispatch blue-bubble payloads via `osascript`.
+ - **Pro Malicious QR Generator**: Added `se_qr_generator.py` for weaponizing physical drops pointing to C2 payloads.
+ - **Pro SMTP Spoofing Suite**: Added `se_smtp_spoofer.py` delivery module. Supports MIME multi-part construction, automated attachment injection, SSL/STARTTLS negotiation, and header spoofing.
+ 
+ ### Improved
+ - **Native DRM Engine**: Completely refactored `LicenseManager` and `SecurityEngine` to offload license validation to a compiled C binary (`supersploit_auth.c`). Implemented robust DJB2 HWID hashing natively, added a secure 7-day offline caching mechanism (TTL), replaced plaintext CLI interaction with a structured JSON IPC bridge, and restored `master_keys` bypass logic for developer authorization.
 
-### [Unreleased]
 - **Bug Fixes**:
     - Fixed: Added missing directory structure for `.data/.logs`, `.data/.history`, and `.data/.errors` to prevent framework crashes. Included `.gitkeep` files to ensure these directories are tracked in the repository.
     - Fixed: Added missing `urllib.request` and `datetime` imports in `license_manager.py` that were causing silent Discord notification failures.
