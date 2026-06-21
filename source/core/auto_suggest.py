@@ -1,6 +1,7 @@
 from typing import List, Dict, Any, Optional
 import re
 import difflib
+from .database import DatabaseManagment
 
 class AutoSuggestCommand:
     def __init__(self, exploit_cache):
@@ -22,6 +23,23 @@ class AutoSuggestCommand:
         is_domain = "." in target_id and not is_ip
         is_name = " " in target_id or (not is_ip and not is_mac and not is_domain)
 
+        # 0.5 Persona Profile Integration
+        profile_data = {}
+        profiles = DatabaseManagment.getProfiles()
+        # Search by IP
+        if is_ip:
+            for p_name, p_info in profiles.items():
+                if p_info.get("ip") == target_id:
+                    profile_data = p_info
+                    print(f"[*] Correlated target with Persona Profile: {p_name}")
+                    break
+        # Search by Name
+        if not profile_data and (is_name or target_info.get("hostname")):
+            h_name = target_info.get("hostname", target_id)
+            if h_name in profiles:
+                profile_data = profiles[h_name]
+                print(f"[*] Correlated target with Persona Profile: {h_name}")
+
         # 1. Normalize target data
         services = target_info.get('services', {})
         # ... (rest of normalization)
@@ -38,11 +56,33 @@ class AutoSuggestCommand:
                 else:
                     services[str(p)] = {'protocol': 'tcp', 'service': 'unknown'}
 
-        target_os = str(target_info.get('os', target_info.get('os_family', ''))).lower()
-        target_kernel = str(target_info.get('kernel', target_info.get('kernel_version', ''))).lower()
-        target_arch = str(target_info.get('arch', target_info.get('architecture', ''))).lower()
+        target_os = str(target_info.get('os', target_info.get('os_family', profile_data.get('os', '')))).lower()
+        target_kernel = str(target_info.get('kernel', target_info.get('kernel_version', profile_data.get('kernel', '')))).lower()
+        target_arch = str(target_info.get('arch', target_info.get('architecture', profile_data.get('arch', '')))).lower()
+        
         target_cves = target_info.get('cves', [])
+        p_cves = profile_data.get("cves", [])
+        if isinstance(p_cves, str): p_cves = [p_cves]
+        target_cves = list(set(target_cves + p_cves))
+        
         target_env = target_info.get('environment', [])
+        p_env = profile_data.get("environment", [])
+        if isinstance(p_env, str): p_env = [p_env]
+        target_env = list(set(target_env + p_env))
+
+        # Extract extra keywords from profile research/notes
+        profile_keywords = []
+        if profile_data.get("research"):
+            for note in profile_data["research"]:
+                profile_keywords.extend(re.findall(r'\b\w{3,}\b', note.lower()))
+        
+        if profile_data.get("internet_footprint"):
+            # Extract mentions of platforms or correlations
+            footprint = profile_data["internet_footprint"]
+            for alias, hits in footprint.get("social", {}).items():
+                profile_keywords.append(alias.lower())
+                for h in hits:
+                    profile_keywords.append(h["platform"].lower())
 
         recon_suggestions = []
         exploit_suggestions = []
@@ -79,6 +119,14 @@ class AutoSuggestCommand:
                 if not target_os and "fingerprint" in meta.get('desc', '').lower():
                     r_score += 25
                     r_reasons.append("Target OS is unknown; suggesting fingerprinter")
+                if "android" in target_os and "exploit" in meta.get('desc', '').lower():
+                    r_score += 20
+                    r_reasons.append("Android target identified; suggesting mobile exploitation suite")
+            
+            # Specific Tool: Android Enum
+            if "android" in target_os and "enum" in meta.get('name', '').lower() and "android" in meta.get('name', '').lower():
+                r_score += 60
+                r_reasons.append("Recommended: Comprehensive Android device auditing")
 
             if r_score > 0:
                 recon_suggestions.append({
@@ -132,7 +180,7 @@ class AutoSuggestCommand:
                 if target_kernel and exploit_kernel_vers:
                     matched_kernel = False
                     for v in exploit_kernel_vers:
-                        if v.lower() in target_kernel:
+                        if v.strip() and v.lower() in target_kernel:
                             score += 30
                             reasons.append(f"Kernel Version Exact Match ({v})")
                             matched_kernel = True
@@ -145,6 +193,13 @@ class AutoSuggestCommand:
                                (not max_v or target_kernel <= max_v.lower()):
                                 score += 25
                                 reasons.append(f"Kernel within vulnerable range ({min_v} to {max_v})")
+
+                for kw in keywords:
+                    if kw in profile_keywords:
+                        score += 15
+                        reasons.append(f"Persona Correlation: Exploit keyword '{kw}' found in profile research/footprint")
+                        if confidence not in ["Critical", "High"]:
+                            confidence = "High"
 
                 if requirements and target_env:
                     matched_reqs = sum(1 for req in requirements if req in target_env)
@@ -179,8 +234,9 @@ class AutoSuggestCommand:
                                 score += 12
                                 reasons.append(f"Banner signature match: '{kw}'")
 
-                if score >= 60: confidence = "High"
-                elif score >= 30: confidence = "Medium"
+                if confidence != "Critical":
+                    if score >= 60: confidence = "High"
+                    elif score >= 30: confidence = "Medium"
                 
                 if score > 0:
                     exploit_suggestions.append({

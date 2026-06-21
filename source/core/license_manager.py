@@ -1,8 +1,5 @@
-import hashlib
-import uuid
 import os
 import json
-import sqlite3
 import urllib.request
 import datetime
 from .ToStdOut import ToStdout
@@ -10,157 +7,85 @@ from .security_engine import SecurityEngine
 
 class LicenseManager:
     LICENSE_FILE = os.path.join(os.getenv("HOME"), ".SuperSploit", ".data", ".config", "license.key")
-    REGISTRY_DB = os.path.join(os.getenv("HOME"), ".SuperSploit", ".data", ".config", "registry.db")
-    
-    # URL to your hosted manifest.json on GitHub
-    REMOTE_MANIFEST_URL = "https://raw.githubusercontent.com/don970/supersploit_key_system/main/manifest.json"
     
     _is_pro_cache = None # In-memory cache for the current session
 
     @staticmethod
     def get_hwid():
-        """Generates a unique Hardware ID for local reference."""
-        mac = ':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) for ele in range(0, 8*6, 8)][::-1])
-        hwid_raw = f"SuperSploit-{mac}-{os.getlogin()}"
-        return hashlib.sha256(hwid_raw.encode()).hexdigest()[:16].upper()
+        """Fetches the hardware ID directly from the compiled Security Engine."""
+        # The C binary generates the HWID to prevent spoofing in Python
+        return SecurityEngine.get_hwid()
 
     @classmethod
-    def _get_remote_url(cls):
-        """Fetches the manifest URL from the database or defaults to GitHub."""
-        from .database import DatabaseManagment
-        db = DatabaseManagment.get()
-        return db.get("REMOTE_MANIFEST_URL", "https://raw.githubusercontent.com/don970/supersploit_key_system/main/manifest.json")
-
-    @classmethod
-    def _fetch_remote_manifest(cls):
-        """Fetches the central license database from the remote URL."""
-        url = cls._get_remote_url()
-        try:
-            with urllib.request.urlopen(url, timeout=5) as response:
-                return json.loads(response.read().decode())
-        except Exception as e:
-            # Fallback/Log error
-            ToStdout.write(f"[!] Warning: Could not connect to Remote Security Manifest ({e})\n")
-            return None
-
-    @classmethod
-    def check_pro_status(cls):
-        """Verifies Pro status by invoking the Advanced Security Engine and Remote Manifest."""
+    def check_pro_status(cls, silent=False):
+        """Delegates all status, offline grace, and cache checks to the compiled C binary."""
         if cls._is_pro_cache is not None:
             return cls._is_pro_cache
-
-        if not os.path.exists(cls.LICENSE_FILE):
-            cls._is_pro_cache = False
-            return False
         
         try:
-            with open(cls.LICENSE_FILE, "r") as f:
-                license_data = json.load(f)
+            # The binary completely takes over reading the file, validating the signature, 
+            # fetching the manifest, and enforcing the offline TTL limit.
+            status_result = SecurityEngine.run_full_auth_check()
             
-            key = license_data.get("key")
-            stored_hwid = license_data.get("hwid")
-            current_hwid = cls.get_hwid()
-
-            # 1. Local HWID Consistency Check
-            if stored_hwid != current_hwid:
-                ToStdout.write("[-] SECURITY ALERT: HWID Mismatch! License file moved or hardware changed.\n")
-                return False
-
-            # 2. Remote Manifest Validation (The Central Check)
-            manifest = cls._fetch_remote_manifest()
-            if manifest:
-                if manifest["policy"].get("global_killswitch"):
-                    ToStdout.write("[!] EMERGENCY: Framework has been globally disabled by the developer.\n")
-                    return False
-
-                remote_entry = manifest["keys"].get(key)
-                if not remote_entry:
-                    ToStdout.write(f"[-] ERROR: Key '{key}' is not in the remote manifest.\n")
-                    return False
-                
-                if remote_entry["status"] == "revoked":
-                    ToStdout.write(f"[-] ERROR: Key '{key}' has been revoked by the administrator.\n")
-                    return False
-
-                if remote_entry["hwid"] and remote_entry["hwid"] != current_hwid:
-                    ToStdout.write(f"[-] SECURITY ALERT: This key is anchored to a different HWID ({remote_entry['hwid']}).\n")
-                    return False
-
-            # 3. Binary Validation (The Proprietary Engine)
-            if SecurityEngine.run_auth_check(key):
+            if status_result.get("status") == "success":
+                if status_result.get("offline_mode", False) and not silent:
+                    days_left = status_result.get("days_remaining", 0)
+                    ToStdout.write(f"[*] Using local manifest cache. Expires in {days_left} days.\n")
                 cls._is_pro_cache = True
                 return True
             
+            if status_result.get("message") and not silent:
+                ToStdout.write(f"[-] ERROR: {status_result.get('message')}\n")
+                
             cls._is_pro_cache = False
             return False
-        except:
+        except Exception as e:
+            ToStdout.write(f"[-] ERROR: License validation encountered an error: {e}\n")
             cls._is_pro_cache = False
             return False
 
     @classmethod
     def activate(cls, key):
-        """Attempts to activate the Pro license using the Security Engine and Remote Sync."""
+        """Passes the key to the C binary for activation and remote syncing."""
         key = key.strip().rstrip(".,!")
-        current_hwid = cls.get_hwid()
         
-        ToStdout.write("[*] Initiating multi-factor remote validation...\n")
+        ToStdout.write("[*] Delegating multi-factor remote validation to Security Engine...\n")
         cls._is_pro_cache = None
 
-        # 1. Fetch Remote Manifest to check for key existence and anchoring
-        manifest = cls._fetch_remote_manifest()
-        if manifest:
-            remote_entry = manifest["keys"].get(key)
-            if not remote_entry:
-                ToStdout.write(f"[-] ERROR: Key '{key}' was not found in the remote registry.\n")
-                return False
-            
-            # Automatic Anchoring Logic
-            if remote_entry["hwid"] is None:
-                ToStdout.write(f"[*] NEW ACTIVATION: Anchoring key '{key}' to this HWID...\n")
-                # NOTE: In a 'basic' GitHub-only setup, the admin manually updates the manifest 
-                # after being notified. For automation, a Registration Webhook is triggered here.
-                cls._trigger_registration_webhook(key, current_hwid)
-                ToStdout.write("[*] Registration request sent. Please wait for the admin to approve the anchor.\n")
-            elif remote_entry["hwid"] != current_hwid:
-                ToStdout.write(f"[-] SECURITY ALERT: Key is already anchored to HWID: {remote_entry['hwid']}\n")
-                return False
-
-        # 2. Run Binary Check
-        if SecurityEngine.run_auth_check(key):
-            data = {
-                "key": key, 
-                "hwid": current_hwid, 
-                "swid": str(uuid.uuid4()),
-                "timestamp": str(datetime.datetime.now())
-            }
-            
-            config_dir = os.path.dirname(cls.LICENSE_FILE)
-            if not os.path.exists(config_dir):
-                os.makedirs(config_dir)
-                
-            with open(cls.LICENSE_FILE, "w") as f:
-                json.dump(data, f)
-            
+        # The C binary performs the HTTP GET, checks the key, and writes the secure license block to disk
+        activation_result = SecurityEngine.run_activation(key)
+        
+        if activation_result.get("status") == "success":
             cls._is_pro_cache = True
             ToStdout.write("[+] SUCCESS: SuperSploit Pro Activated!\n")
             return True
+            
+        elif activation_result.get("status") == "needs_vetting":
+            # Webhook is the only thing we leave in Python since writing HTTPS POSTs with JSON in C is tedious
+            hwid = activation_result.get("hwid")
+            ToStdout.write(f"[*] NOTICE: This key is not yet hardware-locked on the remote server.\n")
+            ToStdout.write(f"[*] Sending vetting request to administrator via Discord...\n")
+            if cls._trigger_registration_webhook(key, hwid):
+                ToStdout.write(f"[*] Local anchoring will proceed for HWID: {hwid}\n")
+                ToStdout.write(f"[*] To permanently secure this key, wait for the admin to update the manifest.\n")
+            else:
+                ToStdout.write("[-] ERROR: Failed to send vetting request to Discord. Check your internet connection.\n")
+            return False
+            
         else:
             cls._is_pro_cache = False
-            ToStdout.write("[-] ERROR: Multi-factor validation failed.\n")
+            ToStdout.write(f"[-] ERROR: {activation_result.get('message', 'Multi-factor validation failed.')}\n")
             return False
-
-    # Immutable Webhook URL for activation notifications
-    _ACTIVATION_WEBHOOK = "https://discord.com/api/webhooks/1515987699910185062/VERDAkOmCg7BnSwVFwiVHW7RpKiFC_DLk_3s1LJS17BsZZT8ph_OuUvYGwVxQjnx_V_1"
 
     @classmethod
     def _trigger_registration_webhook(cls, key, hwid):
-        """Notifies the administrator of a new activation request for anchoring."""
+        """Sends a Discord webhook to the admin for manual vetting."""
+        # Paste your Discord Webhook URL here
+        webhook_url = "YOUR_DISCORD_WEBHOOK_URL"
+        if not webhook_url or webhook_url == "YOUR_DISCORD_WEBHOOK_URL":
+            return False
+            
         import socket
-        webhook_url = cls._ACTIVATION_WEBHOOK
-        
-        if not webhook_url:
-            return
-
         try:
             payload = {
                 "embeds": [{
@@ -170,20 +95,17 @@ class LicenseManager:
                         {"name": "License Key", "value": f"`{key}`", "inline": True},
                         {"name": "Hardware ID", "value": f"`{hwid}`", "inline": True},
                         {"name": "Machine", "value": f"`{os.getlogin()}@{socket.gethostname()}`", "inline": False},
-                        {"name": "Action Required", "value": f"Run: `python3 source/tools/licensing/manager.py --anchor {key} {hwid}`"}
+                        {"name": "Action Required", "value": "Update the mobile app manifest with this HWID to approve."}
                     ],
                     "timestamp": datetime.datetime.now().isoformat()
                 }]
             }
-            
             data = json.dumps(payload).encode('utf-8')
             req = urllib.request.Request(webhook_url, data=data, headers={'Content-Type': 'application/json', 'User-Agent': 'SuperSploit-Auth'})
             with urllib.request.urlopen(req, timeout=5) as response:
-                pass
-        except Exception as e:
-            # Log failure to console in dev/debug mode if needed, but don't crash the framework
-            # ToStdout.write(f"[!] Warning: Failed to send activation notification ({e})\n")
-            pass
+                return response.status in [200, 204]
+        except Exception:
+            return False
 
     @staticmethod
     def gate_access(feature_name):

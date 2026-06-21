@@ -50,6 +50,7 @@ Main command index. For detailed guides, use help [command].
 
 ### ⚙️ SYSTEM & DOCUMENTATION
 - activate         : Unlock SuperSploit Pro features with a license key.
+- api              : Manage Command Center REST API and ngrok tunneling.
 - workspace        : List, create, or switch between isolated workspaces.
 - jobs             : View and terminate background tasks (e.g., listeners).
 - vars             : List all configurable framework variables.

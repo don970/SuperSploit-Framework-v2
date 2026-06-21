@@ -10,6 +10,7 @@ import os
 import urllib.parse
 import datetime
 import json
+import uuid
 
 # Framework integration
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -51,6 +52,11 @@ author: "Donald Ford"
 
 class DossierReport(FPDF if has_pdf else object):
     """Custom PDF class for professional dossier formatting."""
+    def sanitize_text(self, text):
+        """Strips non-latin-1 characters to prevent encoding errors."""
+        if not isinstance(text, str): return text
+        return text.encode('latin-1', 'ignore').decode('latin-1')
+
     def header(self):
         if not has_pdf: return
         self.set_font('Arial', 'B', 15)
@@ -60,12 +66,14 @@ class DossierReport(FPDF if has_pdf else object):
         self.ln(10)
 
     def chapter_title(self, title):
+        title = self.sanitize_text(title)
         self.set_font('Arial', 'B', 12)
         self.set_fill_color(200, 220, 255)
         self.cell(0, 8, title, 0, 1, 'L', 1)
         self.ln(4)
 
     def chapter_body(self, body):
+        body = self.sanitize_text(body)
         self.set_font('Arial', '', 10)
         self.multi_cell(0, 5, body)
         self.ln()
@@ -82,6 +90,8 @@ class DossierReport(FPDF if has_pdf else object):
 def generate_professional_dorks(name, location=None):
     """Generates a professional-grade OSINT dork map."""
     n = f'"{name}"'
+    # Treat "Unknown" as None to avoid it appearing as a literal search term
+    if location == "Unknown": location = None
     loc = f'"{location}"' if location else ""
     
     return {
@@ -130,14 +140,38 @@ def Start(args=None):
         if len(args) > 1: location = args[1]
     elif has_db:
         db = DatabaseManagment.get()
-        name = db.get("R_HOST", "") # Fallback to R_HOST if no args
+        active_profile = db.get("ACTIVE_PROFILE")
+        r_host = db.get("R_HOST", "")
+
+        # 1. Try Active Profile first
+        if active_profile:
+            profiles = DatabaseManagment.getProfiles()
+            if active_profile in profiles:
+                p_data = profiles[active_profile]
+                name = p_data.get("name", active_profile)
+                location = p_data.get("geolocation") or p_data.get("address")
+        
+        # 2. Try resolving R_HOST to a profile
+        if not name and r_host:
+            profiles = DatabaseManagment.getProfiles()
+            for p_name, p_data in profiles.items():
+                if p_data.get("ip") == r_host or p_name == r_host:
+                    name = p_data.get("name", p_name)
+                    location = p_data.get("geolocation") or p_data.get("address")
+                    break
+            
+            # 3. Fallback to R_HOST itself if it's not a raw IP
+            if not name and not r_host.replace('.', '').isdigit():
+                name = r_host
 
     if not name or name.replace('.', '').isdigit():
         print("[-] Error: Target name required (e.g., run \"John Doe\" \"New York\")")
+        print("[*] Tip: Use 'set profile <Name>' to link an OSINT profile to your session.")
         return
 
     print(f"[*] Generating Investigative Dossier for: {name}")
-    if location: print(f"[*] Target Location Context: {location}")
+    if location and location != "Unknown": 
+        print(f"[*] Target Location Context: {location}")
 
     dork_map = generate_professional_dorks(name, location)
 
@@ -196,5 +230,4 @@ def Start(args=None):
             print(f"  - {d}")
 
 if __name__ == "__main__":
-    import uuid
     Start(sys.argv[1:])

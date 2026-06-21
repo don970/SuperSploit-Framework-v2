@@ -1,4 +1,8 @@
 import os
+import sys
+import json
+import time
+import requests
 import traceback
 import subprocess
 import psutil
@@ -202,7 +206,8 @@ class Input:
                 "generate-apk-buildozer": cls._generate_apk_buildozer,
                 "generate-shellcode": cls._generate_shellcode,
                 "compile": cls._compile_c_binary,
-                "kaslr": cls._kaslr_calculator
+                "kaslr": cls._kaslr_calculator,
+                "api": cls._handle_api_command
             }
 
             # ==========================================
@@ -274,7 +279,7 @@ class Input:
         sub_cmd = parts[1].lower()
         if sub_cmd == "status":
             ToStdout.write(f"[*] Current HWID: {LicenseManager.get_hwid()}\n")
-            if LicenseManager.check_pro_status():
+            if LicenseManager.check_pro_status(silent=True):
                 ToStdout.write("[+] Status: SuperSploit Pro [ACTIVATED]\n")
             else:
                 ToStdout.write("[-] Status: SuperSploit Standard [NOT ACTIVATED]\n")
@@ -534,6 +539,142 @@ class Input:
         except Exception as e:
             ToStdout.write(f"[-] Shellcode generation failed: {e}\n")
             Error(traceback.format_exc())
+
+    @classmethod
+    def _handle_api_command(cls, data):
+        """Handles the 'api' command to manage the Command Center REST API."""
+        parts = shlex.split(data)
+        if len(parts) < 2:
+            ToStdout.write("[*] Usage: api start | stop | status\n")
+            return
+
+        sub_cmd = parts[1].lower()
+        install = DatabaseManagment.getInstall()
+        server_path = os.path.join(install, "source", "api", "server.py")
+        pid_file = os.path.join(install, ".data", ".config", "api.pid")
+        ngrok_pid_file = os.path.join(install, ".data", ".config", "ngrok.pid")
+
+        if sub_cmd == "start":
+            # Start API Server
+            if os.path.exists(pid_file):
+                try:
+                    with open(pid_file, "r") as f:
+                        pid = int(f.read().strip())
+                    if psutil.pid_exists(pid):
+                        ToStdout.write(f"[*] API Server is already running (PID: {pid})\n")
+                    else:
+                        raise Exception("Stale PID")
+                except Exception:
+                    os.remove(pid_file)
+
+            if not os.path.exists(pid_file):
+                ToStdout.write("[*] Starting SuperSploit Command Center API in background...\n")
+                try:
+                    proc = subprocess.Popen(
+                        [sys.executable, server_path],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        start_new_session=True
+                    )
+                    with open(pid_file, "w") as f:
+                        f.write(str(proc.pid))
+                    ToStdout.write(f"[+] API Started successfully (PID: {proc.pid})\n")
+                except Exception as e:
+                    ToStdout.write(f"[-] Failed to start API: {e}\n")
+                    return
+
+            # Start ngrok Tunnel
+            if os.path.exists(ngrok_pid_file):
+                try:
+                    with open(ngrok_pid_file, "r") as f:
+                        n_pid = int(f.read().strip())
+                    if not psutil.pid_exists(n_pid):
+                        os.remove(ngrok_pid_file)
+                except Exception:
+                    os.remove(ngrok_pid_file)
+
+            if not os.path.exists(ngrok_pid_file):
+                ToStdout.write("[*] Initializing ngrok tunnel for remote 5G/GSM access...\n")
+                try:
+                    # Start ngrok targeting the API port
+                    n_proc = subprocess.Popen(
+                        ["ngrok", "http", "8443"],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        start_new_session=True
+                    )
+                    with open(ngrok_pid_file, "w") as f:
+                        f.write(str(n_proc.pid))
+                    
+                    # Wait for ngrok to initialize and fetch the tunnel URL via its local API
+                    time.sleep(3)
+                    try:
+                        resp = requests.get("http://127.0.0.1:4040/api/tunnels", timeout=5)
+                        if resp.status_code == 200:
+                            tunnels = resp.json().get("tunnels", [])
+                            if tunnels:
+                                public_url = tunnels[0].get("public_url")
+                                ToStdout.write(f"[+] Remote Access URL: {public_url}\n")
+                    except Exception:
+                        ToStdout.write("[!] ngrok started but could not retrieve Public URL. Check 'ngrok' manually.\n")
+                except Exception as e:
+                    ToStdout.write(f"[-] Failed to start ngrok: {e}\n")
+
+            # Display API Key
+            config_path = os.path.join(install, ".data", ".config", "api_config.json")
+            if os.path.exists(config_path):
+                with open(config_path, "r") as f:
+                    api_key = json.load(f).get("api_key")
+                ToStdout.write(f"[+] API Key for Mobile App: {api_key}\n")
+
+        elif sub_cmd == "stop":
+            # Stop API
+            if os.path.exists(pid_file):
+                try:
+                    with open(pid_file, "r") as f:
+                        pid = int(f.read().strip())
+                    if psutil.pid_exists(pid):
+                        psutil.Process(pid).terminate()
+                        ToStdout.write(f"[*] API Server terminated.\n")
+                except Exception: pass
+                os.remove(pid_file)
+
+            # Stop ngrok
+            if os.path.exists(ngrok_pid_file):
+                try:
+                    with open(ngrok_pid_file, "r") as f:
+                        n_pid = int(f.read().strip())
+                    if psutil.pid_exists(n_pid):
+                        psutil.Process(n_pid).terminate()
+                        ToStdout.write(f"[*] ngrok tunnel terminated.\n")
+                except Exception: pass
+                os.remove(ngrok_pid_file)
+
+        elif sub_cmd == "status":
+            api_up = False
+            if os.path.exists(pid_file):
+                try:
+                    pid = int(open(pid_file).read().strip())
+                    if psutil.pid_exists(pid): api_up = True
+                except: pass
+            
+            ngrok_up = False
+            if os.path.exists(ngrok_pid_file):
+                try:
+                    pid = int(open(ngrok_pid_file).read().strip())
+                    if psutil.pid_exists(pid): ngrok_up = True
+                except: pass
+
+            ToStdout.write(f"[*] API Server: {'[ONLINE]' if api_up else '[OFFLINE]'}\n")
+            ToStdout.write(f"[*] ngrok Tunnel: {'[ONLINE]' if ngrok_up else '[OFFLINE]'}\n")
+            if ngrok_up:
+                import requests
+                try:
+                    resp = requests.get("http://127.0.0.1:4040/api/tunnels", timeout=2)
+                    if resp.status_code == 200:
+                        url = resp.json().get("tunnels", [])[0].get("public_url")
+                        ToStdout.write(f"[*] Public URL: {url}\n")
+                except: pass
 
     @classmethod
     def _kaslr_calculator(cls, data):
