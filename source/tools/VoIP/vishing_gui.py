@@ -105,8 +105,10 @@ class VishingMimicGUI:
 
     def log(self, msg):
         timestamp = time.strftime("%H:%M:%S")
-        self.console.insert(tk.END, f"[{timestamp}] {msg}\n")
-        self.console.see(tk.END)
+        def _update():
+            self.console.insert(tk.END, f"[{timestamp}] {msg}\n")
+            self.console.see(tk.END)
+        self.root.after(0, _update)
 
     def _browse_audio(self):
         filename = filedialog.askopenfilename(filetypes=[("Audio Files", "*.wav *.mp3")])
@@ -161,6 +163,8 @@ class VishingMimicGUI:
             self.root.after(0, lambda: self.call_btn.config(state=tk.NORMAL))
 
 if __name__ == "__main__":
+    if not LicenseManager.gate_access("Deepfake Vishing Suite"):
+        sys.exit(1)
     root = tk.Tk()
     app = VishingMimicGUI(root)
     root.mainloop()

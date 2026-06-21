@@ -193,7 +193,8 @@ class NativeApkGenerator:
             "-o",
             so_path,
             "-O2",
-            "-llog"
+            "-llog",
+            "-lcrypto"
         ]
 
         if ollvm_enabled:

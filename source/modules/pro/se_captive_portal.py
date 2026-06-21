@@ -1,6 +1,6 @@
 #!#!#!
 # name: Pro Captive Portal (Evil Twin)
-# author: SuperSploit Dev Team
+# author: "Donald Ford"
 # description: Automates hostapd/dnsmasq to deploy a rogue AP and captive portal for credential harvesting.
 # type: se_delivery
 # requirements: ["hostapd", "dnsmasq"]

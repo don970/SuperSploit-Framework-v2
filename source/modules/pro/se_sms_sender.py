@@ -1,6 +1,6 @@
 #!#!#!
 # name: Pro SMS Smishing Engine
-# author: SuperSploit Dev Team
+# author: "Donald Ford"
 # description: Delivers targeted SMS payloads using dynamic Sender IDs, SIP injection, or Free Carrier Relays.
 # type: se_delivery
 # requirements: []

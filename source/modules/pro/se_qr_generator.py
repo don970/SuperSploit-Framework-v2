@@ -1,6 +1,6 @@
 #!#!#!
 # name: Pro Malicious QR Generator
-# author: SuperSploit Dev Team
+# author: "Donald Ford"
 # description: Generates physical SE assets. Creates high-res QR codes pointing to C2 payloads or phishing portals.
 # type: se_delivery
 # requirements: ["qrcode", "Pillow"]

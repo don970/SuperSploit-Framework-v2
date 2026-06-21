@@ -13,15 +13,22 @@
 
 ---
 
-> SuperSploit is an advanced, stealth-focused exploitation and Command & Control (C2) framework built for elite red teamers and penetration testers. It specializes in **fileless payload execution**, **in-memory C2**, **hybrid weaponization**, and **comprehensive Android targeting**, providing a seamless, automated pipeline from high-speed reconnaissance to deep post-exploitation.
+> SuperSploit is an APT-tier, multi-platform exploitation framework designed for elite Red Teams and Security Researchers. It bridges the gap between high-level social engineering, Adversary-in-the-Middle (AitM) staging, and highly evasive hardware/kernel-level exploitation.
 
-> By fusing an asynchronous, highly concurrent Recon Engine with an intelligent, multi-dimensional Suggestion Engine and a resilient Cryptography System, SuperSploit significantly reduces operator workload while evading modern signature-based detection mechanisms.
+> Featuring an intelligent, state-driven database, SuperSploit automatically correlates discovered target vulnerabilities with over 260+ offline CVEs, seamlessly injecting dynamic, polymorphic payloads into targeted applications and memory spaces.
 
 ---
 
 ## 💎 SuperSploit Pro
-
 SuperSploit Pro is a premium extension of the framework designed for professional security firms and high-tempo red team engagements. It features a hardened, remote-controlled security architecture to protect elite intellectual property.
+
+### 👑 Exclusive Pro Features & Tools
+The following advanced modules, graphical interfaces, and weaponization pipelines are strictly gated behind the SuperSploit Pro license:
+* **Social Engineering GUI Suite:** Advanced SMTP Spoofing Suite, SMS Smishing Engine, Deepfake Vishing Suite, iMessage/RCS Injector, Evil Twin/Rogue AP, and Malicious QR Generator.
+* **Advanced Weaponization & Evasion:** Polymorphic Shellcode Packer, APK Polymorphic Crypter, APK Trust Store Patcher, and the Professional Cross-Arch Compilation Suite.
+* **Apple Zero-Day Attack Chain:** Safari WebKit Stager (CVE-2026-10002), iMessage Zero-Click (CVE-2026-10001), AWDL Proximity RCE (CVE-2026-10003), and dyld_shared_cache LPE (CVE-2026-20700).
+* **Command & Control (C2) & AitM:** Asynchronous AES-256-GCM HTTP C2 Server, Automated Native Exploitation (`auto_root`), and the AitM Proxy & Web Stager.
+* **Post-Exploitation Suite:** Auto-Exfil Engine (SQLite/Cookie harvesting), Persistence Manager (Magisk/systemd/cron), and Proxy Pivot & Routing (SOCKS5 via Chisel).
 
 ### 🛡️ Advanced Security Engine
 *   **Proprietary Binary Validation:** Core licensing logic is anchored in a compiled C-based **Security Engine** (`supersploit_auth`), moving validation outside of easily patched Python source code to defeat local cracking attempts.
@@ -38,49 +45,45 @@ For a full breakdown of the licensing structure, see the root [LICENSE](./LICENS
 
 ---
 
-## 🚀 Core Pillars & Architecture
+## 🚀 Ecosystem Capabilities
 
-### 👻 **Stealth & Evasion**
-SuperSploit is engineered from the ground up for high-tier operational security and detection bypass.
-*   **Polymorphic Signature Rotation:** The `native_apk_generator` automatically randomizes native library names (e.g., `libcore_x72b9a.so`) and JNI method names for every build, defeating static Play Protect signatures.
-*   **In-Memory Execution Pipeline:** Python modules are executed directly in RAM, while Linux C binaries use anonymous memory file descriptors (`memfd_create`), leaving no trace on the target filesystem.
-*   **Advanced Anti-Analysis:** Native payloads implement **Environment Pinning**, utilizing `ptrace` and uptime checks to detect and gracefully exit in the presence of debuggers, emulators, or sandboxes.
-*   **Opportunistic OLLVM Integration:** Support for **Obfuscator-LLVM** allows for Control Flow Flattening and Instruction Substitution on all C-based payloads, rendering them nearly impossible to decompile.
-*   **Network Domain Fronting:** The native HTTPS fetcher supports SNI-masking via a `FRONT_DOMAIN` (e.g., Cloudflare), hiding C2 entropy within legitimate, high-reputation CDN traffic.
-*   **Resilient C2 Cryptography:** All communications are wrapped in a custom TLS tunnel with layered XOR + Base64 obfuscation keyed to the active session.
+### 🍏 Apple iOS & macOS Ecosystem
+A complete, native attack chain for the Apple ecosystem:
+* **Safari WebKit Stager (CVE-2026-10002):** 1-Click remote code execution via DFG JIT Type Confusion, featuring automatic RWX memory allocation and shellcode execution.
+* **iMessage Zero-Click (CVE-2026-10001):** Sandbox escape via malformed HEIF metadata, dispatched flawlessly over native macOS `osascript` bridging.
+* **AWDL/AirDrop RCE (CVE-2026-10003):** Proximity-based RCE targeting `sharingd` buffer overflows via raw 802.11 Action Frames.
+* **dyld_shared_cache LPE (CVE-2026-20700):** Hybrid weaponized Local Privilege Escalation cross-compiled on the fly for A-Series ARM64 chips.
 
-### 📱 **Advanced Android Arsenal**
-SuperSploit provides an unparalleled suite of tools for compromising and persisting on modern Android environments.
-*   **Native APK Generation:** A sophisticated automated pipeline (`native_apk_generator`) injects custom C payloads into an Android Shared Object library (`libmain.so`) using NDK cross-compilation. It repacks, aligns, and signs the final APK, with the payload executing via a JNI-detached POSIX thread for a guaranteed ANR-free user experience.
-*   **Versatile Payload Architectures:**
-    *   **DRS:** A reverse shell disguised as a Flappy Bird game, complete with extensive data exfiltration commands (`dump_sms`, `dump_calls`, `dump_chrome`, `dump_wifi`, and more).
-    *   **Beacon:** A deep-stealth agent that periodically polls C2 for tasks using XOR-encrypted HTTP beacons via specific URI routing (`GET /file`, `POST /rfile`).
-    *   **Rootkit:** A fully functional mock SuperUser root manager application supporting silent privilege escalation (e.g., Dirty Pipe LPE) and background persistence via **Magisk `service.d` (Golden Path)**.
-*   **Encrypted Native Agents:** The **SuperSploit Phantom Agent** provides an ultra-lightweight, 100% native C alternative to APKs, featuring process masking, anti-debug, and XOR+Base64 encrypted C2.
-*   **Deep Post-Exploitation Enumeration:** Native C enumeration suites (`android_lpe_enum.c` and `android-enum3.c`) perform offline CVE mapping, network stack auditing, virtualization detection, and extract crucial target information directly into a persistent central persona database.
+### 🤖 Android & Linux Exploitation
+An end-to-end weaponization pipeline bypassing modern EDR and AV engines:
+* **Polymorphic APK Crypter:** Deep Smali string encryption and dynamic JNI method rotation to defeat static YARA signatures.
+* **Native C Payload Generation:** Cross-compiles C payloads via the Android NDK, linking them into trojanized, legitimate APKs via JNI.
+* **Mass CVE Correlation Engine:** Offline database of 260+ vulnerabilities (e.g., Dirty Pipe, Dirty Cred) that fingerprints SoC, kernel, and SDK to pinpoint specific LPE vectors.
+* **"Ultra-Enum" System Auditor:** High-performance C auditor mapping container escapes, kernel leaks (`/proc/kallsyms`), and vulnerable device nodes (`/dev/binder`, `/dev/mali0`).
 
-### 🎭 **Advanced Delivery & OSINT Suite (2026 Upgrade)**
-SuperSploit now features a collection of stylish GUI-based standalone tools for payload delivery and intelligence gathering.
-*   **SuperSploit Mailer (GUI):** An advanced SMTP delivery system with live composition, .EML template loading, and built-in spoofing logic.
-*   **SMS Spoofing Suite (GUI):** A multi-protocol delivery engine supporting commercial APIs (Twilio/Sinch), Direct SIP (VoIP), and Free Email-to-SMS fallback gateways.
-*   **Web Stager & AitM (GUI):** Advanced harvester supporting static templates and live **Adversary-in-the-Middle (AitM)** proxying for real-time MFA and session cookie interception.
-*   **Mimic Vishing Suite (GUI):** Deepfake voice-spoofing module with integrated TTS and SIP audio streaming for automated, voice-spoofed social engineering calls.
-*   **Deep Metadata Scraper (GUI):** Extract hidden intelligence from documents (PDF/Office) and images (EXIF/GPS). Automatically uncovers embedded URLs and email addresses for target footprinting.
+### 📡 Advanced Command & Control (C2)
+* **Asynchronous HTTP Beacons:** Powered by Python's `asyncio` for zero-bottleneck concurrency.
+* **Military-Grade Cryptography:** 100% of C2 traffic is encapsulated in **AES-256-GCM** authenticated encryption wrapped inside Base64 and TLS, completely blinding packet inspectors to the payloads.
+* **Environment Pinning:** Native agents utilize `ptrace(PTRACE_TRACEME)` to detect debuggers/sandboxes, silently terminating before exposing cryptographic keys.
 
-### 🎯 **Automated Recon & Targeting**
-The framework accelerates the discovery phase using highly concurrent tools paired with a robust, synchronized database.
-*   **Asynchronous Port Scanner:** A high-speed, `asyncio`-driven scanner capable of sweeping thousands of ports concurrently. It implements Dual-Probe Service Detection (passive banner grabbing followed by active HTTP GET probes) and seamlessly parses full CIDR ranges.
-*   **Protocol Auto-Detection:** The C2 listener now automatically distinguishes between TLS and lightweight XOR-only connections, ensuring stable callbacks for both APK and Native C agents.
-*   **Smart Compiler Logic:** The `compile` command now automatically detects SuperSploit placeholders (`LHOST`, `XOR_KEY`) and injects active C2 configuration on-the-fly, while applying legacy Android linker compatibility.
-*   **Deep Analysis Suggestion Engine:** A `post_recon_hook` automatically correlates newly discovered target data with the exploit database. It utilizes a multi-factor scoring system to identify high-confidence vulnerabilities (CVE matching, Kernel matching, and Regex banner extraction).
-*   **Exhaustive OSINT Suite:** Perform automated social media and web reconnaissance via background dorking, phone lookups, and email searches, pushing discovered intelligence directly to persistent Profile/Target records and generating comprehensive PDF reports.
-*   **Intelligent State & Workspace Management:** An asynchronous sync mechanism seamlessly merges the in-memory target cache with the persistent `targets.json` and internal SQLite databases (`signatures.db`, `services.db`). Fully isolated workspaces ensure memory safety across separate engagements.
+### 🎣 Social Engineering & Phishing
+* **Advanced SMTP Suite:** Mass-phishing engine with HTML template injection, attachment bundling, and real-time CSV spear-phishing variable replacement.
+* **SMS & Vishing Deepfakes:** Delivers SMS payloads via SIP injection, Twilio, or Free Relays. Incorporates an automated gTTS voice-phishing engine over VoIP.
+* **Evil Twin / Rogue AP:** Automates `hostapd`/`dnsmasq` for credential harvesting with built-in `aireplay-ng` Deauthentication.
+* **Web Stager & AitM:** Transparent proxy harvester that sniffs credentials and dynamically injects JavaScript into the victim's DOM.
 
-### 🧩 **Hybrid Weaponization & Modularity**
-SuperSploit features a unique metadata parser (`#!#!#!`) that allows operators to rapidly develop custom exploits and payloads in **Python**, **C**, and **Bash**.
-*   **Dynamic C-Code Weaponization:** Python "Weaponizer" wrappers dynamically inject framework variables (LHOST, LPORT) into C source code templates before cross-compiling them on the fly (e.g., producing PIE-compliant ARM64 shellcode for iOS exploits or the CVE-2026-20700 Apple zero-day suite).
-*   **Universal Payload Generation:** A powerful engine ingests raw scripts, auto-injects networking values, obfuscates classes and functions, and generates web-safe Base64 Python one-liners directly mapped to the active C2 listener.
-*   **Interactive Modern CLI:** Features dynamic tab completion, workspace management, background job control (`jobs kill <id>`), and integrated `rich` tables for fluid, stylized terminal interaction.
+### 🥷 Post-Exploitation & Exfiltration
+* **Auto-Exfil Engine:** Instantly generates compressed payloads to harvest Chrome/Firefox cookies, WhatsApp message stores (`msgstore.db.crypt14`), Signal databases, and SSH keys.
+* **Persistence Manager:** Automated installation of systemless root backdoors via Magisk modules, Linux `systemd`, or `cron`.
+* **Proxy Pivot Routing:** Automated SOCKS5 tunneling (via Chisel) directly through active C2 connections to pivot into internal corporate networks.
+
+---
+
+## ⚙️ Core Framework Architecture
+
+* **Suggestion Engine (Auto-Suggest):** Uses a multi-factor heuristic algorithm to analyze targets (OS, Kernel, Services, Banners) and immediately suggest high-probability exploits.
+* **Hybrid Weaponizer:** Reads raw C exploit templates, calculates dynamic register alignments, and injects custom-generated Polymorphic XOR-packed shellcode directly into source files prior to cross-compilation.
+* **Intelligent State & Workspace Management:** An asynchronous sync mechanism seamlessly merges the in-memory target cache with the persistent `targets.json` and internal SQLite databases.
 
 ---
 
@@ -122,7 +125,6 @@ Session 1> load /path/to/post_exploit/keylogger.py
 ## 📚 Documentation & Configuration
 
 - **Global Variables**: Review `.data/.help/vars` for all configurable framework variables.
-- **Project AI Memory**: See `gemini.md` for historical and architectural context.
 - **Changelog**: Reference `CHANGELOG.md` under the `[Unreleased]` section for recent updates.
 - **Help Documentation**: All help files are stored in `.data/.help`.
 

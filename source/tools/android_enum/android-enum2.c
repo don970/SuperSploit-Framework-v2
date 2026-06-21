@@ -341,3 +341,12 @@ int main(int argc, char** argv) {
     printf(CYAN BOLD "\n[+] Exhaustive Audit Complete. Results mapping saved to session.\n" RESET);
     return 0;
 }
+/*
+#!#!#!
+name: "Exhaustive Android Security Audit Suite v3.0"
+description: "Deep-dive security audit of an Android device, focusing on LPE micro-cracks, kernel hardening bypasses, and high-value info leaks."
+category: "recon"
+author: "Donald Ford"
+os: "android"
+#!#!#!
+*/

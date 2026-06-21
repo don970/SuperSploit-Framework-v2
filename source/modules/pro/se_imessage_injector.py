@@ -1,6 +1,6 @@
 #!#!#!
 # name: Pro iMessage / RCS Injector
-# author: SuperSploit Dev Team
+# author: "Donald Ford"
 # description: Automates native macOS AppleScript to dispatch iMessages (Blue Bubbles) to target Apple IDs.
 # type: se_delivery
 # requirements: ["macOS Host or Bridged VM"]

@@ -1,6 +1,6 @@
 #!#!#!
 # name: Pro SMTP Spoofing Suite
-# author: SuperSploit Dev Team
+# author: "Donald Ford"
 # description: Advanced SMTP sender for spoofed phishing campaigns. Supports HTML templates and attachments.
 # type: se_delivery
 # requirements: []

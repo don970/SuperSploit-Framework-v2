@@ -11,6 +11,24 @@ import string
 import ssl
 import smtplib
 from email.message import EmailMessage
+import sys
+
+try:
+    from source.core.license_manager import LicenseManager
+except ImportError:
+    import os
+    framework_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+    if framework_root not in sys.path:
+        sys.path.append(framework_root)
+    try:
+        from source.core.license_manager import LicenseManager
+    except ImportError:
+        class LicenseManager:
+            @staticmethod
+            def gate_access(f):
+                print(f"\n[!] ACCESS DENIED: '{f}' is a SuperSploit Pro feature.")
+                print("[*] Standalone license validation failed. Please run via the main CLI.")
+                return False
 
 # Carrier Gateway Mapping (for Free Relay)
 GATEWAYS = {
@@ -41,7 +59,28 @@ class SMSSpoofingSuite:
             "🏦 Bank Alert (2FA)": "ALERT: Your [BANK_NAME] account has been locked due to suspicious activity. Verify identity here: http://[PHISH_URL]",
             "📦 Package Tracking": "Your package from [VENDOR] is held at our warehouse. Pay the $1.99 delivery fee to release: https://[PHISH_URL]",
             "🔐 Password Reset": "SuperSploit Security: A login was detected from a new device in [CITY]. If this was not you, reset your password: http://[PHISH_URL]",
-            "🎁 Lottery/Reward": "CONGRATS! You have been selected for a $1,000 gift card. Claim your reward at: http://[PHISH_URL]"
+            "🎁 Lottery/Reward": "CONGRATS! You have been selected for a $1,000 gift card. Claim your reward at: http://[PHISH_URL]",
+            "📱 Service Suspension": "Your [CARRIER] mobile service will be suspended today due to a billing error. Update your payment method immediately at: http://[PHISH_URL]",
+            "💳 Fraud Prevention": "Fraud Alert: Did you attempt a purchase of $[AMOUNT] at [STORE]? Reply Y or N. If NO, cancel the transaction here: http://[PHISH_URL]",
+            "💼 HR / Payroll": "Important update from HR: Action required regarding your W2 tax documents for [YEAR]. Review your employee portal: http://[PHISH_URL]",
+            "🚗 Toll / DMV": "[STATE] Toll Services: You have an unpaid toll invoice. Avoid late fees by paying the balance of $[AMOUNT] at http://[PHISH_URL]",
+            "⚠️ IT Support": "URGENT: Your corporate Office 365 password expires in 2 hours. Update your credentials to maintain access: http://[PHISH_URL]",
+            "🏥 Healthcare Update": "New secure message from your healthcare provider regarding your recent visit. View your test results here: http://[PHISH_URL]"
+        }
+
+        self.config = {
+            "mode": 0, # 0=HTTP, 1=SIP, 2=Free
+            "http_endpoint": "https://api.twilio.com/2010-04-01/Accounts/AC.../Messages",
+            "http_user": "",
+            "http_pass": "",
+            "sip_server": "127.0.0.1",
+            "sip_port": "5060",
+            "sip_user": "",
+            "sip_pass": "",
+            "free_host": "smtp.gmail.com",
+            "free_carrier": "verizon",
+            "free_user": "",
+            "free_pass": ""
         }
 
         self._build_ui()
@@ -69,74 +108,8 @@ class SMSSpoofingSuite:
         self.template_menu = ttk.OptionMenu(top_bar, self.template_var, *self.templates.keys(), command=self._apply_template)
         self.template_menu.pack(side=tk.LEFT, padx=5)
 
+        ttk.Button(top_bar, text="⚙️ Gateway Settings", command=self._open_settings).pack(side=tk.RIGHT, padx=5)
         ttk.Button(top_bar, text="🔍 Carrier/HLR Lookup", command=self._hlr_lookup).pack(side=tk.RIGHT, padx=5)
-
-        # --- 2. Gateway Configuration ---
-        config_frame = ttk.LabelFrame(main_frame, text=" ⚙️ Gateway Configuration ", padding="10")
-        config_frame.pack(fill=tk.X, pady=5)
-
-        self.gw_tabs = ttk.Notebook(config_frame)
-        self.gw_tabs.pack(fill=tk.X)
-
-        # Tab: HTTP API
-        self.tab_http = ttk.Frame(self.gw_tabs, padding="10")
-        self.gw_tabs.add(self.tab_http, text=" HTTP API ")
-
-        ttk.Label(self.tab_http, text="Endpoint:").grid(row=0, column=0, sticky=tk.W)
-        self.endpoint_entry = ttk.Entry(self.tab_http, width=60)
-        self.endpoint_entry.insert(0, "https://api.twilio.com/2010-04-01/Accounts/AC.../Messages")
-        self.endpoint_entry.grid(row=0, column=1, columnspan=3, padx=5, pady=2)
-
-        ttk.Label(self.tab_http, text="SID:").grid(row=1, column=0, sticky=tk.W)
-        self.user_entry = ttk.Entry(self.tab_http, width=25)
-        self.user_entry.grid(row=1, column=1, padx=5, pady=2)
-        ttk.Label(self.tab_http, text="Token:").grid(row=1, column=2, sticky=tk.W)
-        self.pass_entry = ttk.Entry(self.tab_http, width=25, show="*")
-        self.pass_entry.grid(row=1, column=3, padx=5, pady=2)
-
-        # Tab: Direct SIP (Paid/Private)
-        self.tab_sip = ttk.Frame(self.gw_tabs, padding="10")
-        self.gw_tabs.add(self.tab_sip, text=" Direct SIP (Paid) ")
-
-        ttk.Label(self.tab_sip, text="SIP Server:").grid(row=0, column=0, sticky=tk.W)
-        self.sip_server = ttk.Entry(self.tab_sip, width=30)
-        self.sip_server.insert(0, "127.0.0.1")
-        self.sip_server.grid(row=0, column=1, padx=5)
-        ttk.Label(self.tab_sip, text="Port:").grid(row=0, column=2, sticky=tk.W)
-        self.sip_port = ttk.Entry(self.tab_sip, width=10)
-        self.sip_port.insert(0, "5060")
-        self.sip_port.grid(row=0, column=3, padx=5)
-
-        ttk.Label(self.tab_sip, text="SIP User:").grid(row=1, column=0, sticky=tk.W)
-        self.sip_user = ttk.Entry(self.tab_sip, width=30)
-        self.sip_user.grid(row=1, column=1, padx=5, pady=5)
-        ttk.Label(self.tab_sip, text="SIP Pass:").grid(row=1, column=2, sticky=tk.W)
-        self.sip_pass = ttk.Entry(self.tab_sip, width=25, show="*")
-        self.sip_pass.grid(row=1, column=3, padx=5)
-
-        # Tab: Free Relay (Wi-Fi)
-        self.tab_free = ttk.Frame(self.gw_tabs, padding="10")
-        self.gw_tabs.add(self.tab_free, text=" Free Relay (Wi-Fi) ")
-
-        ttk.Label(self.tab_free, text="SMTP Host:").grid(row=0, column=0, sticky=tk.W)
-        self.smtp_host = ttk.Entry(self.tab_free, width=30)
-        self.smtp_host.insert(0, "smtp.gmail.com")
-        self.smtp_host.grid(row=0, column=1, padx=5)
-
-        ttk.Label(self.tab_free, text="Carrier:").grid(row=0, column=2, sticky=tk.W)
-        self.carrier_var = tk.StringVar(value="verizon")
-        carriers = list(GATEWAYS.keys())
-        ttk.OptionMenu(self.tab_free, self.carrier_var, carriers[0], *carriers).grid(row=0, column=3)
-
-        ttk.Label(self.tab_free, text="Email User:").grid(row=1, column=0, sticky=tk.W)
-        self.free_user = ttk.Entry(self.tab_free, width=30)
-        self.free_user.grid(row=1, column=1, padx=5, pady=5)
-        ttk.Label(self.tab_free, text="App Pass:").grid(row=1, column=2, sticky=tk.W)
-        self.free_pass = ttk.Entry(self.tab_free, width=25, show="*")
-        self.free_pass.grid(row=1, column=3, padx=5)
-
-        ttk.Button(config_frame, text="🚀 Setup Paid Relay", command=self._set_paid_relay).pack(side=tk.LEFT, padx=5, pady=5)
-        ttk.Button(config_frame, text="🪄 Use Local Fake Server", command=self._set_fake_server).pack(side=tk.LEFT, padx=5, pady=5)
 
         # --- 3. Message Composition ---
         msg_frame = ttk.LabelFrame(main_frame, text=" ✉️ Message Composition ", padding="10")
@@ -170,18 +143,87 @@ class SMSSpoofingSuite:
         self.console = scrolledtext.ScrolledText(log_frame, bg="black", fg="#00FF00", font=("Courier", 9))
         self.console.pack(fill=tk.BOTH, expand=True)
 
+    def _open_settings(self):
+        win = tk.Toplevel(self.root)
+        win.title("Gateway Configuration")
+        win.geometry("550x350")
+        win.transient(self.root)
+        win.grab_set()
+        
+        gw_tabs = ttk.Notebook(win)
+        gw_tabs.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # HTTP
+        tab_http = ttk.Frame(gw_tabs, padding="10")
+        gw_tabs.add(tab_http, text=" HTTP API ")
+        ttk.Label(tab_http, text="Endpoint:").grid(row=0, column=0, sticky=tk.W)
+        e_http_end = ttk.Entry(tab_http, width=50); e_http_end.insert(0, self.config["http_endpoint"]); e_http_end.grid(row=0, column=1, columnspan=3, pady=5)
+        ttk.Label(tab_http, text="SID/User:").grid(row=1, column=0, sticky=tk.W)
+        e_http_usr = ttk.Entry(tab_http, width=20); e_http_usr.insert(0, self.config["http_user"]); e_http_usr.grid(row=1, column=1, pady=5)
+        ttk.Label(tab_http, text="Token/Pass:").grid(row=1, column=2, sticky=tk.W)
+        e_http_pwd = ttk.Entry(tab_http, width=20, show="*"); e_http_pwd.insert(0, self.config["http_pass"]); e_http_pwd.grid(row=1, column=3, pady=5)
+
+        # SIP
+        tab_sip = ttk.Frame(gw_tabs, padding="10")
+        gw_tabs.add(tab_sip, text=" Direct SIP (Paid) ")
+        ttk.Label(tab_sip, text="SIP Server:").grid(row=0, column=0, sticky=tk.W)
+        e_sip_srv = ttk.Entry(tab_sip, width=20); e_sip_srv.insert(0, self.config["sip_server"]); e_sip_srv.grid(row=0, column=1, pady=5)
+        ttk.Label(tab_sip, text="Port:").grid(row=0, column=2, sticky=tk.W)
+        e_sip_prt = ttk.Entry(tab_sip, width=10); e_sip_prt.insert(0, self.config["sip_port"]); e_sip_prt.grid(row=0, column=3, pady=5)
+        ttk.Label(tab_sip, text="SIP User:").grid(row=1, column=0, sticky=tk.W)
+        e_sip_usr = ttk.Entry(tab_sip, width=20); e_sip_usr.insert(0, self.config["sip_user"]); e_sip_usr.grid(row=1, column=1, pady=5)
+        ttk.Label(tab_sip, text="SIP Pass:").grid(row=1, column=2, sticky=tk.W)
+        e_sip_pwd = ttk.Entry(tab_sip, width=20, show="*"); e_sip_pwd.insert(0, self.config["sip_pass"]); e_sip_pwd.grid(row=1, column=3, pady=5)
+
+        # Free
+        tab_free = ttk.Frame(gw_tabs, padding="10")
+        gw_tabs.add(tab_free, text=" Free Relay (Wi-Fi) ")
+        ttk.Label(tab_free, text="SMTP Host:").grid(row=0, column=0, sticky=tk.W)
+        e_free_hst = ttk.Entry(tab_free, width=20); e_free_hst.insert(0, self.config["free_host"]); e_free_hst.grid(row=0, column=1, pady=5)
+        ttk.Label(tab_free, text="Carrier:").grid(row=0, column=2, sticky=tk.W)
+        free_car_var = tk.StringVar(value=self.config["free_carrier"])
+        ttk.Combobox(tab_free, textvariable=free_car_var, values=list(GATEWAYS.keys()), width=15).grid(row=0, column=3, pady=5)
+        ttk.Label(tab_free, text="Email User:").grid(row=1, column=0, sticky=tk.W)
+        e_free_usr = ttk.Entry(tab_free, width=20); e_free_usr.insert(0, self.config["free_user"]); e_free_usr.grid(row=1, column=1, pady=5)
+        ttk.Label(tab_free, text="App Pass:").grid(row=1, column=2, sticky=tk.W)
+        e_free_pwd = ttk.Entry(tab_free, width=20, show="*"); e_free_pwd.insert(0, self.config["free_pass"]); e_free_pwd.grid(row=1, column=3, pady=5)
+        
+        gw_tabs.select(self.config["mode"])
+
+        def save_config():
+            self.config["mode"] = gw_tabs.index(gw_tabs.select())
+            self.config["http_endpoint"] = e_http_end.get()
+            self.config["http_user"] = e_http_usr.get()
+            self.config["http_pass"] = e_http_pwd.get()
+            self.config["sip_server"] = e_sip_srv.get()
+            self.config["sip_port"] = e_sip_prt.get()
+            self.config["sip_user"] = e_sip_usr.get()
+            self.config["sip_pass"] = e_sip_pwd.get()
+            self.config["free_host"] = e_free_hst.get()
+            self.config["free_carrier"] = free_car_var.get()
+            self.config["free_user"] = e_free_usr.get()
+            self.config["free_pass"] = e_free_pwd.get()
+            self.log("[*] Gateway Configuration securely saved in memory.")
+            win.destroy()
+
+        btn_f = ttk.Frame(win)
+        btn_f.pack(fill=tk.X, padx=10, pady=5)
+        ttk.Button(btn_f, text="💾 Save & Select", command=save_config).pack(side=tk.RIGHT)
+        ttk.Button(btn_f, text="🪄 Use Fake Server", command=self._set_fake_server).pack(side=tk.LEFT)
+        ttk.Button(btn_f, text="🚀 Use Paid Relay", command=self._set_paid_relay).pack(side=tk.LEFT, padx=5)
+
     def _set_fake_server(self):
-        self.endpoint_entry.delete(0, tk.END)
-        self.endpoint_entry.insert(0, "http://127.0.0.1:8001/sms")
-        self.sip_server.delete(0, tk.END)
-        self.sip_server.insert(0, "127.0.0.1")
-        self.log("[*] Switched to Local Fake VoIP Server presets.")
+        self.config["mode"] = 0
+        self.config["http_endpoint"] = "http://127.0.0.1:8001/sms"
+        self.config["sip_server"] = "127.0.0.1"
+        self.log("[*] Switched to Local Fake VoIP Server presets in memory.")
+        messagebox.showinfo("Config Updated", "Fake Server preset applied. Save window to commit.")
 
     def _set_paid_relay(self):
-        self.gw_tabs.select(1)
-        self.sip_server.delete(0, tk.END)
-        self.sip_server.insert(0, "127.0.0.1")
-        self.log("[*] Pointed Direct SIP to local Paid Relay proxy.")
+        self.config["mode"] = 1
+        self.config["sip_server"] = "127.0.0.1"
+        self.log("[*] Pointed Direct SIP to local Paid Relay proxy in memory.")
+        messagebox.showinfo("Config Updated", "Paid Relay preset applied. Save window to commit.")
 
     def _apply_template(self, selection):
         if selection in self.templates:
@@ -210,8 +252,10 @@ class SMSSpoofingSuite:
 
     def log(self, msg):
         timestamp = time.strftime("%H:%M:%S")
-        self.console.insert(tk.END, f"[{timestamp}] {msg}\n")
-        self.console.see(tk.END)
+        def _update():
+            self.console.insert(tk.END, f"[{timestamp}] {msg}\n")
+            self.console.see(tk.END)
+        self.root.after(0, _update)
 
     def _start_delivery(self):
         self.send_btn.config(state=tk.DISABLED)
@@ -263,7 +307,7 @@ class SMSSpoofingSuite:
             return f"[-] Free Relay SMTP Error: {e}"
 
     def _delivery_logic(self):
-        mode = self.gw_tabs.index(self.gw_tabs.select()) # 0=HTTP, 1=SIP, 2=Free
+        mode = self.config["mode"]
         body = self.body_text.get(1.0, tk.END).strip()
         sender = self.sender_entry.get().strip()
         
@@ -271,40 +315,52 @@ class SMSSpoofingSuite:
         if self.target_csv.get():
             try:
                 with open(self.target_csv.get(), 'r') as f:
-                    reader = csv.reader(f)
-                    targets = [row[0] for row in reader if row]
+                    reader = csv.DictReader(f)
+                    targets = [row for row in reader]
             except Exception as e: self.log(f"[-] CSV Error: {e}")
-        else: targets = [self.recipient_entry.get().strip()]
+        else: targets = [{"Phone": self.recipient_entry.get().strip()}]
 
-        if not targets[0] or not body:
-            messagebox.showerror("Error", "Missing Recipient or Body.")
-            self.send_btn.config(state=tk.NORMAL)
+        if not targets or not body:
+            def _err():
+                messagebox.showerror("Error", "Missing Recipient or Body.")
+                self.send_btn.config(state=tk.NORMAL)
+            self.root.after(0, _err)
             return
 
         self.log(f"[*] Initiating sequence for {len(targets)} recipient(s)...")
 
-        for target in targets:
+        for t_dict in targets:
+            # Intelligently find the phone number column
+            phone_key = next((k for k in t_dict.keys() if 'phone' in k.lower() or 'number' in k.lower()), list(t_dict.keys())[0])
+            target_num = t_dict[phone_key]
+            
+            # Dynamic Parameter Injection (Spear-Phishing)
+            personalized_body = body
+            for key, val in t_dict.items():
+                personalized_body = personalized_body.replace(f"[{key}]", val)
+
             if mode == 0: # HTTP
                 try:
-                    payload = {'To': target, 'From': sender, 'Body': body}
-                    r = requests.post(self.endpoint_entry.get(), data=payload, auth=(self.user_entry.get(), self.pass_entry.get()), timeout=10)
-                    if r.status_code in [200, 201]: self.log(f"[+] HTTP SUCCESS: {target}")
-                    else: self.log(f"[-] HTTP FAIL: {target} | {r.status_code}")
-                except Exception as e: self.log(f"[-] HTTP ERR: {target} | {str(e)}")
+                    payload = {'To': target_num, 'From': sender, 'Body': personalized_body}
+                    r = requests.post(self.config["http_endpoint"], data=payload, auth=(self.config["http_user"], self.config["http_pass"]), timeout=10)
+                    if r.status_code in [200, 201]: self.log(f"[+] HTTP SUCCESS: {target_num}")
+                    else: self.log(f"[-] HTTP FAIL: {target_num} | {r.status_code}")
+                except Exception as e: self.log(f"[-] HTTP ERR: {target_num} | {str(e)}")
             elif mode == 1: # SIP
-                self._send_sip_message(self.sip_server.get(), self.sip_port.get(), sender, body, target)
-                self.log(f"[+] SIP MESSAGE Dispatch: {target}")
+                self._send_sip_message(self.config["sip_server"], self.config["sip_port"], sender, personalized_body, target_num)
+                self.log(f"[+] SIP MESSAGE Dispatch: {target_num}")
             else: # Free (Email-to-SMS)
-                import smtplib
-                res = self._send_free_sms(target, self.carrier_var.get(), body, self.smtp_host.get(), 587, self.free_user.get(), self.free_pass.get())
+                res = self._send_free_sms(target_num, self.config["free_carrier"], personalized_body, self.config["free_host"], 587, self.config["free_user"], self.config["free_pass"])
                 self.log(res)
 
             if len(targets) > 1: time.sleep(1)
 
         self.log("[+] Sequence complete.")
-        self.send_btn.config(state=tk.NORMAL)
+        self.root.after(0, lambda: self.send_btn.config(state=tk.NORMAL))
 
 if __name__ == "__main__":
+    if not LicenseManager.gate_access("SMS Spoofing Suite"):
+        sys.exit(1)
     root = tk.Tk()
     app = SMSSpoofingSuite(root)
     root.mainloop()

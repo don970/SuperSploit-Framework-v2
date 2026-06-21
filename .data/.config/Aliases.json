@@ -16,6 +16,9 @@
     "free-relay": "python3 /home/donald/.SuperSploit/source/tools/VoIP/free_relay.py",
     "paid-relay": "python3 /home/donald/.SuperSploit/source/tools/VoIP/paid_relay.py",
     "sip-srv": "python3 /home/donald/.SuperSploit/source/tools/VoIP/sip_server.py",
+    "evil_twin": "python3 /home/donald/.SuperSploit/source/tools/SE/evil_twin_gui.py",
+    "smtp_spoof": "python3 /home/donald/.SuperSploit/source/tools/SE/smtp_spoof.py",
+    "native_builder": "python3 /home/donald/.SuperSploit/source/core/native_apk_generator.py",
     "nmapDb": "/home/donald/.SuperSploit/.data/.config/nmap-os-db.txt",
     "payloads": "/home/donald/.SuperSploit/payloads",
     "recon": "/home/donald/.SuperSploit/recon",
@@ -23,5 +26,9 @@
     "ss": "/home/donald/.SuperSploit",
     "targets": "/home/donald/.SuperSploit/.data/.config/targets.json",
     "templates": "/home/donald/.SuperSploit/templates",
-    "~": "/home/donald"
+    "~": "/home/donald",
+    "exfil": "python3 /home/donald/.SuperSploit/source/tools/PostExploitation/exfil_gui.py",
+    "persistence": "python3 /home/donald/.SuperSploit/source/tools/PostExploitation/persistence_gui.py",
+    "pivot": "python3 /home/donald/.SuperSploit/source/tools/PostExploitation/pivot_manager.py",
+    "apk-crypter": "python3 /home/donald/.SuperSploit/source/tools/android_payload_generators/apk_crypter.py"
 }

@@ -1,6 +1,23 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import os
+import sys
+
+try:
+    from source.core.license_manager import LicenseManager
+except ImportError:
+    framework_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+    if framework_root not in sys.path:
+        sys.path.append(framework_root)
+    try:
+        from source.core.license_manager import LicenseManager
+    except ImportError:
+        class LicenseManager:
+            @staticmethod
+            def gate_access(f):
+                print(f"\n[!] ACCESS DENIED: '{f}' is a SuperSploit Pro feature.")
+                print("[*] Standalone license validation failed. Please run via the main CLI.")
+                return False
 
 try:
     import qrcode
@@ -82,6 +99,8 @@ class QRGUI:
             messagebox.showerror("Generation Error", str(e))
 
 if __name__ == "__main__":
+    if not LicenseManager.gate_access("Malicious QR Generator"):
+        sys.exit(1)
     root = tk.Tk()
     app = QRGUI(root)
     root.mainloop()

