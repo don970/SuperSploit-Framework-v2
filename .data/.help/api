@@ -1,0 +1,26 @@
+
+Command: api
+Description: Manages the SuperSploit Command Center REST API and remote tunneling.
+
+Usage:
+  api start    - Launches the Flask API server and an automated ngrok tunnel.
+  api stop     - Terminates the background API server and ngrok process.
+  api status   - Displays the current status of the API server and the public ngrok URL.
+
+Description:
+  The Command Center API provides a secure gateway for external tools, such as the 
+  SuperSploit OSINT Mobile app, to interact with the framework remotely. 
+
+  When 'api start' is executed:
+  1. A Flask REST API server is started on port 8443.
+  2. An ngrok tunnel is initialized to provide a public HTTPS URL.
+  3. A secure API Key is generated/displayed for mobile app authentication.
+
+Remote Access:
+  The public URL displayed by 'api status' can be used on any 5G/GSM or external 
+  network to reach your local SuperSploit instance.
+
+Security:
+  - All requests must include the 'X-API-Key' header.
+  - API Key is stored in: .data/.config/api_config.json
+  - Tunneling is handled via ngrok (requires account configuration).

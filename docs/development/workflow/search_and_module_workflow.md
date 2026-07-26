@@ -18,11 +18,15 @@ This document describes how the SuperSploit framework handles searching for, loa
                             |
                             +--> Walks through all files with a `.py` or `.sh` extension.
                             |
-                            +--> Reads the metadata block (`#!#!#!`) of each file.
+                            +--> **Performance Branching**: 
+                            |    +--> For Exploits/Recon: Reads the top of the file for the `#!#!#!` block.
+                            |    +--> For Pro Tools: Uses `os.SEEK_END` to rapidly read the bottom-anchored `# === TOOL_META ===` block without loading massive GUI scripts into RAM.
                             |
-                            +--> Extracts fields like `name`, `desc`, and `keywords`.
+                            +--> Parses fields like `name`, `desc`, `cve`, and `keywords` into the `ExploitCache` dictionary.
                             |
-                            +--> Performs a case-insensitive match against the user's query ("smb").
+                            +--> Uses `shlex` to parse the user's query, supporting exact phrase matching (`"Dirty Pipe"`) and Key-Value filters (`os=linux`).
+                            |
+                            +--> Enforces implicit `AND` logic across multiple search terms.
                             |
                             +--> Formats and prints a tabulated list of matching modules.
 

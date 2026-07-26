@@ -45,6 +45,9 @@ The core of the engine is a multi-factor scoring system that correlates target p
                 +--> **Requirement Match (+15 each):** Checks specific environmental requirements (e.g., target must have `/dev/binder` accessible).
                 |
                 +--> The total score for the Target/Exploit pair is calculated.
+    |
+    +--> **Tool Cross-Referencing**: Analyzes open ports against the `source/tools/` cache.
+         (e.g., Open Port 53 triggers a high-confidence suggestion for `use tools/web/dns_patcher`).
 
 ## Suggestion Output
 

@@ -29,8 +29,25 @@ Use the `set` command to adjust compilation behavior:
 
 - **set COMP_STATIC <true/false>**: Toggle static linking (`-static`) for maximum binary portability (default: false).
 
+- **set OLLVM_ENABLED <true/false>**: If true, applies Obfuscator-LLVM flags (Control Flow Flattening) during compilation. Requires an OLLVM-compatible compiler.
+
 - **set COMP_OUT <path>**: Sets a custom output path for the compiled binary.
   - Defaults to `payloads/<filename>_<arch>`.
+
+---
+
+## 🧠 SMART VARIABLE INJECTION
+The `compile` command automatically detects SuperSploit-specific placeholders in your C source and replaces them with active configuration values:
+- **Macro Injection**: Automatically updates `#define LHOST`, `#define LPORT`, and `#define XOR_KEY`.
+- **Jinja Replacement**: Replaces `{{LHOST}}`, `{{LPORT}}`, etc., for template compatibility.
+- **Include Path**: Automatically adds the source file's original directory to the include path (-I) to ensure local headers are found.
+
+---
+
+## 📱 LEGACY ANDROID COMPATIBILITY
+When `COMP_ARCH` is set to an `android` variant, the compiler automatically applies:
+- **-pie**: Position Independent Executable (Required for modern Android).
+- **-Wl,--hash-style=sysv**: Ensures the binary can be loaded by legacy Android linkers (e.g. Android 6.0/7.0).
 
 ---
 *Tip: Cross-compilers (like `aarch64-linux-gnu-gcc`) must be installed on your system unless using the Android NDK fallback.*

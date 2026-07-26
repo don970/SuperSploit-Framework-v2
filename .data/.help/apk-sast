@@ -1,0 +1,15 @@
+======================================================================
+[ SuperSploit Pro ] APK SAST Scanner
+======================================================================
+Description:
+  Static Application Security Testing (SAST) GUI for Android APKs.
+  Integrates apktool for 1-click dynamic decompilation of raw .apk files
+  and analyzes Smali (including multidex), XML, and resources for:
+    - Hardcoded AWS/API Secrets & JWTs
+    - Weak Cryptography (MD5, AES/ECB, DES) across 1500-char context windows
+    - Insecure Manifest & networkSecurityConfig (Cleartext traffic, User-Cert trust)
+    - Exported components (Mapped directly to their underlying .smali paths)
+
+Usage:
+  apk-sast
+======================================================================

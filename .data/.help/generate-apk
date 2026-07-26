@@ -24,11 +24,14 @@ The generate-apk command utilizes a high-performance **Native C Architecture** t
 ## ⚙️ CONFIGURABLE PARAMETERS (via set)
 - LHOST / LPORT: Mandatory callback address for the APK stager.
 - APP_NAME: Spoofs the installed application's title (Stub mode only).
-- APK_ARCH: Target CPU architecture (arm64, armv7, x86_64, x86, or all).
+- APK_ARCH: Target CPU architecture (arm64, armv7, x86_64, x86, or all). Use armv7 for legacy 32-bit tablets.
+- OLLVM_ENABLED: Toggle advanced obfuscation (true/false).
 
 ---
 
 ## 🛡️ SAFETY & STEALTH CONSIDERATIONS
-- Trojanization: Injecting into a legitimate APK (e.g., `inject=original_app.apk`) significantly increases stealth by inheriting the original app's icon, package name, and permissions.
-- Native Execution: Implemented via JNI for low-level shell operations, bypassing many high-level Android security filters.
-- No Dependencies: The resulting payload does not require Python or any other runtime on the target device.
+- **Polymorphic Signature Rotation**: Every build automatically randomizes native library names and JNI method signatures, preventing static detection by Play Protect.
+- **OLLVM Support**: When `OLLVM_ENABLED` is true, the generator applies Control Flow Flattening (-fla), Bogus Control Flow (-bcf), and Instruction Substitution (-sub) to break static analysis.
+- **Environment Pinning**: Native payloads automatically check for debuggers and sandboxes via ptrace and uptime checks.
+- **Trojanization**: Injecting into a legitimate APK (e.g., `inject=original_app.apk`) significantly increases stealth by inheriting the original app's icon, package name, and permissions.
+- **Native Execution**: Implemented via JNI for low-level shell operations, bypassing many high-level Android security filters.

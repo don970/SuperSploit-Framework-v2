@@ -27,11 +27,18 @@ SuperSploit supports four specialized payload variants, available in both the **
 ## 4. ⚡ ROOTKIT (High-Privilege Manager)
 **Lure Theme:** 'SuperUser' Manager or Headless System Service.
 **Best For:** Devices where root is expected or achieved via LPE.
-- **Mechanism:** Requests the "Omni-Permission" set (60+ privileges) during installation.
-- **Capability:** 
-    - **Persistence:** Integrates with Magisk `service.d` for boot-time persistence.
-    - **Privilege:** Specifically designed to run `auto_root` and manage root-level tasks like `dump_wifi` or `dump_chrome`.
+- **Mechanism**: Requests the "Omni-Permission" set (60+ privileges) during installation.
+- **Capability**: 
+    - **Persistence**: Integrates with Magisk `service.d` OR supports **Phantom Library Hijack** for invisible boot-time persistence.
+    - **Privilege**: Specifically designed to run `auto_root` and manage root-level tasks like `dump_wifi` or `dump_chrome`.
+
 - **Note:** Operates best when hidden (`set HIDE_ICON true`) or presented as a legitimate administrative tool.
+
+## 5. 👻 PHANTOM AGENT (Native C)
+**Best For:** Unrestricted root persistence and zero-disk forensic posture.
+- **Mechanism:** 100% native C binary executed via `memfd_create` or Magisk `service.d`.
+- **Capability:** Stealthy background daemon with process masking (`[kworker]`), anti-debug, and XOR+Base64 encrypted C2.
+- **Commands:** Native `pwd`, `id`, `whoami`, and binary-aware `upload` support.
 
 ---
 

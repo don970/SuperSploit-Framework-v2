@@ -97,7 +97,7 @@ void print_ssl_error() {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s <url>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <url> [front_domain]\n", argv[0]);
         return 1;
     }
 
@@ -107,6 +107,7 @@ int main(int argc, char* argv[]) {
     }
 
     char* url = argv[1];
+    char* front_domain = (argc > 2) ? argv[2] : NULL;
     char host[256];
     char path[1024] = "/";
     int port = 80;
@@ -138,9 +139,11 @@ int main(int argc, char* argv[]) {
         port = atoi(colon + 1);
     }
 
-    struct hostent* server = gethostbyname(host);
+    // Domain Fronting Logic: Resolve the front domain if provided
+    char* dns_host = front_domain ? front_domain : host;
+    struct hostent* server = gethostbyname(dns_host);
     if (!server) {
-        fprintf(stderr, "[-] Error: Resolve failed for %s\n", host);
+        fprintf(stderr, "[-] Error: Resolve failed for %s\n", dns_host);
         return 1;
     }
 
@@ -172,11 +175,12 @@ int main(int argc, char* argv[]) {
 
         ssl = p_SSL_new(ctx);
         
-        // SNI Support
+        // SNI Support: Use front_domain for SNI if provided
+        char* sni_host = front_domain ? front_domain : host;
         if (p_SSL_set_tlsext_host_name) {
-            p_SSL_set_tlsext_host_name(ssl, host);
+            p_SSL_set_tlsext_host_name(ssl, sni_host);
         } else if (p_SSL_ctrl) {
-            p_SSL_ctrl(ssl, 55, 0, (char *)host);
+            p_SSL_ctrl(ssl, 55, 0, (char *)sni_host);
         }
 
         p_SSL_set_fd(ssl, sockfd);

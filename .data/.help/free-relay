@@ -1,0 +1,41 @@
+# 🆓 SUPERSPLOIT FREE RELAY (Wi-Fi SMS)
+The Free Relay is a standalone delivery tool that leverages carrier-specific Email-to-SMS gateways to send text messages for free over Wi-Fi.
+
+---
+
+## 🚀 LAUNCHING THE RELAY
+Run the following command from the SuperSploit CLI:
+`free-relay <number> <carrier> "<message>"`
+
+Or use the **Free Relay** tab in the SMS Suite GUI (`sms`).
+
+---
+
+## 🛠️ KEY FEATURES
+- **Zero Cost:** Uses standard SMTP (Email) to deliver messages to real phone numbers.
+- **Carrier Support:** Supports major carriers including Verizon, AT&T, T-Mobile, and Sprint.
+- **Anonymity:** The message appears on the target device as a standard SMS, but the sender is identified as an email address (e.g., `your-spoof@gmail.com`).
+
+---
+
+## 📋 SUPPORTED CARRIERS
+- verizon
+- att
+- tmobile
+- sprint
+- boost
+- cricket
+
+---
+
+## 🛡️ CONFIGURATION
+- **SMTP Server:** Recommended to use `smtp.gmail.com:587` with a Google App Password for maximum reliability.
+- **Target Format:** Recipient numbers should be entered in 10-digit format (e.g., `5551234567`).
+
+---
+
+## 🧪 TESTING
+1.  Launch the SMS Suite GUI (`sms`).
+2.  Switch to the **Free Relay (Wi-Fi)** tab.
+3.  Enter your SMTP credentials and select a carrier.
+4.  Click **SEND NOW**.

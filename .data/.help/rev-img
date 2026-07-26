@@ -1,0 +1,14 @@
+======================================================================
+[ SuperSploit Pro ] Advanced Reverse Image OSINT
+======================================================================
+Description:
+  A bleeding-edge OSINT suite for automated reverse image intelligence.
+  - Calculates MD5 and SHA-256 for malware cross-referencing.
+  - Anonymously stages the target image to an ephemeral server.
+  - Dynamically constructs correlation queries for Google Lens, Yandex 
+    (Facial Recognition), Bing, and TinEye simultaneously.
+  - Automates multi-tab browser launching for high-speed intelligence gathering.
+
+Usage:
+  rev-img
+======================================================================

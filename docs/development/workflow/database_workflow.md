@@ -2,7 +2,7 @@
 
 This document outlines the flow of data within the SuperSploit framework, managed by the `DatabaseManagment` class in `source/core/database.py`.
 
-## Data Write/Update Flow
+## 1. Data Write/Update Flow (SQLite Engine)
 
 [User Input: "set R_HOST 192.168.1.1"]
     |
@@ -22,11 +22,11 @@ This document outlines the flow of data within the SuperSploit framework, manage
                                   |
                                   +--> source/core/database.py (DatabaseManagment.update)
                                         |
-                                        +--> Updates the central `db` dictionary (e.g., `db["R_HOST"] = "192.168.1.1"`).
+                                        +--> Modifies the `SQLiteDict` wrapper, directly executing an `UPDATE` or `INSERT` statement into `data.db`.
 
-## Data Synchronization to Disk
+## 2. Target Synchronization & Background Caching
 
-The in-memory database is periodically synchronized to on-disk JSON files for persistence.
+While operational configurations are written instantly to SQLite, dynamic target reconnaissance data is buffered in memory to prevent database lock contention.
 
 [Any action that modifies target data (e.g., a recon module run)]
     |
@@ -40,6 +40,6 @@ The in-memory database is periodically synchronized to on-disk JSON files for pe
                       |
                       +--> Opens the on-disk database file (e.g., `.data/.config/targets.json`).
                       |
-                      +--> Uses `json.dump()` to write the entire in-memory `TARGETS` dictionary to the file, overwriting its previous contents.
+                      +--> Uses a thread-safe `json.dump(indent=4)` to serialize the in-memory `TARGETS` dictionary to the file.
                       |
                       +--> The file is closed, persisting the changes.

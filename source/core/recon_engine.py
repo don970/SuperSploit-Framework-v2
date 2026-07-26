@@ -61,7 +61,7 @@ class Recon:
         current_targets = DatabaseManagment.getTargets()
         
         # Execute post-recon hooks to suggest exploits based on newly discovered data
-        PostReconHook.check_for_new_targets(previous_target_count)
+        PostReconHook.run_hook()
 
     def run(self):
         """Dynamically loads the cleaned script buffer into memory as a standard user."""

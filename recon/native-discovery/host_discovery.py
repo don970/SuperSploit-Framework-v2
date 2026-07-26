@@ -11,7 +11,23 @@ import json
 import os
 import platform
 import sqlite3
+import sys
 import subprocess
+
+# Dynamically resolve the source directory relative to this script's location
+current_dir = os.path.dirname(os.path.abspath(__file__))
+framework_root = os.path.abspath(os.path.join(current_dir, "..", ".."))
+source_dir = os.path.join(framework_root, "source")
+
+if source_dir not in sys.path:
+    sys.path.append(source_dir)
+
+# Try to import framework modules
+try:
+    from core.database import DatabaseManagment
+    has_db_manager = True
+except ImportError:
+    has_db_manager = False
 
 # Limit concurrent tasks to prevent file descriptor exhaustion
 CONCURRENCY_LIMIT = 250
@@ -73,87 +89,105 @@ def sweep_arp(active_ips):
         return {}
 
 def get_target():
-    """Retrieve R_HOST from the SuperSploit SQLite database."""
-    try:
-        # recon_engine.py replaces __file__ with the true original path
-        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-        db_path = os.path.join(base_dir, ".data", ".config", "data.db")
-    except NameError:
-        db_path = os.path.expanduser("~/.SuperSploit/.data/.config/data.db")
-        
-    if not os.path.exists(db_path):
-        db_path = os.path.expanduser("~/.SuperSploit/.data/.config/data.db")
-
-    if not os.path.exists(db_path):
-        return None
-    
-    conn = None
-    try:
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-        
-        # Dynamically find the table name since it may not be 'unnamed'
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-        tables = cursor.fetchall()
-        
-        for table in tables:
-            table_name = table[0]
-            cursor.execute(f'SELECT value FROM "{table_name}" WHERE key=?', ("R_HOST",))
-            row = cursor.fetchone()
-            if row:
-                try:
-                    return json.loads(row[0])
-                except (json.JSONDecodeError, TypeError):
-                    return row[0]
-    except Exception as e:
-        print(f"[-] Database read error: {e}")
-    finally:
-        if conn:
-            conn.close()
-    return None
-
-def save_targets(active_hosts, arp_mappings):
-    """Save discovered targets to the framework's targets.json database."""
-    try:
-        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-        targets_path = os.path.join(base_dir, ".data", ".config", "targets.json")
-    except NameError:
-        targets_path = os.path.expanduser("~/.SuperSploit/.data/.config/targets.json")
-        
-    if not os.path.exists(os.path.dirname(targets_path)):
-        targets_path = os.path.expanduser("~/.SuperSploit/.data/.config/targets.json")
-
-    existing_data = {"TARGETS": {}}
-    if os.path.exists(targets_path):
+    """Retrieve R_HOST from the SuperSploit database."""
+    if has_db_manager:
         try:
-            with open(targets_path, "r", encoding="utf-8") as f:
-                existing_data = json.load(f)
-                if "TARGETS" not in existing_data:
-                    existing_data["TARGETS"] = {}
+            return DatabaseManagment.get().get("R_HOST")
         except Exception:
             pass
 
-    targets = existing_data["TARGETS"]
-    new_count = 0
-
-    for ip in active_hosts:
-        if ip not in targets:
-            targets[ip] = {}
-            new_count += 1
-        
-        targets[ip]["status"] = "up"
-        
-        mac_info = arp_mappings.get(ip)
-        if mac_info:
-            targets[ip]["arp_record"] = mac_info
-
+    # Fallback to manual SQLite read if DB manager is unavailable
     try:
+        db_path = os.path.join(framework_root, ".data", ".config", "data.db")
+        if not os.path.exists(db_path):
+            db_path = os.path.expanduser("~/.SuperSploit/.data/.config/data.db")
+
+        if not os.path.exists(db_path):
+            return None
+        
+        conn = None
+        try:
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            tables = cursor.fetchall()
+            for table in tables:
+                table_name = table[0]
+                cursor.execute(f'SELECT value FROM "{table_name}" WHERE key=?', ("R_HOST",))
+                row = cursor.fetchone()
+                if row:
+                    try:
+                        return json.loads(row[0])
+                    except (json.JSONDecodeError, TypeError):
+                        return row[0]
+        except Exception:
+            pass
+        finally:
+            if conn: conn.close()
+    except Exception:
+        pass
+    return None
+
+def save_targets(active_hosts, arp_mappings):
+    """Save discovered targets to the framework's targets database."""
+    if has_db_manager:
+        try:
+            targets = DatabaseManagment.getTargets()
+            new_count = 0
+            for ip in active_hosts:
+                if ip not in targets:
+                    targets[ip] = {}
+                    new_count += 1
+                targets[ip]["status"] = "up"
+                targets[ip]["os_family"] = "Unknown"
+                targets[ip]["architecture"] = "Unknown"
+                mac_info = arp_mappings.get(ip)
+                if mac_info:
+                    targets[ip]["arp_record"] = mac_info
+            
+            DatabaseManagment.updateTargets(targets)
+            DatabaseManagment.sync_targets_to_disk()
+            if new_count > 0:
+                print(f"[+] Successfully added {new_count} new targets to the database.")
+            else:
+                print(f"[*] Target database updated (no new IPs added).")
+            return
+        except Exception as e:
+            print(f"[-] Failed to save via DatabaseManagment: {e}")
+
+    # Fallback to manual JSON write
+    try:
+        targets_path = os.path.join(framework_root, ".data", ".config", "targets.json")
+        if not os.path.exists(os.path.dirname(targets_path)):
+            targets_path = os.path.expanduser("~/.SuperSploit/.data/.config/targets.json")
+
+        existing_data = {"TARGETS": {}}
+        if os.path.exists(targets_path):
+            try:
+                with open(targets_path, "r", encoding="utf-8") as f:
+                    existing_data = json.load(f)
+                    if "TARGETS" not in existing_data:
+                        existing_data["TARGETS"] = {}
+            except Exception:
+                pass
+
+        targets = existing_data["TARGETS"]
+        new_count = 0
+        for ip in active_hosts:
+            if ip not in targets:
+                targets[ip] = {}
+                new_count += 1
+            targets[ip]["status"] = "up"
+            mac_info = arp_mappings.get(ip)
+            if mac_info:
+                targets[ip]["arp_record"] = mac_info
+
         with open(targets_path, "w", encoding="utf-8") as f:
             json.dump(existing_data, f, indent=4, sort_keys=True)
         if new_count > 0:
             print(f"[+] Successfully added {new_count} new targets to the database.")
         else:
-            print(f"[*] Target database updated (no new IPs added).")
+            print(f"[*] Target database updated.")
     except Exception as e:
         print(f"[-] Failed to write to target database: {e}")
 

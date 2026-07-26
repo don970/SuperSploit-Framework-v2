@@ -9,12 +9,21 @@ Main command index. For detailed guides, use help [command].
 - set [k] [v]      : Configure global or module-specific variables.
 - show [opt]       : Display info, options, targets, or exploits.
 - run              : Execute the currently loaded reconnaissance module.
-- suggest          : Auto-suggest exploits based on discovered target data.
+- suggest          : Auto-suggest exploits AND recon steps based on target.
 - edit profile     : Manually edit persona research and social media data.
+- sync profile     : Refresh a persona dossier with latest scan data.
 - import [type]    : Safely import exploits, payloads, targets, or profiles.
 - delete [type]    : Remove an individual profile or target by ID.
 - purge [type]     : Wipe entire categories of user data (profiles/targets).
 - add profile      : Create a persona from scan results or manual entry.
+- scraper          : Launch the user-friendly GUI metadata scraper.
+- domain-scan      : Launch the Domain & Infrastructure Scanner GUI.
+- breach-mon       : Launch the Credential Breach Monitor GUI.
+- crypto-tracer    : Launch the Crypto Ledger Tracer GUI.
+- deepfake-scan    : Launch the Deepfake & Synthetic Media Verifier GUI.
+- c2-gui           : Launch the GUI-based C2 Session & Post-Exploitation Manager.
+- free-relay       : Standalone Email-to-SMS delivery tool (Wi-Fi).
+- paid-relay       : Standalone SIP Proxy for commercial trunks.
 - up-nmap-db       : Migrate flat nmap-os-db.txt to signatures.db.
 - up-service-db    : Migrate flat nmap-service-probes.txt to signatures.db.
 
@@ -31,7 +40,11 @@ Main command index. For detailed guides, use help [command].
 
 ### 📡 C2 INTERACTION (Active Session)
 - upload / download : Securely transfer files between local and remote.
-- load <path>       : Silently inject a Python payload into target RAM.
+- mailer            : Launch the advanced GUI SMTP delivery system.
+- sms               : Launch the advanced GUI SMS/VoIP delivery suite.
+- vishing           : Launch the Deepfake voice-spoofing vishing suite.
+- web-stager        : Launch the GUI web template staging engine.
+- load <path>       : Silently inject a Python/ELF payload into target RAM.
 - auto_root         : Attempt silent privilege escalation (Magisk/LPE).
 - dump_sms / calls  : Exfiltrate SMS messages or call history.
 - dump_wifi / chrome: Harvest WiFi passwords, Chrome cookies, and logins.
@@ -41,6 +54,8 @@ Main command index. For detailed guides, use help [command].
 - exit              : Terminate the current session.
 
 ### ⚙️ SYSTEM & DOCUMENTATION
+- activate         : Unlock SuperSploit Pro features with a license key.
+- api              : Manage Command Center REST API and ngrok tunneling.
 - workspace        : List, create, or switch between isolated workspaces.
 - jobs             : View and terminate background tasks (e.g., listeners).
 - vars             : List all configurable framework variables.
@@ -52,13 +67,19 @@ Main command index. For detailed guides, use help [command].
 - android          : Information about android payload configuration.
 - payload-types    : Detailed breakdown of Android payload variants.
 - help [topic]     : View configuration technical documentation.
+- clean            : Safely wipe all temporary workspaces and caches.
 - exit             : Safely shut down the SuperSploit framework.
 
 ---
 ### 🆕 LATEST UPDATES (June 2026)
-- Added **Android x86_64** and **Static Linking** support to the `compile` engine.
+- **Advanced Stealth Suite**: Implemented Polymorphic Signature Rotation, Environment Pinning, Network Domain Fronting, and OLLVM support.
+- **Smarter Suggestion Engine**: Automatically recommends next recon steps based on target format.
+- **Magisk 'Golden' Persistence**: Automated boot-script persistence via service.d (Golden Path).
+- **Smart Compiler**: 'compile' now auto-injects C2 variables and supports legacy Android linkers.
+- **OSINT Suite**: Passive subdomain discovery, repo scanning, and deep footprint analysis.
+- **Investigative Dossier**: Professional PI-grade PDF reporting for target personas.
+- **BLE Layer 5 Profiler**: Comprehensive multi-layer analysis of nearby Bluetooth devices.
 - Implemented **Workspace** isolation for multi-target engagements.
-- Overhauled **C2 Interaction** with command history and rich UI tables.
 - For a full history of changes, refer to: `CHANGELOG.md`.
 
 ---

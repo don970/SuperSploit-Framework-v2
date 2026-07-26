@@ -47,3 +47,4 @@ The following keys are supported in the metadata block:
 - os: Target operating system.
 - arch: Target architecture (x86_64, arm64).
 - root: true/false (Triggers sudo elevation).
+- gui: true/false (Indicates a standalone GUI tool).

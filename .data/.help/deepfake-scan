@@ -1,0 +1,12 @@
+======================================================================
+[ SuperSploit Pro ] Deepfake & Synthetic Media Verifier
+======================================================================
+Description:
+  Forensic media analysis suite for authenticating digital images.
+  Supports:
+    - Error Level Analysis (ELA) with visual noise map rendering.
+    - AI Signature Interrogation (Midjourney, DALL-E, Stable Diffusion).
+    - Flat Compression Gradient detection.
+
+Usage:
+  deepfake-scan

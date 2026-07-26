@@ -1,0 +1,12 @@
+======================================================================
+[ SuperSploit Pro ] APK Polymorphic Crypter
+======================================================================
+Description:
+  Obfuscates an Android APK payload to defeat static AV/EDR signatures.
+  Injects a native Smali Base64 decryption class and recursively
+  encrypts sensitive strings (URLs, IPs, shell commands) to hide
+  configurations from decompilers.
+
+Usage:
+  apk-crypter <input.apk> <output.apk>
+======================================================================

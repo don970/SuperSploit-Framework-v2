@@ -48,4 +48,17 @@ class Sessions:
                 write("[-] Invalid session ID. Usage: sessions -i <id>\n")
             return
             
-        write("Usage: sessions [-l] | [-i <id>]\n")
+        # Terminate a specific session (e.g., "sessions -k 1")
+        if len(parts) >= 3 and parts[1] in ["-k", "--kill"]:
+            try:
+                sid = int(parts[2])
+                if sid in Listener.active_sessions:
+                    client = Listener.active_sessions[sid]["socket"]
+                    Listener._cmd_exit(client, str(sid), "")
+                else:
+                    write(f"[-] Session {sid} not found or inactive.\n")
+            except ValueError:
+                write("[-] Invalid session ID. Usage: sessions -k <id>\n")
+            return
+            
+        write("Usage: sessions [-l] | [-i <id>] | [-k <id>]\n")

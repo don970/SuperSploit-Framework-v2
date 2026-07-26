@@ -9,7 +9,8 @@ The auto_root command is a specialized utility for the Android Rootkit payload. 
 - Exploit Correlation:
     - Dirty Pipe (CVE-2022-0847): Targeted at Kernels 5.8 through 5.16.
     - Dirty COW (CVE-2016-5195): Targeted at Kernels < 4.8.
-- Silent Execution: Unlike standard 'su' requests, auto_root leverages kernel vulnerabilities to bypass the Magisk/Superuser authorization prompt, granting root privileges without alerting the user.
+    - Bad Binder (CVE-2019-2215): Stable LPE for Kernels 3.18, 4.4, 4.9, 4.14.
+- Automated Suggester: auto_root is integrated with the `lpe_enum` command, which correlates device metadata against the exploit database to recommend the most reliable escalation path.
 
 ---
 

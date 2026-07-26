@@ -4,9 +4,9 @@ The load command is the gateway to in-memory post-exploitation, allowing for the
 ---
 
 ## 🚀 "UNDER THE HOOD" MECHANISMS
-- AST (Abstract Syntax Tree) Analysis: Before transmission, Python payloads are parsed via the ast module. The framework identifies defined functions, imports, and self-executing blocks to determine the safest entry point.
-- Memfd Injection (ELF): For compiled C binaries, the framework wraps the binary data in a Python-based memfd_create() stub. When executed on the target, this creates an anonymous file descriptor in RAM and executes it via fexecve() or /proc/self/fd/ bypasses.
-- Crypto-Handshake: The command initiates a "READY" handshake with the remote agent. Once confirmed, the payload is XOR-encrypted with the active XOR_KEY, Base64 encoded, and sent over the TLS tunnel.
+- AST (Abstract Syntax Tree) Analysis: Before transmission, Python payloads are parsed via the ast module.
+- Memfd Injection (ELF/C): For compiled C binaries or raw ELFs, the framework wraps the data in a Python-based memfd_create() stub. This creates an anonymous file descriptor in RAM and executes it via /proc/self/fd/ to ensure a zero-disk footprint.
+- Crypto-Handshake: The command initiates a "READY" handshake. Once confirmed, the payload is XOR-encrypted and Base64 encoded.
 - Namespace Isolation: Python payloads are executed within their own dictionary context on the target, preventing variable collisions with the main C2 agent.
 
 ---

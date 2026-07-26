@@ -1,6 +1,108 @@
 # Changelog
+ ### [Unreleased]
+ 
+ ### Added
+- **Pro OSINT Suite**: Integrated native pro-level OSINT graphical modules into the SuperSploit toolkit:
+  - **Metadata Scraper**: Added `metadata_gui.py` for extracting EXIF data, GPS coordinates, and embedded document metadata.
+  - **Reverse Image Search**: Added `rev_img_gui.py` for automated image correlation and visual target tracking.
+  - **Phone Information GUI**: Added `phone_gui.py` for deep-dive telecom reconnaissance and carrier intelligence gathering.
+  - **Domain Scanner GUI**: Added `domain_gui.py` for unauthenticated DNS probing, WHOIS lookups, and crt.sh/SecurityTrails subdomain enumeration.
+  - **Credential Breach Monitor**: Added `breach_gui.py` for HIBP API integration and automated Pastebin/GitHub OSINT dorking.
+  - **Crypto Ledger Tracer**: Added `crypto_gui.py` for automated blockchain OSINT, transaction mapping, and Ethereum/Bitcoin tracking.
+  - **Deepfake Verifier**: Added `deepfake_gui.py` for automated Error Level Analysis (ELA) and synthetic media signature extraction.
+ - **APK DAST Scanner**: Added `dast_gui.py` to perform real-time dynamic instrumentation of live Android applications via Frida, intercepting cryptography, intents, and networking.
+ - **APK SAST Scanner**: Added `sast_gui.py` to recursively analyze decompiled Android APKs for hardcoded secrets, weak crypto, and vulnerable manifest misconfigurations.
+ - **Post-Exploitation & Exfiltration Suite**: Added Category 6 modules including the Auto-Exfil Engine (`exfil_gui.py`), Persistence Manager (`persistence_gui.py`), and Proxy Pivot Routing (`pivot_manager.py`).
+ - **Advanced Evasion & Packing**: Introduced the `PolymorphicPacker` for ARM64/x86_64 in-memory decoder stubs and the `apk_crypter.py` for deep Smali string encryption to defeat static AV/EDR analysis.
+ - **Author Metadata**: Injected `author: "Donald Ford"` metadata tags across all exploit, payload, and reconnaissance modules for accurate framework indexing.
+ - **x86_64 and Apple A-SeriSupersploit-private-assetses Shellcode**: Completed raw architecture-specific reverse TCP shellcode generation for modern macOS/iOS (XNU conventions) and x86_64 environments.
+ - **Architectural Documentation**: Generated exhaustive developer-level deep dives and inventories across the framework in `docs/development/analyzes/`. This includes `tools_inventory.md`, `se_individual_deep_dives.md`, `core_systems_deep_dive.md`, `exploits_high_level_overview.md`, `payloads_high_level_overview.md`, and `templates_high_level_overview.md`.
+ - **ToolEngine Blueprint**: Established the architectural roadmap for `ToolEngine`, a planned in-memory execution pipeline to seamlessly integrate standalone Pro-Tier tools into the main SuperSploit CLI, Search, and Suggestion ecosystems.
+ 
+### Improved
+- **Pro GUI Modernization**: Applied the "Sentry Dark Theme" (midnight blue/gray with purple/cyan accents) across all Tkinter desktop modules. Standardized layout mechanics by replacing right-aligned grids with full-width action banners for improved UI scaling.
+- **SAST Scanner Upgrades**:
+  - Integrated `apktool` directly into the background daemon thread for true one-click static analysis from raw `.apk` files.
+  - Added support for multidex applications by dynamically locating all directories starting with `smali` during static analysis.
+  - Expanded crypto context regex window to 1,500 characters to effectively capture weak cryptography (e.g., `AES/ECB`, `MD5`) across separated Dalvik register assignments.
+  - Upgraded XML parsing to dynamically follow Android 9+ `networkSecurityConfig` definitions for accurate cleartext traffic and user-cert trust detection.
+- **DAST Scanner Upgrades**:
+  - Centralized Frida payload management via `source/core/payload_dict.py`, providing a dropdown menu for offline script injection.
+  - Added the ability to dynamically browse and append custom user `.js` scripts into the native Frida hooking pipeline.
+- **UI Performance**: Fixed Tkinter UI thread blocking in the SAST scanner by implementing a `queue.Queue` buffer to safely flush high-volume `apktool` decompilation logs to the frontend.
+- **Web Stager**: Fixed a framework root import scoping bug, restoring dynamic payload fetching for AitM drops.
+ - **AitM Proxy Engine**: Added comprehensive `[AitM Debug]` logging for GET and POST requests, detailing intercepted paths, upstream targets, and HTTP response codes for easier MITM troubleshooting.
+ - **Terminal Sudo Escalation**: Removed the `tkinter` password prompt in GUI tools. Privilege escalation now safely prompts via `getpass.getpass()` in the active terminal to prevent execution freezes, utilizing `-p ''` to silence duplicate `sudo` stderr prompts.
+ - **Dynamic Network Interfaces**: Upgraded the DNS Patcher to dynamically populate the interface selection dropdown (`Combobox`) natively using `socket.if_nameindex()`.
 
-### [Unreleased]
+ ### Changed
+ - **C2 Cryptography Upgrade**: Completely overhauled `c2_server.py` and `phantom_agent.c` to use **AES-256-GCM** authenticated encryption with SHA-256 key derivation, replacing the legacy XOR cipher to defeat frequency analysis and packet tampering.
+ - **Compilation Engine**: Updated `native_apk_generator.py`, `input_handling_engine.py`, and `exploit_engine.py` to automatically link OpenSSL (`-lcrypto`) during cross-compilation for AES support.
+ - **Documentation**: Extensively updated `weaponization.md`, `README.md`, and added deep-dive `analyzes/` files to reflect the APT-tier capabilities, AES-256 C2, new Post-Exploitation category, and Pro-tier exclusivity.
+ 
+ ### Fixed
+ - **GUI Thread Safety**: Eliminated race conditions and `SIGSEGV` segmentation faults in Tkinter by routing all background thread telemetry and state updates through `self.root.after(0, ...)` across all delivery GUIs (`sms_gui.py`, `evil_twin_gui.py`, `imessage_gui.py`, `vishing_gui.py`, `smtp_gui.py`).
+ - **DNS Patcher - OS Resolver Rejection**: Fixed an issue where forged DNS responses were dropped by modern OS stub resolvers (Windows/macOS) by dynamically mirroring the Recursion Desired (`rd`) flag and explicitly setting a Time-to-Live (`ttl=60`) on the forged `DNSRR` records.
+ - **DNS Patcher - AP Disconnection (IP Spoofing)**: Fixed a critical routing flaw where spoofed packets leaving a managed Wi-Fi interface triggered Access Point IP-Spoofing protections. The engine now uses dynamic routing to inject local queries into the loopback (`lo`) interface while strictly routing external queries out the selected NIC.
+ - **DNS Patcher - Wi-Fi Driver Crashes**: Explicitly disabled promiscuous mode (`promisc=False`) in Scapy's `sniff()` function to prevent managed-mode wireless driver crashes during interception.
+ - **DNS Patcher - Scapy Exceptions**: Resolved a `ValueError` crash occurring on Linux environments when `iface="any"` was passed directly to Scapy's `send()` and `sniff()` functions.
+ - **DNS Patcher - Protocol Validation**: Added strict `IP` and `UDP` layer validation to prevent `IndexError` crashes when processing unexpected IPv6 traffic.
+ - **DNS Patcher - Case Sensitivity**: Fixed a bug where randomized-case DNS queries (e.g., `ExAmPlE.cOm`) bypassed the exact-match dictionary lookup by enforcing lowercase normalization during interception.
+ - **AitM SSL Context**: Fixed modern Python compatibility issues in `web_stager_gui.py` by replacing the deprecated `ssl.wrap_socket` with `ssl.SSLContext.wrap_socket`.
+ - **Custom Certificate Loading**: Fixed certificate validation blocks in the Web Stager by adding the ability to dynamically browse and load custom PEM/CRT certificates via the UI.
+ 
+ ### Added
+ - **Standalone SE GUI Tools**: Added a dedicated suite of visual applications in `source/tools/SE/` for managing mass-blasts and close-access operations:
+   - `smtp_gui.py`: Advanced phishing interface with template support and payload attachment.
+   - `evil_twin_gui.py`: Live telemetry console for rogue AP deployment (`hostapd`/`dnsmasq`).
+   - `imessage_gui.py`: Mass-dispatch interface for macOS native blue-bubble payloads.
+   - `qr_gui.py`: Rapid generator and previewer for physical QR code assets.
+ - **Pro Captive Portal (Evil Twin)**: Added `se_captive_portal.py`. Automates `hostapd` and `dnsmasq` for credential harvesting and rogue AP deployment.
+ - **Pro iMessage Injector**: Added `se_imessage_injector.py` to natively bridge and dispatch blue-bubble payloads via `osascript`.
+ - **Pro Malicious QR Generator**: Added `se_qr_generator.py` for weaponizing physical drops pointing to C2 payloads.
+ - **Pro SMTP Spoofing Suite**: Added `se_smtp_spoofer.py` delivery module. Supports MIME multi-part construction, automated attachment injection, SSL/STARTTLS negotiation, and header spoofing.
+ 
+ ### Improved
+ - **Native DRM Engine**: Completely refactored `LicenseManager` and `SecurityEngine` to offload license validation to a compiled C binary (`supersploit_auth.c`). Implemented robust DJB2 HWID hashing natively, added a secure 7-day offline caching mechanism (TTL), replaced plaintext CLI interaction with a structured JSON IPC bridge, and restored `master_keys` bypass logic for developer authorization.
+
+- **Bug Fixes**:
+    - Fixed: Added missing directory structure for `.data/.logs`, `.data/.history`, and `.data/.errors` to prevent framework crashes. Included `.gitkeep` files to ensure these directories are tracked in the repository.
+    - Fixed: Added missing `urllib.request` and `datetime` imports in `license_manager.py` that were causing silent Discord notification failures.
+- **Target Profile System Enhancements**:
+    - Added: `sync profile` command to refresh persona dossiers with latest reconnaissance data.
+    - Improved: `import from targets` now pulls deep metadata including MAC, vendor, services, and uptime.
+    - Improved: `suggest` command now natively supports named profiles, pulling data directly from the persistent profile database.
+- **Licensing & Legal**:
+    - Added: **Dual-License Open Core Model** - Transitioned the project to a dual-licensing structure to support both open-source and commercial tiers.
+    - Added: **Root `LICENSE`** - Comprehensive licensing overview for the framework.
+    - Added: **`LICENSE-CORE` (MIT)** - Explicit MIT license for the open-source core components.
+    - Updated: **README.md** - Refactored License Tiers documentation with direct links to core and pro licensing.
+- **Core Executable Update**:
+    - Updated: **SuperSploit Auth Engine** (`/usr/local/bin/supersploit`) - Replaced the global executable with the latest `supersploit_auth` binary from the `supersploit_key_system` repository (Commit `26d9216`).
+- **SuperSploit Pro Ecosystem**:
+    - Added: **Pro License Agreement** (`docs/Legal/PRO_LICENSE_AGREEMENT.md`) - Official terms and conditions for professional users.
+    - Added: **Pro Pricing Model** (`docs/Legal/PRO_PRICING.md`) - Tiered subscription structure for Individual, Red Team, and Enterprise levels.
+    - Added: **Pro Key Generation Engine** (`source/tools/cryptography/pro_keygen.py`) - Standalone utility for generating cryptographically signed license keys for specific Hardware IDs (HWIDs).
+- **Advanced Stealth & Evasion Suite**:
+    - Added: **Environment Pinning (Anti-Analysis)** - Native `ptrace` and uptime checks in C payloads to detect and evade debuggers, emulators, and sandboxes.
+    - Added: **Polymorphic Signature Rotation** - Automated randomization of native library names and JNI method names for every build, preventing static signature detection.
+    - Added: **Opportunistic OLLVM Integration** - Support for the `OLLVM_ENABLED` variable to apply advanced control flow flattening and instruction substitution to native C binaries.
+    - Added: **Network Domain Fronting** - Upgraded `minish.c` to support SNI-masking via a front domain, hiding C2 traffic within high-reputation CDN flows (Cloudflare/Akamai).
+    - Added: **Phantom Library Persistence** - New `phantom_persistence.py` weaponizer for systemless boot persistence via Magisk library hijacking (`libvold.so`).
+- Added: `exploits/linux/cve_2021_4034_pwnkit_fileless.py` - Python memory loader for the PwnKit LPE.
+- Improved: C2 Listener now intercepts `auto_root` for Linux sessions to deploy PwnKit automatically.
+- Added: Automated Vulnerability Tagging engine in the C2 Listener. Automatically parses CVEs from command output (e.g., `lpe_enum`) and enriches the target's persona in `profiles.db`.
+- Added: `recon/osint-tools/domain_enum.py` - Passive subdomain discovery via crt.sh (Certificate Transparency Logs).
+- Added: `recon/osint-tools/repo_scanner.py` - GitHub code search for leaked API keys and sensitive configuration files.
+- Added: `recon/osint-tools/shodan_recon.py` - Shodan API integration for automated port, banner, and CVE mapping.
+- Added: `recon/osint-tools/footprint_analyzer.py` - Professional digital footprint correlation engine. Links IPs, social media, and database records.
+- Improved: `recon/osint-tools/background_check.py` - Refactored into a professional-grade Investigative Dossier Engine with PI-style PDF reporting.
+- Added: `recon/native-discovery/ble_layered_profiler.py` - A comprehensive multi-layer BLE reconnaissance module covering Layers 2 through 5.
+- Improved: Unified Bluetooth discovery and deep GATT profiling capabilities.
+- Added: `payloads/Stage2/ghost_beacon.py` - Specialized "Smash-and-Grab" ephemeral payload for Linux/Tizen Wi-Fi credential exfiltration.
+- Added: `recon/native-discovery/bt_auditor.py` - New active Bluetooth auditing module for RFCOMM (Samsung Ch 4) and BLE GATT enumeration.
+- Improved: `recon/native-discovery/bluetooth_discovery.py` - Upgraded to v2.0 using `bluetoothctl` for Classic/BLE support, OUI/vendor lookups, and enhanced OS fingerprinting.
+- Improved: Added `R_MAC` to `.data/.help/vars` for Bluetooth/Ethernet target management.
 - Added: `profiles/elite_p55_profile.md` - Comprehensive target profile for SkyDevices Elite P55 (Unisoc sp9832e). Details ARMv7 weaponization, Binder/Mali LPE paths, and network isolation bypass strategies.
 - Added: `profiles/galaxy_s21_profile.md` - Comprehensive target profile for Samsung Galaxy S21 (SM-G991U) running Android 15. Includes networking audit (ADB port 5555), LPE surface mapping, and CVE-2026-0073 correlation.
 - Improved: Enhanced `android-enum3.c` to **Version 5.0 (The Singularity)**. 
@@ -612,9 +714,6 @@ version 1.2.0
 ### General Improvements
 * **Typo Corrections:** Fixed typos in `main.py`, `set.py`, `exploitHandler.py`, and other files.
 * **Author Attribution:** Added proper citations for external tool authors (phoneinfoga, recon-ng, Bettercap) in documentation and code comments.
-
-## Unreleased
-### Added
 * Chrome OS support started.
 * Added `bettercap` to the tool list.
 * Added `clean` method to clear the target list and scan history.

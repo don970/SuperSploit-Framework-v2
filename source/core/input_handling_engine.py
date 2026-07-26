@@ -1,4 +1,8 @@
 import os
+import sys
+import json
+import time
+import requests
 import traceback
 import subprocess
 import psutil
@@ -97,9 +101,17 @@ class Input:
         else:
             # Standard IP-based mode
             target_ip = args[1] if len(args) > 1 else db_data.get('R_HOST', db_data.get('TARGET', 'unknown'))
-            targets_db = DatabaseManagment.getTargets()
-            if target_ip in targets_db:
-                target_info = targets_db[target_ip]
+            
+            # Check Profiles database first
+            profiles_db = DatabaseManagment.getProfiles()
+            if target_ip in profiles_db:
+                target_info = profiles_db[target_ip]
+                target_ip = target_info.get("ip", target_ip)
+            else:
+                # Fallback to Targets database
+                targets_db = DatabaseManagment.getTargets()
+                if target_ip in targets_db:
+                    target_info = targets_db[target_ip]
         
         suggester = ASC(ExploitCache)
         suggester.execute(target_ip, target_info)
@@ -118,9 +130,14 @@ class Input:
             if not dataList:
                 return
 
-            for i, token in enumerate(dataList):
+            new_data_list = []
+            for token in dataList:
                 if token in Aliases:
-                    dataList[i] = Aliases[token]
+                    # Re-tokenize the alias content to handle multi-word expansion
+                    new_data_list.extend(shlex.split(Aliases[token]))
+                else:
+                    new_data_list.append(token)
+            dataList = new_data_list
         except ValueError as e:
             Error(f"Failed to parse command: {e}")
             return
@@ -167,6 +184,7 @@ class Input:
                 "set": SetV.SetV,
                 "exploit": ExploitHandler,
                 "edit": cls._handle_edit_command, # New: Command to edit profiles
+                "sync": cls._handle_sync_command, # New: Command to sync profiles with targets
                 "use": use.execute,
                 "search": Search.search,
                 "banner": Banners,
@@ -176,6 +194,7 @@ class Input:
                 "delete": cls._handle_delete_command, # New: Command to delete specific profiles or targets
                 "purge": cls._handle_purge_command,   # New: Command to wipe entire categories of user data
                 "add": cls._handle_add_command, # Updated: Now handles profile imports
+                "activate": cls._handle_activate_command, # New: Pro activation
                 "update-info": cls._update,
                 "debugdb": DatabaseManagment.Debug,
                 "run": Recon,
@@ -185,9 +204,11 @@ class Input:
                 "up-service-db": cls._handle_service_migration,
                 "generate-apk": cls._generate_apk,
                 "generate-apk-buildozer": cls._generate_apk_buildozer,
+                "apk-crypter": cls._run_apk_crypter,
                 "generate-shellcode": cls._generate_shellcode,
                 "compile": cls._compile_c_binary,
-                "kaslr": cls._kaslr_calculator
+                "kaslr": cls._kaslr_calculator,
+                "api": cls._handle_api_command
             }
 
             # ==========================================
@@ -246,6 +267,32 @@ class Input:
         DatabaseManagment.purgeData(target_type)
 
     @classmethod
+    def _handle_activate_command(cls, data):
+        """Handles the 'activate' command to unlock Pro features."""
+        from .license_manager import LicenseManager
+        parts = shlex.split(data)
+        if len(parts) < 2:
+            ToStdout.write(f"[*] Current HWID: {LicenseManager.get_hwid()}\n")
+            ToStdout.write("[*] Usage: activate <LICENSE_KEY>\n")
+            ToStdout.write("[*] Usage: activate status\n")
+            return
+            
+        sub_cmd = parts[1].lower()
+        if sub_cmd == "status":
+            ToStdout.write(f"[*] Current HWID: {LicenseManager.get_hwid()}\n")
+            if LicenseManager.check_pro_status(silent=True):
+                ToStdout.write("[+] Status: SuperSploit Pro [ACTIVATED]\n")
+            else:
+                ToStdout.write("[-] Status: SuperSploit Standard [NOT ACTIVATED]\n")
+            return
+
+        key = parts[1]
+        if LicenseManager.activate(key):
+            ToStdout.write("[+] SUCCESS: SuperSploit Pro Activated! All modules unlocked.\n")
+        else:
+            ToStdout.write("[-] ERROR: Invalid license key for this Hardware ID.\n")
+
+    @classmethod
     def _handle_import_command(cls, data):
         """Handles the 'import' command for modules, profiles, and targets."""
         parts = shlex.split(data)
@@ -272,6 +319,21 @@ class Input:
         else:
             ToStdout.write(f"[-] Unknown import type: {import_type}\n")
             Help.display("import")
+
+    @classmethod
+    def _handle_sync_command(cls, data):
+        """Handles the 'sync' command, dispatching to appropriate sub-commands."""
+        parts = shlex.split(data)
+        if len(parts) < 3:
+            ToStdout.write("[-] Usage: sync profile \"<Profile Name>\"\n")
+            return
+
+        sub_command = parts[1].lower()
+        if sub_command == "profile":
+            profile_name = parts[2]
+            DatabaseManagment.syncProfileWithTarget(profile_name)
+        else:
+            ToStdout.write(f"[-] Unknown 'sync' sub-command: {sub_command}\n")
 
     @classmethod
     def _handle_edit_command(cls, data):
@@ -447,6 +509,21 @@ class Input:
             Error(traceback.format_exc())
 
     @classmethod
+    def _run_apk_crypter(cls, data):
+        """Passes a generated APK through the polymorphic crypter."""
+        import shlex
+        parts = shlex.split(data)
+        if len(parts) < 3:
+            ToStdout.write("[-] Usage: apk-crypter <input.apk> <output.apk>\n")
+            return
+            
+        cmd = [sys.executable, os.path.join(installation, "source", "tools", "android_payload_generators", "apk_crypter.py"), "-i", parts[1], "-o", parts[2]]
+        try:
+            subprocess.run(cmd)
+        except Exception as e:
+            ToStdout.write(f"[-] Failed to launch APK Crypter: {e}\n")
+
+    @classmethod
     def _generate_shellcode(cls, data):
         """Generates raw shellcode and outputs it to the console."""
         db_data = DatabaseManagment.get()
@@ -478,6 +555,142 @@ class Input:
         except Exception as e:
             ToStdout.write(f"[-] Shellcode generation failed: {e}\n")
             Error(traceback.format_exc())
+
+    @classmethod
+    def _handle_api_command(cls, data):
+        """Handles the 'api' command to manage the Command Center REST API."""
+        parts = shlex.split(data)
+        if len(parts) < 2:
+            ToStdout.write("[*] Usage: api start | stop | status\n")
+            return
+
+        sub_cmd = parts[1].lower()
+        install = DatabaseManagment.getInstall()
+        server_path = os.path.join(install, "source", "api", "server.py")
+        pid_file = os.path.join(install, ".data", ".config", "api.pid")
+        ngrok_pid_file = os.path.join(install, ".data", ".config", "ngrok.pid")
+
+        if sub_cmd == "start":
+            # Start API Server
+            if os.path.exists(pid_file):
+                try:
+                    with open(pid_file, "r") as f:
+                        pid = int(f.read().strip())
+                    if psutil.pid_exists(pid):
+                        ToStdout.write(f"[*] API Server is already running (PID: {pid})\n")
+                    else:
+                        raise Exception("Stale PID")
+                except Exception:
+                    os.remove(pid_file)
+
+            if not os.path.exists(pid_file):
+                ToStdout.write("[*] Starting SuperSploit Command Center API in background...\n")
+                try:
+                    proc = subprocess.Popen(
+                        [sys.executable, server_path],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        start_new_session=True
+                    )
+                    with open(pid_file, "w") as f:
+                        f.write(str(proc.pid))
+                    ToStdout.write(f"[+] API Started successfully (PID: {proc.pid})\n")
+                except Exception as e:
+                    ToStdout.write(f"[-] Failed to start API: {e}\n")
+                    return
+
+            # Start ngrok Tunnel
+            if os.path.exists(ngrok_pid_file):
+                try:
+                    with open(ngrok_pid_file, "r") as f:
+                        n_pid = int(f.read().strip())
+                    if not psutil.pid_exists(n_pid):
+                        os.remove(ngrok_pid_file)
+                except Exception:
+                    os.remove(ngrok_pid_file)
+
+            if not os.path.exists(ngrok_pid_file):
+                ToStdout.write("[*] Initializing ngrok tunnel for remote 5G/GSM access...\n")
+                try:
+                    # Start ngrok targeting the API port
+                    n_proc = subprocess.Popen(
+                        ["ngrok", "http", "8443"],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        start_new_session=True
+                    )
+                    with open(ngrok_pid_file, "w") as f:
+                        f.write(str(n_proc.pid))
+                    
+                    # Wait for ngrok to initialize and fetch the tunnel URL via its local API
+                    time.sleep(3)
+                    try:
+                        resp = requests.get("http://127.0.0.1:4040/api/tunnels", timeout=5)
+                        if resp.status_code == 200:
+                            tunnels = resp.json().get("tunnels", [])
+                            if tunnels:
+                                public_url = tunnels[0].get("public_url")
+                                ToStdout.write(f"[+] Remote Access URL: {public_url}\n")
+                    except Exception:
+                        ToStdout.write("[!] ngrok started but could not retrieve Public URL. Check 'ngrok' manually.\n")
+                except Exception as e:
+                    ToStdout.write(f"[-] Failed to start ngrok: {e}\n")
+
+            # Display API Key
+            config_path = os.path.join(install, ".data", ".config", "api_config.json")
+            if os.path.exists(config_path):
+                with open(config_path, "r") as f:
+                    api_key = json.load(f).get("api_key")
+                ToStdout.write(f"[+] API Key for Mobile App: {api_key}\n")
+
+        elif sub_cmd == "stop":
+            # Stop API
+            if os.path.exists(pid_file):
+                try:
+                    with open(pid_file, "r") as f:
+                        pid = int(f.read().strip())
+                    if psutil.pid_exists(pid):
+                        psutil.Process(pid).terminate()
+                        ToStdout.write(f"[*] API Server terminated.\n")
+                except Exception: pass
+                os.remove(pid_file)
+
+            # Stop ngrok
+            if os.path.exists(ngrok_pid_file):
+                try:
+                    with open(ngrok_pid_file, "r") as f:
+                        n_pid = int(f.read().strip())
+                    if psutil.pid_exists(n_pid):
+                        psutil.Process(n_pid).terminate()
+                        ToStdout.write(f"[*] ngrok tunnel terminated.\n")
+                except Exception: pass
+                os.remove(ngrok_pid_file)
+
+        elif sub_cmd == "status":
+            api_up = False
+            if os.path.exists(pid_file):
+                try:
+                    pid = int(open(pid_file).read().strip())
+                    if psutil.pid_exists(pid): api_up = True
+                except: pass
+            
+            ngrok_up = False
+            if os.path.exists(ngrok_pid_file):
+                try:
+                    pid = int(open(ngrok_pid_file).read().strip())
+                    if psutil.pid_exists(pid): ngrok_up = True
+                except: pass
+
+            ToStdout.write(f"[*] API Server: {'[ONLINE]' if api_up else '[OFFLINE]'}\n")
+            ToStdout.write(f"[*] ngrok Tunnel: {'[ONLINE]' if ngrok_up else '[OFFLINE]'}\n")
+            if ngrok_up:
+                import requests
+                try:
+                    resp = requests.get("http://127.0.0.1:4040/api/tunnels", timeout=2)
+                    if resp.status_code == 200:
+                        url = resp.json().get("tunnels", [])[0].get("public_url")
+                        ToStdout.write(f"[*] Public URL: {url}\n")
+                except: pass
 
     @classmethod
     def _kaslr_calculator(cls, data):
@@ -534,6 +747,12 @@ class Input:
         comp_arch = str(db.get("COMP_ARCH", "native")).lower()
         comp_static = str(db.get("COMP_STATIC", "false")).lower() == "true"
         
+        # PRO GATE: Cross-Arch and Static compilation are Pro features
+        if comp_arch != "native" or comp_static:
+            from .license_manager import LicenseManager
+            if not LicenseManager.gate_access("Professional Compilation Suite (Cross-Arch/Static)"):
+                return
+
         # Determine compiler based on COMP_ARCH
         compiler = "gcc"
         if comp_arch in ["arm64", "aarch64"]:
@@ -628,15 +847,86 @@ class Input:
         ToStdout.write(f"[*] Compiler: {compiler}\n")
         ToStdout.write(f"[*] Output: {out_file}\n")
 
+        ollvm_enabled = str(db.get("OLLVM_ENABLED", "false")).lower() == "true"
+        
+        # --- SMART VARIABLE INJECTION ---
+        import re
+        import tempfile
+        
+        lhost = db.get("LHOST", db.get("L_HOST", "127.0.0.1"))
+        lport = str(db.get("LPORT", db.get("L_PORT", "5000")))
+        xor_key = db.get("XOR_KEY", "SuperSploitKey")
+        
         try:
-            cmd = [compiler, target_file, '-o', out_file, '-pthread', '-O2']
+            with open(target_file, 'r') as f:
+                c_code = f.read()
+            
+            modified = False
+            
+            # Check for placeholders before modifying
+            if any(p in c_code for p in ["{{LHOST}}", "{{LPORT}}", "{{XOR_KEY}}", "LHOST", "LPORT", "XOR_KEY"]):
+                # Replace macro defines - but be careful not to break non-SS files
+                # We only replace if they look like standard defines
+                if re.search(r'#define LHOST\s+', c_code):
+                    c_code = re.sub(r'#define LHOST\s+.*', f'#define LHOST "{lhost}"', c_code)
+                    modified = True
+                if re.search(r'#define LPORT\s+', c_code):
+                    c_code = re.sub(r'#define LPORT\s+.*', f'#define LPORT {lport}', c_code)
+                    modified = True
+                if re.search(r'#define XOR_KEY\s+', c_code):
+                    c_code = re.sub(r'#define XOR_KEY\s+.*', f'#define XOR_KEY "{xor_key}"', c_code)
+                    modified = True
+                
+                # Replace Jinja-style placeholders
+                if "{{LHOST}}" in c_code:
+                    c_code = c_code.replace("{{LHOST}}", lhost)
+                    modified = True
+                if "{{LPORT}}" in c_code:
+                    c_code = c_code.replace("{{LPORT}}", lport)
+                    modified = True
+                if "{{XOR_KEY}}" in c_code:
+                    c_code = c_code.replace("{{XOR_KEY}}", xor_key)
+                    modified = True
+            
+            if modified:
+                # Create a temporary file for the patched source
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.c', delete=False) as tmp:
+                    tmp.write(c_code)
+                    tmp_path = tmp.name
+                compile_target = tmp_path
+                ToStdout.write("[*] Patched placeholders with active C2 configuration.\n")
+            else:
+                compile_target = target_file
+                tmp_path = None
+
+            cmd = [compiler, compile_target, '-o', out_file, '-pthread', '-O2']
+            
+            # Add original directory to include path so local headers work
+            cmd.extend(['-I', os.path.dirname(os.path.abspath(target_file))])
+            
+            # Add Android-specific linker flags ONLY for Android architectures
+            if "android" in comp_arch:
+                cmd.extend(['-pie', '-Wl,--hash-style=sysv'])
+                
             if comp_static:
                 cmd.append('-static')
             
+            # Link OpenSSL Crypto library for AES-256-GCM C2 payloads
+            cmd.append('-lcrypto')
+
+            if ollvm_enabled:
+                ToStdout.write("[*] OLLVM_ENABLED=true: Applying control flow flattening...\n")
+                cmd.extend(["-mllvm", "-bcf", "-mllvm", "-sub", "-mllvm", "-fla"])
+
             compile_proc = subprocess.run(
                 cmd,
                 capture_output=True, text=True
             )
+            
+            # Cleanup temp file if created
+            if tmp_path and os.path.exists(tmp_path):
+                os.remove(tmp_path)
+                
             if compile_proc.returncode != 0:
                 ToStdout.write(f"[-] Compilation failed:\n{compile_proc.stderr}\n")
             else:

@@ -12,7 +12,7 @@ class SuperSploitCompleter(Completer):
             "jobs", "delete", "purge", "add", "update-info", "debugdb", "run", 
             "sessions", "suggest", "up-nmap-db", "up-service-db", "generate-apk", 
             "generate-apk-buildozer", "generate-shellcode", "compile", "kaslr",
-            "cd", "clear", "exit", "cat"
+            "apk-crypter", "cd", "clear", "exit", "cat"
         ]
 
     def get_completions(self, document, complete_event):

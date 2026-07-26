@@ -120,11 +120,29 @@ class Search:
                     match_filters = all(v_filt in target_data.get(k_filt, "") for k_filt, v_filt in filters.items())
 
                     if match_keywords and match_filters:
-                        os_fam = target_data.get('os_family', 'Unknown')
-                        arch = target_data.get('architecture', 'Unknown')
-                        ports = str(target_data.get('ports', 'None'))
+                        # Improved key mapping for diverse recon module outputs
+                        # Use the original dict 'v' to preserve casing, but fallback to target_data (lowercase)
+                        os_fam = v.get('os_family', v.get('os', v.get('os_guess', target_data.get('os_family', 'Unknown'))))
+                        arch = v.get('architecture', v.get('arch', target_data.get('architecture', 'Unknown')))
                         
-                        table.add_row(str(i), k, os_fam, arch, ports)
+                        # Smart Port/Service display
+                        ports_val = v.get('ports', v.get('open_ports', v.get('bluetooth_services', v.get('services', []))))
+                        if isinstance(ports_val, list):
+                            if len(ports_val) > 0:
+                                if isinstance(ports_val[0], dict): # Port scanner format
+                                    ports_summary = ", ".join([str(p.get('port', '')) for p in ports_val[:3]])
+                                    if len(ports_val) > 3: ports_summary += "..."
+                                else: # Simple list of names (Bluetooth services)
+                                    ports_summary = f"{len(ports_val)} services"
+                            else:
+                                ports_summary = "None"
+                        else:
+                            ports_summary = str(ports_val)
+                        
+                        # Hostname display
+                        hostname = v.get('hostname', v.get('name', k))
+                        
+                        table.add_row(str(i), str(hostname), str(os_fam), str(arch), ports_summary)
                         match_count += 1
                         
                 if match_count > 0:

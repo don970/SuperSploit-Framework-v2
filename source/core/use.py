@@ -1,4 +1,5 @@
 import os
+import re
 from .database import DatabaseManagment, ExploitCache
 from .ToStdOut import ToStdout
 from .help import write
@@ -35,18 +36,33 @@ class use:
         elif category == "target":
             try:
                 targets = DatabaseManagment.getTargets()
-                targetList = []
-                for k, v in enumerate(targets):
-                    targetList.append(v)
-                if 0 <= index < len(targetList):
-                    selected_target = str(targetList[index])
-                    DatabaseManagment.directlyModify(["target", selected_target])
-                    DatabaseManagment.directlyModify(["rhost", selected_target])
-                    print(f"[*] Set R_HOST to {selected_target}\n")
+                target_keys = list(targets.keys())
+                if 0 <= index < len(target_keys):
+                    selected_key = target_keys[index]
+                    target_info = targets[selected_key]
+                    
+                    DatabaseManagment.directlyModify(["target", selected_key])
+                    print(f"[*] Set R_HOST to {selected_key}\n")
+                    
+                    # Check for MAC address in key or metadata
+                    mac_addr = ""
+                    # regex to detect MAC address format
+                    mac_regex = r"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"
+                    
+                    if re.match(mac_regex, selected_key):
+                        mac_addr = selected_key
+                    elif isinstance(target_info, dict):
+                        mac_addr = target_info.get("mac", target_info.get("mac_address", ""))
+                    
+                    if mac_addr:
+                        DatabaseManagment.directlyModify(["r_mac", mac_addr])
+                        print(f"[*] Set R_MAC to {mac_addr}\n")
                 else:
                     print("[-] Invalid target index.\n")
             except FileNotFoundError:
                 print("[-] Targets file not found.\n")
+            except Exception as e:
+                print(f"[-] Error selecting target: {e}\n")
                 
         elif category == "payload":
             payloads = DatabaseManagment.getPayloads()

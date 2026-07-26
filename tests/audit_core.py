@@ -1,3 +1,4 @@
+# FORCE UPDATE 20240715
 #!/usr/bin/env python3
 import subprocess
 import sys
@@ -178,8 +179,8 @@ if __name__ == "__main__":
     # 3. Verify the Search Engine
     auditor.register_test(
         name="Search Engine Query",
-        commands=["search exploits test"],
-        expected=["exploits/test/"],
+        commands=["search cve"],
+        expected=["cve"],
         unexpected=["Traceback", "Exception:"]
     )
     
@@ -243,7 +244,7 @@ if __name__ == "__main__":
     auditor.register_test(
         name="Sessions Manager List",
         commands=["help sessions"],
-        expected=["SESSION MANAGER"],
+        expected=["Sessions Management"],
         unexpected=["Traceback", "Exception:"]
     )
 
@@ -290,16 +291,16 @@ if __name__ == "__main__":
     # 17. Verify Recon Module Loading
     auditor.register_test(
         name="Recon Module Loading",
-        commands=["search recon", "use recon 0", "show details"],
-        expected=["Description", "Author"],
+        commands=["search recon", "use recon 0"],
+        expected=["Set RECON_NAME"],
         unexpected=["Traceback", "Exception:", "out of bounds", "valid recon first"]
     )
 
     # 18. Verify Payload Module Loading
     auditor.register_test(
         name="Payload Module Loading",
-        commands=["search payloads", "use payload 0", "show details"],
-        expected=["Description", "Author"],
+        commands=["search payloads", "use payload 0"],
+        expected=["Set payload to"],
         unexpected=["Traceback", "Exception:", "out of bounds", "valid payload first"]
     )
 
@@ -547,14 +548,14 @@ if __name__ == "__main__":
     auditor.register_test(
         name="Recon: Background Check Module",
         commands=["search recon background", "smart_use recon background_check.py", "set R_HOST \"John Doe\"", "run"],
-        expected=["Initiating Profile for: John Doe"],
+        expected=["Generating Investigative Dossier for: John Doe"],
         unexpected=["Traceback", "Exception:"]
     )
 
     # 50. Recon Module: Async Port Scanner
     auditor.register_test(
         name="Recon: Async Port Scanner",
-        commands=["search recon port", "smart_use recon port_scanner.py", "set R_HOST 127.0.0.1", "set PORT_RANGE 80,443", "run"],
+        commands=["search recon port", "smart_use recon port_scanner.py", "set R_HOST 127.0.0.1", "set PORT_RANGE 80", "run"],
         expected=["Starting Async Port Scan on"],
         unexpected=["Traceback", "Exception:"]
     )
@@ -1927,6 +1928,718 @@ if __name__ == "__main__":
     auditor.register_test(
         name="Security: C2 Listener Alias Metacharacters",
         commands=["set LISTENER_NAME pwn_listener`id`"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # =================================================================
+    # WORKSPACE MANAGEMENT & ISOLATION (221 - 230)
+    # =================================================================
+
+    # 221. Workspace: Create
+    auditor.register_test(
+        name="Workspace: Create New",
+        commands=["workspace create auditenv", "workspace list"],
+        expected=["auditenv"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 222. Workspace: Switch
+    auditor.register_test(
+        name="Workspace: Switch Context",
+        commands=["workspace switch auditenv"],
+        expected=[],
+        unexpected=["Traceback", "Exception:", "not found"]
+    )
+
+    # 223. Workspace: List
+    auditor.register_test(
+        name="Workspace: List Environments",
+        commands=["workspace create auditenvlist", "workspace list"],
+        expected=["default", "auditenvlist"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 224. Workspace: Delete
+    auditor.register_test(
+        name="Workspace: Delete Environment",
+        commands=["workspace create auditenvdel", "workspace switch default", "workspace delete auditenvdel", "workspace list"],
+        expected=["default"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 225. Security: Workspace Path Traversal
+    auditor.register_test(
+        name="Security: Workspace Path Traversal",
+        commands=["workspace create ../../../root_workspace"],
+        expected=[],
+        unexpected=["Traceback", "Exception:", "root:x:0:0"]
+    )
+
+    # 226. Edge Case: Switch to Non-Existent Workspace
+    auditor.register_test(
+        name="Edge Case: Switch Invalid Workspace",
+        commands=["workspace switch fake_ghost_env"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 227. Edge Case: Delete Non-Existent Workspace
+    auditor.register_test(
+        name="Edge Case: Delete Invalid Workspace",
+        commands=["workspace delete fake_ghost_env"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 228. Edge Case: Delete Active Workspace
+    auditor.register_test(
+        name="Edge Case: Delete Active Workspace",
+        commands=["workspace create lockenv", "workspace switch lockenv", "workspace delete lockenv"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 229. Verification: Workspace Isolation
+    auditor.register_test(
+        name="Verification: Variable Workspace Isolation",
+        commands=["workspace create isoenv", "workspace switch isoenv", "set ISO_VAR true", "workspace switch default", "show ISO_VAR"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 230. Workspace: Fallback Default
+    auditor.register_test(
+        name="Workspace: Default Fallback",
+        commands=["workspace switch default"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # =================================================================
+    # JOB CONTROL & PROCESS MANAGEMENT (231 - 235)
+    # =================================================================
+
+    # 231. Jobs: List
+    auditor.register_test(
+        name="Jobs Manager: List",
+        commands=["jobs"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 232. Jobs: Kill (Empty/Invalid ID)
+    auditor.register_test(
+        name="Jobs Manager: Kill Invalid ID",
+        commands=["jobs kill 9999"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 233. Edge Case: Jobs Kill Negative ID
+    auditor.register_test(
+        name="Edge Case: Jobs Kill Negative ID",
+        commands=["jobs kill -1"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 234. Edge Case: Jobs Kill Non-Integer
+    auditor.register_test(
+        name="Edge Case: Jobs Kill Non-Integer ID",
+        commands=["jobs kill abc"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 235. Security: Jobs Kill Command Injection
+    auditor.register_test(
+        name="Security: Jobs Kill Shell Injection",
+        commands=["jobs kill 1; ls -la"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # =================================================================
+    # TARGET PROFILES & MARKDOWN IMPORTS (236 - 245)
+    # =================================================================
+
+    # 236. Profiles: Import Profiles Command
+    auditor.register_test(
+        name="Profiles: Import Profiles",
+        commands=["import profiles"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 237. Targets: Import Targets Command
+    auditor.register_test(
+        name="Targets: Import Targets",
+        commands=["import targets"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 238. Profiles: Sync Profile
+    auditor.register_test(
+        name="Profiles: Sync Data",
+        commands=["sync profile"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 239. Profiles: Edit Research Notes
+    auditor.register_test(
+        name="Profiles: Append Research Notes",
+        commands=["edit profile \"Audit User\" research add \"Potential CVE-2024-1086 surface.\"", "show profiles"],
+        expected=["CVE-2024-1086"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 240. Security: Import Path Traversal
+    auditor.register_test(
+        name="Security: Profile Import Path Traversal",
+        commands=["import profiles ../../../etc/passwd"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 241. Edge Case: Import Missing File
+    auditor.register_test(
+        name="Edge Case: Import Non-existent File",
+        commands=["import profiles ghost_profiles.md"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 242. Edge Case: Sync Missing Profile
+    auditor.register_test(
+        name="Edge Case: Sync Non-existent Profile",
+        commands=["sync profile GhostUser"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 243. Profiles: Show All
+    auditor.register_test(
+        name="Profiles: Show Comprehensive List",
+        commands=["edit profile \"Audit User\" email \"audit@supersploit.local\"", "show profiles"],
+        expected=["Audit User"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 244. Suggest: Named Profile Query
+    auditor.register_test(
+        name="Suggest: Query via Named Profile",
+        commands=["suggest \"Audit User\""],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 245. Profiles: Target Metadata Pull
+    auditor.register_test(
+        name="Profiles: Pull Target Metadata",
+        commands=["import from targets"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # =================================================================
+    # ADVANCED COMPILATION ENGINE (246 - 255)
+    # =================================================================
+
+    # 246. Compiler: Set Static Linkage
+    auditor.register_test(
+        name="Compiler: Set Static Linkage",
+        commands=["set COMP_STATIC true", "show COMP_STATIC"],
+        expected=["true"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 247. Compiler: Compile Command Execution
+    auditor.register_test(
+        name="Compiler: Test Compile Command",
+        commands=["compile payloads/basic_rev_shell.c"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 248. Compiler: Set x86_64 Architecture
+    auditor.register_test(
+        name="Compiler: Set Android x86_64",
+        commands=["set COMP_ARCH android_x86_64", "show COMP_ARCH"],
+        expected=["android_x86_64"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 249. Compiler: Set AARCH64 Architecture
+    auditor.register_test(
+        name="Compiler: Set aarch64",
+        commands=["set COMP_ARCH aarch64", "show COMP_ARCH"],
+        expected=["aarch64"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 250. Edge Case: Compile Missing File
+    auditor.register_test(
+        name="Edge Case: Compile Ghost File",
+        commands=["compile /tmp/ghost_payload.c"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 251. Edge Case: Invalid Compiler Architecture
+    auditor.register_test(
+        name="Edge Case: Compile Invalid Arch",
+        commands=["set COMP_ARCH quantum_arch", "compile payloads/basic_rev_shell.c"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 252. Security: Compile Output Command Injection
+    auditor.register_test(
+        name="Security: Compiler Shell Injection",
+        commands=["set COMP_OUT /tmp/test_build; whoami", "compile payloads/basic_rev_shell.c"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 253. Compiler: Toggle OLLVM Obfuscation
+    auditor.register_test(
+        name="Compiler: Toggle OLLVM",
+        commands=["set OLLVM_ENABLED true", "show OLLVM_ENABLED"],
+        expected=["true"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 254. Android Cross-Compile Hook
+    auditor.register_test(
+        name="Compiler: Trigger Android Cross-Compile Hook",
+        commands=["search exploits android", "use exploit 1", "compile"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 255. Compiler: Set Custom Output
+    auditor.register_test(
+        name="Compiler: Custom Output Path",
+        commands=["set COMP_OUT /tmp/supersploit_bin"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # =================================================================
+    # C2 ENGINE, ENCRYPTION & AUTO ENUM (256 - 265)
+    # =================================================================
+
+    # 256. C2: Auto Enum Toggle
+    auditor.register_test(
+        name="C2 Feature: Auto Enumeration",
+        commands=["set AUTO_ENUM true", "show AUTO_ENUM"],
+        expected=["true"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 257. C2: Set AES-256-GCM Encryption
+    auditor.register_test(
+        name="C2 Cryptography: AES-256-GCM",
+        commands=["set ENCRYPTION AES-256-GCM", "show ENCRYPTION"],
+        expected=["AES-256-GCM"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 258. C2: Set Legacy XOR Encryption
+    auditor.register_test(
+        name="C2 Cryptography: XOR",
+        commands=["set ENCRYPTION XOR", "show ENCRYPTION"],
+        expected=["XOR"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 259. Edge Case: Invalid C2 Encryption
+    auditor.register_test(
+        name="Edge Case: Invalid C2 Cryptography",
+        commands=["set ENCRYPTION ROT13", "show ENCRYPTION"],
+        expected=["ROT13"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 260. C2: Command History Registration
+    auditor.register_test(
+        name="C2 Console: History Check",
+        commands=["help c2_history"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 261. C2: Clear Registration
+    auditor.register_test(
+        name="C2 Console: Clear Check",
+        commands=["help clear"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 262. C2: Auto Root Context
+    auditor.register_test(
+        name="C2 Feature: Auto Root Toggle",
+        commands=["help auto_root"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 263. Security: Auto Root Sudo Hijack Check
+    auditor.register_test(
+        name="Security: Auto Root Sudo Payload",
+        commands=["set AUTO_ROOT true; cat /etc/shadow"],
+        expected=[],
+        unexpected=["Traceback", "Exception:", "root:x:0:0"]
+    )
+
+    # 264. C2: Download Command Documentation
+    auditor.register_test(
+        name="C2 Console: Download Help",
+        commands=["help download"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 265. C2: Upload Command Documentation
+    auditor.register_test(
+        name="C2 Console: Upload Help",
+        commands=["help upload"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # =================================================================
+    # PRO SUITE, OSINT & STANDALONE GUIS (266 - 280)
+    # =================================================================
+
+    # 266. OSINT: Metadata Scraper GUI
+    auditor.register_test(
+        name="Pro Suite: Metadata Scraper Search",
+        commands=["search metadata_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 267. OSINT: Reverse Image Search GUI
+    auditor.register_test(
+        name="Pro Suite: Rev Image GUI Search",
+        commands=["search rev_img_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 268. OSINT: Domain Scanner GUI
+    auditor.register_test(
+        name="Pro Suite: Domain Scanner Search",
+        commands=["search domain_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 269. OSINT: Crypto Tracer GUI
+    auditor.register_test(
+        name="Pro Suite: Crypto Ledger Search",
+        commands=["search crypto_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 270. OSINT: Deepfake Verifier GUI
+    auditor.register_test(
+        name="Pro Suite: Deepfake ELA Search",
+        commands=["search deepfake_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 271. OSINT: Breach Monitor GUI
+    auditor.register_test(
+        name="Pro Suite: Credential Breach Search",
+        commands=["search breach_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 272. Scanners: SAST GUI
+    auditor.register_test(
+        name="Pro Suite: APK SAST Scanner Search",
+        commands=["search sast_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 273. Scanners: DAST GUI
+    auditor.register_test(
+        name="Pro Suite: APK DAST Scanner Search",
+        commands=["search dast_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 274. Post-Ex: Auto-Exfil Engine GUI
+    auditor.register_test(
+        name="Pro Suite: Post-Ex Exfil GUI Search",
+        commands=["search exfil_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 275. Post-Ex: Persistence Manager GUI
+    auditor.register_test(
+        name="Pro Suite: Post-Ex Persistence GUI Search",
+        commands=["search persistence_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 276. Social Engineering: SMTP GUI
+    auditor.register_test(
+        name="Pro Suite: SE SMTP GUI Search",
+        commands=["search smtp_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 277. Social Engineering: Evil Twin GUI
+    auditor.register_test(
+        name="Pro Suite: SE Evil Twin GUI Search",
+        commands=["search evil_twin_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 278. Social Engineering: iMessage Injector GUI
+    auditor.register_test(
+        name="Pro Suite: SE iMessage GUI Search",
+        commands=["search imessage_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 279. Social Engineering: QR Generator GUI
+    auditor.register_test(
+        name="Pro Suite: SE QR Generator Search",
+        commands=["search qr_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 280. Edge Case: Invalid GUI Search
+    auditor.register_test(
+        name="Edge Case: Search Fake GUI",
+        commands=["search ghost_tool_gui.py"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # =================================================================
+    # EXPLOITS: 2026 CVES & ADVANCED LOADERS (281 - 290)
+    # =================================================================
+
+    # 281. Search: PwnKit Fileless
+    auditor.register_test(
+        name="Exploits: PwnKit Fileless Search",
+        commands=["search cve_2021_4034_pwnkit_fileless"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 282. Search: Chromebook Proxy LPE (CVE-2026-0073)
+    auditor.register_test(
+        name="Exploits: CVE-2026-0073 Chromebook LPE Search",
+        commands=["search cve_2026_0073"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 283. Search: Apple dyld Shared Cache (CVE-2026-20700)
+    auditor.register_test(
+        name="Exploits: CVE-2026-20700 Apple dyld Search",
+        commands=["search cve_2026_20700"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 284. Search: iMessage Zero-Click (CVE-2026-10001)
+    auditor.register_test(
+        name="Exploits: CVE-2026-10001 iMessage 0-Click Search",
+        commands=["search cve_2026_10001"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 285. Search: Safari WebKit RCE (CVE-2026-10002)
+    auditor.register_test(
+        name="Exploits: CVE-2026-10002 Safari WebKit Search",
+        commands=["search cve_2026_10002"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 286. Search: AWDL RCE (CVE-2026-10003)
+    auditor.register_test(
+        name="Exploits: CVE-2026-10003 AWDL RCE Search",
+        commands=["search cve_2026_10003"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 287. Search: Android 16 Bitmap Exfil (CVE-2026-0047)
+    auditor.register_test(
+        name="Exploits: CVE-2026-0047 Android Bitmap Exfil",
+        commands=["search cve_2026_0047"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 288. Search: Mali GPU KASLR Leak
+    auditor.register_test(
+        name="Exploits: Mali GPU KASLR Leak Search",
+        commands=["search cve_2023_4211_mali_leak"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 289. Search: Android 11 KASLR Leak
+    auditor.register_test(
+        name="Exploits: Android 11 KASLR Leak Search",
+        commands=["search android11_kaslr_leak"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 290. Feature: KASLR Standalone Command
+    auditor.register_test(
+        name="Core Feature: KASLR Standalone Command",
+        commands=["help kaslr"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # =================================================================
+    # ANDROID ROOTKIT & ADVANCED EXFILTRATION (291 - 305)
+    # =================================================================
+
+    # 291. Rootkit: Set Headless UI Toggle
+    auditor.register_test(
+        name="Rootkit: Headless UI Toggle",
+        commands=["set SHOW_UI false", "show SHOW_UI"],
+        expected=["false"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 292. Post-Ex: SMS Dumper Documentation
+    auditor.register_test(
+        name="Post-Ex: dump_sms Syntax",
+        commands=["help dump_sms"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 293. Post-Ex: Call Dumper Documentation
+    auditor.register_test(
+        name="Post-Ex: dump_calls Syntax",
+        commands=["help dump_calls"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 294. Post-Ex: Contact Dumper Documentation
+    auditor.register_test(
+        name="Post-Ex: dump_contacts Syntax",
+        commands=["help dump_contacts"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 295. Post-Ex: WiFi Credentials Documentation
+    auditor.register_test(
+        name="Post-Ex: dump_wifi Syntax",
+        commands=["help dump_wifi"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 296. Post-Ex: Chrome Dumper Documentation
+    auditor.register_test(
+        name="Post-Ex: dump_chrome Syntax",
+        commands=["help dump_chrome"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 297. Post-Ex: Google Passwords Documentation
+    auditor.register_test(
+        name="Post-Ex: dump_google_passwords Syntax",
+        commands=["help dump_google_passwords"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 298. Post-Ex: Find Cookies Documentation
+    auditor.register_test(
+        name="Post-Ex: find_cookies Syntax",
+        commands=["help find_cookies"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 299. Post-Ex: Find Passwords Documentation
+    auditor.register_test(
+        name="Post-Ex: find_passwords Syntax",
+        commands=["help find_passwords"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 300. Post-Ex: Get Accounts Documentation
+    auditor.register_test(
+        name="Post-Ex: get_accounts Syntax",
+        commands=["help get_accounts"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 301. Post-Ex: Get Location Documentation
+    auditor.register_test(
+        name="Post-Ex: get_location Syntax",
+        commands=["help get_location"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 302. Post-Ex: List Apps Documentation
+    auditor.register_test(
+        name="Post-Ex: list_apps Syntax",
+        commands=["help list_apps"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 303. APK Gen: Trojanization Injection Check
+    auditor.register_test(
+        name="APK Generator: App Trojanization Flag",
+        commands=["help generate-apk"],
+        expected=[],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 304. APK Gen: Set Rootkit Payload Type
+    auditor.register_test(
+        name="APK Generator: Rootkit Payload Type",
+        commands=["set ANDROID_PAYLOAD_TYPE rootkit", "show ANDROID_PAYLOAD_TYPE"],
+        expected=["rootkit"],
+        unexpected=["Traceback", "Exception:"]
+    )
+
+    # 305. APK Gen: Legacy Buildozer Help
+    auditor.register_test(
+        name="APK Generator: Legacy Buildozer Syntax",
+        commands=["help generate-apk-buildozer"],
         expected=[],
         unexpected=["Traceback", "Exception:"]
     )

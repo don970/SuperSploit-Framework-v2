@@ -10,6 +10,7 @@ This document outlines the strategic engineering priorities for evolving SuperSp
 | --- | --- | --- | --- |
 | **5. Command & Control (C2 Server)** | Low / Unmarked | **Critical / Immediate** | A robust, concurrent network I/O loop is the essential foundation for all downstream network data and prevents protocol limitations. |
 | **6. Quality of Life (UX & Profiles)** | Low | **High** | Features like Workspace Management and Job Control directly impact memory safety and prevent cross-session pollution during automation. |
+| **7. Pro-Tier Delivery & Web** | Active | **High** | Extending the framework with AitM capabilities, rogue DNS, and out-of-band delivery (SMS/SMTP) adds critical attack vectors. |
 | **4. OSINT & Reconnaissance** | Low | **Medium** | Implementing structured document scrapers and API integrations expands coverage safely within user-space before touching unstable low-level environments. |
 | **2 & 3. Advanced Payloads & Persistence** | High | **Deferred Phase** | Introducing complex platform-specific modules before standardizing the core APIs and error recovery frameworks risks creating a fragile environment. |
 
@@ -48,7 +49,8 @@ This document outlines the strategic engineering priorities for evolving SuperSp
 - [ ] **Advanced Payloads**:
     - [ ] **Process Hollowing/Injection**: Injecting into trusted processes (Win/Linux).
     - [ ] **Windows Reflective DLL Injection**: Fileless DLL loading.
-- [ ] **Platform Support**: Add native payload generation support for iOS.
+    - [X] **Platform Support**: Add native payload generation support for iOS (dyld Cache / Hybrid Weaponization).
+    - [X] **Platform Support**: Native APK Generation (Android C-based DRS, Beacon, Rootkit).
 
 ## 5. ⚓ Persistence Mechanisms (Deferred Phase)
 *Objective: Establish long-term access after the core C2 and payload systems are mature.*
@@ -56,7 +58,12 @@ This document outlines the strategic engineering priorities for evolving SuperSp
 - [ ] **LD_PRELOAD Hijacking (Linux)**: Hooking functions via shared libraries.
 - [ ] **DLL Sideloading**: Exploiting DLL search order in legitimate apps.
 
+## 6. 🎣 Pro-Tier Tooling & Delivery Systems (Active)
+*Objective: Expand the framework's social engineering and network manipulation capabilities.*
+- [X] **AitM Proxy & Web Stager**: Interactive GUI for real-time session hijacking, credential harvesting, and JS injection.
+- [X] **Active DNS Patcher**: UDP Port 53 interception with dynamic interface routing and IPv4 spoofing for local MITM.
+- [ ] **SMTP Spoofing Suite**: Integrated email spoofing and templating for payload delivery.
+- [ ] **SMS Sender**: Pro-tier module for direct-to-device mobile weaponization.
+
 ## Random Thoughts 
 - [X] **let's improve the target profile system in place already.**: i want to have the target profile be able to import from targets database creating a target profile we can attach research to this would be good for local lpe research like iv been doing but also just a good feature and if a active session is caught lets have the agent use the enumeration tools via the upload command. using the enumeration tools in the source/tools folder to create a comprehensive report of the device then adding key points to the profile for persistent testing and research logging
-
-

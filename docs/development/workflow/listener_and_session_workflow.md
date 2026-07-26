@@ -20,7 +20,7 @@ This document outlines how the SuperSploit C2 listener is started and how it man
                       |
                       +--> Creates a new TCP socket and binds it to the configured LHOST and LPORT.
                       |
-                      +--> Wraps the socket with the SSL/TLS context.
+                      +--> Wraps the socket with the `ssl.PROTOCOL_TLS_SERVER` context.
                       |
                       +--> Starts a new background thread (`listener_thread`) to handle incoming connections, allowing the main framework to remain interactive.
 
@@ -40,7 +40,13 @@ This document outlines how the SuperSploit C2 listener is started and how it man
                 |
                 +--> The session (socket object, address, ID) is stored in the `active_sessions` dictionary.
                 |
-                +--> A banner is printed: `[+] Background Session X opened! Type 'sessions -i X' to interact.`
+                +--> **AUTO_ENUM Trigger**: The listener checks framework configurations for `AUTO_ENUM`.
+                     |
+                     +--> If enabled, automatically cross-compiles and deploys `android-enum3.c` or `linux_enum.c` to the target.
+                     |
+                     +--> Parses vulnerabilities from the enum output and updates `profiles.db`.
+                |
+                +--> A banner is printed: `[+] Background Session X opened!`
 
 ## Interacting with a Session
 
@@ -62,7 +68,11 @@ This document outlines how the SuperSploit C2 listener is started and how it man
                                   |
                                   +--> Displays the session-specific prompt (e.g., `Session 1> `).
                                   |
-                                  +--> Relays user commands over the encrypted socket to the remote agent.
+                                  +--> Intercepts commands (e.g., `upload`, `download`, `auto_root`).
+                                  |
+                                  +--> **Cryptography Layer**: Encrypts the payload/command using AES-256-GCM (with dynamic 12-byte Nonce/IV) and Base64 encodes the stream.
+                                  |
+                                  +--> Transmits the length-prefixed packet over the TLS socket.
                                   |
                                   +--> Receives and displays the output from the agent.
                                   |
