@@ -1,6 +1,0 @@
-id=ss_phantom_libvold_so
-name=SuperSploit Phantom (libvold.so)
-version=v1.0
-versionCode=1
-author=SuperSploit
-description=Systemless hijack of libvold.so for stealth persistence.
