@@ -24,6 +24,7 @@ SuperSploit Pro is a premium extension of the framework designed for professiona
 
 ### 👑 Exclusive Pro Features & Tools
 The following advanced modules, graphical interfaces, and weaponization pipelines are strictly gated behind the SuperSploit Pro license:
+* **Pro OSINT Suite:** Metadata Scraper, Reverse Image Search, Phone Intelligence, Domain Scanner, Credential Breach Monitor, Crypto Ledger Tracer, and Deepfake Verifier (ELA).
 * **Social Engineering GUI Suite:** Advanced SMTP Spoofing Suite, SMS Smishing Engine, Deepfake Vishing Suite, iMessage/RCS Injector, Evil Twin/Rogue AP, and Malicious QR Generator.
 * **Advanced Weaponization & Evasion:** Polymorphic Shellcode Packer, APK Polymorphic Crypter, APK Trust Store Patcher, and the Professional Cross-Arch Compilation Suite.
 * **Apple Zero-Day Attack Chain:** Safari WebKit Stager (CVE-2026-10002), iMessage Zero-Click (CVE-2026-10001), AWDL Proximity RCE (CVE-2026-10003), and dyld_shared_cache LPE (CVE-2026-20700).
@@ -91,6 +92,7 @@ Physical airspace and proximity vectors natively integrated into the C2 environm
 
 ## ⚙️ Core Framework Architecture
 
+* **ToolEngine (Pro):** A planned unified execution pipeline natively bridging standalone GUI and CLI modules (OSINT, Scanners, Post-Ex) directly into the main SuperSploit ecosystem, standardized with the new "Sentry Dark Theme".
 * **Suggestion Engine (Auto-Suggest):** Uses a multi-factor heuristic algorithm to analyze targets (OS, Kernel, Services, Banners) and immediately suggest high-probability exploits.
 * **Hybrid Weaponizer:** Reads raw C exploit templates, calculates dynamic register alignments, and injects custom-generated Polymorphic XOR-packed shellcode directly into source files prior to cross-compilation.
 * **Intelligent State & Workspace Management:** An asynchronous sync mechanism seamlessly merges the in-memory target cache with the persistent `targets.json` and internal SQLite databases.
