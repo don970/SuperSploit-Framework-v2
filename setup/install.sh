@@ -14,8 +14,9 @@ printf "[*] Installing Advanced Evasion & Hardware Dependencies \n"
 sudo apt-get install -y hostapd dnsmasq aircrack-ng apktool zipalign apksigner default-jdk gcc-aarch64-linux-gnu
 
 # copy latest local version to install path
+# This script should be run from the project root directory
 printf  "[*] Copying files to install path \n"
-sudo cp -r  $HOME/PycharmProjects/SuperSploit-Framework $HOME/.SuperSploit
+sudo cp -r . $HOME/.SuperSploit
 
 # change ownership
 printf "[*] Changing ownership to $USER \n"

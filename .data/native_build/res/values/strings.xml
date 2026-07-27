@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="lhost">10.128.166.62</string>
-    <string name="lport">5000</string>
-    <string name="wakelock">false</string>
-    <string name="xor_key">SuperSploitKey</string>
-</resources>

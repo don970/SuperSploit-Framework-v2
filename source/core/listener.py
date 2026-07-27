@@ -207,7 +207,9 @@ class Listener:
             try:
                 # Trace Redirection for Remote Debugging
                 def trace(msg):
-                    with open("/home/donald/LISTENER_TRACE.log", "a") as tf:
+                    log_file = os.path.join(installation, ".data", ".logs", "LISTENER_TRACE.log")
+                    os.makedirs(os.path.dirname(log_file), exist_ok=True)
+                    with open(log_file, "a") as tf:
                         tf.write(f"[{datetime.datetime.now()}] {msg}\n")
                     write(msg)
 
