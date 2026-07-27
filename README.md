@@ -5,6 +5,11 @@
 <h1 align="center">SuperSploit Framework v2</h1>
 
 <p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="Python 3.8+"></a>
+  <a href="https://github.com/don970/SuperSploit-Framework-v2"><img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintenance"></a>
+</p>
+<p align="center">
   <strong>A Modern, Stealth-Focused C2 & Exploitation Framework for Elite Red Teams.</strong>
 </p>
 <p align="center">
@@ -16,6 +21,17 @@
 > SuperSploit is an APT-tier, multi-platform exploitation framework designed for elite Red Teams and Security Researchers. It bridges the gap between high-level social engineering, Adversary-in-the-Middle (AitM) staging, and highly evasive hardware/kernel-level exploitation.
 
 > Featuring an intelligent, state-driven database, SuperSploit automatically correlates discovered target vulnerabilities with over 260+ offline CVEs, seamlessly injecting dynamic, polymorphic payloads into targeted applications and memory spaces.
+
+---
+
+## 📑 Table of Contents
+- [💎 SuperSploit Pro](#-supersploit-pro)
+- [🚀 Ecosystem Capabilities](#-ecosystem-capabilities)
+- [⚙️ Core Framework Architecture](#️-core-framework-architecture)
+- [📦 Installation & Setup](#-installation--setup)
+- [🛠️ Quick Start Guide](#️-quick-start-guide)
+- [📚 Documentation & Configuration](#-documentation--configuration)
+- [⚠️ Disclaimer](#️-disclaimer)
 
 ---
 
@@ -96,6 +112,25 @@ Physical airspace and proximity vectors natively integrated into the C2 environm
 * **Suggestion Engine (Auto-Suggest):** Uses a multi-factor heuristic algorithm to analyze targets (OS, Kernel, Services, Banners) and immediately suggest high-probability exploits.
 * **Hybrid Weaponizer:** Reads raw C exploit templates, calculates dynamic register alignments, and injects custom-generated Polymorphic XOR-packed shellcode directly into source files prior to cross-compilation.
 * **Intelligent State & Workspace Management:** An asynchronous sync mechanism seamlessly merges the in-memory target cache with the persistent `targets.json` and internal SQLite databases.
+
+---
+
+## 📦 Installation & Setup
+
+SuperSploit is optimized for Unix-based systems (Linux, Kali, ParrotOS, macOS) and requires **Python 3.8+**.
+
+```sh
+# 1. Clone the repository
+git clone https://github.com/don970/SuperSploit-Framework-v2.git
+cd SuperSploit-Framework-v2
+
+# 2. Install Python dependencies
+pip3 install -r setup/requirements.txt
+
+# 3. Run the automated installer (sets up directories, DBs, and permissions)
+chmod +x setup/install.sh
+sudo ./setup/install.sh
+```
 
 ---
 

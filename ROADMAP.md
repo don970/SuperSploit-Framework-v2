@@ -18,33 +18,33 @@ This document outlines the strategic engineering priorities for evolving SuperSp
 
 ## 1. 🕹️ Command & Control (C2) Infrastructure (Critical Priority)
 *Objective: Eliminate protocol bottlenecks and build a resilient, asynchronous network engine.*
-- [ ] **Asynchronous HTTP/HTTPS Server**: Replace the standard Python web server with a dedicated, non-blocking asynchronous engine (e.g., using `asyncio`) to handle high-concurrency C2 check-ins from beacon payloads.
-- [ ] **State Management**: Implement thread-safe asynchronous queues (`asyncio.Queue`) to manage data flow between concurrent C2 connections and the main framework, preventing state corruption.
+- [X] **Asynchronous HTTP/HTTPS Server**: Replace the standard Python web server with a dedicated, non-blocking asynchronous engine (e.g., using `asyncio`) to handle high-concurrency C2 check-ins from beacon payloads.
+- [X] **State Management**: Implement thread-safe asynchronous queues (`asyncio.Queue`) to manage data flow between concurrent C2 connections and the main framework, preventing state corruption.
 
 ## 2. ✨ Quality of Life & Infrastructure (High Priority)
 *Objective: Ensure memory safety, state isolation, and a predictable user experience.*
-- [ ] **Workspace Management**:
-    - [ ] Refactor the database engine to instantiate fully isolated SQLite database files per workspace directory.
-    - [ ] Add commands to create, switch, and delete workspaces.
-- [ ] **Job Control & Process Management**:
-    - [ ] Implement a centralized job registry to track background tasks (listeners, scans, etc.).
-    - [ ] Create a `jobs` command to view, manage, and terminate background processes gracefully.
-- [ ] **Modernize the Console Interface**:
-    - [ ] Implement dynamic tab completion for commands, file paths, and module names.
-    - [ ] Add `Ctrl+R` for reverse-searching command history.
-    - [ ] Use a library like `rich` to create interactive, sortable tables for `search` and `sessions`.
+- [X] **Workspace Management**:
+    - [X] Refactor the database engine to instantiate fully isolated SQLite database files per workspace directory.
+    - [X] Add commands to create, switch, and delete workspaces.
+- [X] **Job Control & Process Management**:
+    - [X] Implement a centralized job registry to track background tasks (listeners, scans, etc.).
+    - [X] Create a `jobs` command to view, manage, and terminate background processes gracefully.
+- [X] **Modernize the Console Interface**:
+    - [X] Implement dynamic tab completion for commands, file paths, and module names.
+    - [X] Add `Ctrl+R` for reverse-searching command history.
+    - [X] Use a library like `rich` to create interactive, sortable tables for `search` and `sessions`.
 
 ## 3. 🔎 OSINT & Reconnaissance (Medium Priority)
 *Objective: Expand footprint analysis capabilities with stable, user-space tools.*
-- [ ] **Public Repo Scanner**: Search GitHub/GitLab for leaked API keys and internal docs.
-- [ ] **Shodan/Censys Integration**: Leverage search engine APIs for banner grabbing and vulnerability correlation.
-- [ ] **Domain/Subdomain Enumeration**: Identify subdomains, associated IPs, and DNS records.
-- [ ] **Metadata Scraper**: Extract metadata from publicly available documents (PDFs, DOCX, XLSX).
+- [X] **Public Repo Scanner**: Search GitHub/GitLab for leaked API keys and internal docs.
+- [X] **Shodan/Censys Integration**: Leverage search engine APIs for banner grabbing and vulnerability correlation.
+- [X] **Domain/Subdomain Enumeration**: Identify subdomains, associated IPs, and DNS records.
+- [X] **Metadata Scraper**: Extract metadata from publicly available documents (PDFs, DOCX, XLSX).
 
 ## 4. 🚀 Exploitation & Payloads (Deferred Phase)
 *Objective: Broaden the attack surface after the core infrastructure is stable.*
 - [ ] **CVE Integration**:
-    - [ ] **PwnKit / Polkit pkexec (CVE-2021-4034)** - *Integrate into interactive sessions for auto-escalation.*
+    - [X] **PwnKit / Polkit pkexec (CVE-2021-4034)** - *Integrate into interactive sessions for auto-escalation.*
     - [ ] F5 BIG-IP TMUI RCE (CVE-2020-5902).
 - [ ] **Advanced Payloads**:
     - [ ] **Process Hollowing/Injection**: Injecting into trusted processes (Win/Linux).
@@ -62,8 +62,11 @@ This document outlines the strategic engineering priorities for evolving SuperSp
 *Objective: Expand the framework's social engineering and network manipulation capabilities.*
 - [X] **AitM Proxy & Web Stager**: Interactive GUI for real-time session hijacking, credential harvesting, and JS injection.
 - [X] **Active DNS Patcher**: UDP Port 53 interception with dynamic interface routing and IPv4 spoofing for local MITM.
-- [ ] **SMTP Spoofing Suite**: Integrated email spoofing and templating for payload delivery.
-- [ ] **SMS Sender**: Pro-tier module for direct-to-device mobile weaponization.
+- [X] **SMTP Spoofing Suite**: Integrated email spoofing and templating for payload delivery.
+- [X] **SMS Sender**: Pro-tier module for direct-to-device mobile weaponization.
 
-## Random Thoughts 
-- [X] **let's improve the target profile system in place already.**: i want to have the target profile be able to import from targets database creating a target profile we can attach research to this would be good for local lpe research like iv been doing but also just a good feature and if a active session is caught lets have the agent use the enumeration tools via the upload command. using the enumeration tools in the source/tools folder to create a comprehensive report of the device then adding key points to the profile for persistent testing and research logging
+## 7. ⚙️ ToolEngine Pipeline (Active Priority)
+*Objective: Establish an in-memory execution pipeline to seamlessly integrate standalone Pro-Tier tools into the main SuperSploit CLI, Search, and Suggestion ecosystems.*
+- [ ] Architect the `ToolEngine` bridge to ingest standalone GUI and CLI modules natively.
+- [ ] Map all Pro OSINT, Scanners, and SE tools to the central Search Engine.
+- [ ] Unify Sentry Dark Theme styling across all dynamically loaded Tkinter interfaces.
