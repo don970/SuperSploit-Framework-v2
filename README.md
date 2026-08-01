@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="./.data/.assets/Logo-v2.png" alt="SuperSploit Framework Logo" width="500"/>
-</p>
-
-<h1 align="center">SuperSploit Framework v2</h1>
+  <img width="4400" height="2400" alt="Logo-v2" src="https://github.com/user-attachments/assets/9a9822c9-f0ee-4b7c-8ae8-625bcbf44e0a" />
+</p> 
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
