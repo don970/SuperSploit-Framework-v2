@@ -1,8 +1,11 @@
 #!/bin/bash
 # ==============================================================================
-# SuperSploit Automated LPE Deployment Script
+# name: "SuperSploit Automated LPE Deployment Script"
 # Target: Android 11 / Kernel 4.14 (ARMv7)
 # Vectors: CVE-2020-0423 (Binder Info Leak) -> CVE-2019-2215 (Bad Binder LPE)
+# description: "A functional android local privilege escalation deployment script"
+# category: "Tool"
+# author: "Donald Ford"
 # ==============================================================================
 # points to target dic
 TARGET_DIR="/data/local/tmp"

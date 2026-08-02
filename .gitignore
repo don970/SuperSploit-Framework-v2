@@ -1,17 +1,8 @@
-# Ignore all Python source files in the exploits and source directories
-exploits/**/*.py
-source/**/*.py
-
-# Ignore the build script
-build_pro_modules.py
-
 # research
 docs/pro/
 docs/development/
 docs/research/
 
-# Pro-Tier Web Templates
-templates/web/
 
 # Sentry OSINT Framework & Recon Loot
 .data/.loot/osint/
