@@ -1,0 +1,14 @@
+======================================================================
+[ SuperSploit Pro ] Auto-Exfil Engine
+======================================================================
+Description:
+  Post-Exploitation module to harvest high-value data from a target.
+  Generates automated, compressed bash payloads that hunt down:
+    - Chrome / Firefox SQLite Cookie & Login databases
+    - WhatsApp / Signal Encrypted message stores
+    - Saved Wi-Fi Networks (wpa_supplicant.conf)
+    - SSH Private Keys
+
+Usage:
+  exfil
+======================================================================

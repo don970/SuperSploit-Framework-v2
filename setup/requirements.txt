@@ -1,31 +1,27 @@
-cryptography>=41.0.0
-scapy>=2.5.0
-nfcpy>=1.0.4
-requests>=2.31.0
-frida-tools>=12.0.0
-qrcode>=7.4.2
-Pillow>=10.0.0
-phonenumbers>=8.13.0
-fpdf>=1.7.2
-prompt_toolkit>=3.0.0
-rich>=13.0.0
-gTTS>=2.3.2
-colorama>=0.4.6
-pyfiglet>=1.0.2
-pure-python-adb>=0.3.0.dev0
-PyYAML>=6.0
-sqlitedict>=2.1.0
-buildozer>=1.6.0
-kivy>=2.3.0
-PyPDF2>=3.0.0
-python-docx>=1.2.0
-openpyxl>=3.1.0
-python-pptx>=1.0.0
-pyserial>=3.5
-psutil>=5.9.0
-tabulate>=0.9.0
-PyBluez>=0.23
-PyOBEX>=0.31
-pyusb>=1.2.1
-python-whois>=0.8.0
-dnspython>=2.3.0
+# Python dependencies for SuperSploit Framework
+# Install with: pip3 install -r setup/requirements.txt
+
+# Core Framework Dependencies
+cryptography>=3.4.0 # For secure hashing and symmetric cryptosystems (C2, payloads)
+requests>=2.25.1    # For executing outbound REST API requests (e.g., SMS gateways, web stagers)
+Rich>=10.0.0        # For rich text and beautiful formatting in the terminal (console interface)
+prompt_toolkit>=3.0.0 # For building powerful interactive command lines (console interface)
+
+# Hardware & Proximity
+pyusb>=1.1.1        # Direct USB interface communication
+PyBluez>=0.23       # Bluetooth socket creation
+PyOBEX>=1.7         # Bluetooth Object Exchange (OBEX) push client
+nfcpy>=1.0.0        # Near Field Communication (NFC) frame sending and reading
+
+# OSINT & Data Processing
+Pillow>=8.0.0       # Image handling and formatting (various GUI tools)
+PyPDF2>=1.26.0      # Extracting hidden metadata from PDF documents
+python-docx>=0.8.10 # Analyzing MS Word files for metadata
+python-pptx>=0.6.19 # Reading PowerPoint structures for metadata enumeration
+openpyxl>=3.0.7     # Reading and writing MS Excel files
+qrcode>=7.0         # Generating custom QR codes
+phonenumbers>=8.12.0 # Python port of Google's libphonenumber
+gTTS>=2.2.3         # Google Text-to-Speech synthesis for vishing operations
+pure-python-adb>=0.3.0 # Python-native interface to interact with Android Debug Bridge (ADB)
+pyserial>=3.5       # Controlling and sending AT injection commands via serial/UART
+frida-tools>=16.0.0 # Dynamic instrumentation of target processes and runtime hooking

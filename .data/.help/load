@@ -1,0 +1,34 @@
+# 💉 COMMAND: load
+The load command is the gateway to in-memory post-exploitation, allowing for the silent injection of scripts and binaries into an active C2 agent's RAM.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- AST (Abstract Syntax Tree) Analysis: Before transmission, Python payloads are parsed via the ast module.
+- Memfd Injection (ELF/C): For compiled C binaries or raw ELFs, the framework wraps the data in a Python-based memfd_create() stub. This creates an anonymous file descriptor in RAM and executes it via /proc/self/fd/ to ensure a zero-disk footprint.
+- Crypto-Handshake: The command initiates a "READY" handshake. Once confirmed, the payload is XOR-encrypted and Base64 encoded.
+- Namespace Isolation: Python payloads are executed within their own dictionary context on the target, preventing variable collisions with the main C2 agent.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### load <local_path>
+- local_path: The absolute or relative path to the .py, .c, or .elf file you wish to inject.
+
+### Example:
+Session 1> load /home/donald/.SuperSploit/payloads/Stage2/keylogger.py
+
+---
+
+## ⚙️ EXECUTION FLOW
+1. Staging: The payload is read and its delimiters (#!#!#!) are stripped.
+2. Analysis: AST analysis identifies the main trigger function (e.g., Start()).
+3. Injection: Data is sent via the encrypted TLS stream.
+4. Trigger: The operator is provided with the function name to call (e.g., keylogger_start()) to begin execution.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Zero Disk I/O: The load command ensures that the payload is never written to the target's filesystem, bypassing standard EDR/AV file-scanning hooks.
+- Memory Pressure: Large ELF binaries can consume significant RAM on the target. Always check the target's available memory before loading heavy payloads.
+- Error Handling: If a loaded Python script crashes, it will only terminate its local thread; the primary C2 connection will remain active due to the framework's exception isolation.

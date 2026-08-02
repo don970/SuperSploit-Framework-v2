@@ -1,0 +1,35 @@
+# 📂 COMMAND: use
+The use command allows you to select and load specific modules (exploits, payloads, recon, targets) into the active framework context.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Context Updating: Loading a module via use triggers DatabaseManagment.directlyModify(), which updates the internal EXPLOIT or RECON_PATH keys and synchronizes them with the persistent SQLite store.
+- ExploitCache Integration: When an exploit is loaded, ExploitCache._parse_details() is called to extract YAML metadata (CVE, description, required options) for the info and show options commands.
+- Target Indexing: When using use target <index>, the framework maps the integer index to the targets.json database, automatically setting R_HOST to the selected target's IP.
+- Recon DB Refresh: The use recon command triggers a filesystem crawl of the recon/ directory, ensuring all newly added scripts are discoverable.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### use <category> <index>
+Loads a module from a specific category based on its search index.
+- use exploit 5
+- use recon 0
+- use target 2
+- use payload 1
+
+---
+
+## ⚙️ SUPPORTED CATEGORIES
+- exploit: Loads a vulnerability exploitation module.
+- recon: Loads a reconnaissance/enumeration module.
+- target: Selects a target from the previously discovered target list.
+- payload: Configures the primary stager for the next exploit run.
+- stage2: Selects the in-memory C2 agent to be deployed upon successful exploitation.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Validation: The command validates that the selected index exists within the current search results to prevent null-pointer crashes.
+- Automatic Info Display: Loading a new module typically refreshes the ExploitCache, ensuring that subsequent show options calls reflect the *exact* requirements of the newly selected script.

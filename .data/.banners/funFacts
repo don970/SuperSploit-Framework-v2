@@ -1,0 +1,1073 @@
++-----------------------------------------+
+                        |             SuperSploit CLI             |
+                        |       (input_handling_engine.py)        |
+                        +--------------------+--------------------+
+                                             |
+                   +-------------------------+-------------------------+
+                   |                         |                         |
+          [Command: "exploit"]       [Command: "run"]      [State / Background]
+                   |                         |                         |
+        +----------v----------+   +----------v----------+   +----------v----------+
+        |   Exploit Engine    |   |    Recon Engine     |   |  State Management   |
+        | (exploit_engine.py) |   |  (recon_engine.py)  |   |    (database.py)    |
+        +----------+----------+   +----------+----------+   +---------------------+
+                   |                         |              | SQLiteDict Wrapper  |
+       +-----------+-----------+             |              | Fileless Cache      |
+       |           |           |             |              +----------+----------+
+ +-----v----+ +----v----+ +----v----+  +-----v----+ +----v----+        |
+ | Python   | | C Src   | | Bash    |  | Python   | | Python  |        |
+ | Exec     | | Compile | | Exec    |  | Exec     | | Exec    |        |
+ +--+--+----+ +----+----+ +----+----+  +----+-----+ +----+----+        |
+    |  |           |           |            |            |             |
++---v--v---+  +----v----+  +---v---+   +----v---+   +----v---+         |
+|In-Memory |  |Isolated |  |Sub-   |   |In-Memory|  |Sudo    |         |
+|Module    |  |Subproc  |  |process|   |Module   |  |Subproc |         |
+|sys.module|  |tmp file |  |       |   |sys.mod  |  |tmp file|         |
++----------+  +---------+  +-------+   +---------+  +--------+         |
+      |             |          |            |            |             |
+      v             v          v            v            v             |
+=======================================================================|===
+|                            TARGET ENVIRONMENT                        |
+=======================================================================|===
+                                                                       |
+                                                            +----------v----------+
+                                                            |  Background C2      |
+                                                            |  (listener.py)      |
+                                                            +---------------------+
+                                                            | Catches Stage 2     |
+                                                            | In-Memory Payloads  |
+                                                            +---------------------+
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The First Computer Weighed More Than 27 Tons
+Her name was ENIAC, and she took up a modest 1800 square feet of space.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+ About 90% of the World’s Currency Only Exists on Computers
+This means only about 10% of the global currency is actually cash.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+ The First Computer Mouse was Made of Wood
+Doug Engelbart invented it in 1964.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+ About 70% of Virus Engineers Work for Organized Crime Syndicates
+This gives new weight to the importance of anti-virus and anti-malware software, and excellent virus removal services.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+ The First Known Computer Programmer was a Woman
+Her name was Ada Lovelace, and she lived in England, where she worked as a mathematician and writer. She is famous for working on the “Analytical Engine.”
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+ Some of the Biggest Computer Brands Started in Garages
+This is true for Apple, Microsoft, and HP.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+ People Blink Less When They Use Computers
+While the average person blinks about 20 times a minute under normal circumstances, people on computers only blink about seven times a minute.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+ Hackers Write About 6,000 New Viruses Each Month
+These viruses are designed to target a wide selection of operating systems, so learning to avoid viruses and malware is essential!
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+More Than 80% of Daily Emails in the U.S. are Spam
+To keep your data safe, delete these emails immediately and don’t click any links or attachments they might contain.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+MyDoom is the Most Expensive Computer Virus in History
+The virus cost an estimated $38.5 billion in damage and came about in January of 2006. Shortly after that, it earned a name for itself as the fastest-spreading virus ever.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The Parts for the Modern Computer Were First Invented in 1833
+A man named Charles Babbage put them together, but the first modern computer came about 120 years later.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+ The First Gigabyte Drive Cost $40,000
+It was released in 1980 and weighed 550 lbs. How’s that for a portable drive?
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The Case of the First Macintosh Computer Includes 47 Signatures
+On the inside of the device, Macintosh’s entire 1982 division signed the case.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The Worst U.S. Security Breach of All Time Happened Because of a USB Stick
+Someone found the stick (which a foreign intelligence agency infected) in a parking lot and plugged it into their computer. The computer had links to the U.S. Central Command. The attack happened in 2008 and resulted in the theft of thousands of classified and unclassified documents. The Pentagon spent about 14 months cleaning up the damage from the worm.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A single computer catches 50% of all Wikipedia Vandalism
+This computer has a 90% accuracy rate.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer "bug" was a literal moth trapped in a relay of the Harvard Mark II in 1947.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The QWERTY keyboard layout was designed to slow down typists so that mechanical typewriter arms wouldn't jam.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Software" was first used in print in 1958 by statistician John Tukey.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Python was named after the British comedy troupe "Monty Python," not the snake.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first domain name ever registered was symbolics.com on March 15, 1985.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Bluetooth is named after the 10th-century Viking king Harald "Bluetooth" Gormsson.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Google's first storage server was made from LEGO bricks to easily expand capacity.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first text message ever sent was "Merry Christmas" in December 1992.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Domain names were free until 1995, after which Network Solutions began charging.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The Firefox logo is actually a Red Panda, not a fox.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+JavaScript was created in just 10 days by Brendan Eich at Netscape in 1995.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "@" symbol was chosen for email because it was rarely used and separated the user from the host.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Nintendo was founded in 1889—nearly 100 years before the NES—as a playing card company.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first webcam was used at Cambridge University to monitor a coffee pot so researchers wouldn't walk to an empty pot.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The Morris Worm (1988) was the first large-scale automated attack on the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "ILOVEYOU" virus in 2000 infected over 50 million computers in just 10 days.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Metasploit was originally written in Perl before being completely rewritten in Ruby.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Wireshark was originally named "Ethereal" before a trademark dispute forced a name change.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Nmap's first release was a simple C program published in Phrack Magazine in 1997.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+CVE stands for Common Vulnerabilities and Exposures, a system for identifying publicly known security flaws.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The OWASP Top 10 is the global standard list of the most critical web application security risks.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Admin" and "123456" remain the most common hardcoded credentials exploited in IoT botnets.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Grace Hopper invented the first compiler for a computer programming language (A-0).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Ken Thompson and Dennis Ritchie developed Unix at Bell Labs using a discarded PDP-7.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Linus Torvalds created Git in 2005 specifically to manage the development of the Linux kernel.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The maximum supply of Bitcoin is capped at 21 million by its source code.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 1GB hard drive, the IBM 3380 (1980), was the size of a refrigerator and cost $40,000.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+HTTP Status Code 418 is a real standard: "I'm a teapot."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+RFC 2549 is a famous joke protocol describing "IP over Avian Carriers" (pigeons).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The Konami Code (Up-Up-Down-Down...) was originally a cheat code for the game Gradius.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Space Invaders was so popular in Japan it caused a national shortage of 100-yen coins.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The world's first commercially successful video game was Pong, released by Atari in 1972.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Doom (1993) was famously installed on more PCs than Windows 95 during its first year.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Robot" comes from the Czech word "robota," meaning "forced labor."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Stuxnet was the first known malware to physically damage industrial infrastructure (centrifuges).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Salting" a password involves adding random data to the input before hashing to defeat rainbow tables.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Honeypots are decoy systems designed to lure and analyze the techniques of attackers.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Zero-Day" vulnerability is one that is unknown to the software vendor and has no patch.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Silicon Valley got its name because it was the global hub for silicon-based integrated circuits.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first smartphone was the IBM Simon, released in 1994, featuring a touchscreen and apps.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+IPv6 was developed because the world ran out of available IPv4 addresses (4.3 billion).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+TOR (The Onion Router) was originally developed by the U.S. Naval Research Laboratory.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Deep Web" is simply anything not indexed by search engines, like your private email.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+GitHub was acquired by Microsoft in 2018 for $7.5 billion.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "front page of the internet" is the official slogan of Reddit.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Signal is widely considered the most secure messaging app due to its open-source encryption protocol.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+BGP (Border Gateway Protocol) is the "glue" that allows different networks to route data across the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Kubernetes was originally designed by Google and was inspired by their internal system called "Borg."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Serverless" computing still uses servers; it just means the developer doesn't manage the infrastructure.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Unicorn" in the tech world is a startup company valued at over $1 billion.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first Apple logo featured Isaac Newton sitting under an apple tree.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Cyborg" is short for "Cybernetic Organism."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Qubit" is the basic unit of information in quantum computing, existing in multiple states at once.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "S" in HTTPS stands for Secure, indicating the connection is encrypted via SSL/TLS.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Phishing is the attempt to acquire sensitive information by masquerading as a trustworthy entity.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Social Engineering is the art of manipulating people into divesting confidential information.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Botnet" is a network of compromised computers controlled by a single "Botmaster."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Red Teaming is the process of testing a company's defenses by simulating a real-world attack.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Blue Teaming is the defensive security team responsible for maintaining and improving internal security.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Turing Test" measures a machine's ability to exhibit intelligent behavior indistinguishable from a human.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Spaghetti Code" refers to unstructured and difficult-to-maintain source code.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+An "Easter Egg" in software is a hidden feature, message, or joke left by the developers.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first version of Windows (1.0) was released in 1985 and was just a GUI for MS-DOS.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 5MB hard drive, the IBM 305 RAMAC (1956), weighed over a ton.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Email existed before the World Wide Web, with the first messages sent in the early 1970s.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The standard "C" programming language was named so because it was the successor to the "B" language.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first microprocessor, the Intel 4004 (1971), had 2,300 transistors.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Moore's Law predicted that the number of transistors on a chip would double every two years.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Father of the Computer," Charles Babbage, designed the Analytical Engine in the 1830s.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Hacker" originally referred to someone who was highly skilled at technical problem-solving.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 1TB microSD card was released in 2019, smaller than a fingernail.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Localhost" always refers to the computer you are currently using, typically IP 127.0.0.1.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 64-bit consumer processor was the AMD Athlon 64, released in 2003.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "RAM" stands for Random Access Memory, meaning any byte can be accessed directly.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Kernel" is the core of an operating system that manages system resources and hardware.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first GUI (Graphical User Interface) was developed at Xerox PARC in the 1970s.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Open Source" software is software with source code that anyone can inspect, modify, and enhance.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer mouse was invented by Doug Engelbart and had only one button.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Heartbleed" vulnerability was a serious flaw in the OpenSSL cryptographic library.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Rainbow Table" is a precomputed table for reversing cryptographic hash functions.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "SolarWinds" hack was a massive supply-chain attack that targeted government agencies.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Log4j" is a widely used logging library whose vulnerability in 2021 caused global panic.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Mother of All Demos" (1968) introduced the mouse, hypertext, and video conferencing.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Site Reliability Engineer" (SRE) combines software engineering with systems administration.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"DevOps" is a set of practices that combines software development (Dev) and IT operations (Ops).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "GPL" (General Public License) is a widely used free software license.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "MAC Address" is a unique identifier assigned to a network interface for communications.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "DHCP" protocol automatically assigns IP addresses to devices on a network.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"NAT" (Network Address Translation) allows multiple devices to share a single public IP.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Dark Web" is a part of the internet that requires special software (like Tor) to access.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Stack Overflow" is the world's largest community for developers to learn and share knowledge.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Markdown" language was created by John Gruber for easy web writing.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"HTML" stands for HyperText Markup Language, the standard language for creating web pages.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "CSS" language is used for describing the presentation of a document written in HTML.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"XML" is a markup language that defines a set of rules for encoding documents.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "404 Not Found" error indicates the server could not find the requested resource.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "CDN" (Content Delivery Network) is a system of distributed servers that deliver web content.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Docker" uses OS-level virtualization to deliver software in packages called containers.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "CI/CD" pipeline automates the building, testing, and deployment of software.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Big Data" refers to extremely large data sets that may be analyzed computationally.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Transformer" architecture is the foundation of modern large language models like GPT.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Neural Network" is a series of algorithms that endeavors to recognize underlying relationships in data.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Deep Learning" is a subfield of machine learning based on artificial neural networks.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Singularity" is a hypothetical future point in time when technological growth becomes uncontrollable.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"IoT" (Internet of Things) refers to the network of physical objects embedded with sensors and software.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Smart Home" uses internet-connected devices to enable the remote monitoring and management of appliances.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Virtual Reality" (VR) is a simulated experience that can be similar to or completely different from the real world.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Augmented Reality" (AR) is an interactive experience of a real-world environment where objects are enhanced.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "5G" network is the fifth generation of cellular network technology.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Starlink" is a satellite internet constellation operated by SpaceX.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Qubit" can exist in multiple states simultaneously due to quantum superposition.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Quantum Entanglement" is a phenomenon where particles become interconnected and share states.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Cybersecurity" is the practice of protecting systems, networks, and programs from digital attacks.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Firewall" is a network security system that monitors and controls incoming and outgoing traffic.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Malware" is any software intentionally designed to cause damage to a computer or network.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Trojan Horse" is a type of malware that is often disguised as legitimate software.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Ransomware" is a type of malware that threatens to publish or block access to data unless a ransom is paid.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Rootkit" is a collection of computer software designed to enable access to a computer that is not otherwise allowed.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Vishing" is the fraudulent practice of making phone calls to solicit personal information.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Smishing" is the fraudulent practice of sending text messages to solicit personal information.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Pentest" is a simulated cyberattack against your computer system to check for exploitable vulnerabilities.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "SOC" (Security Operations Center) is a centralized unit that deals with security issues.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"SIEM" (Security Information and Event Management) provides real-time analysis of security alerts.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"EDR" (Endpoint Detection and Response) monitors endpoints to detect and respond to cyber threats.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+An "IDS" (Intrusion Detection System) monitors a network for malicious activity.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Vulnerability" is a weakness which can be exploited by a threat actor.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Encryption" is the process of encoding information so that only authorized parties can access it.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Cryptography" is the practice and study of techniques for secure communication.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Steganography" is the practice of concealing a message within another message or physical object.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Hashing" is the process of converting a given key into another value.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Smart Contract" is a self-executing contract with the terms of the agreement directly written into code.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"DeFi" stands for Decentralized Finance, an umbrella term for peer-to-peer financial services.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"NFT" stands for Non-Fungible Token, a unique digital identifier that cannot be copied.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Metaverse" is a collective virtual shared space, created by the convergence of virtually enhanced physical reality.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"FAANG" is an acronym for the five most popular American technology companies: Facebook, Amazon, Apple, Netflix, and Google.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "Dot-com bubble" was a stock market bubble caused by excessive speculation in dot-com companies.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Net Neutrality" is the principle that internet service providers should treat all data on the internet equally.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Web "Cookies" are small blocks of data created by a web server while a user is browsing a website.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A "Feature" is sometimes sarcastically used to describe a bug that is difficult to fix.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Technical Debt" is the implied cost of additional rework caused by choosing an easy solution now.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Refactoring" is the process of restructuring existing computer code without changing its external behavior.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Proprietary Software" is non-free computer software for which the software's publisher retains intellectual property rights.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Freeware" is software that is available for use at no monetary cost.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Shareware" is a type of proprietary software that is initially shared by the owner for trial use.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Abandonware" is a product, typically software, ignored by its owner and manufacturer.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The answer to life, the universe, and everything is 42, according to Douglas Adams.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Hello World" is often the first program written by students of a new programming language.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Foo, Bar, Baz" are placeholder names used in computer programming and other tech contexts.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Lorem Ipsum" is a placeholder text commonly used to demonstrate the visual form of a document.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"1337" (Leet) is an alternative alphabet for many languages that is used primarily on the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The movie "WarGames" (1983) influenced U.S. national security policy regarding computer hacking.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"HAL 9000" is a fictional artificial intelligence and the main antagonist in Arthur C. Clarke's Space Odyssey.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Skynet" is a fictional neural network-based conscious group mind and artificial general intelligence system.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Jarvis" is a highly advanced computerized AI developed by Tony Stark in the Marvel Cinematic Universe.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Cortana" is a fictional AI character in the Halo video game series and a virtual assistant by Microsoft.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Siri" is a virtual assistant that is part of Apple Inc.'s iOS, iPadOS, and other operating systems.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Alexa" is a virtual assistant AI technology developed by Amazon.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Google Assistant" is a virtual assistant software application developed by Google.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Deep Blue" was a chess-playing computer developed by IBM that defeated Garry Kasparov.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"AlphaGo" is a computer program that plays the board game Go, developed by DeepMind.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"ChatGPT" is a chatbot developed by OpenAI and launched in November 2022.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 1GB hard drive weighed about as much as a small car.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"CAPTCHA" stands for Completely Automated Public Turing test to tell Computers and Humans Apart.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first Apple computer ever sold was the Apple I, released in 1976.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "WiFi" is a play on the term "HiFi" (High Fidelity), but it doesn't officially stand for anything.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first domain name registered by a commercial company was symbolics.com.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The "at" symbol (@) was first used for electronic mail in 1971.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer mouse was carved out of wood and had two wheels.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first electronic computer, ENIAC, contained 17,468 vacuum tubes.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first programmable computer, the Z1, was built in 1936.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer virus was called "Creeper" and it displayed the message: "I'M THE CREEPER: CATCH ME IF YOU CAN!"
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer printer was designed by Charles Babbage for use with his Difference Engine.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first portable computer was the Osborne 1, released in 1981, weighing 24.5 pounds.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer scanner was built in 1957 at the National Bureau of Standards.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer speaker was developed in 1951 for the CSIRAC computer.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer keyboard was inspired by teletype machines.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer monitor was based on an oscilloscope.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer game was "Spacewar!", developed in 1962.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer animation was created in 1963 by Edward Zajac.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer-generated imagery (CGI) in a movie was in "Westworld" (1973).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer network was ARPANET, established in 1969.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer protocol for the internet was TCP/IP, adopted in 1983.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first web browser was WorldWideWeb, created by Tim Berners-Lee in 1990.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first search engine for the web was Aliweb, launched in 1993.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first social media site was SixDegrees.com, launched in 1997.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first video uploaded to YouTube was titled "Me at the zoo," uploaded in 2005.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first tweet was sent by Jack Dorsey in 2006, reading "just setting up my twttr."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first photo uploaded to Instagram was a picture of a dog, posted in 2010.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first Bitcoin transaction was for two pizzas in 2010.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first NFT ever created was "Quantum," minted in 2014.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first AI to beat a human at Go was AlphaGo in 2016.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first AI to generate images from text was DALL-E in 2021.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first AI to pass the bar exam was GPT-4 in 2023.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Algorithm" is named after the Persian mathematician Al-Khwarizmi.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Byte" was coined by Werner Buchholz in 1956.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Chip" refers to a tiny slice of silicon with electronic circuits.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Cookie" in computing was coined by Lou Montulli in 1994.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Daemon" in computing refers to a background process.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Ethernet" was coined by Bob Metcalfe in 1973.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Fiber Optics" was coined by Narinder Singh Kapany in 1956.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Hacker" originally meant someone who was skilled at technical tasks.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Information Technology" was coined by Harold J. Leavitt and Thomas L. Whisler in 1958.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Mainframe" refers to large, powerful computers used for bulk data processing.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Modem" is short for MOdulator-DEModulator.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Mouse" was chosen because the cord looked like a tail.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Network" refers to a group of interconnected computers.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Operating System" refers to software that manages computer hardware.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Processor" refers to the brain of a computer.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Protocol" refers to a set of rules for data communication.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Server" refers to a computer that provides services to other computers.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Software" was first used by John Tukey in 1958.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Storage" refers to where data is kept permanently.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "System" refers to a set of components that work together.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Terminal" refers to a device for interacting with a computer.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "User Interface" refers to how a person interacts with a computer.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Web" refers to a collection of linked documents on the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 100% solar-powered data center was opened by Apple in 2012.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 3D-printed gun was created in 2013 by Cody Wilson.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 4K television was released by Sony in 2012.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 5G commercial network was launched in South Korea in 2019.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first autonomous taxi service was launched by Waymo in Phoenix in 2018.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first commercial flight with biofuels occurred in 2008.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first reusable rocket to land successfully was SpaceX's Falcon 9 in 2015.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first smart city was Songdo in South Korea, built from the ground up with tech.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first virtual YouTuber was Kizuna AI, debuted in 2016.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first VR headset was the Sword of Damocles, created by Ivan Sutherland in 1968.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first zero-emission city is Masdar City in the UAE.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Algorithm" comes from the 9th-century Persian mathematician Muhammad ibn Musa al-Khwarizmi.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Cyber" comes from the Greek word "kybernetes," meaning "steersman" or "governor."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Digital" comes from the Latin "digitus," meaning "finger" or "toe," as humans used fingers to count.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Ethernet" comes from "luminiferous ether," a theoretical medium for light waves.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Internet" is a shortened form of "interconnected network."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Modem" is a portmanteau of "modulator-demodulator."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Pixel" is a portmanteau of "picture" and "element."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Software" was coined by John Tukey in 1958.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "System" comes from the Greek "systema," meaning "a whole composed of parts."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Technology" comes from the Greek "techne," meaning "art" or "craft," and "logia," meaning "study."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "User" in tech refers to a person who interacts with a system.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Wiki" comes from the Hawaiian "wiki-wiki," meaning "quick."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Booting" comes from the phrase "pulling yourself up by your bootstraps."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Debug" was popularized after a moth was found in a computer in 1947.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Hacker" originally referred to someone who could technically "hack" their way through code.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Phishing" is a variation of "fishing," using bait to "catch" user credentials.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Trojan Horse" comes from Greek mythology, where a wooden horse was used to infiltrate Troy.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Zero-Day" means the developers have had "zero days" to fix the issue.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Firewall" originally referred to a physical wall built to prevent the spread of fire.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Spam" for junk mail comes from a Monty Python sketch about canned meat.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Avatar" comes from the Sanskrit word for "descent," representing a deity in human form.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Meme" was coined by Richard Dawkins in 1976 to describe a unit of cultural transmission.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Podcast" is a portmanteau of "iPod" and "broadcast."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Blog" is short for "weblog."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Vlog" is short for "video blog."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Phablet" is a portmanteau of "phone" and "tablet."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Netiquette" is a portmanteau of "network" and "etiquette."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Emoticon" is a portmanteau of "emotion" and "icon."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Emoji" comes from the Japanese "e" (picture) and "moji" (character).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Geek" originally referred to carnival performers who performed bizarre acts.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Nerd" was first used by Dr. Seuss in "If I Ran the Zoo" in 1950.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Gamer" refers to someone who plays video games.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Youtuber" refers to someone who creates content for YouTube.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Influencer" refers to someone who has the power to affect the purchasing decisions of others.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Noob" is short for "newbie," someone who is new to a game or activity.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Lurker" refers to someone who reads internet discussions without participating.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Troll" refers to someone who posts inflammatory messages to provoke others.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Flame" refers to an angry or insulting message sent over the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Dox" refers to publishing private information about someone on the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Catfish" refers to someone who creates a fake online identity to trick others.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Ghosting" refers to ending a relationship by cutting off all communication without explanation.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Binge-watching" refers to watching multiple episodes of a TV show in one sitting.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Sexting" is a portmanteau of "sex" and "texting."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Selfie" was coined in 2002 by an Australian man on an internet forum.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Photobomb" refers to accidentally or intentionally appearing in someone else's photo.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Hashtag" refers to a word or phrase preceded by a hash sign (#).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Live-stream" refers to broadcasting live video over the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Crowdfunding" refers to raising money from a large number of people online.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Fintech" is a portmanteau of "financial" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Edtech" is a portmanteau of "education" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Healthtech" is a portmanteau of "health" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Adtech" is a portmanteau of "advertising" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Insurtech" is a portmanteau of "insurance" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Proptech" is a portmanteau of "property" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Agritech" is a portmanteau of "agriculture" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Cleantech" is a portmanteau of "clean" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Deeptech" refers to technology based on scientific or engineering breakthroughs.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Madtech" is a portmanteau of "marketing," "advertising," and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Femtech" is a portmanteau of "female" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Legaltech" is a portmanteau of "legal" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Civictech" is a portmanteau of "civic" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Govtech" is a portmanteau of "government" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Regtech" is a portmanteau of "regulatory" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Wealthtech" is a portmanteau of "wealth" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Retailtech" is a portmanteau of "retail" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Martech" is a portmanteau of "marketing" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Sales-tech" is a portmanteau of "sales" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "HR-tech" is a portmanteau of "human resources" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Logtech" is a portmanteau of "logistics" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Supplytech" is a portmanteau of "supply chain" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Contech" is a portmanteau of "construction" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Traveltech" is a portmanteau of "travel" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Foodtech" is a portmanteau of "food" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Fashiontech" is a portmanteau of "fashion" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Beautytech" is a portmanteau of "beauty" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Sportstech" is a portmanteau of "sports" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Music-tech" is a portmanteau of "music" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Event-tech" is a portmanteau of "event" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Art-tech" is a portmanteau of "art" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Space-tech" is a portmanteau of "space" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Bio-tech" is a portmanteau of "biology" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Nano-tech" is a portmanteau of "nanotechnology" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Green-tech" is a portmanteau of "green" and "technology."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Blue-tech" refers to technology related to the ocean.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Hard-tech" refers to technology that involves physical hardware.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Soft-tech" refers to technology that involves software and data.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Low-tech" refers to simple, non-electronic technology.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "High-tech" refers to advanced, electronic technology.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "No-tech" refers to manual tasks that do not involve technology.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Old-tech" refers to technology that is outdated or obsolete.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "New-tech" refers to technology that is current or emerging.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Next-tech" refers to future technology.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Future-tech" refers to technology that is yet to be developed.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Sci-fi tech" refers to technology that is currently only found in science fiction.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Mad-tech" refers to technology that is used for malicious purposes.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Evil-tech" refers to technology that is inherently harmful.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Good-tech" refers to technology that is used for the benefit of humanity.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Great-tech" refers to technology that has a major positive impact.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Super-tech" refers to technology that is far beyond current capabilities.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Alpha-tech" refers to technology that is in its earliest stages of development.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Beta-tech" refers to technology that is in testing.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Gamma-tech" refers to technology that is nearly ready for release.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Delta-tech" refers to technology that is in its fourth iteration.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Zetta-tech" refers to technology that deals with zettabytes of data.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Yotta-tech" refers to technology that deals with yottabytes of data.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "X-tech" refers to experimental technology.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Y-tech" refers to unknown technology.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Z-tech" refers to the final iteration of a technology.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Byte" was intentionally spelled with a "y" to avoid confusion with the word "bit."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A single Google search uses more computing power than it took to send Apollo 11 to the moon.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The world's first website, info.cern.ch, is still online today.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Robot" is a Czech word for "forced labor" and was coined in the 1920 play R.U.R.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 5MB hard drive (1956) was rented out by IBM for $3,200 a month.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The average computer user blinks only seven times a minute, compared to the normal 20 blinks.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first text message said "Merry Christmas" and was sent from a PC to a mobile phone.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The 1980s saw the emergence of the first computer viruses designed to spread through floppy disks.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A 1GB hard drive in 1980 cost $40,000 and weighed as much as an average adult man.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+There are over 1.8 billion websites currently on the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first hard drive available for personal computers was only 5 megabytes.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first mouse ever made was wooden, with two wheels at a 90-degree angle.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computer science students at MIT used the first ever digital game to relax in 1962.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Over 6,000 new computer viruses are created and released every month.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 1GB SD card was released in 2004, and now we have 1TB cards.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "WiFi" doesn't actually mean anything; it was created as a marketing term.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The average lifetime of a hard drive is approximately three to five years.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 3D printer was created in 1984 by Chuck Hull.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first portable computer, the Osborne 1, had a screen only five inches wide.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Most hackers use automated scripts and bots rather than manual hacking.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Google" comes from the word "Googol," which is a 1 followed by 100 zeros.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first text message ever sent used only 15 characters.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computers process more information in a second than a human could in a lifetime.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer ever made was entirely mechanical and used gears.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A single bit is the smallest unit of data a computer can understand.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first hard drives were so expensive they were primarily used by large corporations.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Cloud" refers to servers that are accessed over the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computer monitors used to be bulky because they used cathode ray tubes.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer keyboards were modeled after mechanical typewriters.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Most modern smartphones have more computing power than the world's first supercomputers.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer mouse only had one button.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Modern hard drives are extremely sensitive to vibrations and movement.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer to defeat a human at chess was IBM's Deep Blue.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computer algorithms are responsible for much of the content you see online.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer speakers were simple and had very low sound quality.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Most people use "123456" or "password" as their primary password.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer monitors were black and white and had low resolution.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer network was created to share information between universities.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer programs were written on punched cards.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Modern computers use silicon chips because silicon is a good semiconductor.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer games were simple text-based adventures.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Virtual Reality" refers to computer-generated environments.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer viruses were created as experiments by students.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computer security is a constantly evolving field.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer mice were very expensive and not widely used.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer monitors were small and had very low brightness.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Most modern computers are designed to be energy-efficient.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer networks were slow and unreliable.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer programs were very simple and performed basic calculations.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Byte" was intentionally spelled with a "y" to avoid confusion with "bit."
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A single Google search uses more computing power than it took to send Apollo 11 to the moon.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The world's first website, info.cern.ch, is still online today.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+"Robot" is a Czech word for "forced labor" and was coined in the 1920 play R.U.R.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 5MB hard drive (1956) was rented out by IBM for $3,200 a month.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The average computer user blinks only seven times a minute, compared to the normal 20 blinks.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first text message said "Merry Christmas" and was sent from a PC to a mobile phone.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The 1980s saw the emergence of the first computer viruses designed to spread through floppy disks.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A 1GB hard drive in 1980 cost $40,000 and weighed as much as an average adult man.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+There are over 1.8 billion websites currently on the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first hard drive available for personal computers was only 5 megabytes.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first mouse ever made was wooden, with two wheels at a 90-degree angle.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computer science students at MIT used the first ever digital game to relax in 1962.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Over 6,000 new computer viruses are created and released every month.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 1GB SD card was released in 2004, and now we have 1TB cards.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "WiFi" doesn't actually mean anything; it was created as a marketing term.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The average lifetime of a hard drive is approximately three to five years.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first 3D printer was created in 1984 by Chuck Hull.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first portable computer, the Osborne 1, had a screen only five inches wide.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Most hackers use automated scripts and bots rather than manual hacking.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The word "Google" comes from the word "Googol," which is a 1 followed by 100 zeros.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first text message ever sent used only 15 characters.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computers process more information in a second than a human could in a lifetime.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer ever made was entirely mechanical and used gears.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A single bit is the smallest unit of data a computer can understand.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first hard drives were so expensive they were primarily used by large corporations.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Cloud" refers to servers that are accessed over the internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computer monitors used to be bulky because they used cathode ray tubes.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer keyboards were modeled after mechanical typewriters.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Most modern smartphones have more computing power than the world's first supercomputers.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer mouse only had one button.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Modern hard drives are extremely sensitive to vibrations and movement.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer to defeat a human at chess was IBM's Deep Blue.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computer algorithms are responsible for much of the content you see online.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer speakers were simple and had very low sound quality.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Most people use "123456" or "password" as their primary password.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer monitors were black and white and had low resolution.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer network was created to share information between universities.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer programs were written on punched cards.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Modern computers use silicon chips because silicon is a good semiconductor.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer games were simple text-based adventures.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The term "Virtual Reality" refers to computer-generated environments.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer viruses were created as experiments by students.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computer security is a constantly evolving field.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer mice were very expensive and not widely used.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer monitors were small and had very low brightness.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Most modern computers are designed to be energy-efficient.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer networks were slow and unreliable.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first computer programs were very simple and performed basic calculations.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computers Sort 95% of Mail
+The U.S. Postal Service still hires individual employees to sort through addresses that are too sloppy for computers to make sense of.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+MIT Has Computers That can Detect Fake Smiles
+These computers can tell between genuine smiles and frustrated smiles.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Computers Might Soon be Able to Tell What Dogs Think
+These computers are under development by a Scandinavian company. A prototype is purported to be available.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Russia Engineered a Computer That Ran on Water
+The computer was built in 1936 and was meant to solve partial differential equations.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Disney Fired John Lasseter for Pushing Computer Animation
+He’s now the CCO of Pixar.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Creeper, the first Virus
+It is scary to acquire viruses on your computer because chances are your files and safety could be compromised. Ever wondered where it all started?
+It was in 1971 that the first-ever computer virus emerged. The creators intended to experiment and analyze how it could spread across the files and computer itself.
+When it did, the screen showed the message: “I’m the creeper, catch if you can!” Once it successfully reaches one’s computer, it replicates itself and eats the
+remaining memory until the computer can no longer operate due to insufficient storage.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+According to Microsoft, nearly 80% of nation-state attackers targeted government agencies, thinks tanks and other non-government organizations.
+Microsoft also reports that 58% of cyberattacks from nation states originated in Russia.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The United States remains the most highly targeted country with 46% of global cyberattacks being directed towards Americans.
+Fraud cases are up 70% since 2020.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Expect greater governance of cryptocurrencies in the coming years.
+Social media is likely to see enhanced oversight of information.
+Healthcare data breaches cost an average of $10.1 million per incident.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+More attacks on IoT are expected, making the internet of things an area of interest when it comes to cybersecurity.
+People will be paying extra attention to how they manage their personal data.
+According to PurpleSec, 98% of cybercrime rely on social engineering to accomplish successfully.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Twitter experienced a data breach that allegedly affected millions across the United States and Europe, but had not been previously reported.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Carding marketplace Biden Cash released the details of 1.2 million credit cards for free on October 12, 2022.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Australian telecommunications company Optus suffered a devastating data breach on September 22, 2022 that led to the details of 11 million customers being accessed.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+On November 16, 2022, a hacker posted the data set to BreachForums containing what they claimed to be up-to-date personal information of 487 million WhatsApp users.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+On October 13, 2022, 97 million people's information was stolen when Australian healthcare and insurance provider Medibank suffered a data leak.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+When compared to a Qwerty keyboard, a Dvorak keyboard enables you to type 20 times quicker.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+On average, a human blinks 20 times per minute, but using a computer reduces it to 7.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The first-ever microprocessor, 4004, was designed for calculators.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+In 1990, the first search engine was invented by Allan Emtage, who named it “Archie Query Form,” from the word “archive.”
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The most common password for a computer and social media platforms is 123456.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+It is actually possible to operate a computer without a running operating system!
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+There are eight varieties of computers: mainframe, supercomputer, workstation, personal computer, Apple Macintosh, laptop, tablet, and smartphone.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+On a keyboard, most people do not use the Scroll Lock key as they deem it useless.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Linux leads the industry as it is used by Google, Facebook, Twitter, and Amazon.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+NASA computers were hijacked by a 15-year-old, resulting in a 21-day halt.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+In 1936, Russians developed a computer that functioned on water.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Only two of the top 500 supercomputers are Windows-based, whereas 485 use Linux.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+You may heat a room with Gaming PCs more effectively than a heater.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Hard drives are very sensitive to vibration, and even yelling at them or tapping the device causes them to slow down.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+MyDoom was the world’s fastest-spreading Virus.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+When you open the casing of the first Macintosh, you will find 47 autographs from members of Apple’s Macintosh division in 1982.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The earliest computer was an abacus, a counting device made of thread and beads that were invented in Babylon in 500 BC.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+E-mail was first launched before the Internet.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Physical money accounts for just around 10% of global cash, while the rest is stored on computers.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Because Steve Wozniak loved repeating numerals and found them more convenient to enter, Apple’s first computer, the Apple I, was sold in 1976 for $666.66.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+“Completely Automated Public Turing Test to Tell Computers and Humans Apart” is what CAPTCHA stands for.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+In 1833, Charles Babbage devised all of the components that make up a modern computer.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The IBM 1311, which only had a 5-megabyte capacity and looked like a washing machine, was the first disk drive to employ removable media.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+YouTube actually started as a dating website.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Google originated from the mathematics phrase “googol,” which denotes “one followed by 100 zeros.”
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Since August 1998, Google’s workforce of designers and artists has created over 2000 doodles for the company’s homepage dedicated to significant events.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+An automated system developed at MIT can recognize the difference between happy and faked smiles.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Mosaic was the original browser, released in 1993 way before the mainstream ones such as Mozilla or Chrome Explore.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Summit, the world’s second-fastest computer, scored 148,600 TFLOPs.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Per year, Google receives 1.2 trillion search requests, which translates to about 40,000 every second and 3.5 billion each day.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The Internet was created in the 1960s with the primary aim of sharing resources.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Before they could progress as staple brands, Microsoft, HP, and Apple began manufacturing computers in their garages.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Sony unlawfully implanted rootkits on 22 million computers in 2005 to prevent users from stealing copyrighted music, which was difficult to eradicate.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+With over 746 million active users, China boasts the world’s largest internet population.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Statista revealed that in 2021, there are already 15 billion mobile devices that people actively use.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The worldwide retail Artificial Intelligence industry is expected to reach $110 billion by 2024, according to International Data Corporation (IDC).
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+The overall global storage is projected to reach 175 zettabytes by the end of 2025.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+Deep Blue, an IBM supercomputer 1997, defeated the world-renowned chess master Garry Kasparov through a critical move that came from an unexpected bug in the software.
+#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!#!
+A single computer program detects over half of all Wikipedia vandalism with more than 90% precision.

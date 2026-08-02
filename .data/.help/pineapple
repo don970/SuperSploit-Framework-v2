@@ -1,0 +1,11 @@
+======================================================================
+[ SuperSploit Pro ] Pineapple Automation Engine
+======================================================================
+Description:
+  Centralized C2 interface for the Hak5 Wi-Fi Pineapple.
+  Uses the Pineapple REST API to remotely trigger PineAP, Karma
+  attacks, and SSID spoofing campaigns directly from SuperSploit.
+
+Usage:
+  pineapple
+======================================================================

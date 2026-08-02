@@ -1,0 +1,38 @@
+# 🎭 SUPERSPLOIT MIMIC (VISHING)
+Mimic is a professional Deepfake Vishing (Voice Phishing) suite designed for automated, voice-spoofed social engineering calls via the SIP protocol.
+
+---
+
+## 🚀 LAUNCHING MIMIC
+Run the following command from the SuperSploit CLI:
+`vishing`
+
+---
+
+## 🛠️ KEY FEATURES
+- **Voice Generation (TTS):** Integrate with Google TTS (gTTS) to generate realistic voice payloads from custom scripts.
+- **Custom Payload Loading:** Load pre-recorded high-fidelity `.wav` or `.mp3` files for more convincing lures.
+- **SIP Protocol Support:** Connects directly to the SuperSploit SIP Gateway or any standard commercial VoIP PBX.
+- **Live Call Console:** Monitor the SIP handshake in real-time (`INVITE`, `RINGING`, `200 OK`) and track audio transmission status.
+- **Caller ID Spoofing:** Leverage your VoIP gateway to present any numeric identity to the target.
+
+---
+
+## 🛡️ GATEWAY CONFIGURATION
+- **SIP Server:** The IP address of your `sip-srv` or external PBX.
+- **Credentials:** Standard SIP authentication (Username/Password).
+- **Target Number:** Use the full international format (e.g., `15551234567`).
+
+---
+
+## 🧪 OPERATIONAL WORKFLOW
+1.  Launch the SIP Gateway: `sip-srv`
+2.  Launch Mimic: `vishing`
+3.  Type your script (e.g., "This is your IT department...") and click **🔊 Generate TTS Audio**.
+4.  Enter the target's number and click **📞 INITIATE VISHING CALL**.
+5.  Wait for the console to show **[+] CALL ANSWERED!** to begin audio streaming.
+
+---
+
+## 📦 DEPENDENCIES
+- `pip install gTTS`

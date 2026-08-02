@@ -1,0 +1,11 @@
+======================================================================
+[ SuperSploit Pro ] NFC Attack Suite
+======================================================================
+Description:
+  Hardware integration for reading, cloning, and injecting malicious
+  NDEF records into physical NFC tags using the nfcpy library.
+  Allows dropping 1-click Web Stager payloads into physical spaces.
+
+Usage:
+  nfc
+======================================================================

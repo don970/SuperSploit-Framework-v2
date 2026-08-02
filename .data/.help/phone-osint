@@ -1,0 +1,15 @@
+======================================================================
+[ SuperSploit Pro ] Phone Intelligence Suite
+======================================================================
+Description:
+  Advanced OSINT tool for parsing, tracking, and correlating phone numbers.
+  Supports:
+    - Deep E.164 and localized parsing logic
+    - Carrier, Timezone, and Geolocation lookups
+    - Line Type detection (Mobile, Landline, VoIP/Burner identification)
+    - Dynamic Generation of OSINT correlation links (WhatsApp, Telegram,
+      Truecaller, Pipl)
+
+Usage:
+  phone-osint
+======================================================================

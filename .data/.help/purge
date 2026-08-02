@@ -1,0 +1,28 @@
+# 🧹 COMMAND: purge
+The purge command is a high-speed utility for wiping entire categories of user-generated data without affecting core framework configurations (like LHOST/LPORT).
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- **Database Truncation**: Unlike `clean`, which performs a system-wide reset, `purge` specifically targets user input data. It deletes the underlying SQLite/JSON files for the specified category.
+- **Active State Reset**: If profiles are purged, the `ACTIVE_PROFILE` context is automatically unset.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### purge <profiles|targets|all>
+
+- **profiles**: Wipes the `profiles.db` database entirely.
+- **targets**: Wipes the `targets.json` database entirely.
+- **all**: Wipes both profiles and targets.
+
+---
+
+## 💡 EXAMPLES
+- `purge profiles`
+- `purge all`
+
+---
+
+## 🛡️ SAFETY CONSIDERATIONS
+- **Irreversible**: Purging data is permanent. Ensure you have backups if the research notes or target data are critical.

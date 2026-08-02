@@ -1,3 +1,21 @@
-.idea/
+# Ignore all Python source files in the exploits and source directories
+exploits/**/*.py
+source/**/*.py
+
+# Ignore the build script
+build_pro_modules.py
+
+# research
+docs/pro/
+docs/development/
+docs/research/
+
+# Pro-Tier Web Templates
 templates/web/
-.data/
+
+# Sentry OSINT Framework & Recon Loot
+.data/.loot/osint/
+.data/.config/*_api_keys.json
+source/tools/OSINT/__pycache__/
+*.osint_cache
+*ela_artifact.jpg

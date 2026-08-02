@@ -1,7 +1,7 @@
 # SuperSploit Pro License Agreement
 
-**Version:** 1.0.0  
-**Effective Date:** June 14, 2026
+**Version:** 1.0.0
+**Effective Date:** June 14, 2024
 
 This SuperSploit Pro License Agreement ("Agreement") is a legal agreement between you (either an individual or a single entity) and the SuperSploit Development Team ("SuperSploit") for the SuperSploit Pro Framework and its associated modules, documentation, and tools (collectively, the "Software").
 

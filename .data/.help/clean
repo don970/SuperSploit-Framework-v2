@@ -1,0 +1,22 @@
+# 🧹 COMMAND: clean
+The clean command is the primary data-purging utility designed to ensure forensic hygiene and prevent cross-engagement data contamination.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Session ID Reset: Regenerates the internal SESSION_ID to ensure that subsequent logs are logically separated from previous activities.
+- Database Truncation: Forcibly wipes the variables table in data.db and the targets.json file.
+- Log Sanitization: Truncates the activity logs, error logs, and command history files (.history/history).
+- Cache Invalidation: Clears the ExploitCache in RAM, forcing the framework to re-index modules on next use.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### clean
+- Performs an irreversible wipe of all session-specific data.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Anti-Forensics: clean does not perform a multi-pass secure wipe of the disk; it simply truncates files. For high-security environments, ensure the underlying filesystem supports secure deletion.
+- Routine Hygiene: It is highly recommended to run clean between different target networks to prevent accidentally using cached credentials or IP addresses from a previous engagement.

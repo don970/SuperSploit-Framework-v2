@@ -1,0 +1,30 @@
+# 📡 COMMAND: sessions (alias: session)
+The sessions command handles active C2 connections, providing a robust interface for interacting with remote agents via an encrypted, in-memory pipeline.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### sessions
+Lists all active background sessions with their IDs, Peer addresses, and status.
+
+### sessions -i <ID>
+Interact with a specific session. Drops you into the C2 Interaction Menu.
+
+### sessions -k <ID> / sessions -K
+Kill a specific session or terminate all active sessions.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Secure TLS Stream: All session traffic is encapsulated in a 4096-bit RSA TLS stream.
+- Crypto-Layer (XOR/B64): Data within the TLS stream is further obfuscated using a user-defined XOR_KEY.
+- Stage 2 Deployment: Automatically packages a zlib-compressed, XOR-encrypted Stage 2 Python payload upon initial connection.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- SO_KEEPALIVE: Enables OS-level TCP Keepalives to handle silent network drops.
+- Zero Disk Footprint: Always utilizes in-memory execution for post-exploitation modules loaded via the load command.
+
+---
+*For a more detailed technical deep-dive, use help sessions.*

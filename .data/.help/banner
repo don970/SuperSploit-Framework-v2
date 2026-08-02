@@ -1,0 +1,20 @@
+# 🎨 COMMAND: banner
+The banner command refreshes the framework's visual interface and provides situational awareness.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Terminal Reset: The command issues a terminal escape sequence to clear the screen buffer, ensuring a clean workspace for the operator.
+- Dynamic Metadata Display: The banner automatically retrieves the current CVE and EXPLOIT context from the ExploitCache and displays it in the header for real-time awareness.
+- Intelligence Feed: Randomly selects a "Pro-Operator Tip" or "OSINT Fact" from an internal library to provide continuous learning during framework use.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### banner
+- Displays the primary ASCII art logo, framework version, active context, and a random technical fact.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Visual OPSEC: The banner command clears previous command output, which can be useful for hiding sensitive information from "shoulder surfers" or screen recordings when not in active use.

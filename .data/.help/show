@@ -1,0 +1,35 @@
+# 🖥️ COMMAND: show
+The show command is the primary inspection tool for the framework's internal state, databases, and module configurations.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- State Reflection: show queries the SQLiteDict in real-time, ensuring that you see the most current values even if they were updated by a background listener or subprocess.
+- ExploitCache Querying: show options and show details pull data from the ExploitCache.details dictionary, which is populated by the YAML parser when a module is loaded.
+- Target Visualization: show targets parses the targets.json file, presenting a structured view of hostnames, IP addresses, and discovered services.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### show
+Displays all currently set global variables (LHOST, R_HOST, etc.).
+
+### show options
+Displays the required and optional parameters for the currently loaded module.
+
+### show info / show details
+Presents the technical metadata for the loaded exploit, including CVE, author, and description.
+
+### show targets
+Lists all identified targets in the database, including OS fingerprinting results.
+
+### show profiles
+Displays all persona profiles, system data, and research notes in the persistent database.
+
+### show aliases
+Lists all command shortcuts defined in Aliases.json.
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Credential Protection: Be cautious when running show or show <VAR> if you have stored sensitive API keys (e.g., Shodan) or passwords in the database, as they will be printed in cleartext to the terminal.

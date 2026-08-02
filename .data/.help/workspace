@@ -1,0 +1,32 @@
+# 📂 COMMAND: workspace
+Workspaces allow you to maintain isolated database environments for different engagements or research projects. Each workspace has its own targets database, profiles database, and configuration variables.
+
+---
+
+## 🛠️ USAGE WORKFLOW
+
+### 1. View Workspaces
+- `workspace list`: Lists all available workspaces and indicates the currently active one.
+
+### 2. Switch Workspaces
+- `workspace use <name>`: Switches the framework's active context to the specified workspace.
+
+### 3. Create a Workspace
+- `workspace create <name>`: Creates a new, empty workspace and immediately switches to it.
+
+### 4. Delete a Workspace
+- `workspace delete <name>`: Deletes a workspace and all its associated data (targets, profiles, config). Note: You cannot delete the 'default' workspace or the currently active workspace.
+
+---
+
+## 💡 EXAMPLES
+- `workspace list`
+- `workspace create engagement_alpha`
+- `workspace use default`
+- `workspace delete old_project`
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- **Data Isolation**: Workspaces provide strict separation of targets and profiles. Exploits and payloads remain global, but target selection and execution state are isolated.
+- **Persistence**: Your active workspace selection is remembered across framework restarts.

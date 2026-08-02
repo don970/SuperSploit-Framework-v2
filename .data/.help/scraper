@@ -1,0 +1,30 @@
+# 🔍 SUPERSPLOIT METADATA SCRAPER (GUI)
+The SuperSploit Metadata Scraper is a user-friendly GUI tool designed for extracting hidden metadata from common document formats (PDF, DOCX, XLSX).
+
+---
+
+## 🚀 LAUNCHING THE SCRAPER
+Run the following command from the SuperSploit CLI:
+`scraper`
+
+---
+
+## 🛠️ KEY FEATURES
+- **Multi-Format Support:** Extracts metadata from PDF, Word (.docx), and Excel (.xlsx) files.
+- **Batch Processing:** Select an entire directory to scan all documents within it recursively.
+- **Visual Feedback:** View a list of scanned files and click any file to see its detailed metadata in a clean terminal-style viewer.
+- **OSINT Intelligence:** Uncover document authors, creation dates, internal OS file paths, and software versions used to create the files.
+- **Data Export:** Export all extracted metadata to a structured JSON file for further analysis or reporting.
+
+---
+
+## 📦 DEPENDENCIES
+For full functionality, ensure the following Python libraries are installed:
+- `pip install PyPDF2 python-docx openpyxl`
+
+---
+
+## 🧪 OPERATIONAL USE
+1.  **Target Footprinting:** Use documents harvested from target websites or public repositories.
+2.  **Internal Mapping:** Extract internal naming conventions (e.g., `C:\Users\JohnD\Documents\...`) to identify usernames and directory structures.
+3.  **Software Auditing:** Identify outdated versions of Office or PDF creators that may be vulnerable to specific exploits.

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public type="string" name="lhost" id="0x7f010000" />
+    <public type="string" name="lport" id="0x7f010001" />
+    <public type="string" name="wakelock" id="0x7f010002" />
+    <public type="string" name="xor_key" id="0x7f010003" />
+</resources>

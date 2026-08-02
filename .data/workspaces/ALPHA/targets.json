@@ -1,0 +1,73 @@
+{
+    "TARGETS": {
+        "127.0.0.1": {
+            "open_ports": [
+                {
+                    "banner": "SSH-2.0-OpenSSH_10.0p2 Debian-7+deb13u4",
+                    "port": 22,
+                    "service": "SSH"
+                },
+                {
+                    "banner": "Server: CUPS/2.4 IPP/2.1",
+                    "port": 631,
+                    "service": "HTTP"
+                },
+                {
+                    "banner": "",
+                    "port": 6188,
+                    "service": "Unknown"
+                },
+                {
+                    "banner": "",
+                    "port": 6189,
+                    "service": "Unknown"
+                },
+                {
+                    "banner": "Server: Werkzeug/3.1.8 Python/3.13.5",
+                    "port": 8080,
+                    "service": "HTTP"
+                },
+                {
+                    "banner": "HTTP/1.1 404 Not Found",
+                    "port": 34371,
+                    "service": "HTTP"
+                },
+                {
+                    "banner": "HTTP/1.1 404 Not Found",
+                    "port": 34941,
+                    "service": "HTTP"
+                },
+                {
+                    "banner": "HTTP/1.1 404 Not Found",
+                    "port": 37099,
+                    "service": "HTTP"
+                },
+                {
+                    "banner": "HTTP/1.1 404 Not Found",
+                    "port": 37565,
+                    "service": "HTTP"
+                },
+                {
+                    "banner": "\u0000\u0000\u0018\u0004\u0000\u0000\u0000\u0000\u0000\u0000\u0004\u0000@\u0000\u0000\u0000\u0005\u0000@\u0000\u0000\u0000\u0006\u0000\u0000@\u0000\u0003\u0000\u0000\u0000\u0001\u0000\u0000\u0004\b\u0000\u0000\u0000\u0000\u0000\u0000?\u0000\u0001",
+                    "port": 37711,
+                    "service": "Unknown"
+                },
+                {
+                    "banner": "HTTP/1.1 404 Not Found",
+                    "port": 39275,
+                    "service": "HTTP"
+                },
+                {
+                    "banner": "GET / HTTP/1.1",
+                    "port": 40790,
+                    "service": "Unknown"
+                },
+                {
+                    "banner": "Server: PyCharm 2026.1.2",
+                    "port": 63342,
+                    "service": "HTTP"
+                }
+            ]
+        }
+    }
+}

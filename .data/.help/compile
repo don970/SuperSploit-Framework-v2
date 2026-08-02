@@ -1,0 +1,53 @@
+# 🛠️ COMMAND: compile
+Cross-compiles C source files into binary executables directly from the framework.
+
+---
+
+## 📝 DESCRIPTION
+The `compile` command allows you to compile C-based exploits and payloads for different architectures (e.g., x86, x64, ARM, Android) without leaving the CLI. It uses the `COMP_ARCH` and `COMP_OUT` variables to determine the appropriate cross-compiler and output destination.
+
+## 🚀 USAGE
+### compile [file.c]
+If `[file.c]` is omitted, the command will attempt to compile the currently loaded `EXPLOIT` or `PAYLOAD` if it ends in `.c`.
+
+### Examples:
+- `compile exploits/linux/cve_2021_4034_pwnkit.c`
+- `compile` (Compiles the active C exploit)
+
+## ⚙️ CONFIGURATION
+Use the `set` command to adjust compilation behavior:
+
+- **set COMP_ARCH <arch>**: Sets the target architecture and compiler.
+  - `native` (default): Uses system `gcc`.
+  - `x86_64` / `x64`: Uses `x86_64-linux-gnu-gcc`.
+  - `x86` / `i686`: Uses `i686-linux-gnu-gcc`.
+  - `arm64` / `aarch64`: Uses `aarch64-linux-gnu-gcc`.
+  - `android_arm64`: Uses the Android NDK Clang compiler (aarch64) from `~/.buildozer`.
+  - `android_arm` / `android_v7`: Uses the Android NDK Clang compiler (armv7a) from `~/.buildozer`.
+  - `android_x86`: Uses the Android NDK Clang compiler (i686) from `~/.buildozer`.
+  - `android_x86_64`: Uses the Android NDK Clang compiler (x86_64) from `~/.buildozer`.
+
+- **set COMP_STATIC <true/false>**: Toggle static linking (`-static`) for maximum binary portability (default: false).
+
+- **set OLLVM_ENABLED <true/false>**: If true, applies Obfuscator-LLVM flags (Control Flow Flattening) during compilation. Requires an OLLVM-compatible compiler.
+
+- **set COMP_OUT <path>**: Sets a custom output path for the compiled binary.
+  - Defaults to `payloads/<filename>_<arch>`.
+
+---
+
+## 🧠 SMART VARIABLE INJECTION
+The `compile` command automatically detects SuperSploit-specific placeholders in your C source and replaces them with active configuration values:
+- **Macro Injection**: Automatically updates `#define LHOST`, `#define LPORT`, and `#define XOR_KEY`.
+- **Jinja Replacement**: Replaces `{{LHOST}}`, `{{LPORT}}`, etc., for template compatibility.
+- **Include Path**: Automatically adds the source file's original directory to the include path (-I) to ensure local headers are found.
+
+---
+
+## 📱 LEGACY ANDROID COMPATIBILITY
+When `COMP_ARCH` is set to an `android` variant, the compiler automatically applies:
+- **-pie**: Position Independent Executable (Required for modern Android).
+- **-Wl,--hash-style=sysv**: Ensures the binary can be loaded by legacy Android linkers (e.g. Android 6.0/7.0).
+
+---
+*Tip: Cross-compilers (like `aarch64-linux-gnu-gcc`) must be installed on your system unless using the Android NDK fallback.*

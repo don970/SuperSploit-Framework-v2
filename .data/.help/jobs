@@ -1,0 +1,26 @@
+# ⚙️ COMMAND: jobs
+The `jobs` command provides centralized Job Control & Process Management for the SuperSploit framework. It allows you to monitor and gracefully terminate background tasks, such as active Command & Control (C2) listeners or asynchronous network scans.
+
+---
+
+## 🛠️ USAGE WORKFLOW
+
+### 1. View Active Jobs
+- `jobs`: Lists all active background jobs registered with the framework, including their Job ID, name, and current uptime.
+- `jobs list` / `jobs ls`: Alternative aliases to display the job list.
+
+### 2. Terminate a Job
+- `jobs kill <ID>`: Gracefully terminates the specified background job using its unique integer ID. For example, if a C2 listener is running on port 5000, killing its job will unbind the socket, freeing the port for subsequent use without requiring a framework restart.
+
+---
+
+## 💡 EXAMPLES
+- `jobs`
+- `jobs kill 1`
+- `jobs kill 2`
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- **Graceful Termination**: The `kill` action invokes a registered callback specific to that task (e.g., triggering `shutdown(SHUT_RDWR)` on sockets). This prevents resource leaks and guarantees the host OS reclaims the resources cleanly.
+- **Auto-Cleanup**: The Job Registry automatically sweeps and unregisters tasks that have completed naturally or exited due to errors, keeping the `jobs` view clean and accurate.

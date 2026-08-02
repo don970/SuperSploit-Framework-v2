@@ -1,0 +1,29 @@
+# 🧮 KASLR SLIDE CALCULATOR
+The `kaslr` tool provides a conceptual calculator for determining Kernel Address Space Layout Randomization (KASLR) slides, leaked addresses, and static bases.
+
+KASLR is a security feature that randomizes the base address of the kernel in memory to prevent exploits from using static addresses for gadgets or symbols.
+
+---
+
+### 📝 USAGE
+- `kaslr`               : Launch interactive mode.
+- `kaslr -l [addr]`     : Provide leaked address (hex).
+- `kaslr -s [addr]`     : Provide static base address (hex).
+- `kaslr -k [slide]`    : Provide KASLR slide (hex).
+
+*Note: You must provide at least two values to calculate the third.*
+
+### 🛠 FORMULA
+`Leaked Address = Static Base + KASLR Slide`
+
+### 💡 COMMON STATIC BASES
+- **x86_64 Linux:**       `0xffffffff81000000`
+- **aarch64 Android:**    `0xffffffc000080000`
+- **aarch64 Android 12+:** `0xffffff8008000000`
+
+### 📖 EXAMPLES
+- `kaslr -l 0xffffffc012345678 -s 0xffffffc000080000`
+  Calculates the slide based on a leaked pointer and the default kernel base.
+  
+- `kaslr -s 0xffffff8008000000 -k 0x1200000`
+  Calculates the randomized base address for an Android 12 device with a known slide.

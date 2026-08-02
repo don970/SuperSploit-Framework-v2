@@ -1,0 +1,30 @@
+# ➕ COMMAND: add
+The add command provides a low-level interface for injecting custom key-value pairs directly into the framework's internal JSON-backed variable store.
+
+---
+
+## 🚀 "UNDER THE HOOD" MECHANISMS
+- Direct Store Injection: Unlike set, which uses a key_map to translate user-friendly aliases, add writes directly to the internal dictionary. This is useful for setting variables that do not have a pre-defined alias or for debugging module-specific parameters.
+- JSON Serialization: All values added are serialized and stored in the framework's primary state file (data.json or data.db).
+- Dynamic Variable Access: Modules can access these custom variables at runtime via the DatabaseManagment.get() dictionary.
+
+---
+
+## 🛠️ COMMAND SYNTAX & FLAGS
+### add <VARIABLE_NAME> <VALUE>
+- VARIABLE_NAME: The exact key name as it should appear in the database (Case-Sensitive).
+- VALUE: The string or numeric value to store.
+
+### add profile --import <IP>
+- Automatically creates a new persona profile by importing metadata (IP, Hostname, OS, Arch, Ports) from the targets database.
+
+### Examples:
+- add CUSTOM_HEADER_X "SecretValue"
+- add profile --import 192.168.1.50
+- add TIMEOUT_DELAY 15
+
+---
+
+## 🛡️ SAFETY & STEALTH CONSIDERATIONS
+- Key Collisions: Be careful not to overwrite core framework keys (e.g., EXPLOIT, R_HOST) unless you intend to bypass the standard set logic.
+- Persistence: Variables added via this command are persistent across sessions. Use clean if you wish to wipe the custom variable store.
