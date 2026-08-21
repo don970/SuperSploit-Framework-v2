@@ -21,7 +21,6 @@
 > Featuring an intelligent, state-driven database, SuperSploit automatically correlates discovered target vulnerabilities with over 260+ offline CVEs, seamlessly injecting dynamic, polymorphic payloads into targeted applications and memory spaces.
 
 ---
-
 ## 📑 Table of Contents
 - [💎 SuperSploit Pro](#-supersploit-pro)
 - [🚀 Ecosystem Capabilities](#-ecosystem-capabilities)
@@ -30,47 +29,9 @@
 - [🛠️ Quick Start Guide](#️-quick-start-guide)
 - [📚 Documentation & Configuration](#-documentation--configuration)
 - [⚠️ Disclaimer](#️-disclaimer)
-
----
-
-## 💎 SuperSploit Pro
-SuperSploit Pro is a premium extension of the framework designed for professional security firms and high-tempo red team engagements. It features a hardened, remote-controlled security architecture to protect elite intellectual property.
-
-### 👑 Exclusive Pro Features & Tools
-The following advanced modules, graphical interfaces, and weaponization pipelines are strictly gated behind the SuperSploit Pro license:
-* **Pro OSINT Suite:** Metadata Scraper, Reverse Image Search, Phone Intelligence, Domain Scanner, Credential Breach Monitor, Crypto Ledger Tracer, and Deepfake Verifier (ELA).
-* **Social Engineering GUI Suite:** Advanced SMTP Spoofing Suite, SMS Smishing Engine, Deepfake Vishing Suite, iMessage/RCS Injector, Evil Twin/Rogue AP, and Malicious QR Generator.
-* **Advanced Weaponization & Evasion:** Polymorphic Shellcode Packer, APK Polymorphic Crypter, APK Trust Store Patcher, and the Professional Cross-Arch Compilation Suite.
-* **Apple Zero-Day Attack Chain:** Safari WebKit Stager (CVE-2026-10002), iMessage Zero-Click (CVE-2026-10001), AWDL Proximity RCE (CVE-2026-10003), and dyld_shared_cache LPE (CVE-2026-20700).
-* **Command & Control (C2) & AitM:** Asynchronous AES-256-GCM HTTP C2 Server and the AitM Proxy & Web Stager.
-* **Post-Exploitation Suite:** Auto-Exfil Engine (SQLite/Cookie harvesting), Persistence Manager (Magisk/systemd/cron), and Proxy Pivot & Routing (SOCKS5 via Chisel).
-* **Android Security Analysis:** APK SAST Scanner (Static Analysis) and APK DAST Scanner (Frida Dynamic Instrumentation).
-* **Hardware & Proximity Attacks:** NFC Attack Suite and Hak5 Pineapple Automation Engine.
-
-### 🛡️ Advanced Security Engine
-*   **Proprietary Binary Validation:** Core licensing logic is anchored in a compiled C-based **Security Engine** (`supersploit_auth`), moving validation outside of easily patched Python source code to defeat local cracking attempts.
-*   **Multi-Factor Environmental Anchoring:** Licenses are cryptographically locked to a unique fingerprint including **Hardware ID (HWID)**, **Software ID (SWID)**, **External IP**, **Geographic Region**, and **Timezone**.
-*   **Remote Policy Enforcement:** Real-time synchronization with a GitHub-hosted security manifest allows for instant global revocation of leaked keys and dynamic remote hardware locking.
-*   **Activation Telemetry:** Built-in support for Discord/Slack Webhooks provides developers with real-time alerts for every license activation, complete with machine fingerprints and network metadata.
-
-### 🪙 License Tiers
-SuperSploit operates under an **Open Core** model.
-- **Core Framework:** Licensed under the [MIT License](./LICENSE-CORE).
-- **Pro Tier:** Licensed under the [Pro License Agreement](./docs/Legal/PRO_LICENSE_AGREEMENT.md). See [Pro Pricing](./docs/Legal/PRO_PRICING.md) for subscription details.
-
-For a full breakdown of the licensing structure, see the root [LICENSE](./LICENSE) file.
-
----
-
 ## 🚀 Ecosystem Capabilities
 
 ### 🍏 Apple iOS & macOS Ecosystem
-A complete, native attack chain for the Apple ecosystem:
-* **Safari WebKit Stager (CVE-2026-10002):** 1-Click remote code execution via DFG JIT Type Confusion, featuring automatic RWX memory allocation and shellcode execution.
-* **iMessage Zero-Click (CVE-2026-10001):** Sandbox escape via malformed HEIF metadata, dispatched flawlessly over native macOS `osascript` bridging.
-* **AWDL/AirDrop RCE (CVE-2026-10003):** Proximity-based RCE targeting `sharingd` buffer overflows via raw 802.11 Action Frames.
-* **dyld_shared_cache LPE (CVE-2026-20700):** Hybrid weaponized Local Privilege Escalation cross-compiled on the fly for A-Series ARM64 chips.
-
 ### 🤖 Android & Linux Exploitation
 An end-to-end weaponization pipeline bypassing modern EDR and AV engines:
 * **Polymorphic APK Crypter:** Deep Smali string encryption and dynamic JNI method rotation to defeat static YARA signatures.
