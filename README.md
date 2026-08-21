@@ -22,7 +22,6 @@
 
 ---
 ## 📑 Table of Contents
-- [💎 SuperSploit Pro](#-supersploit-pro)
 - [🚀 Ecosystem Capabilities](#-ecosystem-capabilities)
 - [⚙️ Core Framework Architecture](#️-core-framework-architecture)
 - [📦 Installation & Setup](#-installation--setup)
