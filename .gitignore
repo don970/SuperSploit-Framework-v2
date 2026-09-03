@@ -1,12 +1,68 @@
+<<<<<<< HEAD
 # research
 docs/pro/
 docs/development/
+
+# Python build and test output
 docs/research/
 
 
 # Sentry OSINT Framework & Recon Loot
 .data/.loot/osint/
 .data/.config/*_api_keys.json
+
+# Editor and operating-system metadata
 source/tools/OSINT/__pycache__/
 *.osint_cache
 *ela_artifact.jpg
+
+# Local framework state and assessment output
+=======
+# Python build and test output
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+
+# Editor and operating-system metadata
+.idea/
+.DS_Store
+._*
+
+# Local framework state and assessment output
+
+# Generated local artifacts
+.data/.assets/openssl/
+.data/.cache/
+.data/.config/*.db
+.data/.config/*.pem
+.data/.config/*.bak
+
+# Excluded security-research artifacts
+.data/.config/active_workspace
+.data/.config/.terminals
+.data/.config/targets.json
+.data/.errors/
+.data/.history/
+.data/.logs/
+.data/.loot/
+.data/.targets/
+.data/workspaces/
+.data/sast_workspace/
+
+# Generated local artifacts
+*.apk
+*.apk.idsig
+*.keystore
+*.pyc
+*.pyo
+
+# Excluded security-research artifacts
+exploits/
+payloads/
+templates/exploit/
+templates/payload/
+templates/web/
+>>>>>>> 1e50fa1 (chore: remove research artifacts and local state)
