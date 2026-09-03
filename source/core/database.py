@@ -150,6 +150,9 @@ class ExploitCache:
                         "arch": meta.get("arch", ""),
                         "kernel": meta.get("kernel_versions", meta.get("kernel", "")),
                         "min_ver": meta.get("min_ver", ""),
+                        "device_models": meta.get("device_models", []),
+                        "brands": meta.get("brands", []),
+                        "max_security_patch": meta.get("max_security_patch", ""),
                         "max_ver": meta.get("max_ver", ""),
                         "requirements": meta.get("requirements", []),
                         "keywords": meta.get("keywords", meta.get("auto_suggest", []))
@@ -193,6 +196,9 @@ class ExploitCache:
                 "os": meta.get("os", ""),
                 "kernel": meta.get("kernel_versions", meta.get("kernel", "")),
                 "min_ver": meta.get("min_ver", ""),
+                "device_models": meta.get("device_models", []),
+                "brands": meta.get("brands", []),
+                "max_security_patch": meta.get("max_security_patch", ""),
                 "max_ver": meta.get("max_ver", ""),
                 "payload": meta.get("payload", ""),
                 "author": meta.get("author", "N/A"),
@@ -568,7 +574,7 @@ class DatabaseManagment:
         # Expected format: edit profile <name> <field> <value>
         if len(parts) < 5:
             write("[-] Usage: edit profile \"<Profile Name>\" <field> \"<value>\"")
-            write("[-] For social_medias: edit profile \"<Profile Name>\" social_medias add \"<URL>\"")
+            write("[-] For social_medias: edit profile \"<Profile Name>\" social_medias add/remove \"<URL>\"")
             write("[-] For research: edit profile \"<Profile Name>\" research add \"<Info>\"")
             return
 
@@ -674,71 +680,155 @@ class DatabaseManagment:
     def _parse_markdown_targets(cls, content):
         """Parses a Markdown file to extract target profiles using regex, preserving raw content."""
         import re
-        targets = {}
-        current_ip = None
-        current_target = {}
-        current_raw = []
+        targets = {} # Stores profiles keyed by their name
+        current_target_name = None
+        current_target_data = {}
+        current_raw_lines = []
 
-        # Look for headers like "# Target Profile: 192.168.1.50" or "# Target: 192.168.1.50"
-        header_pattern = re.compile(r'^#+\s*Target(?: Profile)?\s*:\s*([^\s]+)', re.IGNORECASE)
+        # State for multi-line sections
+        in_critical_findings_section = False
+        critical_findings_buffer = []
+
+        # Look for headers like "# Target Profile: Samsung Galaxy S21" or "# Target: 192.168.1.50"
+        header_pattern = re.compile(r'^#+\s*Target(?: Profile)?\s*:\s*(.+)', re.IGNORECASE)
         
-        # Look for list items like "- **IP:** 192.168.1.50" or "* OS: Android"
+        # Look for list items like "- **IP:** 192.168.1.50" or "* OS: Android" or "- Key: Value"
         kv_pattern = re.compile(r'^[\*\-]\s*(?:\*\*)?([^:\*]+)(?:\*\*)?:\s*(.+)', re.IGNORECASE)
 
         lines = content.split('\n')
-        for i, line in enumerate(lines):
+        i = 0
+        while i < len(lines):
+            line = lines[i]
             stripped_line = line.strip()
             
             header_match = header_pattern.match(stripped_line)
             if header_match:
+                # If we were in a critical findings section, save it before starting a new target
+                if in_critical_findings_section and critical_findings_buffer:
+                    current_target_data.setdefault('research', []).extend(critical_findings_buffer)
+                    critical_findings_buffer = []
+                    in_critical_findings_section = False
+
                 # Save previous target if exists
-                if current_ip or current_target:
-                    ip_key = current_ip if current_ip else f"target_{len(targets)+1}"
-                    current_target['raw_content'] = '\n'.join(current_raw).strip()
-                    targets[ip_key] = current_target
+                if current_target_name or current_target_data:
+                    current_target_data['raw_content'] = '\n'.join(current_raw_lines).strip()
+                    targets[current_target_name] = current_target_data
                 
-                current_ip = header_match.group(1)
-                current_target = {}
-                current_raw = [] # Reset raw accumulator for new target
-                # We don't add the header to current_raw as it's the identifier
+                current_target_name = header_match.group(1).strip()
+                current_target_data = {"name": current_target_name}
+                current_raw_lines = [line] # Reset raw accumulator for new target, include header
+                i += 1
                 continue
 
-            if current_ip is not None:
-                current_raw.append(line)
-
-            if not stripped_line:
+            if not current_target_name: # Skip lines before the first target header
+                i += 1
                 continue
+
+            current_raw_lines.append(line) # Accumulate raw content for the current target
+
+            # Check for "Critical Findings & LPE Paths" header
+            if re.match(r'^#+\s*Critical Findings & LPE Paths', stripped_line, re.IGNORECASE):
+                if in_critical_findings_section and critical_findings_buffer:
+                    current_target_data.setdefault('research', []).extend(critical_findings_buffer)
+                    critical_findings_buffer = []
+                in_critical_findings_section = True
+                critical_findings_buffer.append(stripped_line) # Add the header itself
+                i += 1
+                continue
+
+            if in_critical_findings_section:
+                # If we encounter another header, stop collecting critical findings
+                if re.match(r'^#+\s*(.+)', stripped_line):
+                    if critical_findings_buffer:
+                        current_target_data.setdefault('research', []).extend(critical_findings_buffer)
+                        critical_findings_buffer = []
+                    in_critical_findings_section = False
+                    # Do not continue, let the next loop iteration handle the new header
+                else:
+                    critical_findings_buffer.append(stripped_line)
+                    i += 1
+                    continue
 
             kv_match = kv_pattern.match(stripped_line)
             if kv_match:
                 key = kv_match.group(1).strip().lower()
                 value = kv_match.group(2).strip()
 
+                # Handle multi-line lists for CVEs, Environment, Research, Attack Plan, Framework Notes etc.
+                if key in ['cves', 'vulnerabilities', 'environment', 'research', 'attack plan', 'framework notes']:
+                    collected_list_items = []
+                    if value: 
+                        collected_list_items.append(value)
+                    
+                    j = i + 1
+                    while j < len(lines):
+                        next_line = lines[j]
+                        list_item_match = re.match(r'^\s*[\-\*]\s*(.+)', next_line)
+                        if list_item_match:
+                            collected_list_items.append(list_item_match.group(1).strip())
+                            current_raw_lines.append(next_line)
+                            j += 1
+                        else:
+                            break
+                    
+                    if key in ['cves', 'vulnerabilities']:
+                        current_target_data['cves'] = [item for item in collected_list_items if item]
+                    elif key in ['environment']:
+                        current_target_data['environment'] = [item for item in collected_list_items if item]
+                    elif key == 'research': # Explicitly handle research list items
+                        current_target_data.setdefault('research', []).extend([item for item in collected_list_items if item])
+                    elif key == 'attack plan':
+                        current_target_data.setdefault('attack_plan', []).extend([item for item in collected_list_items if item])
+                    elif key == 'framework notes':
+                        current_target_data.setdefault('framework_notes', []).extend([item for item in collected_list_items if item])
+
+                    i = j - 1
+
                 # Map common markdown keys to internal database keys for suggestion engine
-                if key in ['ip', 'ip address']:
-                    if not current_ip:
-                         current_ip = value
+                elif key in ['ip', 'ip address']:
+                    current_target_data['ip'] = value
                 elif key in ['os', 'os family', 'platform']:
-                    current_target['os_family'] = value
+                    current_target_data['os'] = value # Changed to 'os'
                 elif key in ['arch', 'architecture']:
-                    current_target['architecture'] = value
+                    current_target_data['arch'] = value # Changed to 'arch'
                 elif key in ['kernel', 'kernel version']:
-                    current_target['kernel_version'] = value
+                    current_target_data['kernel'] = value # Changed to 'kernel'
+                elif key == 'name':
+                    current_target_data['name'] = value
+                elif key == 'brand':
+                    current_target_data['brand'] = value
+                elif key == 'device':
+                    current_target_data['device'] = value
+                elif key == 'security patch':
+                    current_target_data['security_patch'] = value
                 elif key in ['ports', 'open ports']:
-                    current_target['ports'] = [int(p.strip()) for p in value.split(',') if p.strip().isdigit()]
-                elif key in ['cves', 'vulnerabilities']:
-                    current_target['cves'] = [c.strip() for c in value.split(',')]
-                elif key in ['environment', 'env']:
-                    current_target['environment'] = [e.strip() for e in value.split(',')]
+                    port_entries = [p.strip() for p in value.split(',')]
+                    profile_services = current_target_data.setdefault('services', {})
+                    for entry in port_entries:
+                        match = re.match(r'(\d+)\s*(?:\((.*?)\))?', entry)
+                        if match:
+                            port_num = match.group(1)
+                            service_desc = match.group(2) if match.group(2) else 'unknown'
+                            profile_services[port_num] = {
+                                'service': service_desc.lower(),
+                                'banner': service_desc.lower()
+                            }
+                            current_target_data.setdefault('ports', []).append(int(port_num))
+                        elif entry.isdigit():
+                            port_num = entry
+                            profile_services[port_num] = {'service': 'unknown', 'banner': ''}
+                            current_target_data.setdefault('ports', []).append(int(port_num))
                 else:
                     clean_key = key.replace(' ', '_')
-                    current_target[clean_key] = value
+                    current_target_data[clean_key] = value
+            i += 1
 
         # Save the last target found in the file
-        if current_ip or current_target:
-            ip_key = current_ip if current_ip else f"target_{len(targets)+1}"
-            current_target['raw_content'] = '\n'.join(current_raw).strip()
-            targets[ip_key] = current_target
+        if current_target_name or current_target_data:
+            if in_critical_findings_section and critical_findings_buffer:
+                current_target_data.setdefault('research', []).extend(critical_findings_buffer)
+            current_target_data['raw_content'] = '\n'.join(current_raw_lines).strip()
+            targets[current_target_name] = current_target_data
 
         return targets
 
@@ -798,7 +888,7 @@ class DatabaseManagment:
 
         # Validate metadata
         try:
-            with open(source_path, "r", encoding="utf-8", errors="ignore") as f:
+            with open(source_path, "r", encoding="utf-8") as f:
                 content = f.read()
                 if "#!#!#!" not in content:
                     write(f"[-] Warning: Module {source_path} is missing #!#!#! metadata block.\n")
@@ -825,7 +915,7 @@ class DatabaseManagment:
         category = "".join(c for c in category if c.isalnum() or c in ("_", "-")).lower()
         
         # Determine destination
-        dest_base = os.path.join(cls.getInstall(), f"{module_type}s", category)
+        dest_base = os.path.join(install_location, f"{module_type}s", category)
         os.makedirs(dest_base, exist_ok=True)
         dest_path = os.path.join(dest_base, os.path.basename(source_path))
 
@@ -845,7 +935,7 @@ class DatabaseManagment:
             write(f"[-] Error: File {path} does not exist.\n")
             return
         
-        dest_base = os.path.join(cls.getInstall(), "templates")
+        dest_base = os.path.join(install_location, "templates")
         os.makedirs(dest_base, exist_ok=True)
         dest_path = os.path.join(dest_base, os.path.basename(path))
 

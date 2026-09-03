@@ -1,0 +1,772 @@
+[
+  {
+    "sessionId": "6ca7f2f8-5363-4e3d-a93f-cb88081212a4",
+    "messageId": 0,
+    "type": "user",
+    "message": "supersploit",
+    "timestamp": "2026-05-27T04:16:27.049Z"
+  },
+  {
+    "sessionId": "6ca7f2f8-5363-4e3d-a93f-cb88081212a4",
+    "messageId": 1,
+    "type": "user",
+    "message": "sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev",
+    "timestamp": "2026-05-27T04:16:58.020Z"
+  },
+  {
+    "sessionId": "6ca7f2f8-5363-4e3d-a93f-cb88081212a4",
+    "messageId": 2,
+    "type": "user",
+    "message": "run supersploit",
+    "timestamp": "2026-05-27T04:24:00.369Z"
+  },
+  {
+    "sessionId": "6ca7f2f8-5363-4e3d-a93f-cb88081212a4",
+    "messageId": 3,
+    "type": "user",
+    "message": "i have supersploit istalled in the path just run 'supersploit'",
+    "timestamp": "2026-05-27T04:25:10.984Z"
+  },
+  {
+    "sessionId": "6ca7f2f8-5363-4e3d-a93f-cb88081212a4",
+    "messageId": 4,
+    "type": "user",
+    "message": "generate-apk",
+    "timestamp": "2026-05-27T04:26:00.138Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 0,
+    "type": "user",
+    "message": "show me a full file tree",
+    "timestamp": "2026-05-27T04:42:01.562Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 1,
+    "type": "user",
+    "message": "analyze the open the let analyze the exploits",
+    "timestamp": "2026-05-27T04:44:23.198Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 2,
+    "type": "user",
+    "message": "suggest exploit to add",
+    "timestamp": "2026-05-27T04:45:29.758Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 3,
+    "type": "user",
+    "message": "do a templete for all of them",
+    "timestamp": "2026-05-27T04:46:45.388Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 4,
+    "type": "user",
+    "message": "suggest 10 modern android exploits",
+    "timestamp": "2026-05-27T04:48:47.774Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 5,
+    "type": "user",
+    "message": "do a templete for all",
+    "timestamp": "2026-05-27T04:49:21.851Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 6,
+    "type": "user",
+    "message": "suggest 10 newer ones i want a challenge",
+    "timestamp": "2026-05-27T04:54:03.592Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 7,
+    "type": "user",
+    "message": "yes",
+    "timestamp": "2026-05-27T04:54:48.039Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 8,
+    "type": "user",
+    "message": "yesyes",
+    "timestamp": "2026-05-27T04:56:38.608Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 9,
+    "type": "user",
+    "message": "lets start with a android one",
+    "timestamp": "2026-05-27T05:06:09.529Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 10,
+    "type": "user",
+    "message": "lets work on all the android exploits try to implament them all",
+    "timestamp": "2026-05-27T05:19:01.002Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 11,
+    "type": "user",
+    "message": "lets focus on the exploits apple",
+    "timestamp": "2026-05-27T05:36:30.677Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 12,
+    "type": "user",
+    "message": "yes",
+    "timestamp": "2026-05-27T05:37:41.668Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 13,
+    "type": "user",
+    "message": "show me the most recent android rce",
+    "timestamp": "2026-05-27T05:40:57.413Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 14,
+    "type": "user",
+    "message": "yes",
+    "timestamp": "2026-05-27T05:41:51.517Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 15,
+    "type": "user",
+    "message": "lets check for 2026",
+    "timestamp": "2026-05-27T05:42:34.142Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 16,
+    "type": "user",
+    "message": "run supersploit we are gonna start testing",
+    "timestamp": "2026-05-27T05:48:27.357Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 17,
+    "type": "user",
+    "message": "i have supersploit istalled in the path just run 'supersploit'",
+    "timestamp": "2026-05-27T05:49:04.510Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 18,
+    "type": "user",
+    "message": "1",
+    "timestamp": "2026-05-27T05:58:25.465Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 19,
+    "type": "user",
+    "message": "run supersploit",
+    "timestamp": "2026-05-27T06:14:42.409Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 20,
+    "type": "user",
+    "message": "run python3 setup.py",
+    "timestamp": "2026-05-27T06:22:03.932Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 21,
+    "type": "user",
+    "message": "look at the usb device i just connect",
+    "timestamp": "2026-05-27T06:28:23.863Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 22,
+    "type": "user",
+    "message": "let check for usb vulns",
+    "timestamp": "2026-05-27T06:30:11.004Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 23,
+    "type": "user",
+    "message": "yes",
+    "timestamp": "2026-05-27T06:31:44.567Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 24,
+    "type": "user",
+    "message": "2",
+    "timestamp": "2026-05-27T06:34:31.982Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 25,
+    "type": "user",
+    "message": "no let explore more usb options",
+    "timestamp": "2026-05-27T06:37:21.924Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 26,
+    "type": "user",
+    "message": "lets try all of them",
+    "timestamp": "2026-05-27T06:39:07.504Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 27,
+    "type": "user",
+    "message": "1",
+    "timestamp": "2026-05-27T06:40:44.939Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 28,
+    "type": "user",
+    "message": "i have adb lets try to escalate",
+    "timestamp": "2026-05-27T06:41:38.866Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 29,
+    "type": "user",
+    "message": "its the other device",
+    "timestamp": "2026-05-27T06:44:36.548Z"
+  },
+  {
+    "sessionId": "580206ec-9c2d-4f66-b1a2-1afb618752a3",
+    "messageId": 30,
+    "type": "user",
+    "message": "ready",
+    "timestamp": "2026-05-27T06:45:32.006Z"
+  },
+  {
+    "sessionId": "c4c58bb5-ec30-47d1-b6c1-5eedc532251c",
+    "messageId": 0,
+    "type": "user",
+    "message": "start the listener",
+    "timestamp": "2026-05-27T06:58:11.117Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 0,
+    "type": "user",
+    "message": "run \"supersploit\"",
+    "timestamp": "2026-05-27T07:00:18.196Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 1,
+    "type": "user",
+    "message": "i have supersploit istalled in the path just run 'supersploit'",
+    "timestamp": "2026-05-27T07:01:51.137Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 2,
+    "type": "user",
+    "message": "analyze",
+    "timestamp": "2026-05-27T07:02:58.208Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 3,
+    "type": "user",
+    "message": "yes",
+    "timestamp": "2026-05-27T07:07:41.415Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 4,
+    "type": "user",
+    "message": "try it",
+    "timestamp": "2026-05-27T07:13:26.356Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 5,
+    "type": "user",
+    "message": "payload can be deliverd via adb over usb it connected dont need to start adb wireless connection",
+    "timestamp": "2026-05-27T07:16:57.233Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 6,
+    "type": "user",
+    "message": "run \"adb install payloads/android_payload.apk\"",
+    "timestamp": "2026-05-27T07:18:59.665Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 7,
+    "type": "user",
+    "message": "run \"supersploit\"",
+    "timestamp": "2026-05-27T07:19:39.291Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 8,
+    "type": "user",
+    "message": "pause",
+    "timestamp": "2026-05-27T07:28:18.294Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 9,
+    "type": "user",
+    "message": "tthat is still all untested",
+    "timestamp": "2026-05-27T07:28:49.570Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 10,
+    "type": "user",
+    "message": "no run \"supersploit\"",
+    "timestamp": "2026-05-27T07:30:06.360Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 11,
+    "type": "user",
+    "message": "the app is running",
+    "timestamp": "2026-05-27T07:31:19.771Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 12,
+    "type": "user",
+    "message": "no we have a working system now let focus on lpe",
+    "timestamp": "2026-05-27T07:38:21.421Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 13,
+    "type": "user",
+    "message": "what exploit are u trying",
+    "timestamp": "2026-05-27T07:51:58.145Z"
+  },
+  {
+    "sessionId": "1d76f5a7-5cb3-4fda-b8dc-e097db646109",
+    "messageId": 14,
+    "type": "user",
+    "message": "yes but we should be tryingto use the supersploit framework c2 agent to establish a connecetion the escalate privlages we have the reverse_shell running",
+    "timestamp": "2026-05-27T07:54:10.051Z"
+  },
+  {
+    "sessionId": "b8f8bcec-a0c7-468e-90ec-f8d877fd4bab",
+    "messageId": 0,
+    "type": "user",
+    "message": "run \"supersploit\"",
+    "timestamp": "2026-05-27T08:04:45.552Z"
+  },
+  {
+    "sessionId": "b8f8bcec-a0c7-468e-90ec-f8d877fd4bab",
+    "messageId": 1,
+    "type": "user",
+    "message": "run the command supersploit",
+    "timestamp": "2026-05-27T08:05:30.524Z"
+  },
+  {
+    "sessionId": "b8f8bcec-a0c7-468e-90ec-f8d877fd4bab",
+    "messageId": 2,
+    "type": "user",
+    "message": "run -> supersploit",
+    "timestamp": "2026-05-27T08:06:00.929Z"
+  },
+  {
+    "sessionId": "b8f8bcec-a0c7-468e-90ec-f8d877fd4bab",
+    "messageId": 3,
+    "type": "user",
+    "message": "the program is installed globaly just run \"supersploit\"",
+    "timestamp": "2026-05-27T08:06:48.908Z"
+  },
+  {
+    "sessionId": "b8f8bcec-a0c7-468e-90ec-f8d877fd4bab",
+    "messageId": 4,
+    "type": "user",
+    "message": "it is hangging here",
+    "timestamp": "2026-05-27T08:09:24.675Z"
+  },
+  {
+    "sessionId": "b8f8bcec-a0c7-468e-90ec-f8d877fd4bab",
+    "messageId": 5,
+    "type": "user",
+    "message": "run -> supersploit",
+    "timestamp": "2026-05-27T08:11:20.876Z"
+  },
+  {
+    "sessionId": "b46a8e2e-e8ad-4967-9548-557f42aee1db",
+    "messageId": 0,
+    "type": "user",
+    "message": "run \"supersploit\"",
+    "timestamp": "2026-05-27T08:12:27.355Z"
+  },
+  {
+    "sessionId": "b46a8e2e-e8ad-4967-9548-557f42aee1db",
+    "messageId": 1,
+    "type": "user",
+    "message": "i have supersploit istalled in the path just run 'supersploit'",
+    "timestamp": "2026-05-27T08:12:55.100Z"
+  },
+  {
+    "sessionId": "b8f8bcec-a0c7-468e-90ec-f8d877fd4bab",
+    "messageId": 6,
+    "type": "user",
+    "message": "is it supost to take this long",
+    "timestamp": "2026-05-27T08:15:57.882Z"
+  },
+  {
+    "sessionId": "b3a729b9-e451-48ff-b990-b1a3faf4b82b",
+    "messageId": 0,
+    "type": "user",
+    "message": "lets work on cve 2026-0047 In dumpBitmapsProto of ActivityManagerService.java, there is a possible way for an app to access private information due to a missing permission check. This could lead to local escalation of privilege with no additional execution privileges needed. User interaction is not needed for exploitation.lets implament this",
+    "timestamp": "2026-05-27T08:35:46.339Z"
+  },
+  {
+    "sessionId": "491e421c-66fd-4774-bf19-4db945315651",
+    "messageId": 0,
+    "type": "user",
+    "message": "let make the ui of the android drs a small flappy bird sysle game",
+    "timestamp": "2026-05-27T09:00:24.964Z"
+  },
+  {
+    "sessionId": "9a794f3b-9079-46db-9fae-cba36c700d26",
+    "messageId": 0,
+    "type": "user",
+    "message": "/upgrade",
+    "timestamp": "2026-05-27T16:14:22.073Z"
+  },
+  {
+    "sessionId": "9a794f3b-9079-46db-9fae-cba36c700d26",
+    "messageId": 1,
+    "type": "user",
+    "message": "/auth",
+    "timestamp": "2026-05-27T16:14:51.557Z"
+  },
+  {
+    "sessionId": "abb53047-188b-4c7b-81a3-a757ad1fa2cc",
+    "messageId": 0,
+    "type": "user",
+    "message": "let work on lateral network host discovery",
+    "timestamp": "2026-05-27T16:16:02.649Z"
+  },
+  {
+    "sessionId": "abb53047-188b-4c7b-81a3-a757ad1fa2cc",
+    "messageId": 1,
+    "type": "user",
+    "message": "proceed with implamentation",
+    "timestamp": "2026-05-27T16:19:59.293Z"
+  },
+  {
+    "sessionId": "abb53047-188b-4c7b-81a3-a757ad1fa2cc",
+    "messageId": 2,
+    "type": "user",
+    "message": "search recon",
+    "timestamp": "2026-05-27T16:21:49.933Z"
+  },
+  {
+    "sessionId": "abb53047-188b-4c7b-81a3-a757ad1fa2cc",
+    "messageId": 3,
+    "type": "user",
+    "message": "test it",
+    "timestamp": "2026-05-27T16:24:04.310Z"
+  },
+  {
+    "sessionId": "fbff23e8-3c08-4ef6-851a-605110e453f2",
+    "messageId": 0,
+    "type": "user",
+    "message": "test the lateral discovery",
+    "timestamp": "2026-05-27T19:09:20.522Z"
+  },
+  {
+    "sessionId": "fbff23e8-3c08-4ef6-851a-605110e453f2",
+    "messageId": 1,
+    "type": "user",
+    "message": "clear",
+    "timestamp": "2026-05-27T19:12:22.656Z"
+  },
+  {
+    "sessionId": "46afe675-4558-4d99-bd57-fc6fdc305126",
+    "messageId": 0,
+    "type": "user",
+    "message": "the network is a multi layered network its a rtc free wifi thats being repeated as a personal hotspot from the phone so the phone is acting as a repeater",
+    "timestamp": "2026-05-27T19:15:31.562Z"
+  },
+  {
+    "sessionId": "46afe675-4558-4d99-bd57-fc6fdc305126",
+    "messageId": 1,
+    "type": "user",
+    "message": "id outer network devices and ips but also the phones and be able to id the amount of layers",
+    "timestamp": "2026-05-27T19:19:30.729Z"
+  },
+  {
+    "sessionId": "46afe675-4558-4d99-bd57-fc6fdc305126",
+    "messageId": 2,
+    "type": "user",
+    "message": "lets create a moudle for advanced layerd network discovery",
+    "timestamp": "2026-05-27T19:22:00.938Z"
+  },
+  {
+    "sessionId": "46afe675-4558-4d99-bd57-fc6fdc305126",
+    "messageId": 3,
+    "type": "user",
+    "message": "refine",
+    "timestamp": "2026-05-27T19:22:41.202Z"
+  },
+  {
+    "sessionId": "48a95cad-6ded-47e1-a8d3-d9ac34a7a3d5",
+    "messageId": 0,
+    "type": "user",
+    "message": "pix the metatdata sections in all the exploits some have 2 metadata areas one is just commented out",
+    "timestamp": "2026-05-27T21:37:13.758Z"
+  },
+  {
+    "sessionId": "48a95cad-6ded-47e1-a8d3-d9ac34a7a3d5",
+    "messageId": 1,
+    "type": "user",
+    "message": "finish implamentation of challenges",
+    "timestamp": "2026-05-27T21:59:43.066Z"
+  },
+  {
+    "sessionId": "857771ef-7e85-4b80-92e7-9c5d8ab7d1d3",
+    "messageId": 0,
+    "type": "user",
+    "message": "ls",
+    "timestamp": "2026-05-27T22:24:05.486Z"
+  },
+  {
+    "sessionId": "857771ef-7e85-4b80-92e7-9c5d8ab7d1d3",
+    "messageId": 1,
+    "type": "user",
+    "message": "lets work on a zero day for android",
+    "timestamp": "2026-05-27T22:24:25.274Z"
+  },
+  {
+    "sessionId": "857771ef-7e85-4b80-92e7-9c5d8ab7d1d3",
+    "messageId": 2,
+    "type": "user",
+    "message": "lets add bluetooth discovery to the recon moudles",
+    "timestamp": "2026-05-27T22:27:50.609Z"
+  },
+  {
+    "sessionId": "ca270c96-4327-4a4b-97d1-bdffc051d02a",
+    "messageId": 0,
+    "type": "user",
+    "message": "mske the android drs templete s flsppybirds style game",
+    "timestamp": "2026-05-27T22:55:23.855Z"
+  },
+  {
+    "sessionId": "ca270c96-4327-4a4b-97d1-bdffc051d02a",
+    "messageId": 1,
+    "type": "user",
+    "message": "create a seperate Messaes ui payload for the kivy generator",
+    "timestamp": "2026-05-27T23:03:19.207Z"
+  },
+  {
+    "sessionId": "b89bbb66-7e6d-4a30-b223-7774a770a8e2",
+    "messageId": 0,
+    "type": "user",
+    "message": "fix the beacon android payload",
+    "timestamp": "2026-05-27T23:19:08.579Z"
+  },
+  {
+    "sessionId": "b89bbb66-7e6d-4a30-b223-7774a770a8e2",
+    "messageId": 1,
+    "type": "user",
+    "message": "fix the beacon templet for android payload",
+    "timestamp": "2026-05-27T23:19:58.868Z"
+  },
+  {
+    "sessionId": "fd5cf1db-44d7-4344-84cc-bc928de60c8b",
+    "messageId": 0,
+    "type": "user",
+    "message": "run supersploit",
+    "timestamp": "2026-05-28T00:38:59.581Z"
+  },
+  {
+    "sessionId": "fd5cf1db-44d7-4344-84cc-bc928de60c8b",
+    "messageId": 1,
+    "type": "user",
+    "message": "investagagte the issue the android device is connect via adb",
+    "timestamp": "2026-05-28T00:40:20.829Z"
+  },
+  {
+    "sessionId": "fd5cf1db-44d7-4344-84cc-bc928de60c8b",
+    "messageId": 2,
+    "type": "user",
+    "message": "test it",
+    "timestamp": "2026-05-28T00:50:33.772Z"
+  },
+  {
+    "sessionId": "fd5cf1db-44d7-4344-84cc-bc928de60c8b",
+    "messageId": 3,
+    "type": "user",
+    "message": "why is all the templetes installing vias adb actually installing two apps",
+    "timestamp": "2026-05-28T01:46:46.254Z"
+  },
+  {
+    "sessionId": "16292fce-5ce5-42a3-bd5a-e1f4eb851870",
+    "messageId": 0,
+    "type": "user",
+    "message": "exit",
+    "timestamp": "2026-05-28T02:03:40.978Z"
+  },
+  {
+    "sessionId": "914e74cc-9c71-4fe9-9338-ac24a867b7d7",
+    "messageId": 0,
+    "type": "user",
+    "message": "run dupersploit",
+    "timestamp": "2026-05-28T02:40:12.852Z"
+  },
+  {
+    "sessionId": "914e74cc-9c71-4fe9-9338-ac24a867b7d7",
+    "messageId": 1,
+    "type": "user",
+    "message": "start listenener",
+    "timestamp": "2026-05-28T02:42:25.266Z"
+  },
+  {
+    "sessionId": "914e74cc-9c71-4fe9-9338-ac24a867b7d7",
+    "messageId": 2,
+    "type": "user",
+    "message": "just run the program",
+    "timestamp": "2026-05-28T02:56:05.547Z"
+  },
+  {
+    "sessionId": "914e74cc-9c71-4fe9-9338-ac24a867b7d7",
+    "messageId": 3,
+    "type": "user",
+    "message": "run supersploit",
+    "timestamp": "2026-05-28T02:59:11.266Z"
+  },
+  {
+    "sessionId": "7b5251a8-26e9-4ffa-a014-f0593d49f6cf",
+    "messageId": 0,
+    "type": "user",
+    "message": "run supersploit then hand me the terminal",
+    "timestamp": "2026-05-28T03:07:23.016Z"
+  },
+  {
+    "sessionId": "7b5251a8-26e9-4ffa-a014-f0593d49f6cf",
+    "messageId": 1,
+    "type": "user",
+    "message": "investagate the errors",
+    "timestamp": "2026-05-28T03:09:44.738Z"
+  },
+  {
+    "sessionId": "7b5251a8-26e9-4ffa-a014-f0593d49f6cf",
+    "messageId": 2,
+    "type": "user",
+    "message": "what are u working on",
+    "timestamp": "2026-05-28T03:33:07.481Z"
+  },
+  {
+    "sessionId": "e28a8753-4c56-4a3f-a0b2-36a34788f5fc",
+    "messageId": 0,
+    "type": "user",
+    "message": "lets make the suggest engine better more rubust, also update the keyterms for exploits use details like for dirty pipe use valn kernal versions",
+    "timestamp": "2026-05-28T04:04:44.064Z"
+  },
+  {
+    "sessionId": "e28a8753-4c56-4a3f-a0b2-36a34788f5fc",
+    "messageId": 1,
+    "type": "user",
+    "message": "enhance the suggest engiene even more",
+    "timestamp": "2026-05-28T04:07:51.987Z"
+  },
+  {
+    "sessionId": "e28a8753-4c56-4a3f-a0b2-36a34788f5fc",
+    "messageId": 2,
+    "type": "user",
+    "message": "hooke the recon modules in to the suggest engien",
+    "timestamp": "2026-05-28T04:09:35.672Z"
+  },
+  {
+    "sessionId": "e28a8753-4c56-4a3f-a0b2-36a34788f5fc",
+    "messageId": 3,
+    "type": "user",
+    "message": "test it ill start a vuln server on 192.158.151.158:8080 its a cwe",
+    "timestamp": "2026-05-28T04:14:07.186Z"
+  },
+  {
+    "sessionId": "e28a8753-4c56-4a3f-a0b2-36a34788f5fc",
+    "messageId": 4,
+    "type": "user",
+    "message": "do a full test",
+    "timestamp": "2026-05-28T04:17:13.643Z"
+  },
+  {
+    "sessionId": "e28a8753-4c56-4a3f-a0b2-36a34788f5fc",
+    "messageId": 5,
+    "type": "user",
+    "message": "what factores does the suggesting engine look at in the ram to make its suggestions",
+    "timestamp": "2026-05-28T19:15:42.173Z"
+  },
+  {
+    "sessionId": "e28a8753-4c56-4a3f-a0b2-36a34788f5fc",
+    "messageId": 6,
+    "type": "user",
+    "message": "remember this information",
+    "timestamp": "2026-05-28T19:54:45.605Z"
+  },
+  {
+    "sessionId": "b00e7857-d3e5-4e30-acb9-c1ec7e7bbeb0",
+    "messageId": 0,
+    "type": "user",
+    "message": "run supersploit",
+    "timestamp": "2026-05-28T22:43:59.151Z"
+  },
+  {
+    "sessionId": "bfa21688-1e33-4b2a-8d0e-a83576f431f9",
+    "messageId": 0,
+    "type": "user",
+    "message": "run supersploit the hand me the terminal",
+    "timestamp": "2026-05-28T22:52:43.214Z"
+  },
+  {
+    "sessionId": "bfa21688-1e33-4b2a-8d0e-a83576f431f9",
+    "messageId": 1,
+    "type": "user",
+    "message": "fix the scan error in the lateral discovery",
+    "timestamp": "2026-05-28T22:56:34.683Z"
+  },
+  {
+    "sessionId": "bfa21688-1e33-4b2a-8d0e-a83576f431f9",
+    "messageId": 2,
+    "type": "user",
+    "message": "why do i keep a warring somthing about mac address not reachable",
+    "timestamp": "2026-05-28T23:08:15.816Z"
+  },
+  {
+    "sessionId": "bfa21688-1e33-4b2a-8d0e-a83576f431f9",
+    "messageId": 3,
+    "type": "user",
+    "message": "/rewind",
+    "timestamp": "2026-05-28T23:10:58.331Z"
+  },
+  {
+    "sessionId": "bfa21688-1e33-4b2a-8d0e-a83576f431f9",
+    "messageId": 4,
+    "type": "user",
+    "message": "why do i keep seeing a warrning when i run a recon module somthing about mac address not reachable its a scalpy debug message mute it",
+    "timestamp": "2026-05-28T23:12:10.561Z"
+  },
+  {
+    "sessionId": "bfa21688-1e33-4b2a-8d0e-a83576f431f9",
+    "messageId": 5,
+    "type": "user",
+    "message": "enhance the port scanner its at recon/",
+    "timestamp": "2026-05-28T23:18:18.741Z"
+  }
+]

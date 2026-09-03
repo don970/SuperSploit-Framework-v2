@@ -1,7 +1,8 @@
 from typing import List, Dict, Any, Optional
 import re
 import difflib
-from .database import DatabaseManagment
+from datetime import datetime
+from .database import DatabaseManagment, ExploitCache
 
 class AutoSuggestCommand:
     def __init__(self, exploit_cache):
@@ -11,11 +12,12 @@ class AutoSuggestCommand:
         """
         self.exploit_cache = exploit_cache
 
-    def execute(self, target_id: str, target_info: Dict[str, Any]):
+    def execute(self, target_id: str, target_info: Dict[str, Any], silent: bool = False):
         """
         Analyzes target metadata and correlates with available exploits AND recon modules.
         """
-        print(f"[*] Executing Smarter Analysis for {target_id}...")
+        if not silent:
+            print(f"[*] Executing Smarter Analysis for {target_id}...")
         
         # 0. Identify Target Format
         is_ip = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", target_id)
@@ -23,22 +25,8 @@ class AutoSuggestCommand:
         is_domain = "." in target_id and not is_ip
         is_name = " " in target_id or (not is_ip and not is_mac and not is_domain)
 
-        # 0.5 Persona Profile Integration
-        profile_data = {}
-        profiles = DatabaseManagment.getProfiles()
-        # Search by IP
-        if is_ip:
-            for p_name, p_info in profiles.items():
-                if p_info.get("ip") == target_id:
-                    profile_data = p_info
-                    print(f"[*] Correlated target with Persona Profile: {p_name}")
-                    break
-        # Search by Name
-        if not profile_data and (is_name or target_info.get("hostname")):
-            h_name = target_info.get("hostname", target_id)
-            if h_name in profiles:
-                profile_data = profiles[h_name]
-                print(f"[*] Correlated target with Persona Profile: {h_name}")
+        # target_info already contains merged profile data from show.py
+        profile_data = target_info 
 
         # 1. Normalize target data
         services = target_info.get('services', {})
@@ -56,19 +44,28 @@ class AutoSuggestCommand:
                 else:
                     services[str(p)] = {'protocol': 'tcp', 'service': 'unknown'}
 
-        target_os = str(target_info.get('os', target_info.get('os_family', profile_data.get('os', '')))).lower()
-        target_kernel = str(target_info.get('kernel', target_info.get('kernel_version', profile_data.get('kernel', '')))).lower()
-        target_arch = str(target_info.get('arch', target_info.get('architecture', profile_data.get('arch', '')))).lower()
+        target_os = str(target_info.get('os', target_info.get('os_family', ''))).lower()
+        target_kernel = str(target_info.get('kernel', target_info.get('kernel_version', ''))).lower()
+        target_arch = str(target_info.get('arch', target_info.get('architecture', ''))).lower()
         
         target_cves = target_info.get('cves', [])
-        p_cves = profile_data.get("cves", [])
-        if isinstance(p_cves, str): p_cves = [p_cves]
-        target_cves = list(set(target_cves + p_cves))
+        # Ensure CVEs are unique and uppercase for consistent matching, handling potential nested lists
+        # target_cves is already merged from profile in show.py
+        target_cves = list(set([c.upper() for c in target_cves if isinstance(c, str)]))
+        
+        target_device = str(target_info.get('device', '')).lower()
+        target_brand = str(target_info.get('brand', '')).lower()
+        target_security_patch_str = str(target_info.get('security_patch', ''))
+        target_security_patch = None
+        if target_security_patch_str and target_security_patch_str != 'n/a':
+            try:
+                target_security_patch = datetime.strptime(target_security_patch_str, '%Y-%m-%d').date()
+            except ValueError:
+                pass
         
         target_env = target_info.get('environment', [])
-        p_env = profile_data.get("environment", [])
-        if isinstance(p_env, str): p_env = [p_env]
-        target_env = list(set(target_env + p_env))
+        # target_env is already merged from profile in show.py
+        target_env = list(set([e for e in target_env if isinstance(e, str)]))
 
         # Extract extra keywords from profile research/notes
         profile_keywords = []
@@ -165,6 +162,16 @@ class AutoSuggestCommand:
                 if isinstance(exploit_kernel_vers, str):
                     exploit_kernel_vers = [k.strip() for k in exploit_kernel_vers.split(',')]
                 
+                exploit_device_models = [str(d).lower() for d in meta.get('device_models', [])]
+                exploit_brands = [str(b).lower() for b in meta.get('brands', [])]
+                exploit_max_security_patch_str = str(meta.get('max_security_patch', ''))
+                exploit_max_security_patch = None
+                if exploit_max_security_patch_str:
+                    try:
+                        exploit_max_security_patch = datetime.strptime(exploit_max_security_patch_str, '%Y-%m-%d').date()
+                    except ValueError:
+                        pass
+
                 keywords = [str(k).lower() for k in meta.get('keywords', [])]
                 requirements = meta.get('requirements', [])
 
@@ -194,6 +201,33 @@ class AutoSuggestCommand:
                                 score += 25
                                 reasons.append(f"Kernel within vulnerable range ({min_v} to {max_v})")
 
+                # --- New: Device/Brand Specificity ---
+                if target_device and exploit_device_models:
+                    if target_device in exploit_device_models:
+                        score += 15
+                        reasons.append(f"Device Model Match: {target_device}")
+                        if confidence not in ["Critical", "High"]:
+                            confidence = "High"
+                if target_brand and exploit_brands:
+                    if target_brand in exploit_brands:
+                        score += 10
+                        reasons.append(f"Brand Match: {target_brand}")
+                        if confidence not in ["Critical", "High"]:
+                            confidence = "High"
+
+                # --- New: Security Patch Level Correlation ---
+                if target_security_patch and exploit_max_security_patch:
+                    if target_security_patch <= exploit_max_security_patch:
+                        score += 20
+                        reasons.append(f"Security Patch Level: Target ({target_security_patch_str}) <= Exploit Max ({exploit_max_security_patch_str})")
+                        if confidence not in ["Critical", "High"]:
+                            confidence = "High"
+                    else:
+                        # If target's patch is newer than exploit's max, it's likely patched.
+                        # Do not add score, but don't filter out entirely unless explicitly required.
+                        pass
+
+                # --- Existing: Keywords from Profile Research/Footprint ---
                 for kw in keywords:
                     if kw in profile_keywords:
                         score += 15
@@ -207,6 +241,7 @@ class AutoSuggestCommand:
                         score += (matched_reqs * 15)
                         reasons.append(f"Matched {matched_reqs} environmental prerequisites")
 
+                # --- Existing: Service Banners & Version Strings ---
                 for port_num, service_info in services.items():
                     service_name = str(service_info.get('service', '')).lower()
                     banner = str(service_info.get('banner', '')).lower()
@@ -233,6 +268,15 @@ class AutoSuggestCommand:
                             if len(kw) > 3 and kw in banner:
                                 score += 12
                                 reasons.append(f"Banner signature match: '{kw}'")
+                    
+                    # --- New: Explicit Vulnerable Service Tag ---
+                    # Assuming "Vulnerable Service" from markdown profile is parsed into service_name or banner
+                    if "vulnerable service" in service_name or "vulnerable service" in banner:
+                        if port_num in keywords or any(kw in service_name for kw in keywords) or any(kw in banner for kw in keywords):
+                            score += 25
+                            reasons.append(f"Explicitly Vulnerable Service on Port {port_num}")
+                            if confidence not in ["Critical", "High"]:
+                                confidence = "High"
 
                 if confidence != "Critical":
                     if score >= 60: confidence = "High"
@@ -250,8 +294,14 @@ class AutoSuggestCommand:
         # 4. Display Logic
         recon_suggestions.sort(key=lambda x: x['score'], reverse=True)
         exploit_suggestions.sort(key=lambda x: x['score'], reverse=True)
-        self._display_results(target_id, recon_suggestions, exploit_suggestions)
 
+        if silent:
+            # The show command needs a simplified reason. Let's join them.
+            for sug in exploit_suggestions:
+                sug['reason'] = ', '.join(sug.get('reasons', []))
+            return exploit_suggestions
+
+        self._display_results(target_id, recon_suggestions, exploit_suggestions)
     def _display_results(self, target_id: str, recon: List[Dict], exploits: List[Dict]):
         print(f"\n[+] Smarter Suggestion Report for {target_id}")
         
@@ -275,3 +325,22 @@ class AutoSuggestCommand:
 
         if not recon and not exploits:
             print(f"[-] No suggestions found for {target_id}. Try more manual discovery.")
+
+    @staticmethod
+    def suggest_for_ip(ip: str, targets_cache: Dict[str, Any], silent: bool = False) -> Optional[List[Dict]]:
+        """
+        Static method to get exploit suggestions for a specific IP.
+        If silent is False, it prints the results.
+        If silent is True, it returns the exploit suggestions list.
+        """
+        if ip not in targets_cache:
+            return None
+
+        target_info = targets_cache[ip]
+        
+        exploit_cache = ExploitCache
+        if not exploit_cache.metadata_index:
+            exploit_cache.update()
+
+        suggester = AutoSuggestCommand(exploit_cache)
+        return suggester.execute(ip, target_info, silent=silent)

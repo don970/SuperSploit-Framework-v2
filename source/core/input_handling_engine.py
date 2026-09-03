@@ -287,10 +287,14 @@ class Input:
             return
 
         key = parts[1]
-        if LicenseManager.activate(key):
+        activation_result = LicenseManager.activate(key) # Get the full result dictionary
+
+        if activation_result.get("status") == "success":
             ToStdout.write("[+] SUCCESS: SuperSploit Pro Activated! All modules unlocked.\n")
+        elif activation_result.get("status") == "needs_vetting":
+            ToStdout.write("[*] Activation pending. Please be patient while the administrator anchors your key.\n")
         else:
-            ToStdout.write("[-] ERROR: Invalid license key for this Hardware ID.\n")
+            ToStdout.write(f"[-] ERROR: {activation_result.get('message', 'Multi-factor validation failed.')}\n")
 
     @classmethod
     def _handle_import_command(cls, data):
@@ -848,6 +852,7 @@ class Input:
         ToStdout.write(f"[*] Output: {out_file}\n")
 
         ollvm_enabled = str(db.get("OLLVM_ENABLED", "false")).lower() == "true"
+        advanced_encryption = str(db.get("ADVANCED_ENCRYPTION", "false")).lower() == "true"
         
         # --- SMART VARIABLE INJECTION ---
         import re
@@ -912,7 +917,8 @@ class Input:
                 cmd.append('-static')
             
             # Link OpenSSL Crypto library for AES-256-GCM C2 payloads
-            cmd.append('-lcrypto')
+            if advanced_encryption:
+                cmd.append('-lcrypto')
 
             if ollvm_enabled:
                 ToStdout.write("[*] OLLVM_ENABLED=true: Applying control flow flattening...\n")

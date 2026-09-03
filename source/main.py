@@ -7,6 +7,8 @@ from core.set import SetV
 import sys
 from core.listener import Listener
 from core.logger import Logger
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
 
 install_location = DatabaseManagment.getInstall()
 
@@ -15,12 +17,15 @@ def initialize_session():
     # check sys path and add install if not present
     if f"{install_location}/source" not in sys.path:
         sys.path.append(f"{install_location}/source")
-
+    aes_key = AESGCM.generate_key(bit_length=256)
     db = DatabaseManagment.get()
     # Generate an 8-character unique session ID
     session_id = uuid.uuid4().hex[:8]
+    session_id_str = str(session_id)
     SetV.SetV(f"set SESSION_ID {session_id}")
-    
+    # generate and set the AES key for the session and create a session ID string for the associated data
+    SetV.SetV(f"set AES_KEY {aes_key.hex()}")
+    SetV.SetV(f"set SESSION_ID_STR {session_id_str}")
     # Flush the updated session ID to disk so data.json formats as a multi-line JSON
     DatabaseManagment._update()
 
@@ -104,7 +109,7 @@ class Main:
             finally:
                 # Flush any pending target updates to the disk
                 DatabaseManagment.sync_targets_to_disk()
-                print(f"Good bye. );")
+                print(f"Good bye. ")
                 exit(0)
 
 
